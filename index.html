@@ -1,9 +1,109 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="logo.jpg">
+<meta 
+     name='viewport' 
+     content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' 
+/>
+
+</head>
 <body>
 
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
+  <header>
+    Archie Webster
+    <img class="logo" src="logo.jpg" alt="">
+  </header>
+
+  <div class="block">
+    <img data-speed="2" class="img-parallax">
+    <div class="text">
+      <h1 style="font-size:75px">Archie Webster</h1>
+      <form action="https://www.flickr.com/photos/artomweb">
+      <button class="button">Flickr</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="about">
+      I am currently studying at King Edwards VI school in Southampton
+  </div>
+
+  <div class="w3-content w3-display-container">
+    <img class="mySlides" src="images/April Snow Fall.jpg" style="width:100%">
+    <img class="mySlides" src="images/Blind.jpg" style="width:100%">
+    <img class="mySlides" src="images/Roadside Puddle.jpg" style="width:100%">
+    <img class="mySlides" src="images/Scratch.jpg" style="width:100%">
+    <img class="mySlides" src="images/Tail Sunset Flick.jpg" style="width:100%">
+    <img class="mySlides" src="images/Through the Ferns.jpg" style="width:100%">
+  
+    <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+    <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+  </div>
 
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="/parallax.js/parallax.min.js"></script>
+
+<script>
+  var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";  
+  }
+  x[slideIndex-1].style.display = "block";  
+}
+
+$('.img-parallax').each(function(){
+  var img = $(this);
+  var imgParent = $(this).parent();
+  function parallaxImg () {
+    var speed = img.data('speed');
+    var imgY = imgParent.offset().top;
+    var winY = $(this).scrollTop();
+    var winH = $(this).height();
+    var parentH = imgParent.innerHeight();
+
+
+    // The next pixel to show on screen      
+    var winBottom = winY + winH;
+
+    // If block is shown on screen
+    if (winBottom > imgY && winY < imgY + parentH) {
+      // Number of pixels shown after block appear
+      var imgBottom = ((winBottom - imgY) * speed);
+      // Max number of pixels until block disappear
+      var imgTop = winH + parentH;
+      // Porcentage between start showing until disappearing
+      var imgPercent = ((imgBottom / imgTop) * 100) + (50 - (speed * 50));
+    }
+    img.css({
+      top: imgPercent + '%',
+      transform: 'translate(-50%, -' + imgPercent + '%)'
+    });
+  }
+  $(document).on({
+    scroll: function () {
+      parallaxImg();
+    }, ready: function () {
+      parallaxImg();
+    }
+  });
+});
+
+</script>
 </html>
