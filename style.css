@@ -51,6 +51,12 @@ header {
   size: 100px;
 }
 
+.divider{
+  width:50px;
+  height:auto;
+  display:inline-block;
+}
+
 .buttons {
   text-align: center;
 }
