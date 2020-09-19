@@ -624,5 +624,39 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="56474266-10d8-449e-a63e-7a37227ae03d" class="page sans"><header><h1 class="page-title">Spotify Codes</h1></header><div class="page-body"><figure id="b93d4c02-c9eb-42f2-ac91-0856b5af1f11" class="image"><a href="Spotify%20Codes%205647426610d8449ea63e7a37227ae03d/spcode-3dCE5VjFrC7usOfyhqklma.jpeg"><img style="width:624px" src="Spotify%20Codes%205647426610d8449ea63e7a37227ae03d/spcode-3dCE5VjFrC7usOfyhqklma.jpeg"/></a></figure><p id="89f614c4-f9c4-4e33-8482-7e40619ac1c3" class="">This is a Spotify Code, it can be scanned by the Spotify app to take you directly to a song, playlist or album. The app can scan the code incredibly quickly, even if the imaged is skewed or has a range of different colors. </p><h2 id="e8ea53ab-1224-4a92-9fde-27caeac5a979" class="">Generating Codes</h2><p id="33cec701-d8b5-4209-9388-3ce06b1a46c3" class="">In the app the code appears under the album art for a specific song. The code along with the album cover can be save as an image. To generate codes online Spotify has a page called <a href="https://www.spotifycodes.com/">https://www.spotifycodes.com/</a>. </p><p id="fadc3971-c0bc-414b-9cba-b973df38a412" class="">
+</style></head><body><article id="56474266-10d8-449e-a63e-7a37227ae03d" class="page sans"><header><h1 class="page-title">Spotify Codes</h1></header><div class="page-body"><figure id="b93d4c02-c9eb-42f2-ac91-0856b5af1f11" class="image"><a href="Spotify%20Codes%205647426610d8449ea63e7a37227ae03d/spcode-3dCE5VjFrC7usOfyhqklma.jpeg"><img style="width:624px" src="Spotify%20Codes%205647426610d8449ea63e7a37227ae03d/spcode-3dCE5VjFrC7usOfyhqklma.jpeg"/></a></figure><p id="89f614c4-f9c4-4e33-8482-7e40619ac1c3" class="">This is a Spotify Code, it can be scanned by the Spotify app to take you directly to a song, playlist or album. The app can scan the code incredibly quickly, even if the imaged is skewed or contains different colours. </p><h2 id="e8ea53ab-1224-4a92-9fde-27caeac5a979" class="">Generating Codes</h2><p id="33cec701-d8b5-4209-9388-3ce06b1a46c3" class="">In the app the code appears under the album art for a specific song. The code along with the album cover can be saved as an image. To generate codes online Spotify has a page called <a href="https://www.spotifycodes.com/">https://www.spotifycodes.com/</a>.  This allows users to save codes in any size, format or colour. By looking at the network tab of the chrome developer tools we can see that the website makes a request to <a href="https://scannables.scdn.co/uri/plain/%5Bformat%5D/%5Bbackground-color-in-hex%5D/%5Bcode-color-in-text%5D/%5Bsize%5D/%5Bspotify-URI%5D">https://scannables.scdn.co/uri/plain/[format]/[background-color-in-hex]/[code-color-in-text]/[size]/[spotify-URI]</a> containing the before mentioned parameters. This site can generate codes in jpg, png or svg formats. </p><p id="af3b7414-ef93-4534-ac3a-8f0ffb142a6b" class="">
+</p><p id="5cb9fb76-ab2a-45e0-8c66-7271b2ce6795" class="">This allows us to use Python to download a code for a given URI.</p><p id="29f15f39-0823-4a8e-956d-735ec4b63ad8" class="">
+</p><pre id="ff80e709-d88f-4586-92bc-25bebe597d3a" class="code"><code>import requests
+
+URI = input(&#x27;Enter a uri&#x27;)
+
+r = requests.get(&quot;https://scannables.scdn.co/uri/plain/svg/ffffff/black/640/&quot; + URI, stream=True)
+
+if r.status_code == 200:
+
+    with open(&quot;SpotifyCodeDownload.svg&quot;, &#x27;wb&#x27;) as f:
+        for chunk in r.iter_content(1024): 
+            f.write(chunk)
+else:
+    print(&#x27;Not a valid uri&#x27;)</code></pre><p id="7eb08094-063f-4b5d-9686-442c2d8b7f87" class="">
+</p><p id="b5a21669-88cc-4f61-ac3c-1e7a1221768e" class="">
+</p><p id="26986e4a-66e8-4002-978a-2b1622498cb2" class="">By opening the svg in a text editor we can begin to understand how these patterns work. This is an extract from the SVG of a code:</p><pre id="a8a1a464-a3c6-415b-9059-ceda5541def3" class="code"><code>&lt;rect x=&quot;100.00&quot; y=&quot;44.50&quot; width=&quot;6.71&quot; <strong>height=&quot;11.00&quot;</strong> rx=&quot;3.36&quot; ry=&quot;3.36&quot; fill=&quot;#ffffff&quot;/&gt;
+&lt;rect x=&quot;112.42&quot; y=&quot;23.50&quot; width=&quot;6.71&quot; <strong>height=&quot;53.00&quot;</strong> rx=&quot;3.36&quot; ry=&quot;3.36&quot; fill=&quot;#ffffff&quot;/&gt;
+&lt;rect x=&quot;124.84&quot; y=&quot;44.50&quot; width=&quot;6.71&quot; <strong>height=&quot;11.00&quot;</strong> rx=&quot;3.36&quot; ry=&quot;3.36&quot; fill=&quot;#ffffff&quot;/&gt;
+&lt;rect x=&quot;137.27&quot; y=&quot;37.50&quot; width=&quot;6.71&quot; <strong>height=&quot;25.00&quot;</strong> rx=&quot;3.36&quot; ry=&quot;3.36&quot; fill=&quot;#ffffff&quot;/&gt;</code></pre><p id="fadc3971-c0bc-414b-9cba-b973df38a412" class="">Each line draws a bar with a height that varies from 60.00 to 11.00. </p><p id="465812b2-67aa-4e07-b38f-484495ddcde9" class="">
+</p><p id="b5568d96-04e7-4f3f-aa96-e9c883fa0714" class="">A Python script can be used to convert the SVG into a string of values between 0 and 7, this is much easier than doing an analysis of the jpg image:</p><pre id="7007b1a5-ee2d-411e-b8ce-82393cb8482f" class="code"><code>import xml.dom.minidom
+
+doc = xml.dom.minidom.parse(&#x27;spcode.svg&#x27;)
+
+heights = {&#x27;11.00&#x27;: 0, &#x27;18.00&#x27;: 1, &#x27;25.00&#x27;: 2, &#x27;32.00&#x27;: 3, &#x27;39.00&#x27;: 4, &#x27;46.00&#x27;: 5, &#x27;53.00&#x27;: 6, &#x27;60.00&#x27;: 7}
+
+output = &#x27;&#x27;
+
+for bar in doc.getElementsByTagName(&#x27;rect&#x27;)[1:]:
+    output += str(heights[bar.attributes[&#x27;height&#x27;].value])
+
+print(output)</code></pre><p id="d7da5a2e-4ccb-4175-bb03-69c413172505" class="">
+</p><blockquote id="38bf29b8-52aa-4595-afab-661ee6d216fd" class=""><strong>0</strong>6024514523<strong>7</strong>3715625743<strong>0
+0</strong>1730461535<strong>7</strong>4060012656<strong>0
+0</strong>3557224471<strong>7</strong>5467350172<strong>0</strong></blockquote><p id="13577d0b-9994-4007-9925-f8c0ce100851" class="">By looking at these three codes we can also see that the first and last bars are always at a height of 0 and the middle bar always has a height of 7, the maximum and minimum.</p><p id="ca478522-8036-4f6a-b8d8-c9bc77cd81d1" class="">
 </p></div></article></body></html>
