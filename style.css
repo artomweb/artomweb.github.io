@@ -2,7 +2,7 @@
 
 
 #title{
-  font-size: 50px;
+  font-size: 8vw;
   font-family: 'Inconsolata', monospace;
   text-align: center;
 }
@@ -36,7 +36,7 @@
   }
 
 #term{
-  transform: translate(0, 6px);
-  width: 40px;
+  transform: translate(0, 15%);
+  width: 8vw;
   height: auto;
 }
