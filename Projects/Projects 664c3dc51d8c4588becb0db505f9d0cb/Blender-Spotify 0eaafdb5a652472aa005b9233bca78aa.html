@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Untitled</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Blender-Spotify</title><style>
 /* webkit printing magic: print all background colors */
 html {
 	-webkit-print-color-adjust: exact;
@@ -624,4 +624,56 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="0eaafdb5-a652-472a-a005-b9233bca78aa" class="page sans"><header><h1 class="page-title"></h1></header><div class="page-body"></div></article></body></html>
+</style></head><body><article id="0eaafdb5-a652-472a-a005-b9233bca78aa" class="page sans"><header><h1 class="page-title">Blender-Spotify</h1></header><div class="page-body"><figure id="4ee12677-d245-45af-8d1c-4935e0ec95fd" class="image"><a href="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/keyring.jpg"><img style="width:1024px" src="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/keyring.jpg"/></a></figure><p id="4c454222-f424-4863-a04c-2fd82a6f4c83" class="">Blender allows users to create and run Python scripts to generate 3D models. In this example we will use Blender do generate a keyring containing a Spotify Code.</p><p id="e8fdde6f-2a20-4327-8688-3d83084e7a6e" class="">The easiest way to understand Blender&#x27;s Python commands is to open up the GUI into the Scripting workspace. Here, any modification made to Blender&#x27;s UI is displayed in the console. </p><p id="c6a496f8-9b30-4d27-875f-00b5ce32e070" class="">For example when deleting the default cube, this is the output to the console:</p><p id="696f2018-011a-43c0-9dcf-244a903eab1e" class="">
+</p><figure id="81d21a6e-ea40-4225-921b-6d14d93e2f94" class="image"><a href="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/Untitled.png"><img style="width:376px" src="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/Untitled.png"/></a></figure><p id="28920462-5470-42b7-9d04-c9d2484dc2d6" class="">After importing Blender&#x27;s module, bps in a new file, this command can be copied directly:</p><p id="df33ad55-201f-4004-9d87-f4fcbfa5e18f" class="">
+</p><figure id="88a58609-d4e7-412c-b350-d6c7340676a1" class="image"><a href="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/Untitled%201.png"><img style="width:438px" src="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/Untitled%201.png"/></a></figure><p id="3c673f19-410d-4f4b-b53a-1b333d631f89" class="">This line will delete the currently selected object, after selecting an object in the viewport. To run the script press the right pointing triangle at the top of the editor.</p><p id="a1c7e805-d6d9-46bc-a49e-fb69fe2908b5" class="">
+</p><h2 id="4a419e39-c3fc-4c25-8e7a-dc04235b78d6" class="">Creating the base</h2><p id="0383e4b4-ec5b-4ea5-9517-2afe11947b38" class="">To create the keyring we will start with a cube as a base and subtract from it a cylinder for the keyring hole.</p><p id="4003ad22-a017-481c-be9b-0b96b161608b" class="">First we will delete the default objects by selecting and deleting everything:</p><pre id="c5b32ec9-68a9-4212-bbb0-4f2bf4a9bb94" class="code"><code>bpy.ops.object.select_all(action=&#x27;SELECT&#x27;)
+bpy.ops.object.delete()
+bpy.ops.object.select_all(action=&#x27;DESELECT&#x27;)</code></pre><p id="a1ce6694-d269-4b97-88da-688e5c647843" class="">To add a cube and scale it:</p><pre id="f5286f47-6cd4-47dd-8a7a-80af9e35f50c" class="code"><code>bpy.ops.mesh.primitive_cube_add(enter_editmode=False, align=&#x27;WORLD&#x27;, location=(0, 0, 0))
+bpy.context.object.scale = (0.005, 0.03, 0.001)</code></pre><p id="d7e80cd5-b172-4b51-b6b8-b36ec45cf224" class="">To add a cylinder:</p><pre id="6c2983f2-a7c2-4c1b-be5f-e716dd30f702" class="code"><code>bpy.ops.mesh.primitive_cylinder_add(radius=0.003, depth=0.005, enter_editmode=False, align=&#x27;WORLD&#x27;, location=(0, -0.024, 0))</code></pre><p id="16f97697-1096-48d3-985b-90717913ccf2" class="">Next we can assign the cube and cylinder to their own variables, so that they are easy to reference:</p><pre id="72d33bd3-f539-48d3-91e0-7b0a78daf4ea" class="code"><code>cube = bpy.data.objects[&#x27;Cube&#x27;]
+cylinder = bpy.data.objects[&#x27;Cylinder&#x27;]</code></pre><p id="00bd8218-1a68-4514-8f5c-14b7900be8d3" class="">Running the above code will give us this result:</p><figure id="a309fd05-5e0b-4ddc-a60e-b3f3e15622f9" class="image"><a href="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/Untitled%202.png"><img style="width:748px" src="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/Untitled%202.png"/></a></figure><p id="99f58890-fc6b-4410-b790-f7e20ce5db05" class="">We can then use a boolean modifier to subtract the cylinder from the cube:</p><pre id="1e4d890a-be4d-433a-8c1c-a76cb2b3b37f" class="code"><code>bool = cube.modifiers.new(type=&quot;BOOLEAN&quot;, name=&quot;bool&quot;)
+bool.object = cylinder
+bool.operation = &#x27;DIFFERENCE&#x27;
+bpy.context.view_layer.objects.active = cube
+bpy.ops.object.modifier_apply(modifier=&quot;bool&quot;)</code></pre><p id="d035f00d-63c8-4e9f-84e5-846ee6d4dff2" class="">We can now delete the cylinder to avoid confusion later when exporting:</p><pre id="f693f634-9823-44c2-a4ca-8950bf6af72f" class="code"><code>bpy.ops.object.select_all(action=&#x27;DESELECT&#x27;)
+cylinder.select_set(True)
+bpy.ops.object.delete()</code></pre><p id="904d4bfc-dd85-4566-8b5d-9a684c4cd7da" class="">
+</p><h2 id="6578596f-b806-445c-b565-089b2d7ee441" class="">Adding the Spotify code</h2><p id="feba7708-79a0-44f4-a7d1-e150fac28b64" class="">With the base of the keyring finished we can now add the Spotify code. The requests module can be used to download the code as an SVG</p><pre id="68f7f562-0c4c-4d41-b5dd-bec5469cb001" class="code"><code>import requests
+
+URI = input(&quot;Enter a song URI&quot;)
+
+r = requests.get(&quot;https://scannables.scdn.co/uri/plain/svg/ffffff/black/640/&quot; + URI, stream=True)
+
+with open(&quot;SpotifyCodeDownload.svg&quot;, &#x27;wb&#x27;) as f:
+    for chunk in r.iter_content(1024): 
+        f.write(chunk)</code></pre><p id="279040ea-a39a-4516-99f1-a7ad71126596" class="">
+</p><p id="753a91bb-8b8e-4672-942c-dfa4ff5d10c2" class="">The code will be saved in the directory that the script is being run in and so it can be imported into Blender:</p><pre id="2e9efbca-aba4-4bcb-b3ce-3e8d5c7cbcfc" class="code"><code>bpy.ops.import_curve.svg(filepath=&quot;SpotifyCodeDownload.svg&quot;, filter_glob=&quot;*.svg&quot;)</code></pre><p id="7a6ae6b0-ae6c-4c39-a775-09781302a9c6" class="">The SVG imports as a collection of curves:</p><figure id="82acbeb0-1a87-4250-b193-7ac226d89681" class="image"><a href="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/Untitled%203.png"><img style="width:472px" src="Blender-Spotify%200eaafdb5a652472aa005b9233bca78aa/Untitled%203.png"/></a></figure><p id="55862594-c708-47e9-b343-1749740b56b7" class="">All of the curves are needed except from &#x27;Curve&#x27; which is a rectangle around the code, so this can be deleted:</p><pre id="eaae92d6-5d8e-4cde-8b93-8526b2205330" class="code"><code>bpy.ops.object.select_all(action=&#x27;DESELECT&#x27;)
+bpy.data.objects[&#x27;Curve&#x27;].select_set(True)
+bpy.ops.object.delete()</code></pre><p id="2630e880-2039-471f-bee2-31f43df7c4be" class="">
+</p><p id="7894140d-97b1-4569-8ff9-59426632895a" class="">Next we need to join the curves together and then convert them into a mesh so that they can be extruded. Firstly the collection is selected however there is now no active object so &#x27;Curve.001&#x27; is set as the active object. Next the curves are converted and the origin is recalculated.</p><pre id="9c21dce0-a361-413a-b1ad-1d2708e04474" class="code"><code>for obj in bpy.data.collections[&#x27;SpotifyCodeDownload.svg&#x27;].all_objects:
+        obj.select_set(True)
+
+
+bpy.context.view_layer.objects.active = bpy.data.objects[&quot;Curve.001&quot;]
+
+bpy.ops.object.join()
+
+bpy.ops.object.convert(target=&#x27;MESH&#x27;)
+
+bpy.ops.object.origin_set(type=&#x27;ORIGIN_GEOMETRY&#x27;, center=&#x27;MEDIAN&#x27;)</code></pre><p id="2e72bbf0-4a94-4997-a7d7-e0ea88c66e12" class="">
+</p><p id="70cccea6-e65c-43e7-a22c-e1402cffdc71" class="">The new mesh can now be moved into the correct position, these values can only be found by manually moving the object in the viewport however they will be the same for every code:</p><pre id="5eb51946-070f-408a-96d0-de684c66aef2" class="code"><code>curve = bpy.data.objects[&quot;Curve.001&quot;]
+
+bpy.context.object.rotation_euler[2] = 1.5708
+bpy.ops.transform.resize(value=(0.277968, 0.277968, 0.277968))
+
+
+bpy.ops.transform.translate(value=(-0.0734364, -0.0216113, 0.0009043))</code></pre><p id="d7df83ea-2f40-4b19-9db9-2c0bf68cfa36" class="">Finally the mesh is extruded in edit mode:</p><pre id="a54f842c-d02d-4547-8ff1-c63873d34d09" class="code"><code>bpy.ops.object.mode_set(mode=&#x27;EDIT&#x27;)
+
+bpy.ops.mesh.select_all(action=&#x27;SELECT&#x27;)
+
+bpy.ops.mesh.extrude_region_move(MESH_OT_extrude_region={&quot;use_normal_flip&quot;:False, &quot;mirror&quot;:False}, TRANSFORM_OT_translate={&quot;value&quot;:(0, 0, 0.000875622), &quot;orient_type&quot;:&#x27;NORMAL&#x27;, &quot;orient_matrix&quot;:((-0.538016, -0.842934, 0), (0.842934, -0.538016, 0), (0, 0, 1)), &quot;orient_matrix_type&quot;:&#x27;NORMAL&#x27;, &quot;constraint_axis&quot;:(False, False, True), &quot;mirror&quot;:False, &quot;use_proportional_edit&quot;:False, &quot;proportional_edit_falloff&quot;:&#x27;SMOOTH&#x27;, &quot;proportional_size&quot;:1, &quot;use_proportional_connected&quot;:False, &quot;use_proportional_projected&quot;:False, &quot;snap&quot;:False, &quot;snap_target&quot;:&#x27;CLOSEST&#x27;, &quot;snap_point&quot;:(0, 0, 0), &quot;snap_align&quot;:False, &quot;snap_normal&quot;:(0, 0, 0), &quot;gpencil_strokes&quot;:False, &quot;cursor_transform&quot;:False, &quot;texture_space&quot;:False, &quot;remove_on_cancel&quot;:False, &quot;release_confirm&quot;:False, &quot;use_accurate&quot;:False})
+
+bpy.ops.object.mode_set(mode=&#x27;OBJECT&#x27;)</code></pre><p id="74a49db1-8440-40d2-89ba-00b7e7d8bd56" class="">
+</p><h2 id="459fde58-e973-4afa-ab19-31177ac312d2" class="">Exporting</h2><p id="d3f56db5-37e3-47aa-9a37-2914524dea1e" class="">All of the objects are now selected and exported:</p><pre id="e0fa8f9a-3970-4bc7-8035-626d4abd1813" class="code"><code>bpy.ops.object.select_all(action=&#x27;SELECT&#x27;)
+bpy.ops.export_mesh.stl(filepath=&quot;out.stl&quot;, use_selection=True, global_scale=1000)</code></pre><p id="6cb47076-28dc-463b-b134-53a062dad6ed" class="">The code can be run with this command:</p><pre id="58e981d7-0e29-4240-8b81-95ae5f7964d9" class="code"><code>blender -b --python BlenderStl.py</code></pre><p id="dacb0599-27b1-4d1d-b9e3-0d5e6fdbe882" class="">You can see the complete code on github here:</p><blockquote id="a749985c-72b5-4fe5-91a8-419be17335dc" class="block-color-gray_background"><a href="https://github.com/artomweb/Spotify-Code-to-Stl">https://github.com/artomweb/Spotify-Code-to-Stl</a></blockquote><p id="696984ec-cc81-4d4a-afcf-fa019bb1d1f5" class="">
+</p></div></article></body></html>
