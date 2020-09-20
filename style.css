@@ -8,7 +8,7 @@
 }
 
 #butns{
-  padding-top: 5%;
+  padding-top: 2%;
   text-align: center;
 }
 .button{
@@ -26,15 +26,11 @@
   box-shadow:inset 0 -0.6em 0 -0.35em rgba(0,0,0,0.17);
   text-align:center;
   position:relative;
+  -webkit-transition: transform .5s ease-in-out;
+  transition: transform .5s ease-in-out;
 }
 
-.button:active{
+.button:hover{
   top:0.1em;
+  transform: translate(0, 0.375em);
   }
-
-@media all and (max-width:30em){
-a.button6{
-  display:block;
-  margin:0.4em auto;
-}
-}
