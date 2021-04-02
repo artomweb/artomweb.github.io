@@ -122,7 +122,15 @@
                     },
                     scales: {
                         xAxes: [{
-                            type: 'time'
+                            type: 'time',
+                            time: {
+                                unit: "day",
+                                round: "day",
+                                displayFormats: {
+                                    day: "MMM D"
+                                }
+                            }
+
                         }],
                         yAxes: [{
                             ticks: {
