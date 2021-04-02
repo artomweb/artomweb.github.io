@@ -28,6 +28,10 @@
 
     </div>
 
+    <div class="subHeadings">
+        How have I slept recently :)
+    </div>
+
     <canvas id="myChart" width="400" height="400"></canvas>
 
 
@@ -75,19 +79,24 @@
 
 
         function showGraph(allData) {
+            allData.sort(function(a, b) {
+                return new Date(a.Date).getTime() - new Date(b.Date).getTime();
+            });
+
             console.log(allData);
             var labels = allData.map(function(e) {
                 return new Date(e.Date);
             });
 
             var data = allData.map(function(e) {
-                var splits = e.Duration.split(':')
-                var hours = splits[0];
-                var minutes = splits[1];
+                // var splits = e.Duration.split(':')
+                // var hours = splits[0];
+                // var minutes = splits[1];
 
-                var seconds = (hours * 3600) + (minutes * 60);
+                // var seconds = (hours * 3600) + (minutes * 60);
 
-                return seconds;
+                // return seconds;
+                return e.Duration;
             });
 
             var dataTicks = allData.map(function(e) {
@@ -101,13 +110,16 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Sleep',
+
                         data: data,
-                        backgroundColor: "rgba(153,255,51,0.6)"
+                        backgroundColor: "rgba(124, 152, 179)"
                     }]
                 },
 
                 options: {
+                    legend: {
+                        display: false
+                    },
                     scales: {
                         xAxes: [{
                             type: 'time'
@@ -120,10 +132,26 @@
                             }
                         }]
 
+                    },
+
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+
+                                label += secondsToMins(tooltipItem.yLabel);
+                                return label;
+
+                            }
+
+                        }
                     }
                 }
             });
-
         }
     </script>
 
