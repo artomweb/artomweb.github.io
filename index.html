@@ -14,9 +14,7 @@
 
 <body>
 
-    <div id="title">
-        Archie Webster
-    </div>
+    <div id="title">Archie Webster</div>
 
 
 
@@ -28,11 +26,24 @@
 
     </div>
 
-    <div class="subHeadings">
-        How have I slept recently :)
-    </div>
+    <div class="row">
+        <div class="column">
+            <div class="subHeadings">
+                How have I slept recently :)
+            </div>
 
-    <canvas id="myChart" width="400" height="400"></canvas>
+            <canvas id="sleep" class="imageContainer"></canvas>
+        </div>
+
+        <div class="column">
+            <div class="subHeadings">
+                How many steps have I done
+            </div>
+
+            <canvas id="steps" class="imageContainer" width='300'></canvas>
+        </div>
+
+    </div>
 
 
     <script type="text/javascript">
@@ -57,18 +68,20 @@
         }
 
 
-        var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1TqN1Lsj9MxGrfsVrmywdFkLdW3zbqU75zjyslvIRHNM/edit?usp=sharing';
+
+
+        var sleepSheet = 'https://docs.google.com/spreadsheets/d/1TqN1Lsj9MxGrfsVrmywdFkLdW3zbqU75zjyslvIRHNM/edit?usp=sharing';
 
         function init() {
             Tabletop.init({
-                key: publicSpreadsheetUrl,
+                key: sleepSheet,
                 callback: showInfo,
                 simpleSheet: true
             })
         }
 
         function showInfo(data, tabletop) {
-            showGraph(data);
+            showSleepGraph(data);
         }
 
         window.addEventListener('DOMContentLoaded', init)
@@ -78,7 +91,7 @@
         }
 
 
-        function showGraph(allData) {
+        function showSleepGraph(allData) {
             allData.sort(function(a, b) {
                 return new Date(a.Date).getTime() - new Date(b.Date).getTime();
             });
@@ -89,21 +102,10 @@
             });
 
             var data = allData.map(function(e) {
-                // var splits = e.Duration.split(':')
-                // var hours = splits[0];
-                // var minutes = splits[1];
-
-                // var seconds = (hours * 3600) + (minutes * 60);
-
-                // return seconds;
                 return e.Duration;
             });
 
-            var dataTicks = allData.map(function(e) {
-                return e.Duration;
-            })
-
-            var ctx = document.getElementById('myChart').getContext('2d');
+            var ctx = document.getElementById('sleep').getContext('2d');
             console.log(data);
             var myChart = new Chart(ctx, {
                 type: 'line',
@@ -112,11 +114,13 @@
                     datasets: [{
 
                         data: data,
-                        backgroundColor: "rgba(124, 152, 179)"
+                        backgroundColor: colors[0]
                     }]
                 },
 
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
                     legend: {
                         display: false
                     },
@@ -157,6 +161,86 @@
                             }
 
                         }
+                    }
+                }
+            });
+        }
+
+
+
+
+
+
+        var stepsSheet = 'https://docs.google.com/spreadsheets/d/15PbAyFyxjhlkCjpsk-VR2v1KsRIQCydOISzUBg88O9o/edit?usp=sharing';
+
+        function init2() {
+            Tabletop.init({
+                key: stepsSheet,
+                callback: showInfo2,
+                simpleSheet: true
+            })
+        }
+
+        function showInfo2(data, tabletop) {
+            showStepsGraph(data);
+        }
+
+        window.addEventListener('DOMContentLoaded', init2)
+
+        function secondsToMins(e) {
+            return new Date(1000 * e).toISOString().substr(11, 5)
+        }
+
+
+        function showStepsGraph(allData) {
+
+            allData.sort(function(a, b) {
+                return new Date(a.Date).getTime() - new Date(b.Date).getTime();
+            });
+
+            console.log(allData);
+            var labels = allData.map(function(e) {
+                return new Date(e.Date);
+            });
+
+            var data = allData.map(function(e) {
+                return e.Steps;
+            });
+
+            var ctx2 = document.getElementById('steps').getContext('2d');
+            console.log(data);
+            var myChart = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+
+                        data: data,
+                        backgroundColor: colors[3]
+                    }]
+                },
+
+                options: {
+                    maintainAspectRatio: true,
+                    responsive: true,
+
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            time: {
+                                unit: "day",
+                                round: "day",
+                                displayFormats: {
+                                    day: "MMM D"
+                                }
+                            }
+
+                        }]
+
+
                     }
                 }
             });
