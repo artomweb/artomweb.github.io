@@ -45,14 +45,25 @@
 
     </div>
 
+    <div class="row">
+        <div class="column">
+            <div class="subHeadings">
+                How long have I listened to Spotify for in minuites
+            </div>
+
+            <canvas id="spotify" class="imageContainer"></canvas>
+        </div>
+
+    </div>
+
 
 
     <script type="text/javascript">
         colorPallets = [
             ['#62bdc7', '#d8a0a1', '#657786', '#c37777'],
-            ["#dccde8", "#e07a5f", "#3d405b", "#81b29a", "#f2cc8f"],
+            ["#e07a5f", "#3d405b", "#81b29a", "#f2cc8f"]
             // ["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"],
-            ["#cae7b9", "#f3de8a", "#eb9486", "#7e7f9a"]
+            // ["#cae7b9", "#f3de8a", "#eb9486", "#7e7f9a"]
 
 
 
@@ -79,7 +90,6 @@
             e = butns[i];
             e.style.backgroundColor = colors[i];
         }
-
 
 
 
@@ -185,7 +195,7 @@
 
         var stepsSheet = 'https://docs.google.com/spreadsheets/d/15PbAyFyxjhlkCjpsk-VR2v1KsRIQCydOISzUBg88O9o/edit?usp=sharing';
 
-        function init2() {
+        function stepsInit() {
             Tabletop.init({
                 key: stepsSheet,
                 callback: showInfo2,
@@ -197,11 +207,7 @@
             showStepsGraph(data);
         }
 
-        window.addEventListener('DOMContentLoaded', init2)
-
-        function secondsToMins(e) {
-            return new Date(1000 * e).toISOString().substr(11, 5)
-        }
+        window.addEventListener('DOMContentLoaded', stepsInit)
 
 
         function showStepsGraph(allData) {
@@ -227,7 +233,88 @@
                         tension: 0.3,
 
                         data: data,
-                        backgroundColor: colors[3]
+                        backgroundColor: colors[1]
+                    }]
+                },
+
+                options: {
+                    maintainAspectRatio: true,
+                    responsive: true,
+
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            time: {
+                                unit: "day",
+                                round: "day",
+                                displayFormats: {
+                                    day: "MMM D"
+                                }
+                            }
+
+                        }]
+
+
+                    }
+                }
+            });
+        }
+
+
+
+
+        // Spotify
+
+
+
+
+
+        var spotifySheet = 'https://docs.google.com/spreadsheets/d/1pu9HWpMBqtemY0J_vviTSZEKmS_LG9hT_RGy6V9iwXE/edit?usp=sharing';
+
+        function spotifyInit() {
+            Tabletop.init({
+                key: spotifySheet,
+                callback: showInfoSpotify,
+                simpleSheet: true
+            })
+        }
+
+        function showInfoSpotify(data, tabletop) {
+            console.log(data)
+            showSpotifyGraph(data);
+        }
+
+        window.addEventListener('DOMContentLoaded', spotifyInit)
+
+
+
+        function showSpotifyGraph(allData) {
+
+            allData.sort(function(a, b) {
+                return new Date(a.Date).getTime() - new Date(b.Date).getTime();
+            });
+
+            var labels = allData.map(function(e) {
+                return new Date(e.Date);
+            });
+
+            var data = allData.map(function(e) {
+                return e.Duration;
+            });
+
+            var ctx2 = document.getElementById('spotify').getContext('2d');
+            var myChart = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        tension: 0.3,
+
+                        data: data,
+                        backgroundColor: colors[2]
                     }]
                 },
 
