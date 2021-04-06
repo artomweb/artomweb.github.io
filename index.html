@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="logo.jpg">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <title>Archie Webster</title>
+    <meta name="Description" content="Name: Archie Webster. This is my personal website">
 </head>
 
 
@@ -99,41 +102,36 @@
         }
 
 
-
-        var sleepSheet = 'https://docs.google.com/spreadsheets/d/1TqN1Lsj9MxGrfsVrmywdFkLdW3zbqU75zjyslvIRHNM/edit?usp=sharing';
+        var sleepSheetCsv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7KSTLckW0c3wi-yuRfRD2SFpx1P3sSoVIK3IMFsoI26SLj-ycHqfdwwVW4zx1moJ4gXO1BTXOISjU/pub?gid=0&single=true&output=csv"
 
         function init() {
-            Tabletop.init({
-                key: sleepSheet,
-                callback: showInfo,
-                simpleSheet: true
+            Papa.parse(sleepSheetCsv, {
+                download: true,
+                header: true,
+                complete: showSleepGraph
             })
         }
 
-        function showInfo(data, tabletop) {
-            showSleepGraph(data);
-        }
-
         window.addEventListener('DOMContentLoaded', init)
+
 
         function secondsToMins(e) {
             return new Date(1000 * e).toISOString().substr(11, 5)
         }
 
 
-        function showSleepGraph(allData) {
+        function showSleepGraph(inData) {
+
+
+            allData = inData.data
 
             allData.sort(function(a, b) {
                 return new Date(b.Date).getTime() - new Date(a.Date).getTime();
             });
 
-            console.log(allData.length)
-
             if (allData.length > 7) {
                 allData = allData.slice(0, 7)
             }
-
-            console.log(allData.length)
 
             var labels = allData.map(function(e) {
                 return new Date(e.Date);
@@ -206,30 +204,25 @@
 
 
 
-
-
-
-        var stepsSheet = 'https://docs.google.com/spreadsheets/d/15PbAyFyxjhlkCjpsk-VR2v1KsRIQCydOISzUBg88O9o/edit?usp=sharing';
+        var stepsSheetCsv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuGUT0ubwboYgwiZo2owljuAdWeqH3uVeMJ4GkgHOLTZjMDQy5I4x1uTAGScssnkOLRcXkQY7WxOj-/pub?output=csv"
 
         function stepsInit() {
-            Tabletop.init({
-                key: stepsSheet,
-                callback: showInfo2,
-                simpleSheet: true
+            Papa.parse(stepsSheetCsv, {
+                download: true,
+                header: true,
+                complete: showStepsGraph
             })
-        }
-
-        function showInfo2(data, tabletop) {
-            showStepsGraph(data);
         }
 
         window.addEventListener('DOMContentLoaded', stepsInit)
 
 
-        function showStepsGraph(allData) {
+        function showStepsGraph(inData) {
+
+            var allData = inData.data
 
             allData.sort(function(a, b) {
-                return new Date(a.Date).getTime() - new Date(b.Date).getTime();
+                return new Date(b.Date).getTime() - new Date(a.Date).getTime();
             });
 
             if (allData.length > 7) {
@@ -297,29 +290,28 @@
 
 
 
-        // var spotifySheet = 'https://docs.google.com/spreadsheets/d/1pu9HWpMBqtemY0J_vviTSZEKmS_LG9hT_RGy6V9iwXE/edit?usp=sharing';
-        var spotifySheet = "https://docs.google.com/spreadsheets/d/1MIaLoara96XW_1YfYg9ws7tBo8az0jEcL6OXiNaJncs/edit?usp=sharing";
+
+
+        var spotifySheetCsv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS8jF46FaiqwqifbzpoZ2KnjEsaX2ogMnncPeOdPRvML8CRi3Vs35Mq2vTEZ0XiM10jEiZIu6Hikpp/pub?output=csv"
 
         function spotifyInit() {
-            Tabletop.init({
-                key: spotifySheet,
-                callback: showInfoSpotify,
-                simpleSheet: true
+            Papa.parse(spotifySheetCsv, {
+                download: true,
+                header: true,
+                complete: showSpotifyGraph
             })
-        }
-
-        function showInfoSpotify(data, tabletop) {
-            showSpotifyGraph(data);
         }
 
         window.addEventListener('DOMContentLoaded', spotifyInit)
 
 
 
-        function showSpotifyGraph(allData) {
+        function showSpotifyGraph(inData) {
+
+            var allData = inData.data;
 
             allData.sort(function(a, b) {
-                return new Date(a.Date).getTime() - new Date(b.Date).getTime();
+                return new Date(b.Date).getTime() - new Date(a.Date).getTime();
             });
 
             if (allData.length > 7) {
@@ -379,42 +371,23 @@
             });
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        var hrSheet = 'https://docs.google.com/spreadsheets/d/1KsHEkF63AQaFQT5Ed0KidRiOewfqT3R40eufufjlGWE/edit?usp=sharing';
+        var hrSheetCsv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-bk-dIWZk-rrHjQWwhjKx-6XcYYIoXKfMmfe3SxY9fWstqk_iqVvvnKT1wwH43eiZCVuRm-SWjCc_/pub?output=csv"
 
         function hrInit() {
-            Tabletop.init({
-                key: hrSheet,
-                callback: showInfoHr,
-                simpleSheet: true
+            Papa.parse(hrSheetCsv, {
+                download: true,
+                header: true,
+                complete: showHrGraph
             })
-        }
-
-        function showInfoHr(data, tabletop) {
-            console.log(data)
-            showHrGraph(data);
         }
 
         window.addEventListener('DOMContentLoaded', hrInit)
 
-
-
-        function showHrGraph(allData) {
+        function showHrGraph(inData) {
+            var allData = inData.data;
 
             allData.sort(function(a, b) {
-                return new Date(a.Date).getTime() - new Date(b.Date).getTime();
+                return new Date(b.Date).getTime() - new Date(a.Date).getTime();
             });
 
             if (allData.length > 7) {
