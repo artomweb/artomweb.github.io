@@ -100,6 +100,13 @@
             e.style.backgroundColor = colors[i];
         }
 
+        function showGraphs() {
+            init()
+            stepsInit()
+            spotifyInit()
+            hrInit()
+        }
+
 
         var sleepSheetCsv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7KSTLckW0c3wi-yuRfRD2SFpx1P3sSoVIK3IMFsoI26SLj-ycHqfdwwVW4zx1moJ4gXO1BTXOISjU/pub?gid=0&single=true&output=csv"
 
@@ -111,11 +118,12 @@
             })
         }
 
-        window.addEventListener('DOMContentLoaded', init)
+        window.addEventListener('DOMContentLoaded', showGraphs)
 
 
         function secondsToMins(e) {
-            return new Date(1000 * e).toISOString().substr(11, 5)
+            let hours = (e / 3600).toString();
+            return hours.split(".")[0] + ":" + (+((parseFloat("." + hours.split(".")[1]) * 60).toFixed()) || "00")
         }
 
 
@@ -123,6 +131,8 @@
 
 
             allData = inData.data
+
+            console.log(allData)
 
             allData.sort(function(a, b) {
                 return new Date(b.Date).getTime() - new Date(a.Date).getTime();
@@ -173,6 +183,7 @@
                         }],
                         yAxes: [{
                             ticks: {
+                                beginAtZero: true,
                                 callback: function(value, index, values) {
                                     return secondsToMins(value)
                                 }
@@ -213,7 +224,6 @@
             })
         }
 
-        window.addEventListener('DOMContentLoaded', stepsInit)
 
 
         function showStepsGraph(inData) {
@@ -301,8 +311,6 @@
             })
         }
 
-        window.addEventListener('DOMContentLoaded', spotifyInit)
-
 
 
         function showSpotifyGraph(inData) {
@@ -380,7 +388,6 @@
             })
         }
 
-        window.addEventListener('DOMContentLoaded', hrInit)
 
         function showHrGraph(inData) {
             var allData = inData.data;
@@ -408,7 +415,6 @@
                     labels: labels,
                     datasets: [{
                         tension: 0.3,
-
                         data: data,
                         backgroundColor: colors[3]
                     }]
