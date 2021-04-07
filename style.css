@@ -72,7 +72,7 @@ canvas {
 }
 
 body {
-    background-image: url('paper.jpg');
+    background-image: url('/paper.jpg');
     background-repeat: repeat-y;
 }
 
