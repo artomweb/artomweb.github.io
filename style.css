@@ -72,8 +72,8 @@ canvas {
 }
 
 body {
-    margin: 0;
-    font-family: Arial;
+    background-image: url('paper.jpg');
+    background-repeat: repeat-y;
 }
 
 .header {
