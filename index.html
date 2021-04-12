@@ -124,7 +124,9 @@
 
         function secondsToMins(e) {
             let hours = (e / 3600).toString();
-            return hours.split(".")[0] + ":" + (+((parseFloat("." + hours.split(".")[1]) * 60).toFixed()) || "00")
+            let minutes = +((parseFloat("." + hours.split(".")[1]) * 60).toFixed()) || "00";
+            minutes = ("0" + minutes).slice(-2)
+            return hours.split(".")[0] + ":" + minutes
         }
 
 
