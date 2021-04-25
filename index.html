@@ -2,87 +2,71 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="logo.jpg">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="logo.jpg" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js" integrity="sha512-rKFvwjvE4liWPlFnvH4ZhRDfNZ9FOpdkD/BU5gAIA3VS3vOQrQ5BjKgbO3kxebKhHdHcNUHLqxQYSoxee9UwgA==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <title>Archie Webster</title>
-    <meta name="Description" content="Name: Archie Webster. This is my personal website">
+    <meta name="Description" content="Name: Archie Webster. This is my personal website" />
 </head>
 
-
-
 <body>
-
-
     <div id="title">Archie Webster</div>
 
-
-
     <div id="butns">
-        <button class="button" onclick="window.location.href = 'https://flickr.com/artomweb';">Flickr</button>
-        <button class="button" onclick="window.location.href = 'https://github.com/artomweb';">Github</button>
-        <button class="button" onclick="window.location.href = 'https://www.thingiverse.com/artomweb2/designs';">Thingiverse</button>
-        <button class="button" onclick="window.location.href = 'Projects/Projects 664c3dc51d8c4588becb0db505f9d0cb.html';">Projects</button>
-
+        <button class="button flickr-button" onclick="window.location.href = 'https://flickr.com/artomweb';">
+        Flickr
+      </button>
+        <button class="button github-button" onclick="window.location.href = 'https://github.com/artomweb';">
+        Github
+      </button>
+        <button class="button thing-button" onclick="window.location.href = 'https://www.thingiverse.com/artomweb2/designs';">
+        Thingiverse
+      </button>
+        <button class="button projects-button" onclick="window.location.href = 'https://dev.to/artomweb';">
+        Projects
+      </button>
     </div>
 
     <div class="row">
         <div class="column">
-            <div class="subHeadings">
-                How much have I slept :)
-            </div>
+            <div class="subHeadings">How much have I slept :)</div>
 
-            <canvas id="sleep" class="imageContainer" width='300'></canvas>
+            <canvas id="sleep" class="imageContainer" width="300"></canvas>
         </div>
 
         <div class="column">
-            <div class="subHeadings">
-                How many steps have I done
-            </div>
+            <div class="subHeadings">How many steps have I done</div>
 
-            <canvas id="steps" class="imageContainer" width='300'></canvas>
+            <canvas id="steps" class="imageContainer" width="300"></canvas>
         </div>
-
     </div>
 
     <div class="row">
         <div class="column">
-            <div class="subHeadings">
-                How much have I listened to Spotify
-            </div>
+            <div class="subHeadings">How much have I listened to Spotify</div>
 
-            <canvas id="spotify" class="imageContainer" width='300'></canvas>
+            <canvas id="spotify" class="imageContainer" width="300"></canvas>
         </div>
 
         <div class="column">
-            <div class="subHeadings">
-                What's my average heart rate
-            </div>
+            <div class="subHeadings">What's my average heart rate</div>
 
-            <canvas id="hr" class="imageContainer" width='300'></canvas>
+            <canvas id="hr" class="imageContainer" width="300"></canvas>
         </div>
-
-
-
-
     </div>
     <script type="text/javascript">
         colorPallets = [
-            ['#62bdc7', '#d8a0a1', '#657786', '#c37777'],
-            ["#e07a5f", "#3d405b", "#81b29a", "#f2cc8f"]
+            ["#62bdc7", "#d8a0a1", "#657786", "#c37777"],
+            ["#e07a5f", "#3d405b", "#81b29a", "#f2cc8f"],
             // ["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"],
             // ["#cae7b9", "#f3de8a", "#eb9486", "#7e7f9a"]
-
-
-
-
-        ]
+        ];
 
         function shuffle(a) {
-            var j, x, i;
+            let j, x, i;
             for (i = a.length - 1; i > 0; i--) {
                 j = Math.floor(Math.random() * (i + 1));
                 x = a[i];
@@ -94,172 +78,158 @@
 
         colors = colorPallets[Math.floor(Math.random() * colorPallets.length)];
         colors = shuffle(colors);
-        var butns = document.getElementById("butns").children;
-        var i, e;
+        let butns = document.getElementById("butns").children;
+        let i, e;
         for (i = 0; i < butns.length; i++) {
             e = butns[i];
             e.style.backgroundColor = colors[i];
         }
 
         function showGraphs() {
-            init()
-            stepsInit()
-            spotifyInit()
-            hrInit()
+            init();
+            stepsInit();
+            spotifyInit();
+            hrInit();
         }
 
-
-        var sleepSheetCsv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7KSTLckW0c3wi-yuRfRD2SFpx1P3sSoVIK3IMFsoI26SLj-ycHqfdwwVW4zx1moJ4gXO1BTXOISjU/pub?gid=0&single=true&output=csv"
+        let sleepSheetCsv =
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7KSTLckW0c3wi-yuRfRD2SFpx1P3sSoVIK3IMFsoI26SLj-ycHqfdwwVW4zx1moJ4gXO1BTXOISjU/pub?gid=0&single=true&output=csv";
 
         function init() {
             Papa.parse(sleepSheetCsv, {
                 download: true,
                 header: true,
-                complete: showSleepGraph
-            })
+                complete: showSleepGraph,
+            });
         }
 
-        window.addEventListener('DOMContentLoaded', showGraphs)
-
+        window.addEventListener("DOMContentLoaded", showGraphs);
 
         function secondsToMins(e) {
             let hours = (e / 3600).toString();
-            let minutes = +((parseFloat("." + hours.split(".")[1]) * 60).toFixed()) || "00";
-            minutes = ("0" + minutes).slice(-2)
-            return hours.split(".")[0] + ":" + minutes
+            let minutes = +(parseFloat("." + hours.split(".")[1]) * 60).toFixed() || "00";
+            minutes = ("0" + minutes).slice(-2);
+            return hours.split(".")[0] + ":" + minutes;
         }
 
-
         function showSleepGraph(inData) {
-
-
-            allData = inData.data
-
-            console.log(allData)
+            allData = inData.data;
 
             allData.sort(function(a, b) {
                 return new Date(b.Date).getTime() - new Date(a.Date).getTime();
             });
 
             if (allData.length > 7) {
-                allData = allData.slice(0, 7)
+                allData = allData.slice(0, 7);
             }
 
-            var labels = allData.map(function(e) {
+            let labels = allData.map(function(e) {
                 return new Date(e.Date);
             });
 
-            var data = allData.map(function(e) {
+            let data = allData.map(function(e) {
                 return e.Duration;
             });
 
-            var ctx = document.getElementById('sleep').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
+            let ctx = document.getElementById("sleep").getContext("2d");
+            let myChart = new Chart(ctx, {
+                type: "line",
                 data: {
                     labels: labels,
                     datasets: [{
-
                         tension: 0.3,
                         data: data,
-                        backgroundColor: colors[0]
-                    }]
+                        backgroundColor: colors[0],
+                    }, ],
                 },
 
                 options: {
                     responsive: true,
                     maintainAspectRatio: true,
                     legend: {
-                        display: false
+                        display: false,
                     },
                     scales: {
                         xAxes: [{
-                            type: 'time',
+                            type: "time",
                             time: {
                                 unit: "day",
                                 round: "day",
                                 displayFormats: {
-                                    day: "MMM D"
-                                }
-                            }
-
-                        }],
+                                    day: "MMM D",
+                                },
+                            },
+                        }, ],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
                                 callback: function(value, index, values) {
-                                    return secondsToMins(value)
-                                }
-                            }
-                        }]
-
+                                    return secondsToMins(value);
+                                },
+                            },
+                        }, ],
                     },
 
                     tooltips: {
                         callbacks: {
                             label: function(tooltipItem, data) {
-                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                let label =
+                                    data.datasets[tooltipItem.datasetIndex].label || "";
 
                                 if (label) {
-                                    label += ': ';
+                                    label += ": ";
                                 }
 
                                 label += secondsToMins(tooltipItem.yLabel);
                                 return label;
-
-                            }
-
-                        }
-                    }
-                }
+                            },
+                        },
+                    },
+                },
             });
         }
 
-
-
-        var stepsSheetCsv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuGUT0ubwboYgwiZo2owljuAdWeqH3uVeMJ4GkgHOLTZjMDQy5I4x1uTAGScssnkOLRcXkQY7WxOj-/pub?output=csv"
+        let stepsSheetCsv =
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuGUT0ubwboYgwiZo2owljuAdWeqH3uVeMJ4GkgHOLTZjMDQy5I4x1uTAGScssnkOLRcXkQY7WxOj-/pub?output=csv";
 
         function stepsInit() {
             Papa.parse(stepsSheetCsv, {
                 download: true,
                 header: true,
-                complete: showStepsGraph
-            })
+                complete: showStepsGraph,
+            });
         }
 
-
-
         function showStepsGraph(inData) {
-
-            var allData = inData.data
+            let allData = inData.data;
 
             allData.sort(function(a, b) {
                 return new Date(b.Date).getTime() - new Date(a.Date).getTime();
             });
 
             if (allData.length > 7) {
-                allData = allData.slice(0, 7)
+                allData = allData.slice(0, 7);
             }
 
-            var labels = allData.map(function(e) {
+            let labels = allData.map(function(e) {
                 return new Date(e.Date);
             });
 
-            var data = allData.map(function(e) {
+            let data = allData.map(function(e) {
                 return e.Steps;
             });
 
-            var ctx2 = document.getElementById('steps').getContext('2d');
-            var myChart = new Chart(ctx2, {
-                type: 'line',
+            let ctx2 = document.getElementById("steps").getContext("2d");
+            let myChart = new Chart(ctx2, {
+                type: "line",
                 data: {
                     labels: labels,
                     datasets: [{
                         tension: 0.3,
 
                         data: data,
-                        backgroundColor: colors[1]
-                    }]
+                        backgroundColor: colors[1],
+                    }, ],
                 },
 
                 options: {
@@ -267,87 +237,75 @@
                     responsive: true,
 
                     legend: {
-                        display: false
+                        display: false,
                     },
                     scales: {
                         xAxes: [{
-                            type: 'time',
+                            type: "time",
                             time: {
                                 unit: "day",
                                 round: "day",
                                 displayFormats: {
-                                    day: "MMM D"
-                                }
-                            }
-
-                        }],
+                                    day: "MMM D",
+                                },
+                            },
+                        }, ],
                         yAxes: [{
                             ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-
-
-                    }
-                }
+                                beginAtZero: true,
+                            },
+                        }, ],
+                    },
+                },
             });
         }
 
-
-
-
         // Spotify
 
-
-
-
-
-
-
-        var spotifySheetCsv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS8jF46FaiqwqifbzpoZ2KnjEsaX2ogMnncPeOdPRvML8CRi3Vs35Mq2vTEZ0XiM10jEiZIu6Hikpp/pub?output=csv"
+        let spotifySheetCsv =
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS8jF46FaiqwqifbzpoZ2KnjEsaX2ogMnncPeOdPRvML8CRi3Vs35Mq2vTEZ0XiM10jEiZIu6Hikpp/pub?output=csv";
 
         function spotifyInit() {
             Papa.parse(spotifySheetCsv, {
                 download: true,
                 header: true,
-                complete: showSpotifyGraph
-            })
+                complete: showSpotifyGraph,
+            });
         }
 
-
-
         function showSpotifyGraph(inData) {
+            let allData = inData.data;
 
-            var allData = inData.data;
+            console.log(inData);
 
             allData.sort(function(a, b) {
                 return new Date(b.Date).getTime() - new Date(a.Date).getTime();
             });
 
             if (allData.length > 7) {
-                allData = allData.slice(0, 7)
+                allData = allData.slice(0, 7);
             }
 
-            var labels = allData.map(function(e) {
+            let labels = allData.map(function(e) {
                 return new Date(e.Date);
             });
 
-            var data = allData.map(function(e) {
+            let data = allData.map(function(e) {
                 // return e.Duration;
                 return e.Value;
             });
 
-            var ctx2 = document.getElementById('spotify').getContext('2d');
-            var myChart = new Chart(ctx2, {
-                type: 'line',
+            let ctx2 = document.getElementById("spotify").getContext("2d");
+            let myChart = new Chart(ctx2, {
+                type: "line",
                 data: {
                     labels: labels,
                     datasets: [{
                         tension: 0.3,
 
                         data: data,
-                        backgroundColor: colors[2]
-                    }]
+                        backgroundColor: colors[2],
+                    }, ],
                 },
 
                 options: {
@@ -355,73 +313,69 @@
                     responsive: true,
 
                     legend: {
-                        display: false
+                        display: false,
                     },
                     scales: {
                         xAxes: [{
-                            type: 'time',
+                            type: "time",
                             time: {
                                 unit: "day",
                                 round: "day",
                                 displayFormats: {
-                                    day: "MMM D"
-                                }
-                            }
-
-                        }],
+                                    day: "MMM D",
+                                },
+                            },
+                        }, ],
                         yAxes: [{
                             ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-
-
-                    }
-                }
+                                beginAtZero: true,
+                            },
+                        }, ],
+                    },
+                },
             });
         }
 
-        var hrSheetCsv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-bk-dIWZk-rrHjQWwhjKx-6XcYYIoXKfMmfe3SxY9fWstqk_iqVvvnKT1wwH43eiZCVuRm-SWjCc_/pub?output=csv"
+        let hrSheetCsv =
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-bk-dIWZk-rrHjQWwhjKx-6XcYYIoXKfMmfe3SxY9fWstqk_iqVvvnKT1wwH43eiZCVuRm-SWjCc_/pub?output=csv";
 
         function hrInit() {
             Papa.parse(hrSheetCsv, {
                 download: true,
                 header: true,
-                complete: showHrGraph
-            })
+                complete: showHrGraph,
+            });
         }
 
-
         function showHrGraph(inData) {
-            var allData = inData.data;
+            let allData = inData.data;
 
             allData.sort(function(a, b) {
                 return new Date(b.Date).getTime() - new Date(a.Date).getTime();
             });
 
             if (allData.length > 7) {
-                allData = allData.slice(0, 7)
+                allData = allData.slice(0, 7);
             }
 
-
-            var labels = allData.map(function(e) {
+            let labels = allData.map(function(e) {
                 return new Date(e.Date);
             });
 
-            var data = allData.map(function(e) {
+            let data = allData.map(function(e) {
                 return parseInt(e.Value);
             });
 
-            var ctx2 = document.getElementById('hr').getContext('2d');
-            var myChart = new Chart(ctx2, {
-                type: 'line',
+            let ctx2 = document.getElementById("hr").getContext("2d");
+            let myChart = new Chart(ctx2, {
+                type: "line",
                 data: {
                     labels: labels,
                     datasets: [{
                         tension: 0.3,
                         data: data,
-                        backgroundColor: colors[3]
-                    }]
+                        backgroundColor: colors[3],
+                    }, ],
                 },
 
                 options: {
@@ -429,49 +383,44 @@
                     responsive: true,
 
                     legend: {
-                        display: false
+                        display: false,
                     },
                     scales: {
                         xAxes: [{
-                            type: 'time',
+                            type: "time",
                             time: {
                                 unit: "day",
                                 round: "day",
                                 displayFormats: {
-                                    day: "MMM D"
-                                }
-                            }
-
-                        }],
+                                    day: "MMM D",
+                                },
+                            },
+                        }, ],
                         yAxes: [{
                             ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-
-
+                                beginAtZero: true,
+                            },
+                        }, ],
                     },
                     tooltips: {
                         callbacks: {
                             label: function(tooltipItem, data) {
-                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                let label =
+                                    data.datasets[tooltipItem.datasetIndex].label || "";
 
                                 if (label) {
-                                    label += ': ';
+                                    label += ": ";
                                 }
 
                                 label += tooltipItem.yLabel + "BPM";
                                 return label;
-
-                            }
-
-                        }
-                    }
-                }
+                            },
+                        },
+                    },
+                },
             });
         }
     </script>
-
 </body>
 
 </html>
