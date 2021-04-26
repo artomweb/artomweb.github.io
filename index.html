@@ -150,11 +150,12 @@
         function showMap(dataIn) {
             sendCountryCode();
             let data = dataIn.data;
+            console.log(data);
             let threshMin = data.reduce((prev, curr) =>
-                prev.Visitors > curr.Visitors ? prev : curr
+                prev.Visitors < curr.Visitors ? prev : curr
             ).Visitors;
             let threshMax = data.reduce((prev, curr) =>
-                prev.Visitors < curr.Visitors ? prev : curr
+                prev.Visitors > curr.Visitors ? prev : curr
             ).Visitors;
             data = data.reduce((obj, item) => {
                 obj[item.Country] = {
@@ -163,14 +164,16 @@
                 return obj;
             }, {});
 
-            console.log(data);
+            console.log(threshMax, threshMin);
             new svgMap({
                 targetElementID: "svgMap",
-                mouseWheelZoomEnabled: false,
+                // mouseWheelZoomEnabled: false,
                 initialZoom: 1.06,
-                minZoom: 1.06,
-                maxZoom: 1.06,
-                noDataText: "No Visitors :(",
+                // minZoom: 1.06,
+                // maxZoom: 1.06,
+                colorMax: "#CC0033",
+                colorMin: "#de6886",
+                noDataText: "No visitors yet :(",
                 data: {
                     data: {
                         Visitors: {
