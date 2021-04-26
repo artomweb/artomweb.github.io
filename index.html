@@ -111,19 +111,18 @@
             "https://script.google.com/macros/s/AKfycbzOKBcpmXpn5iryKAqjzm9dfoaEdiMu2472VPDaEi9DAJF5lGpntNvPcA3sW3sOG8X8Jg/exec";
 
         async function getCountry() {
-            let response = await fetch("http://ip-api.com/json");
+            let response = await fetch(
+                "https://api.ipdata.co?api-key=fa280914a5a8b8bb232f12221300ad1638d203fba26689340fba63f9"
+            );
             let country = await response.json();
             let body = {
-                countryCode: country.countryCode,
+                countryCode: country.country_code,
             };
             console.log(body);
             let success = await fetch(webAppUrl, {
-                method: "post",
-                // mode: "no-cors",
+                method: "POST",
+                mode: "no-cors",
                 body: JSON.stringify(body),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
             });
             // success = await success.json();
             return success;
@@ -157,8 +156,6 @@
             let threshMax = data.reduce((prev, curr) =>
                 prev.Visitors < curr.Visitors ? prev : curr
             ).Visitors;
-            console.log("Max", threshMax);
-            console.log("Min", threshMin);
             data = data.reduce((obj, item) => {
                 obj[item.Country] = {
                     Visitors: item.Visitors,
