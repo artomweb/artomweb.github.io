@@ -107,46 +107,17 @@
     </div>
     <script type="text/javascript">
         let mapCnData = {};
-        let webAppUrl =
-            "https://script.google.com/macros/s/AKfycbzOKBcpmXpn5iryKAqjzm9dfoaEdiMu2472VPDaEi9DAJF5lGpntNvPcA3sW3sOG8X8Jg/exec";
 
-        async function getCountry() {
-            let response = await fetch(
-                "https://api.ipdata.co?api-key=fa280914a5a8b8bb232f12221300ad1638d203fba26689340fba63f9"
-            );
-            let country = await response.json();
-            console.log(country);
-            let body = {
-                countryCode: country.country_name,
-            };
-            console.log(body);
-            // let success = await fetch(webAppUrl, {
-            //     method: "POST",
-            //     mode: "no-cors",
-            //     body: JSON.stringify(body),
-            // });
-            // success = await success.json();
-            return success;
+        async function getAnalytics() {
+            let sriptUrl =
+                "https://script.google.com/macros/s/AKfycbwxxNcm0vcgxkmbBtIKDRCuS23Szfsh-adzbXL4v8w0Ylsq7XvlVxPAJAZI6rMulAOY-Q/exec";
+            let response = await fetch(sriptUrl);
+            console.log(response);
+            let json = await response.json();
+            mapCnData = json;
+            drawMapChart(json);
         }
-
-        function sendCountryCode() {
-            getCountry()
-                .then((resp) => {
-                    console.log("COUNTRY", resp);
-                })
-                .catch((error) => console.log("ERROR", error));
-        }
-
-        let mapSheet =
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRGkSebakEqYSJa9f6eBXJqNlmgy9JWhSFxbjV--duEF-WIPy9tirqIJHdyuuUmo-JTp1zFKB9M9SW/pub?output=csv";
-
-        function mapInit() {
-            Papa.parse(mapSheet, {
-                download: true,
-                header: true,
-                complete: showMap,
-            });
-        }
+        getAnalytics();
 
         var resizeTimer;
 
@@ -171,7 +142,7 @@
                 data.addColumn("number", "Visits");
 
                 for (var i = 0; i < dataVis.length; i++) {
-                    data.addRow([dataVis[i].Country, parseInt(dataVis[i].Visitors)]);
+                    data.addRow([dataVis[i].Country, parseInt(dataVis[i].Users)]);
                 }
 
                 var options = {
@@ -190,16 +161,6 @@
                 chart.draw(data, options);
             }
         }
-
-        function showMap(dataIN) {
-            let dataVis = dataIN.data;
-            mapCnData = dataVis;
-            console.log(dataVis);
-            sendCountryCode();
-            drawMapChart(dataVis);
-        }
-
-        mapInit();
 
         colorPallets = [
             // ["#62bdc7", "#d8a0a1", "#657786", "#c37777"],
