@@ -114,6 +114,7 @@
             let response = await fetch(sriptUrl);
             console.log(response);
             let json = await response.json();
+            mapCnData = json;
             drawMapChart(json);
         }
         getAnalytics();
