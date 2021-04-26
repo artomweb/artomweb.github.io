@@ -19,12 +19,17 @@
         })(window, document, "script", "dataLayer", "GTM-WM77VVG");
     </script>
     <!-- End Google Tag Manager -->
+
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" href="logo.jpg" />
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js" integrity="sha512-rKFvwjvE4liWPlFnvH4ZhRDfNZ9FOpdkD/BU5gAIA3VS3vOQrQ5BjKgbO3kxebKhHdHcNUHLqxQYSoxee9UwgA==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/StephanWagner/svgMap@v2.1.1/dist/svgMap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/StephanWagner/svgMap@v2.1.1/dist/svgMap.min.css" rel="stylesheet" />
+
     <title>Archie Webster</title>
     <meta name="Description" content="Name: Archie Webster. This is my personal website" />
 
@@ -85,7 +90,7 @@
 
     <div class="row">
         <div class="column">
-            <div class="subHeadings">How much have I listened to Spotify</div>
+            <div class="subHeadings">How much Spotify?</div>
 
             <canvas id="spotify" class="imageContainer" width="300"></canvas>
         </div>
@@ -96,7 +101,95 @@
             <canvas id="hr" class="imageContainer" width="300"></canvas>
         </div>
     </div>
+
+    <p></p>
+
+    <div id="svgMap"></div>
+
     <script type="text/javascript">
+        let webAppUrl =
+            "https://script.google.com/macros/s/AKfycbzOKBcpmXpn5iryKAqjzm9dfoaEdiMu2472VPDaEi9DAJF5lGpntNvPcA3sW3sOG8X8Jg/exec";
+
+        async function getCountry() {
+            let response = await fetch("http://ip-api.com/json");
+            let country = await response.json();
+            let body = {
+                countryCode: country.countryCode,
+            };
+            console.log(body);
+            let success = await fetch(webAppUrl, {
+                method: "post",
+                // mode: "no-cors",
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            });
+            // success = await success.json();
+            return success;
+        }
+
+        function sendCountryCode() {
+            getCountry()
+                .then((resp) => {
+                    console.log("COUNTRY", resp);
+                })
+                .catch((error) => console.log("ERROR", error));
+        }
+
+        let mapSheet =
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRGkSebakEqYSJa9f6eBXJqNlmgy9JWhSFxbjV--duEF-WIPy9tirqIJHdyuuUmo-JTp1zFKB9M9SW/pub?output=csv";
+
+        function mapInit() {
+            Papa.parse(mapSheet, {
+                download: true,
+                header: true,
+                complete: showMap,
+            });
+        }
+
+        function showMap(dataIn) {
+            sendCountryCode();
+            let data = dataIn.data;
+            let threshMin = data.reduce((prev, curr) =>
+                prev.Visitors > curr.Visitors ? prev : curr
+            ).Visitors;
+            let threshMax = data.reduce((prev, curr) =>
+                prev.Visitors < curr.Visitors ? prev : curr
+            ).Visitors;
+            console.log("Max", threshMax);
+            console.log("Min", threshMin);
+            data = data.reduce((obj, item) => {
+                obj[item.Country] = {
+                    Visitors: item.Visitors,
+                };
+                return obj;
+            }, {});
+
+            console.log(data);
+            new svgMap({
+                targetElementID: "svgMap",
+                mouseWheelZoomEnabled: false,
+                initialZoom: 1.06,
+                minZoom: 1.06,
+                maxZoom: 1.06,
+                noDataText: "No Visitors :(",
+                data: {
+                    data: {
+                        Visitors: {
+                            name: "Number of Visitors:",
+                            format: "{0}",
+                            thousandSeparator: ",",
+                            thresholdMax: threshMax,
+                            thresholdMin: threshMin,
+                        },
+                    },
+                    applyData: "Visitors",
+                    values: data,
+                },
+            });
+        }
+
         colorPallets = [
             ["#62bdc7", "#d8a0a1", "#657786", "#c37777"],
             ["#e07a5f", "#3d405b", "#81b29a", "#f2cc8f"],
@@ -124,11 +217,12 @@
             e.style.backgroundColor = colors[i];
         }
 
-        function showGraphs() {
+        async function showGraphs() {
             init();
             stepsInit();
             spotifyInit();
             hrInit();
+            mapInit();
         }
 
         let sleepSheetCsv =
@@ -302,7 +396,7 @@
         // Spotify
 
         let spotifySheetCsv =
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS8jF46FaiqwqifbzpoZ2KnjEsaX2ogMnncPeOdPRvML8CRi3Vs35Mq2vTEZ0XiM10jEiZIu6Hikpp/pub?output=csv";
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv";
 
         function spotifyInit() {
             Papa.parse(spotifySheetCsv, {
@@ -370,6 +464,21 @@
                                 beginAtZero: true,
                             },
                         }, ],
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                let label =
+                                    data.datasets[tooltipItem.datasetIndex].label || "";
+
+                                if (label) {
+                                    label += ": ";
+                                }
+
+                                label += tooltipItem.yLabel + " songs";
+                                return label;
+                            },
+                        },
                     },
                 },
             });
