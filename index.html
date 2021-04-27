@@ -119,6 +119,9 @@
         }
         getAnalytics();
 
+        screen.orientation.onchange = function() {
+            drawMapChart(mapCnData);
+        };
         var resizeTimer;
 
         window.onresize = function() {
