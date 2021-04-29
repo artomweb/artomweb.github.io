@@ -1,405 +1,377 @@
 function showGraphs() {
-  console.log("using TABLETOP3");
-  init();
-  stepsInit();
-  spotifyInit();
-  hrInit();
+    console.log("using TABLETOP3");
+    init();
+    stepsInit();
+    spotifyInit();
+    hrInit();
 }
 
 var sleepSheet =
-  "https://docs.google.com/spreadsheets/d/1TqN1Lsj9MxGrfsVrmywdFkLdW3zbqU75zjyslvIRHNM/edit?usp=sharing";
+    "https://spreadsheets.google.com/feeds/list/" +
+    "1TqN1Lsj9MxGrfsVrmywdFkLdW3zbqU75zjyslvIRHNM" +
+    "/1/public/values?alt=json";
 
 function init() {
-  Tabletop.init({
-    key: sleepSheet,
-    // callback: showInfo,
-    simpleSheet: true,
-  })
-    .then((data, tabletop) => {
-      showInfo(data, tabletop);
-      console.log(data);
-    })
-    .catch((e) => console.log(e));
-}
-
-function showInfo(data, tabletop) {
-  showSleepGraph(data);
+    $.getJSON(sleepSheet, (data) => {
+        data = data.feed.entry;
+        let dataOut = data.map((entry) => {
+            return { Date: entry.gsx$date.$t, Duration: entry.gsx$duration.$t };
+        });
+        console.log(dataOut);
+        showSleepGraph(dataOut);
+    });
 }
 
 window.addEventListener("DOMContentLoaded", showGraphs);
 
 function secondsToMins(e) {
-  let hours = (e / 3600).toString();
-  let minutes = +(parseFloat("." + hours.split(".")[1]) * 60).toFixed() || "00";
-  minutes = ("0" + minutes).slice(-2);
-  return hours.split(".")[0] + ":" + minutes;
+    let hours = (e / 3600).toString();
+    let minutes = +(parseFloat("." + hours.split(".")[1]) * 60).toFixed() || "00";
+    minutes = ("0" + minutes).slice(-2);
+    return hours.split(".")[0] + ":" + minutes;
 }
 
 function showSleepGraph(allData) {
-  //   allData = inData.data;
+    //   allData = inData.data;
 
-  allData.sort(function (a, b) {
-    return new Date(b.Date).getTime() - new Date(a.Date).getTime();
-  });
+    allData.sort(function(a, b) {
+        return new Date(b.Date).getTime() - new Date(a.Date).getTime();
+    });
 
-  if (allData.length > 7) {
-    allData = allData.slice(0, 7);
-  }
+    if (allData.length > 7) {
+        allData = allData.slice(0, 7);
+    }
 
-  let labels = allData.map(function (e) {
-    return new Date(e.Date);
-  });
+    let labels = allData.map(function(e) {
+        return new Date(e.Date);
+    });
 
-  let data = allData.map(function (e) {
-    return e.Duration;
-  });
+    let data = allData.map(function(e) {
+        return e.Duration;
+    });
 
-  let ctx = document.getElementById("sleep").getContext("2d");
-  let myChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          tension: 0.3,
-          data: data,
-          backgroundColor: colors[0],
+    let ctx = document.getElementById("sleep").getContext("2d");
+    let myChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                tension: 0.3,
+                data: data,
+                backgroundColor: colors[0],
+            }, ],
         },
-      ],
-    },
 
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [
-          {
-            type: "time",
-            time: {
-              unit: "day",
-              round: "day",
-              displayFormats: {
-                day: "MMM D",
-              },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            legend: {
+                display: false,
             },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-              callback: function (value, index, values) {
-                return secondsToMins(value);
-              },
+            scales: {
+                xAxes: [{
+                    type: "time",
+                    time: {
+                        unit: "day",
+                        round: "day",
+                        displayFormats: {
+                            day: "MMM D",
+                        },
+                    },
+                }, ],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function(value, index, values) {
+                            return secondsToMins(value);
+                        },
+                    },
+                }, ],
             },
-          },
-        ],
-      },
 
-      tooltips: {
-        callbacks: {
-          label: function (tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || "";
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        let label = data.datasets[tooltipItem.datasetIndex].label || "";
 
-            if (label) {
-              label += ": ";
-            }
+                        if (label) {
+                            label += ": ";
+                        }
 
-            label += secondsToMins(tooltipItem.yLabel);
-            return label;
-          },
+                        label += secondsToMins(tooltipItem.yLabel);
+                        return label;
+                    },
+                },
+            },
         },
-      },
-    },
-  });
+    });
 }
 
 var stepsSheet =
-  "https://docs.google.com/spreadsheets/d/15PbAyFyxjhlkCjpsk-VR2v1KsRIQCydOISzUBg88O9o/edit?usp=sharing";
+    "https://docs.google.com/spreadsheets/d/15PbAyFyxjhlkCjpsk-VR2v1KsRIQCydOISzUBg88O9o/edit?usp=sharing";
 
 function stepsInit() {
-  Tabletop.init({
-    key: stepsSheet,
-    // callback: showInfo2,
-    simpleSheet: true,
-  })
-    .then((data, tabletop) => {
-      //   console.log("HELLO");
-      showInfo2(data, tabletop);
-    })
-    .catch((e) => console.log(e));
+    Tabletop.init({
+            key: stepsSheet,
+            // callback: showInfo2,
+            simpleSheet: true,
+        })
+        .then((data, tabletop) => {
+            //   console.log("HELLO");
+            showInfo2(data, tabletop);
+        })
+        .catch((e) => console.log(e));
 }
 
 function showInfo2(data, tabletop) {
-  showStepsGraph(data);
+    showStepsGraph(data);
 }
 
 function showStepsGraph(allData) {
-  //   let allData = inData.data;
+    //   let allData = inData.data;
 
-  allData.sort(function (a, b) {
-    return new Date(b.Date).getTime() - new Date(a.Date).getTime();
-  });
+    allData.sort(function(a, b) {
+        return new Date(b.Date).getTime() - new Date(a.Date).getTime();
+    });
 
-  if (allData.length > 7) {
-    allData = allData.slice(0, 7);
-  }
+    if (allData.length > 7) {
+        allData = allData.slice(0, 7);
+    }
 
-  let labels = allData.map(function (e) {
-    return new Date(e.Date);
-  });
+    let labels = allData.map(function(e) {
+        return new Date(e.Date);
+    });
 
-  let data = allData.map(function (e) {
-    return e.Steps;
-  });
+    let data = allData.map(function(e) {
+        return e.Steps;
+    });
 
-  let ctx2 = document.getElementById("steps").getContext("2d");
-  let myChart = new Chart(ctx2, {
-    type: "line",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          tension: 0.3,
+    let ctx2 = document.getElementById("steps").getContext("2d");
+    let myChart = new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                tension: 0.3,
 
-          data: data,
-          backgroundColor: colors[1],
+                data: data,
+                backgroundColor: colors[1],
+            }, ],
         },
-      ],
-    },
 
-    options: {
-      maintainAspectRatio: true,
-      responsive: true,
+        options: {
+            maintainAspectRatio: true,
+            responsive: true,
 
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [
-          {
-            type: "time",
-            time: {
-              unit: "day",
-              round: "day",
-              displayFormats: {
-                day: "MMM D",
-              },
+            legend: {
+                display: false,
             },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
+            scales: {
+                xAxes: [{
+                    type: "time",
+                    time: {
+                        unit: "day",
+                        round: "day",
+                        displayFormats: {
+                            day: "MMM D",
+                        },
+                    },
+                }, ],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                }, ],
             },
-          },
-        ],
-      },
-    },
-  });
+        },
+    });
 }
 
 // Spotify
 
 var spotifySheet =
-  "https://docs.google.com/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/edit?usp=sharing";
+    "https://docs.google.com/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/edit?usp=sharing";
 
 function spotifyInit() {
-  Tabletop.init({
-    key: spotifySheet,
-    // callback: showInfoSpotify,
-    simpleSheet: true,
-  })
-    .then((data, tabletop) => {
-      showInfoSpotify(data, tabletop);
-    })
-    .catch((e) => console.log(e));
+    Tabletop.init({
+            key: spotifySheet,
+            // callback: showInfoSpotify,
+            simpleSheet: true,
+        })
+        .then((data, tabletop) => {
+            showInfoSpotify(data, tabletop);
+        })
+        .catch((e) => console.log(e));
 }
 
 function showInfoSpotify(data, tabletop) {
-  showSpotifyGraph(data);
+    showSpotifyGraph(data);
 }
 
 function showSpotifyGraph(allData) {
-  //   let allData = inData.data;
+    //   let allData = inData.data;
 
-  allData.sort(function (a, b) {
-    return new Date(b.Date).getTime() - new Date(a.Date).getTime();
-  });
+    allData.sort(function(a, b) {
+        return new Date(b.Date).getTime() - new Date(a.Date).getTime();
+    });
 
-  if (allData.length > 7) {
-    allData = allData.slice(0, 7);
-  }
+    if (allData.length > 7) {
+        allData = allData.slice(0, 7);
+    }
 
-  let labels = allData.map(function (e) {
-    return new Date(e.Date);
-  });
+    let labels = allData.map(function(e) {
+        return new Date(e.Date);
+    });
 
-  let data = allData.map(function (e) {
-    // return e.Duration;
-    return e.Value;
-  });
+    let data = allData.map(function(e) {
+        // return e.Duration;
+        return e.Value;
+    });
 
-  let ctx2 = document.getElementById("spotify").getContext("2d");
-  let myChart = new Chart(ctx2, {
-    type: "line",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          tension: 0.3,
+    let ctx2 = document.getElementById("spotify").getContext("2d");
+    let myChart = new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                tension: 0.3,
 
-          data: data,
-          backgroundColor: colors[2],
+                data: data,
+                backgroundColor: colors[2],
+            }, ],
         },
-      ],
-    },
 
-    options: {
-      maintainAspectRatio: true,
-      responsive: true,
+        options: {
+            maintainAspectRatio: true,
+            responsive: true,
 
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [
-          {
-            type: "time",
-            time: {
-              unit: "day",
-              round: "day",
-              displayFormats: {
-                day: "MMM D",
-              },
+            legend: {
+                display: false,
             },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
+            scales: {
+                xAxes: [{
+                    type: "time",
+                    time: {
+                        unit: "day",
+                        round: "day",
+                        displayFormats: {
+                            day: "MMM D",
+                        },
+                    },
+                }, ],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                }, ],
             },
-          },
-        ],
-      },
-      tooltips: {
-        callbacks: {
-          label: function (tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || "";
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        let label = data.datasets[tooltipItem.datasetIndex].label || "";
 
-            if (label) {
-              label += ": ";
-            }
+                        if (label) {
+                            label += ": ";
+                        }
 
-            label += tooltipItem.yLabel + " songs";
-            return label;
-          },
+                        label += tooltipItem.yLabel + " songs";
+                        return label;
+                    },
+                },
+            },
         },
-      },
-    },
-  });
+    });
 }
 
 var hrSheet =
-  "https://docs.google.com/spreadsheets/d/1KsHEkF63AQaFQT5Ed0KidRiOewfqT3R40eufufjlGWE/edit?usp=sharing";
+    "https://docs.google.com/spreadsheets/d/1KsHEkF63AQaFQT5Ed0KidRiOewfqT3R40eufufjlGWE/edit?usp=sharing";
 
 function hrInit() {
-  Tabletop.init({
-    key: hrSheet,
-    // callback: showInfoHr,
-    simpleSheet: true,
-  })
-    .then((data, tabletop) => {
-      showInfoHr(data, tabletop);
-    })
-    .catch((e) => console.log(e));
+    Tabletop.init({
+            key: hrSheet,
+            // callback: showInfoHr,
+            simpleSheet: true,
+        })
+        .then((data, tabletop) => {
+            showInfoHr(data, tabletop);
+        })
+        .catch((e) => console.log(e));
 }
 
 function showInfoHr(data, tabletop) {
-  console.log(data);
-  showHrGraph(data);
+    //   console.log(data);
+    showHrGraph(data);
 }
 
 function showHrGraph(allData) {
-  //   let allData = inData.data;
+    //   let allData = inData.data;
 
-  allData.sort(function (a, b) {
-    return new Date(b.Date).getTime() - new Date(a.Date).getTime();
-  });
+    allData.sort(function(a, b) {
+        return new Date(b.Date).getTime() - new Date(a.Date).getTime();
+    });
 
-  if (allData.length > 7) {
-    allData = allData.slice(0, 7);
-  }
+    if (allData.length > 7) {
+        allData = allData.slice(0, 7);
+    }
 
-  let labels = allData.map(function (e) {
-    return new Date(e.Date);
-  });
+    let labels = allData.map(function(e) {
+        return new Date(e.Date);
+    });
 
-  let data = allData.map(function (e) {
-    return parseInt(e.Value);
-  });
+    let data = allData.map(function(e) {
+        return parseInt(e.Value);
+    });
 
-  let ctx2 = document.getElementById("hr").getContext("2d");
-  let myChart = new Chart(ctx2, {
-    type: "line",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          tension: 0.3,
-          data: data,
-          backgroundColor: colors[3],
+    let ctx2 = document.getElementById("hr").getContext("2d");
+    let myChart = new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                tension: 0.3,
+                data: data,
+                backgroundColor: colors[3],
+            }, ],
         },
-      ],
-    },
 
-    options: {
-      maintainAspectRatio: true,
-      responsive: true,
+        options: {
+            maintainAspectRatio: true,
+            responsive: true,
 
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [
-          {
-            type: "time",
-            time: {
-              unit: "day",
-              round: "day",
-              displayFormats: {
-                day: "MMM D",
-              },
+            legend: {
+                display: false,
             },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
+            scales: {
+                xAxes: [{
+                    type: "time",
+                    time: {
+                        unit: "day",
+                        round: "day",
+                        displayFormats: {
+                            day: "MMM D",
+                        },
+                    },
+                }, ],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                }, ],
             },
-          },
-        ],
-      },
-      tooltips: {
-        callbacks: {
-          label: function (tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || "";
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        let label = data.datasets[tooltipItem.datasetIndex].label || "";
 
-            if (label) {
-              label += ": ";
-            }
+                        if (label) {
+                            label += ": ";
+                        }
 
-            label += tooltipItem.yLabel + "BPM";
-            return label;
-          },
+                        label += tooltipItem.yLabel + "BPM";
+                        return label;
+                    },
+                },
+            },
         },
-      },
-    },
-  });
+    });
 }
