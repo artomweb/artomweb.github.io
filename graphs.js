@@ -1,5 +1,5 @@
 function showGraphs() {
-  console.log("using TABLETOP");
+  console.log("using TABLETOP2");
   init();
   stepsInit();
   spotifyInit();

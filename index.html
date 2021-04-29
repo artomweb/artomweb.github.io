@@ -142,14 +142,24 @@
     <script type="text/javascript">
       let mapCnData = {};
 
-      async function getAnalytics() {
+      function getAnalytics() {
         let sriptUrl =
           "https://script.google.com/macros/s/AKfycbwxxNcm0vcgxkmbBtIKDRCuS23Szfsh-adzbXL4v8w0Ylsq7XvlVxPAJAZI6rMulAOY-Q/exec";
-        let response = await fetch(sriptUrl);
-        console.log(response);
-        let json = await response.json();
-        mapCnData = json;
-        drawMapChart(json);
+        fetch(sriptUrl)
+          .then((resp) => {
+            resp
+              .json()
+              .then((json) => {
+                mapCnData = json;
+                drawMapChart(json);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
       getAnalytics();
 
