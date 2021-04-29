@@ -15,7 +15,10 @@ function init() {
     // callback: showInfo,
     simpleSheet: true,
   })
-    .then((data, tabletop) => showInfo(data, tabletop))
+    .then((data, tabletop) => {
+      showInfo(data, tabletop);
+      console.log(data);
+    })
     .catch((e) => console.log(e));
 }
 
@@ -123,7 +126,10 @@ function stepsInit() {
     // callback: showInfo2,
     simpleSheet: true,
   })
-    .then((data, tabletop) => showInfo(data, tabletop))
+    .then((data, tabletop) => {
+      //   console.log("HELLO");
+      showInfo2(data, tabletop);
+    })
     .catch((e) => console.log(e));
 }
 
@@ -208,7 +214,9 @@ function spotifyInit() {
     // callback: showInfoSpotify,
     simpleSheet: true,
   })
-    .then((data, tabletop) => showInfo(data, tabletop))
+    .then((data, tabletop) => {
+      showInfoSpotify(data, tabletop);
+    })
     .catch((e) => console.log(e));
 }
 
@@ -306,7 +314,9 @@ function hrInit() {
     // callback: showInfoHr,
     simpleSheet: true,
   })
-    .then((data, tabletop) => showInfo(data, tabletop))
+    .then((data, tabletop) => {
+      showInfoHr(data, tabletop);
+    })
     .catch((e) => console.log(e));
 }
 
