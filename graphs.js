@@ -1,4 +1,5 @@
 function showGraphs() {
+  console.log("using TABLETOP");
   init();
   stepsInit();
   spotifyInit();
