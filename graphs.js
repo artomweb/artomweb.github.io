@@ -12,9 +12,11 @@ var sleepSheet =
 function init() {
   Tabletop.init({
     key: sleepSheet,
-    callback: showInfo,
+    // callback: showInfo,
     simpleSheet: true,
-  });
+  })
+    .then((data, tabletop) => showInfo(data, tabletop))
+    .catch((e) => console.log(e));
 }
 
 function showInfo(data, tabletop) {
@@ -118,9 +120,11 @@ var stepsSheet =
 function stepsInit() {
   Tabletop.init({
     key: stepsSheet,
-    callback: showInfo2,
+    // callback: showInfo2,
     simpleSheet: true,
-  });
+  })
+    .then((data, tabletop) => showInfo(data, tabletop))
+    .catch((e) => console.log(e));
 }
 
 function showInfo2(data, tabletop) {
@@ -201,9 +205,11 @@ var spotifySheet =
 function spotifyInit() {
   Tabletop.init({
     key: spotifySheet,
-    callback: showInfoSpotify,
+    // callback: showInfoSpotify,
     simpleSheet: true,
-  });
+  })
+    .then((data, tabletop) => showInfo(data, tabletop))
+    .catch((e) => console.log(e));
 }
 
 function showInfoSpotify(data, tabletop) {
@@ -297,9 +303,11 @@ var hrSheet =
 function hrInit() {
   Tabletop.init({
     key: hrSheet,
-    callback: showInfoHr,
+    // callback: showInfoHr,
     simpleSheet: true,
-  });
+  })
+    .then((data, tabletop) => showInfo(data, tabletop))
+    .catch((e) => console.log(e));
 }
 
 function showInfoHr(data, tabletop) {
