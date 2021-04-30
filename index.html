@@ -145,7 +145,12 @@
       function getAnalytics() {
         let sriptUrl =
           "https://script.google.com/macros/s/AKfycbwxxNcm0vcgxkmbBtIKDRCuS23Szfsh-adzbXL4v8w0Ylsq7XvlVxPAJAZI6rMulAOY-Q/exec";
-        fetch(sriptUrl)
+        fetch(sriptUrl, {
+          headers: new Headers({
+            "Content-Type": "text/plain",
+            origin: "artomweb.com",
+          }),
+        })
           .then((resp) => {
             resp
               .json()
@@ -160,6 +165,18 @@
           .catch((err) => {
             console.log(err);
           });
+
+        fetch(
+          "https://spreadsheets.google.com/feeds/list/1TqN1Lsj9MxGrfsVrmywdFkLdW3zbqU75zjyslvIRHNM/od6/public/values?alt=json",
+          {
+            headers: new Headers({
+              "Content-Type": "text/plain",
+              origin: "artomweb.com",
+            }),
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => console.log(data));
       }
       getAnalytics();
 
