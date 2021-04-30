@@ -7,23 +7,19 @@ function showGraphs() {
 }
 
 var sleepSheet =
-  "https://docs.google.com/spreadsheets/d/1TqN1Lsj9MxGrfsVrmywdFkLdW3zbqU75zjyslvIRHNM/edit?usp=sharing";
+  "https://spreadsheets.google.com/feeds/list/" +
+  "1TqN1Lsj9MxGrfsVrmywdFkLdW3zbqU75zjyslvIRHNM" +
+  "/1/public/values?alt=json";
 
 function init() {
-  Tabletop.init({
-    key: sleepSheet,
-    // callback: showInfo,
-    simpleSheet: true,
-  })
-    .then((data, tabletop) => {
-      showInfo(data, tabletop);
-      console.log(data);
-    })
-    .catch((e) => console.log(e));
-}
-
-function showInfo(data, tabletop) {
-  showSleepGraph(data);
+  $.getJSON(sleepSheet, (data) => {
+    data = data.feed.entry;
+    let dataOut = data.map((entry) => {
+      return { Date: entry.gsx$date.$t, Duration: entry.gsx$duration.$t };
+    });
+    console.log(dataOut);
+    showSleepGraph(dataOut);
+  });
 }
 
 window.addEventListener("DOMContentLoaded", showGraphs);
@@ -321,7 +317,7 @@ function hrInit() {
 }
 
 function showInfoHr(data, tabletop) {
-  console.log(data);
+  //   console.log(data);
   showHrGraph(data);
 }
 
