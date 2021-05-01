@@ -2,30 +2,70 @@
 <html lang="en">
 
 <head>
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                "gtm.start": new Date().getTime(),
+                event: "gtm.js",
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != "dataLayer" ? "&l=" + l : "";
+            j.async = true;
+            j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, "script", "dataLayer", "GTM-WM77VVG");
+    </script>
+    <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
-    <title>Document</title>
+    <title>artomweb</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90929098-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "UA-90929098-3");
+    </script>
 </head>
 
 <body style="height: 100%; overflow: scroll; -webkit-overflow-scrolling: touch">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-WM77VVG"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     Heyy, here are some cat facts while you wait for me to make this website:
 
     <br />
     <br />
     <div id="factContainer"></div>
 
+    <br />
+    <br />These are the people who have visited this website:
+    <br />
+    <br />
+
+    <div id="visitors"></div>
+
     <script type="text/javascript">
         function showCatFacts(facts) {
-            let container = document.getElementById("factContainer");
-
-            // for (var i = 0; i < facts.length; i++) {
-            //     let node = document.createElement("LI");
-            //     let text = document.createTextNode(facts[i].fact);
-            //     node.appendChild(text);
-            //     container.appendChild(node);
-            // }
-
+            const container = document.getElementById("factContainer");
             const factsList = facts.map((fact) => {
                 return "<li>" + fact.fact + "</li>";
             });
@@ -35,21 +75,93 @@
             container.innerHTML = factsList.join("");
         }
 
-        function fetchData() {
-            fetch("https://catfact.ninja/facts?limit=5&max_length=140")
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    console.log(data);
-                    showCatFacts(data.data);
-                })
-                .catch((error) => {
-                    console.log("ERROR" + error);
-                });
+        function showCountryData(data) {
+            const container = document.getElementById("visitors");
+
+            data = data.sort((a, b) => {
+                return b.Users - a.Users;
+            });
+
+            const countryList = data.map((cntry) => {
+                if (cntry.Users != 1) {
+                    return "<li>" + cntry.Country + ": " + cntry.Users + " people</li>";
+                }
+                return "<li>" + cntry.Country + ": " + cntry.Users + " person</li>";
+            });
+            container.innerHTML = countryList.join("");
         }
 
-        fetchData();
+        async function fetchCatFacts() {
+            const response = await fetch(
+                "https://catfact.ninja/facts?limit=5&max_length=140"
+            );
+
+            const json = await response.json();
+
+            showCatFacts(json.data);
+        }
+
+        async function fetchScript() {
+            const response = await fetch(
+                "https://script.google.com/macros/s/AKfycbwxxNcm0vcgxkmbBtIKDRCuS23Szfsh-adzbXL4v8w0Ylsq7XvlVxPAJAZI6rMulAOY-Q/exec"
+            );
+
+            const json = await response.json();
+
+            showCountryData(json);
+        }
+
+        fetchScript();
+        fetchCatFacts();
+
+        // async function fetchData() {
+        //     const catResponse = fetch(
+        //         "https://catfact.ninja/facts?limit=5&max_length=140"
+        //     );
+        //     const scriptResponse = fetch(
+        //         "https://script.google.com/macros/s/AKfycbwxxNcm0vcgxkmbBtIKDRCuS23Szfsh-adzbXL4v8w0Ylsq7XvlVxPAJAZI6rMulAOY-Q/exec"
+        //     );
+
+        //     Promise.all([catResponse, scriptResponse])
+        //         .then((promises) => {
+        //             return Promise.all(
+        //                 promises.map((prom) => {
+        //                     return prom.json();
+        //                 })
+        //             );
+        //         })
+        //         .then(([data1, data2]) => {
+        //             showCatFacts(data1.data);
+        //             showCountryData(data2);
+        //         });
+
+        //     //     .then((response) => {
+        //     //         return response.json();
+        //     //     })
+        //     //     .then((data) => {
+        //     //         // console.log(data);
+        //     //         showCatFacts(data.data);
+        //     //     })
+        //     //     .catch((error) => {
+        //     //         console.log("ERROR" + error);
+        //     //     });
+
+        //     // fetch(
+        //     //         "https://script.google.com/macros/s/AKfycbwxxNcm0vcgxkmbBtIKDRCuS23Szfsh-adzbXL4v8w0Ylsq7XvlVxPAJAZI6rMulAOY-Q/exec"
+        //     //     )
+        //     //     .then((response) => {
+        //     //         return response.json();
+        //     //     })
+        //     //     .then((data) => {
+        //     //         console.log(data);
+        //     //         showCountryData(data);
+        //     //     })
+        //     //     .catch((error) => {
+        //     //         console.log("ERROR" + error);
+        //     //     });
+        // }
+
+        // fetchData();
     </script>
 </body>
 
