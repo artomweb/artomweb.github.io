@@ -22,10 +22,10 @@ body {
     letter-spacing: 9px;
 }
 
-
-/* .flex-body {
-    width: 75%;
-} */
+.flex-body {
+    width: 65%;
+    margin: 0 auto;
+}
 
 .intro-text {
     background-color: #98c1d9;
@@ -104,5 +104,8 @@ canvas {
     }
     .big-title {
         font-size: 45px;
+    }
+    .flex-body {
+        width: 100%;
     }
 }
