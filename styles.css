@@ -46,7 +46,6 @@ body {
 .generalFlexItem {
     /* background-color: #2a9d8f; */
     border-radius: 30px;
-    margin: 10px 10px 0 10px;
     flex: 50%;
 }
 
@@ -56,6 +55,7 @@ body {
     /* height: 500px; */
     min-width: 0;
     font-size: 30px;
+    margin: 10px 10px 0 10px;
 }
 
 .flex-item {
@@ -65,6 +65,7 @@ body {
     justify-content: center;
     align-content: center;
     flex-direction: column;
+    margin: 50px 10px 0 10px;
 }
 
 .itemTitle {
