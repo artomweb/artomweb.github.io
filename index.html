@@ -2,6 +2,16 @@
 <html lang="en">
 
 <head>
+    <script type="text/javascript">
+        let beginTime = new Date().getTime();
+
+        window.addEventListener("load", (event) => {
+            let endTime = new Date().getTime();
+
+            document.getElementById("pageLoadTime").innerHTML =
+                "This page loaded in " + (endTime - beginTime) / 1000 + " seconds";
+        });
+    </script>
     <!-- Google Tag Manager -->
     <script>
         (function(w, d, s, l, i) {
@@ -22,6 +32,11 @@
 
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
     <title>artomweb</title>
 
@@ -36,10 +51,13 @@
         gtag("js", new Date());
 
         gtag("config", "UA-90929098-3");
+        gtag("create", "UA-90929098-3", {
+            siteSpeedSampleRate: 100,
+        });
     </script>
 </head>
 
-<body style="height: 100%; overflow: scroll; -webkit-overflow-scrolling: touch">
+<body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-WM77VVG"
@@ -50,27 +68,45 @@
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    Heyy, here are some cat facts while you wait for me to make this website:
+    <div class="intro-text">
+        <div class="big-title">ARCHIE WEBSTER</div>
 
-    <br />
-    <br />
-    <div id="factContainer"></div>
+        <!-- <br /> -->
+        <!-- <br />These are the people who have visited this website:
+        <br />
+        <br />
 
-    <br />
-    <br />These are the people who have visited this website:
-    <br />
-    <br />
+        <div id="visitors"></div> -->
+    </div>
 
-    <div id="visitors"></div>
+    <div class="flex-body">
+        <div class="flex-container">
+            <div class="flex-item-chart generalFlexItem">
+                SPOTIFY
+                <div class="chartContainer">
+                    <canvas id="spotifyChart"></canvas>
+                </div>
+            </div>
 
-    <br />
-    <br />This is my spotify history
-    <br />
-    <br />
+            <div class="flex-item generalFlexItem" id="pageLoadTime"></div>
+        </div>
 
-    <div id="spotify"></div>
+        <div class="flex-container">
+            <div class="flex-item generalFlexItem">
+                This is some text to explain some random stuff, it doesn't mean anything! Does it go onto multiple lines
+            </div>
 
-    <script src="/getData.js"></script>
+            <div class="flex-item generalFlexItem">
+                <div class="itemTitle">Cat Facts</div>
+
+                <div id="factContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/showCat.js"></script>
+    <script src="/showMap.js"></script>
+    <script src="/showCharts.js"></script>
 </body>
 
 </html>
