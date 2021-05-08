@@ -36,9 +36,9 @@ function spotifyChart(allData) {
         return new Date(b.Date).getTime() - new Date(a.Date).getTime();
     });
 
-    if (allData.length > 7) {
-        allData = allData.slice(0, 7);
-    }
+    // if (allData.length > 7) {
+    //     allData = allData.slice(0, 7);
+    // }
 
     let labels = allData.map(function(e) {
         return new Date(e.Date);
@@ -55,11 +55,11 @@ function spotifyChart(allData) {
         data: {
             labels: labels,
             datasets: [{
-                tension: 0.3,
-                borderColor: "black",
+                // tension: 0.3,
+                // borderColor: "black",
                 data: data,
-                // backgroundColor: "white",
-                fill: false,
+                backgroundColor: "#98c1d9",
+                // fill: false,
             }, ],
         },
 
