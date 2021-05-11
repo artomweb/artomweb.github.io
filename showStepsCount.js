@@ -43,9 +43,9 @@ async function fetchSteps() {
         " meters. Thats " +
         closeWords[Math.floor(Math.random() * closeWords.length)] +
         " the " +
-        json2["Measurement Name"] +
+        json2["measureName"] +
         " (" +
-        json2["size/m"] +
+        json2["actualValue"] +
         "m)";
 }
 
