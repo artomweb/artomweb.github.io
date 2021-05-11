@@ -18,7 +18,7 @@ async function fetchSteps() {
 
     console.log(data[data.length - 1]);
 
-    // let chosenDate = data[data.length - 2];
+    // let chosenDate = data[data.length - 2]; d
     let chosenDate = data[Math.floor(Math.random() * data.length)];
 
     let lengthSteps = (chosenDate.Steps * 0.67056).toFixed();
