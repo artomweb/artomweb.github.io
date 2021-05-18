@@ -74,7 +74,7 @@ function spotifyChart(allData) {
                         unit: "day",
                         round: "day",
                         displayFormats: {
-                            day: "MMM D",
+                            day: "dd",
                         },
                     },
                 }, ],
