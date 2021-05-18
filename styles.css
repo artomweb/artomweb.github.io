@@ -8,6 +8,10 @@
     font-size: 6rem;
 }
 
+body {
+    margin: 0;
+}
+
 #butns {
     /* padding-top: 2%; */
     text-align: center;
