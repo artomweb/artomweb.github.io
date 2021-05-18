@@ -46,7 +46,7 @@ function spotifyChart(allData) {
                 // tension: 0.3,
                 // borderColor: "black",
                 data: data,
-                backgroundColor: "#98c1d9",
+                backgroundColor: "#81b29a",
                 // fill: false,
             }, ],
         },
