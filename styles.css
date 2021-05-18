@@ -12,6 +12,10 @@ body {
     margin: 0;
 }
 
+::selection {
+    background-color: #f2cc8f;
+}
+
 #butns {
     /* padding-top: 2%; */
     text-align: center;
