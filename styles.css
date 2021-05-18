@@ -1,6 +1,12 @@
-/* .title {
-    font-size: 3rem;
-} */
+@font-face {
+    font-family: "CooperBlack";
+    src: url("CooperBlack.otf") format("opentype");
+}
+
+.title {
+    font-family: "CooperBlack";
+    font-size: 6rem;
+}
 
 #butns {
     /* padding-top: 2%; */
@@ -38,5 +44,8 @@ hr.dashed {
 @media (max-width: 768px) {
     .button {
         font-size: 1rem;
+    }
+    .title {
+        font-size: 2.6rem;
     }
 }
