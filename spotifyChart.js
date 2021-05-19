@@ -4,22 +4,50 @@ let aggrData;
 let toggleState = 1;
 let desc = document.getElementById("spotify-desc");
 
+function switchDots(dot) {
+    let circle1 = document.getElementById("circle1");
+    let circle2 = document.getElementById("circle2");
+    let circle3 = document.getElementById("circle3");
+
+    switch (dot) {
+        case 0:
+            circle1.style.fill = "black";
+            circle2.style.fill = "none";
+            circle3.style.fill = "none";
+            break;
+        case 1:
+            circle2.style.fill = "black";
+            circle1.style.fill = "none";
+            circle3.style.fill = "none";
+
+            break;
+        case 2:
+            circle3.style.fill = "black";
+            circle1.style.fill = "none";
+            circle2.style.fill = "none";
+            break;
+    }
+}
+
 function spotifyToggle() {
     switch (toggleState) {
         case 0:
             desc.innerHTML =
                 "How many songs have I listened to in the last two weeks";
             updateChartBase(true);
+            switchDots(0);
             break;
 
         case 1:
             desc.innerHTML = "How many songs have I listened to all time";
             updateChartBase(false);
+            switchDots(1);
             break;
 
         case 2:
             desc.innerHTML = "On which days do I listen to the most music";
             updateAggregate();
+            switchDots(2);
             break;
     }
     toggleState == 2 ? (toggleState = 0) : toggleState++;
@@ -49,6 +77,7 @@ async function newFetchSpotify() {
 
     let firstData = data.rawData.slice(0, 14);
     desc.innerHTML = "How many songs have I listened to in the last two weeks";
+    switchDots(0);
 
     spotifyChart(firstData);
 }
@@ -229,6 +258,14 @@ function spotifyChart(allData) {
                         // label += tooltipItem.yLabel + (toggleState == 2 ? " average" : " songs");
 
                         return label;
+                    },
+
+                    title: function(tooltipItem, data) {
+                        let title = tooltipItem[0].xLabel;
+                        if (toggleState == 0) {
+                            title = moment(title, "dd").format("dddd");
+                        }
+                        return title;
                     },
                 },
             },
