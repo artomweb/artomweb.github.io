@@ -26,10 +26,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-    
     <script src="https://kit.fontawesome.com/95ffa18c94.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <title>Hello, world!</title>
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"> -->
+    <title>Archie Webster</title>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90929098-3"></script>
@@ -90,14 +91,14 @@
                 <div class="card">
                     <div class="card-body">
                         <canvas id="spotifyChart"></canvas>
-                        <h4 class="card-title"><i class="fab fa-spotify"></i> Spotify</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                How many songs I have listened to on Spotify in the last two weeks
-                            </h6>
+                        <h4 class="card-title mb-2"><i class="fab fa-spotify"></i> Spotify</h5>
+                            <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc">
+                            </h5>
                             <!-- <a onclick="switchChart()" class="btn btn-primary">Toggle all data</a> -->
-                            <button class="button toggle-button" onclick="switchChart()" style="background-color: #81b29a">
-                                Toggle all Data
+                            <button class="button toggle-button" onclick="spotifyToggle()" style="background-color: #34a0a4">
+                                Toggle data source
                               </button>
+
                     </div>
                 </div>
             </div>
@@ -107,7 +108,7 @@
                         <canvas id="chLine2"></canvas>
                         <h4 class="card-title"><i class="fas fa-dumbbell"></i> exercise</h4>
                         <h6 class="card-subtitle mb-2 text-muted">
-                             Beep Bop
+                            Beep Bop
                         </h6>
                     </div>
                 </div>
