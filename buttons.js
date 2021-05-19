@@ -6,14 +6,14 @@
 // ];
 
 function shuffle(a) {
-    let j, x, i;
-    for (i = a.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = a[i];
-        a[i] = a[j];
-        a[j] = x;
-    }
-    return a;
+  let j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
+  }
+  return a;
 }
 
 // colors = colorPallets[Math.floor(Math.random() * colorPallets.length)];
@@ -23,6 +23,6 @@ colors = shuffle(colors);
 let butns = document.getElementById("butns").children;
 let i, e;
 for (i = 0; i < butns.length; i++) {
-    e = butns[i];
-    e.style.backgroundColor = colors[i];
+  e = butns[i];
+  e.style.backgroundColor = colors[i];
 }
