@@ -3,50 +3,45 @@ let myChart;
 let toggleState = 0;
 
 function switchDots() {
-    let circle1 = document.getElementById("circle1");
-    let circle2 = document.getElementById("circle2");
-    let circle3 = document.getElementById("circle3");
+    let circles = [
+        document.getElementById("circle0"),
+        document.getElementById("circle1"),
+        document.getElementById("circle2"),
+    ];
     let desc = document.getElementById("spotify-desc");
 
     switch (toggleState) {
         case 0:
             desc.innerHTML = "On average, which days do I listen to the most music";
-            circle1.style.fill = "black";
-            circle2.style.fill = "none";
-            circle3.style.fill = "none";
             break;
         case 1:
             desc.innerHTML =
                 "How many songs have I listened to in the last two weeks";
-            circle2.style.fill = "black";
-            circle1.style.fill = "none";
-            circle3.style.fill = "none";
-
             break;
         case 2:
             desc.innerHTML = "All data by week";
-            circle3.style.fill = "black";
-            circle1.style.fill = "none";
-            circle2.style.fill = "none";
             break;
     }
+    circles.forEach((c) =>
+        c.id.slice(-1) == toggleState ?
+        (c.style.fill = "black") :
+        (c.style.fill = "none")
+    );
 }
 
 function spotifyToggle() {
+    switchDots();
     switch (toggleState) {
         case 0:
             updateAggregate();
-            switchDots();
             break;
 
         case 1:
             updateChartTwoWeeks(data);
-            switchDots();
             break;
 
         case 2:
             updateChartWeeks();
-            switchDots();
             break;
     }
     toggleState == 2 ? (toggleState = 0) : toggleState++;
@@ -265,7 +260,7 @@ function spotifyChart() {
                             label += ": ";
                         }
 
-                        if (toggleState == 0) {
+                        if (toggleState == 1) {
                             label += tooltipItem.yLabel + " average";
                         } else {
                             label += tooltipItem.yLabel + " songs";
@@ -278,7 +273,7 @@ function spotifyChart() {
 
                     title: function(tooltipItem, data) {
                         let title = tooltipItem[0].xLabel;
-                        if (toggleState == 0) {
+                        if (toggleState == 1) {
                             title = moment(title, "dd").format("dddd");
                         }
                         return title;
