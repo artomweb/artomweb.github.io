@@ -112,10 +112,10 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <canvas id="chLine2"></canvas>
-                        <h4 class="card-title"><i class="fas fa-dumbbell"></i> exercise</h4>
+                        <canvas id="sleepChart"></canvas>
+                        <h4 class="card-title"><i class="fas fa-bed"></i> Sleep</h4>
                         <h6 class="card-subtitle mb-2 text-muted">
-                            Beep Bop
+                            On average, which days do I get the most sleep
                         </h6>
                     </div>
                 </div>
@@ -125,38 +125,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
-    <script>
-        var chartData = {
-            labels: ["S", "M", "T", "W", "T", "F", "S"],
-            datasets: [{
-                data: [589, 445, 483, 503, 689, 692, 634],
-            }, {
-                data: [639, 465, 493, 478, 589, 632, 674],
-            }, ],
-        };
-        var chLine2 = document.getElementById("chLine2");
-        if (chLine2) {
-            new Chart(chLine2, {
-                type: "line",
-                data: chartData,
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: false,
-                            },
-                        }, ],
-                    },
-                    legend: {
-                        display: false,
-                    },
-                },
-            });
-        }
-    </script>
 
     <script type="text/javascript" src="buttons.js"></script>
     <script type="text/javascript" src="spotifyChart.js"></script>
+    <script type="text/javascript" src="health.js"></script>
 </body>
 
 </html>
