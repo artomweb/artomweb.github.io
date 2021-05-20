@@ -1,30 +1,30 @@
 let data;
 let myChart;
-let toggleState = 1;
+let toggleState = 0;
 
-function switchDots(dot) {
+function switchDots() {
     let circle1 = document.getElementById("circle1");
     let circle2 = document.getElementById("circle2");
     let circle3 = document.getElementById("circle3");
     let desc = document.getElementById("spotify-desc");
 
-    switch (dot) {
+    switch (toggleState) {
         case 0:
-            desc.innerHTML =
-                "How many songs have I listened to in the last two weeks";
+            desc.innerHTML = "On average, which days do I listen to the most music";
             circle1.style.fill = "black";
             circle2.style.fill = "none";
             circle3.style.fill = "none";
             break;
         case 1:
-            desc.innerHTML = "All data by week";
+            desc.innerHTML =
+                "How many songs have I listened to in the last two weeks";
             circle2.style.fill = "black";
             circle1.style.fill = "none";
             circle3.style.fill = "none";
 
             break;
         case 2:
-            desc.innerHTML = "On average, which days do I listen to the most music";
+            desc.innerHTML = "All data by week";
             circle3.style.fill = "black";
             circle1.style.fill = "none";
             circle2.style.fill = "none";
@@ -35,18 +35,18 @@ function switchDots(dot) {
 function spotifyToggle() {
     switch (toggleState) {
         case 0:
-            updateChartTwoWeeks(data);
-            switchDots(0);
+            updateAggregate();
+            switchDots();
             break;
 
         case 1:
-            updateChartWeeks();
-            switchDots(1);
+            updateChartTwoWeeks(data);
+            switchDots();
             break;
 
         case 2:
-            updateAggregate();
-            switchDots(2);
+            updateChartWeeks();
+            switchDots();
             break;
     }
     toggleState == 2 ? (toggleState = 0) : toggleState++;
@@ -70,9 +70,8 @@ async function newFetchSpotify() {
         return new Date(b.Date).getTime() - new Date(a.Date).getTime();
     });
 
-    switchDots(0);
-
     spotifyChart();
+    spotifyToggle();
 }
 
 newFetchSpotify();
@@ -215,8 +214,8 @@ function processData(dat) {
 }
 
 function spotifyChart() {
-    allData = data.slice(0, 14);
-    let { rawData, labels } = processData(allData);
+    let rawData = [589, 445, 483, 503, 689, 692, 634];
+    let labels = ["S", "M", "T", "W", "T", "F", "S"];
 
     //   console.log(currData);
 
@@ -251,16 +250,6 @@ function spotifyChart() {
                 display: false,
             },
             scales: {
-                xAxes: [{
-                    type: "time",
-                    time: {
-                        unit: "day",
-                        round: "day",
-                        displayFormats: {
-                            day: "dd",
-                        },
-                    },
-                }, ],
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
