@@ -1,27 +1,30 @@
 let data;
 let myChart;
-let aggrData;
 let toggleState = 1;
-let desc = document.getElementById("spotify-desc");
 
 function switchDots(dot) {
     let circle1 = document.getElementById("circle1");
     let circle2 = document.getElementById("circle2");
     let circle3 = document.getElementById("circle3");
+    let desc = document.getElementById("spotify-desc");
 
     switch (dot) {
         case 0:
+            desc.innerHTML =
+                "How many songs have I listened to in the last two weeks";
             circle1.style.fill = "black";
             circle2.style.fill = "none";
             circle3.style.fill = "none";
             break;
         case 1:
+            desc.innerHTML = "All data by week";
             circle2.style.fill = "black";
             circle1.style.fill = "none";
             circle3.style.fill = "none";
 
             break;
         case 2:
+            desc.innerHTML = "On average, which days do I listen to the most music";
             circle3.style.fill = "black";
             circle1.style.fill = "none";
             circle2.style.fill = "none";
@@ -32,20 +35,16 @@ function switchDots(dot) {
 function spotifyToggle() {
     switch (toggleState) {
         case 0:
-            desc.innerHTML =
-                "How many songs have I listened to in the last two weeks";
-            updateChartBase(true);
+            updateChartTwoWeeks(data);
             switchDots(0);
             break;
 
         case 1:
-            desc.innerHTML = "How many songs have I listened to all time";
-            updateChartBase(false);
+            updateChartWeeks();
             switchDots(1);
             break;
 
         case 2:
-            desc.innerHTML = "On which days do I listen to the most music";
             updateAggregate();
             switchDots(2);
             break;
@@ -71,22 +70,15 @@ async function newFetchSpotify() {
         return new Date(b.Date).getTime() - new Date(a.Date).getTime();
     });
 
-    aggregate(data);
-
-    data = processData(data);
-
-    let firstData = data.rawData.slice(0, 14);
-    desc.innerHTML = "How many songs have I listened to in the last two weeks";
     switchDots(0);
 
-    spotifyChart(firstData);
+    spotifyChart();
 }
 
 newFetchSpotify();
 
 function updateAggregate() {
-    const { avgs, labels } = aggrData;
-    // console.log(avgs);
+    const { avgs, labels } = aggregateByDay(data);
 
     myChart.data.labels = labels;
 
@@ -106,13 +98,11 @@ function updateAggregate() {
     myChart.update();
 }
 
-function aggregate(dat) {
+function aggregateByDay(dat) {
     dat = dat.map((d) => {
         let day = moment(d.Date).format("dd");
         return { dofw: day, Date: d.Date, Value: +d.Value };
     });
-
-    // console.log(dat);
 
     let totalAvgs = _.chain(dat)
         .groupBy("dofw")
@@ -129,17 +119,54 @@ function aggregate(dat) {
     let labels = totalAvgs.map((val) => val.dofw);
     let avgs = totalAvgs.map((val) => val.avg);
 
-    // console.log(avgs);
-
-    aggrData = { avgs, labels };
+    return { avgs, labels };
 }
 
-function updateChartBase(twoWeeks) {
-    let { rawData, labels } = data;
-    if (twoWeeks) {
-        rawData = rawData.slice(0, 14);
-        labels = labels.slice(0, 14);
-    }
+function aggregateByWeek(dat) {
+    // console.log(moment(dat[0].Date).format("YY-M"));
+    let weekAvg = _.chain(dat)
+        .groupBy((d) => {
+            return moment(d.Date).format("W-YYYY");
+        })
+        .map((entries, week) => ({
+            wofy: week,
+            avg: Math.round(_.meanBy(entries, (entry) => +entry.Value) * 100) / 100,
+        }))
+        .value();
+
+    let labels = weekAvg.map((w) => w.wofy);
+    let dataWeek = weekAvg.map((w) => w.avg);
+
+    return { dataWeek, labels };
+}
+
+function updateChartWeeks() {
+    let { dataWeek, labels } = aggregateByWeek(data);
+    // console.log(values);
+    myChart.data.labels = labels;
+
+    // console.log(labels, dataWeek);
+
+    let newDataset = {
+        // tension: 0.3,
+        // borderColor: "black",
+        data: dataWeek,
+        backgroundColor: "#81b29a",
+        // fill: false,
+    };
+    myChart.data.datasets = [newDataset];
+
+    myChart.options.scales = {};
+
+    //   console.log(myChart.data.datasets);
+
+    myChart.update();
+}
+
+function updateChartTwoWeeks() {
+    let { rawData, labels } = processData(data);
+    rawData = rawData.slice(0, 14);
+    labels = labels.slice(0, 14);
 
     myChart.data.labels = labels;
 
@@ -176,20 +203,20 @@ function updateChartBase(twoWeeks) {
 }
 
 function processData(dat) {
-    let labels = dat.map(function(e) {
+    let labels = dat.map((e) => {
         return new Date(e.Date);
     });
 
-    let rawData = dat.map(function(e) {
+    let rawData = dat.map((e) => {
         return e.Value;
     });
 
     return { rawData, labels };
 }
 
-function spotifyChart(allData) {
-    let currData = data.rawData.slice(0, 14);
-    let labels = data.labels.slice(0, 14);
+function spotifyChart() {
+    allData = data.slice(0, 14);
+    let { rawData, labels } = processData(allData);
 
     //   console.log(currData);
 
@@ -201,7 +228,7 @@ function spotifyChart(allData) {
             datasets: [{
                 // tension: 0.3,
                 // borderColor: "black",
-                data: currData,
+                data: rawData,
                 backgroundColor: "#81b29a",
                 // fill: false,
             }, ],
