@@ -124,8 +124,9 @@ function aggregateByWeek(dat) {
         })
         .map((entries, week) => ({
             wofy: week,
-            avg: Math.round(_.meanBy(entries, (entry) => +entry.Value) * 100) / 100,
+            avg: _.sumBy(entries, (entry) => +entry.Value),
         }))
+        .sortBy("wofy")
         .value();
 
     let labels = weekAvg.map((w) => w.wofy);
