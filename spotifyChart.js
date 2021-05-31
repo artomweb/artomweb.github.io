@@ -102,7 +102,7 @@ function aggregateByDay(dat) {
         .groupBy("dofw")
         .map((entries, day) => ({
             dofw: day,
-            avg: Math.round(_.meanBy(entries, (entry) => entry.Value) * 100) / 100,
+            avg: Math.round(_.meanBy(entries, (entry) => entry.Value)),
         }))
         .value();
 
