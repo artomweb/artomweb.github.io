@@ -5,7 +5,7 @@ async function fetchHealth() {
 
     const json = await response.json();
 
-    console.log(json);
+    // console.log(json);
 
     let data = json.feed.entry.map((elt) => {
         return {
@@ -26,7 +26,7 @@ async function fetchHealth() {
         return b.Date.getTime() - a.Date.getTime();
     });
 
-    console.log(data);
+    // console.log(data);
 
     plotSleep(data);
 
