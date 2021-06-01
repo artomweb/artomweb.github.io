@@ -1,4 +1,4 @@
-let socket = io("https://rppi.artomweb.com");
+let socket = io("https://artomweb.duckdns.org");
 
 socket.on("new data", function(msg) {
     // console.log(msg);
