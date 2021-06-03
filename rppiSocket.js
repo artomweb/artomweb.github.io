@@ -3,9 +3,9 @@ let socket = io("https://rppi.artomweb.com", { reconnectionDelay: 500 });
 socket.on("new data", function(msg) {
     console.log(msg);
     document.getElementById("temperatureReading").innerHTML =
-        "Temperature: " + msg.Temperature;
+        "Temperature: " + Math.round(msg.Temperature * 100) / 1000;
     document.getElementById("pressureReading").innerHTML =
-        "Pressure: " + msg.Pressure;
+        "Pressure: " + Math.round(msg.Pressure * 1000) / 1000;
 });
 
 socket.on("connect", function() {
