@@ -88,7 +88,7 @@
     <div class="container">
         <hr class="dashed" />
 
-        <div class="row g-3">
+        <div class="row">
             <div class="col-lg-6 mb-3">
                 <div class="card">
                     <div class="card-body">
@@ -123,11 +123,11 @@
             </div>
         </div>
 
-        <div class="row g-3">
-            <div class="col-lg-6">
+        <div class="row">
+            <div class="col-lg-6 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title"> Arduino LDR</h4>
+                        <h4 class="card-title" id="liveText"><i class="fas fa-dot-circle"></i> Live reading:</h4>
                         <h5 class="card-subtitle mb-2 text-muted" id="SensorReading">
                             no reading
                         </h5>
@@ -135,6 +135,17 @@
                     </div>
                 </div>
             </div>
+
+            <!-- <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-img-top" style="height: 200px; background: #5a5ed6;" id="boxForCol"></div>
+                    <div class="card-body">
+                        <h5 class="card-title"> Change the color of this box until the next person changes it</h4>
+                            <input type="color" id="boxCol" value="#e66465" style="height: 30px; width: 60px">
+
+                    </div>
+                </div>
+            </div> -->
         </div>
     </div>
 
@@ -147,6 +158,7 @@
     <script type="text/javascript" src="spotifyChart.js"></script>
     <script type="text/javascript" src="health.js"></script>
     <script type="text/javascript" src="rppiSocket.js"></script>
+    <!-- <script type="text/javascript" src="colorPicker.js"></script> -->
     <!-- <script type="text/javascript" src="rppiSense.js"></script> -->
 
 
