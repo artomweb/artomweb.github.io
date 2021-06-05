@@ -21,8 +21,13 @@ socket.on("server init", function(msg) {
     let hours = Math.floor(delta / 3600) % 24;
     delta -= hours * 3600;
 
-    document.getElementById("serverUpTime").innerHTML =
-        days + " days, " + hours + " hours";
+    if (hours == 1) {
+        document.getElementById("serverUpTime").innerHTML =
+            days + " days, " + hours + " hour";
+    } else {
+        document.getElementById("serverUpTime").innerHTML =
+            days + " days, " + hours + " hours";
+    }
 });
 
 socket.on("connect", function() {
