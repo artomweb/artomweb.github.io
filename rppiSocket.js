@@ -2,10 +2,8 @@ let socket = io("https://rppi.artomweb.com", { reconnectionDelay: 500 });
 
 socket.on("new data", function(msg) {
     // console.log(msg);
-    document.getElementById("temperatureReading").innerHTML =
-        msg.Temperature.toFixed(2) + String.fromCharCode(176);
-    document.getElementById("pressureReading").innerHTML =
-        msg.Pressure.toFixed(2) + " hPa";
+    document.getElementById("temperatureReading").innerHTML = msg.Temperature.toFixed(2) + String.fromCharCode(176);
+    document.getElementById("pressureReading").innerHTML = msg.Pressure.toFixed(2) + " hPa";
 });
 
 socket.on("server init", function(msg) {
@@ -19,15 +17,24 @@ socket.on("server init", function(msg) {
     delta -= days * 86400;
 
     let hours = Math.floor(delta / 3600) % 24;
-    delta -= hours * 3600;
+
+    let message = days;
+
+    if (days == 1) {
+        message += " day, ";
+    } else {
+        message += " days, ";
+    }
+
+    message += hours;
 
     if (hours == 1) {
-        document.getElementById("serverUpTime").innerHTML =
-            days + " days, " + hours + " hour";
+        message += " hour";
     } else {
-        document.getElementById("serverUpTime").innerHTML =
-            days + " days, " + hours + " hours";
+        message += " hours";
     }
+
+    document.getElementById("serverUpTime").innerHTML = message;
 });
 
 socket.on("connect", function() {
