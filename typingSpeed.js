@@ -3,7 +3,7 @@ async function fetchMonkey() {
 
     const json = await response.json();
 
-    console.log(json);
+    // console.log(json);
 
     let data = json.feed.entry.map((elt) => {
         return {
@@ -23,10 +23,11 @@ async function fetchMonkey() {
         })
         .map((entries, week) => ({
             wofy: week,
-            sum: Math.round(_.meanBy(entries, (entry) => +entry.wpmAvg) * 100) / 100,
+            sum: Math.round(_.meanBy(entries, (entry) => +entry.wpmAvg) * 10) / 10,
         }))
-        .sortBy((e) => e.Date)
         .value();
+
+    weekAvg.sort((a, b) => moment(a.wofy, "W-YYYY") - moment(b.wofy, "W-YYYY"));
 
     console.log(weekAvg);
 
@@ -80,7 +81,7 @@ function plotMonkey(data) {
                 // }, ],
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true,
+                        // beginAtZero: true,
                         //             callback: function(value, index, values) {
                         //                 return secondsToMins(value);
                         //             },
@@ -88,21 +89,21 @@ function plotMonkey(data) {
                 }, ],
             },
             tooltips: {
-                //     callbacks: {
-                //         label: function(tooltipItem, data) {
-                //             let label = data.datasets[tooltipItem.datasetIndex].label || "";
-                //             if (label) {
-                //                 label += ": ";
-                //             }
-                //             label += secondsToMins(tooltipItem.yLabel);
-                //             return label;
-                //         },
-                //         title: function(tooltipItem, data) {
-                //             let title = tooltipItem[0].xLabel;
-                //             title = moment(title, "dd").format("dddd");
-                //             return title;
-                //         },
-                //     },
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        let label = data.datasets[tooltipItem.datasetIndex].label || "";
+                        if (label) {
+                            label += ": ";
+                        }
+                        label += tooltipItem.yLabel + " WPM";
+                        return label;
+                    },
+                    //         title: function(tooltipItem, data) {
+                    //             let title = tooltipItem[0].xLabel;
+                    //             title = moment(title, "dd").format("dddd");
+                    //             return title;
+                    //         },
+                },
             },
         },
     });

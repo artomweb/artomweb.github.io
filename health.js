@@ -1,7 +1,5 @@
 async function fetchHealth() {
-    const response = await fetch(
-        "https://spreadsheets.google.com/feeds/list/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/1/public/full?alt=json"
-    );
+    const response = await fetch("https://spreadsheets.google.com/feeds/list/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/1/public/full?alt=json");
 
     const json = await response.json();
 
@@ -50,7 +48,7 @@ function aggregateSleepByDay(data) {
     let labels = dailyAvg.map((w) => w.dofw);
     let dataDay = dailyAvg.map((w) => w.avg);
 
-    console.log(dailyAvg);
+    // console.log(dailyAvg);
 
     return { dataDay, labels };
 }
@@ -64,8 +62,6 @@ function secondsToMins(e) {
 
 function plotSleep(data) {
     let { dataDay, labels } = aggregateSleepByDay(data);
-
-    console.log();
 
     // let rawData = data.map((e) => e.SleepDuration);
     // let labels = data.map((e) => e.Date);
