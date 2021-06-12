@@ -108,7 +108,7 @@ function plotSleep(data) {
                 // }, ],
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true,
+                        beginAtZero: false,
                         callback: function(value, index, values) {
                             return secondsToMins(value);
                         },

@@ -3,11 +3,7 @@ let myChart;
 let toggleState = 0;
 
 function switchDots() {
-    let circles = [
-        document.getElementById("circle0"),
-        document.getElementById("circle1"),
-        document.getElementById("circle2"),
-    ];
+    let circles = [document.getElementById("circle0"), document.getElementById("circle1"), document.getElementById("circle2")];
     let desc = document.getElementById("spotify-desc");
 
     switch (toggleState) {
@@ -15,18 +11,13 @@ function switchDots() {
             desc.innerHTML = "On average, which days do I listen to the most music";
             break;
         case 1:
-            desc.innerHTML =
-                "How many songs have I listened to in the last two weeks";
+            desc.innerHTML = "How many songs have I listened to in the last two weeks";
             break;
         case 2:
             desc.innerHTML = "All data by week";
             break;
     }
-    circles.forEach((c) =>
-        c.id.slice(-1) == toggleState ?
-        (c.style.fill = "black") :
-        (c.style.fill = "none")
-    );
+    circles.forEach((c) => (c.id.slice(-1) == toggleState ? (c.style.fill = "black") : (c.style.fill = "none")));
 }
 
 function spotifyToggle() {
@@ -48,9 +39,7 @@ function spotifyToggle() {
 }
 
 async function newFetchSpotify() {
-    const response = await fetch(
-        "https://spreadsheets.google.com/feeds/list/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/1/public/full?alt=json"
-    );
+    const response = await fetch("https://spreadsheets.google.com/feeds/list/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/1/public/full?alt=json");
 
     const json = await response.json();
 
@@ -126,8 +115,9 @@ function aggregateByWeek(dat) {
             wofy: week,
             avg: _.sumBy(entries, (entry) => +entry.Value),
         }))
-        .sortBy("wofy")
         .value();
+
+    weekAvg.sort((a, b) => moment(a.wofy, "W-YYYY") - moment(b.wofy, "W-YYYY"));
 
     let labels = weekAvg.map((w) => w.wofy);
     let dataWeek = weekAvg.map((w) => w.avg);

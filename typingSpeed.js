@@ -69,16 +69,23 @@ function plotMonkey(data) {
                 display: false,
             },
             scales: {
-                // xAxes: [{
-                //     type: "time",
-                //     time: {
-                //         unit: "day",
-                //         round: "day",
-                //         displayFormats: {
-                //             day: "dd",
-                //         },
-                //     },
-                // }, ],
+                xAxes: [{
+                    ticks: {
+                        // autoSkip: true,
+                        maxTicksLimit: 6.3,
+                        stepSize: 5,
+                        maxRotation: 0,
+                        minRotation: 0,
+                    },
+                    // type: "time",
+                    // time: {
+                    //     unit: "week",
+                    //     round: "week",
+                    //     displayFormats: {
+                    //         day: "W-YYYY",
+                    //     },
+                    // },
+                }, ],
                 yAxes: [{
                     ticks: {
                         // beginAtZero: true,
