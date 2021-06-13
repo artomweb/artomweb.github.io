@@ -19,17 +19,20 @@ async function fetchMonkey() {
 
     let weekAvg = _.chain(data)
         .groupBy((d) => {
-            return moment(d.Date).format("W-YYYY");
+            return moment(d.Date).format("MMM YYYY");
         })
-        .map((entries, week) => ({
-            wofy: week,
-            sum: Math.round(_.meanBy(entries, (entry) => +entry.wpmAvg) * 10) / 10,
-        }))
+        .map((entries, week) => {
+            // console.log(entries);
+            return {
+                wofy: week,
+                sum: Math.round(_.meanBy(entries, (entry) => +entry.wpmAvg) * 10) / 10,
+            };
+        })
         .value();
 
     weekAvg.sort((a, b) => moment(a.wofy, "W-YYYY") - moment(b.wofy, "W-YYYY"));
 
-    console.log(weekAvg);
+    // console.log(weekAvg);
 
     plotMonkey(weekAvg);
 }
