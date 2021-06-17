@@ -67,7 +67,7 @@ function plotSleep(data) {
     // let labels = data.map((e) => e.Date);
     let ctx = document.getElementById("sleepChart").getContext("2d");
     let sleepChart = new Chart(ctx, {
-        type: "line",
+        type: "bar",
         data: {
             labels: labels,
             datasets: [{
