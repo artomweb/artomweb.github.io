@@ -30,16 +30,71 @@ async function fetchMonkey() {
         })
         .value();
 
-    weekAvg.sort((a, b) => moment(a.wofy, "W-YYYY") - moment(b.wofy, "W-YYYY"));
+    weekAvg.sort((a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY"));
+    console.log(weekAvg);
 
     // console.log(weekAvg);
 
-    plotMonkey(weekAvg);
+    let labels = weekAvg.map((el) => el.wofy);
+    let dat = weekAvg.map((el) => el.sum);
+
+    plotMonkey(labels, dat);
 }
 
-function plotMonkey(data) {
-    let labels = data.map((el) => el.wofy);
-    let dat = data.map((el) => el.sum);
+async function fetchAnotherMonkey() {
+    const response = await fetch("https://spreadsheets.google.com/feeds/list/1bpABRveXtGeY5Sqlzi2ul33i8Qp-ehhSDIFaMigKGfk/1/public/full?alt=json");
+
+    const json = await response.json();
+
+    let data = json.feed.entry.map((elt) => {
+        return {
+            dateTime: new Date(elt.gsx$datetime.$t),
+            wpm: elt.gsx$wpm.$t,
+            raw: elt.gsx$raw.$t,
+            acc: elt.gsx$acc.$t,
+            corr: elt.gsx$corr.$t,
+            incorr: elt.gsx$incorr.$t,
+            cons: elt.gsx$cons.$t,
+        };
+    });
+
+    let weekAvg = _.chain(data)
+        .groupBy((d) => {
+            return moment(d.dateTime).format("MMM YYYY");
+        })
+        .map((entries, week) => {
+            // console.log(entries);
+            return {
+                wofy: week,
+                sum: Math.round(_.meanBy(entries, (entry) => +entry.wpm) * 10) / 10,
+            };
+        })
+        .value();
+
+    weekAvg.sort((a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY"));
+    // console.log(weekAvg);
+
+    // console.log(weekAvg);
+
+    let labels = weekAvg.map((el) => el.wofy);
+    let dat = weekAvg.map((el) => el.sum);
+
+    plotMonkey(labels, dat);
+
+    let maxWPM = +_.maxBy(data, "wpm").wpm;
+
+    // let total = 0;
+    // let length = data.length;
+    // data.forEach(({ wpm }) => (total += wpm));
+    // let avgWPM = total / length;
+
+    let avgWPM = _.meanBy(data, (o) => +o.wpm).toFixed(2);
+
+    document.getElementById("highestTypingSpeed").innerHTML = maxWPM.toFixed(2);
+    document.getElementById("averageTypingSpeed").innerHTML = avgWPM;
+}
+
+function plotMonkey(labels, dat) {
     let ctx = document.getElementById("monkeyChart").getContext("2d");
 
     let sleepChart = new Chart(ctx, {
@@ -51,6 +106,7 @@ function plotMonkey(data) {
                 // borderColor: "black",
                 data: dat,
                 backgroundColor: "#EFC7C2",
+
                 // fill: false,
             }, ],
         },
@@ -119,4 +175,5 @@ function plotMonkey(data) {
     });
 }
 
-fetchMonkey();
+// fetchMonkey();
+fetchAnotherMonkey();

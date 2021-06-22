@@ -141,7 +141,14 @@ function updateChartWeeks() {
     };
     myChart.data.datasets = [newDataset];
 
-    myChart.options.scales = {};
+    myChart.options.scales = {
+        xAxes: [{
+            ticks: {
+                autoSkip: true,
+                maxTicksLimit: 10,
+            },
+        }, ],
+    };
 
     //   console.log(myChart.data.datasets);
 
