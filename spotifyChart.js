@@ -145,7 +145,9 @@ function updateChartWeeks() {
         xAxes: [{
             ticks: {
                 autoSkip: true,
-                maxTicksLimit: 10,
+                maxTicksLimit: 4,
+                maxRotation: 0,
+                minRotation: 0,
             },
         }, ],
     };
