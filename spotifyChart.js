@@ -209,8 +209,8 @@ function processData(dat) {
 }
 
 function spotifyChart() {
-    let rawData = [589, 445, 483, 503, 689, 692, 634];
-    let labels = ["S", "M", "T", "W", "T", "F", "S"];
+    // let rawData = [589, 445, 483, 503, 689, 692, 634];
+    // let labels = ["S", "M", "T", "W", "T", "F", "S"];
 
     //   console.log(currData);
 
@@ -218,11 +218,11 @@ function spotifyChart() {
     myChart = new Chart(ctx2, {
         type: "line",
         data: {
-            labels: labels,
+            // labels: labels,
             datasets: [{
                 // tension: 0.3,
                 // borderColor: "black",
-                data: rawData,
+                // data: rawData,
                 backgroundColor: "#81b29a",
                 // fill: false,
             }, ],
