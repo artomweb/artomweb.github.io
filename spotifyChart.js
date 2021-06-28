@@ -1,6 +1,8 @@
 let data;
 let myChart;
+let config;
 let toggleState = 0;
+let ctx2;
 
 function switchDots() {
     let circles = [document.getElementById("circle0"), document.getElementById("circle1"), document.getElementById("circle2")];
@@ -51,7 +53,7 @@ async function newFetchSpotify() {
     });
 
     data = data.sort(function(a, b) {
-        return new Date(b.Date).getTime() - new Date(a.Date).getTime();
+        return b.Date.getTime() - a.Date.getTime();
     });
 
     spotifyChart();
@@ -63,22 +65,44 @@ newFetchSpotify();
 function updateAggregate() {
     const { avgs, labels } = aggregateByDay(data);
 
-    myChart.data.labels = labels;
+    if (myChart.config.type == "line") {
+        myChart.destroy();
+        let temp = jQuery.extend(true, {}, config);
 
-    let newDataset = {
-        // tension: 0.3,
-        // borderColor: "black",
-        data: avgs,
-        backgroundColor: "#81b29a",
-        // fill: false,
-    };
-    myChart.data.datasets = [newDataset];
+        let minVal = _.min(avgs);
 
-    myChart.options.scales = {};
+        temp.type = "bar";
 
-    //   console.log(myChart.data.datasets);
+        temp.data.labels = labels;
 
-    myChart.update();
+        let newDataset = {
+            // tension: 0.3,
+            // borderColor: "black",
+            data: avgs,
+            backgroundColor: "#81b29a",
+            // fill: false,
+        };
+        temp.data.datasets = [newDataset];
+
+        temp.options.scales.yAxes[0] = { ticks: { min: minVal / 2 } };
+
+        temp.options.scales.xAxes[0] = { offset: true };
+
+        myChart = new Chart(ctx2, temp);
+    } else {
+        myChart.data.labels = labels;
+        let newDataset = {
+            // tension: 0.3,
+            // borderColor: "black",
+            data: avgs,
+            backgroundColor: "#81b29a",
+            // fill: false,
+        };
+        myChart.data.datasets = [newDataset];
+        myChart.options.scales = {};
+        //   console.log(myChart.data.datasets);
+        myChart.update();
+    }
 }
 
 function aggregateByDay(dat) {
@@ -127,11 +151,6 @@ function aggregateByWeek(dat) {
 
 function updateChartWeeks() {
     let { dataWeek, labels } = aggregateByWeek(data);
-    // console.log(values);
-    myChart.data.labels = labels;
-
-    // console.log(labels, dataWeek);
-
     let newDataset = {
         // tension: 0.3,
         // borderColor: "black",
@@ -139,30 +158,58 @@ function updateChartWeeks() {
         backgroundColor: "#81b29a",
         // fill: false,
     };
-    myChart.data.datasets = [newDataset];
+    // console.log(values);
 
-    myChart.options.scales = {
-        xAxes: [{
-            ticks: {
-                autoSkip: true,
-                maxTicksLimit: 4,
-                maxRotation: 0,
-                minRotation: 0,
-            },
-        }, ],
-    };
+    if (myChart.config.type == "bar") {
+        myChart.destroy();
+        let temp = jQuery.extend(true, {}, config);
 
-    //   console.log(myChart.data.datasets);
+        temp.type = "line";
 
-    myChart.update();
+        temp.data.labels = labels;
+
+        // console.log(labels, dataWeek);
+
+        temp.data.datasets = [newDataset];
+
+        temp.options.scales = {
+            xAxes: [{
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 4,
+                    maxRotation: 0,
+                    minRotation: 0,
+                },
+            }, ],
+        };
+    } else {
+        myChart.data.labels = labels;
+
+        // console.log(labels, dataWeek);
+
+        myChart.data.datasets = [newDataset];
+
+        myChart.options.scales = {
+            xAxes: [{
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 4,
+                    maxRotation: 0,
+                    minRotation: 0,
+                },
+            }, ],
+        };
+
+        //   console.log(myChart.data.datasets);
+
+        myChart.update();
+    }
 }
 
 function updateChartTwoWeeks() {
     let { rawData, labels } = processData(data);
     rawData = rawData.slice(0, 14);
     labels = labels.slice(0, 14);
-
-    myChart.data.labels = labels;
 
     let newDataset = {
         // tension: 0.3,
@@ -171,29 +218,63 @@ function updateChartTwoWeeks() {
         backgroundColor: "#81b29a",
         // fill: false,
     };
-    myChart.data.datasets = [newDataset];
 
-    myChart.options.scales = {
-        xAxes: [{
-            type: "time",
-            time: {
-                unit: "day",
-                round: "day",
-                displayFormats: {
-                    day: "dd",
+    if (myChart.config.type == "bar") {
+        myChart.destroy();
+        let temp = jQuery.extend(true, {}, config);
+
+        temp.type = "line";
+
+        temp.data.labels = labels;
+
+        temp.data.datasets = [newDataset];
+
+        temp.options.scales = {
+            xAxes: [{
+                type: "time",
+                time: {
+                    unit: "day",
+                    round: "day",
+                    displayFormats: {
+                        day: "dd",
+                    },
                 },
-            },
-        }, ],
-        yAxes: [{
-            ticks: {
-                beginAtZero: true,
-            },
-        }, ],
-    };
+            }, ],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                },
+            }, ],
+        };
 
-    //   console.log(myChart.data.datasets);
+        myChart = new Chart(ctx2, temp);
+    } else {
+        myChart.data.labels = labels;
 
-    myChart.update();
+        myChart.data.datasets = [newDataset];
+
+        myChart.options.scales = {
+            xAxes: [{
+                type: "time",
+                time: {
+                    unit: "day",
+                    round: "day",
+                    displayFormats: {
+                        day: "dd",
+                    },
+                },
+            }, ],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                },
+            }, ],
+        };
+
+        //   console.log(myChart.data.datasets);
+
+        myChart.update();
+    }
 }
 
 function processData(dat) {
@@ -214,8 +295,8 @@ function spotifyChart() {
 
     //   console.log(currData);
 
-    let ctx2 = document.getElementById("spotifyChart").getContext("2d");
-    myChart = new Chart(ctx2, {
+    ctx2 = document.getElementById("spotifyChart").getContext("2d");
+    config = {
         type: "line",
         data: {
             // labels: labels,
@@ -248,6 +329,7 @@ function spotifyChart() {
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
+                        // min: 5,
                     },
                 }, ],
             },
@@ -281,6 +363,7 @@ function spotifyChart() {
                 },
             },
         },
-    });
+    };
+    myChart = new Chart(ctx2, config);
     Chart.defaults.global.defaultFontColor = "#000";
 }
