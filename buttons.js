@@ -18,7 +18,7 @@ function shuffle(a) {
 
 // colors = colorPallets[Math.floor(Math.random() * colorPallets.length)];
 
-let colors = ["#e07a5f", "#81b29a"].reverse();
+let colors = ["#81b29a", "#8ecae6", "#f08080"];
 // colors = shuffle(colors);
 let butns = document.getElementById("butns").children;
 let i, e;

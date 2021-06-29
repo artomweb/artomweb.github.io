@@ -3,6 +3,7 @@ let myChart;
 let config;
 let toggleState = 0;
 let ctx2;
+let backgroundColor = "#81b29a";
 
 function switchDots() {
     let circles = [document.getElementById("circle0"), document.getElementById("circle1"), document.getElementById("circle2")];
@@ -79,7 +80,7 @@ function updateAggregate() {
             // tension: 0.3,
             // borderColor: "black",
             data: avgs,
-            backgroundColor: "#81b29a",
+            backgroundColor,
             // fill: false,
         };
         temp.data.datasets = [newDataset];
@@ -95,7 +96,7 @@ function updateAggregate() {
             // tension: 0.3,
             // borderColor: "black",
             data: avgs,
-            backgroundColor: "#81b29a",
+            backgroundColor,
             // fill: false,
         };
         myChart.data.datasets = [newDataset];
@@ -155,7 +156,7 @@ function updateChartWeeks() {
         // tension: 0.3,
         // borderColor: "black",
         data: dataWeek,
-        backgroundColor: "#81b29a",
+        backgroundColor,
         // fill: false,
     };
     // console.log(values);
@@ -215,7 +216,7 @@ function updateChartTwoWeeks() {
         // tension: 0.3,
         // borderColor: "black",
         data: rawData,
-        backgroundColor: "#81b29a",
+        backgroundColor,
         // fill: false,
     };
 
@@ -304,7 +305,7 @@ function spotifyChart() {
                 // tension: 0.3,
                 // borderColor: "black",
                 // data: rawData,
-                backgroundColor: "#81b29a",
+                backgroundColor,
                 // fill: false,
             }, ],
         },
