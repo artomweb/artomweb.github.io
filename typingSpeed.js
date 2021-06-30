@@ -105,7 +105,7 @@ function plotMonkey(labels, dat) {
                 // tension: 0.3,
                 // borderColor: "black",
                 data: dat,
-                backgroundColor: "#f08080",
+                backgroundColor: "#F4A4A4",
 
                 // fill: false,
             }, ],
