@@ -82,16 +82,15 @@ async function fetchAnotherMonkey() {
     plotMonkey(labels, dat);
 
     let maxWPM = +_.maxBy(data, "wpm").wpm;
-
-    // let total = 0;
-    // let length = data.length;
-    // data.forEach(({ wpm }) => (total += wpm));
-    // let avgWPM = total / length;
-
     let avgWPM = _.meanBy(data, (o) => +o.wpm).toFixed(2);
+    let avgAcc = Math.round(
+        _.meanBy(data, (o) => +o.acc),
+        0
+    );
 
     document.getElementById("highestTypingSpeed").innerHTML = maxWPM.toFixed(2);
     document.getElementById("averageTypingSpeed").innerHTML = avgWPM;
+    document.getElementById("averageAccuracy").innerHTML = avgAcc;
 }
 
 function plotMonkey(labels, dat) {
