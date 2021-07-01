@@ -85,7 +85,7 @@ function updateAggregate() {
         };
         temp.data.datasets = [newDataset];
 
-        temp.options.scales.yAxes[0] = { ticks: { min: minVal / 2 } };
+        // temp.options.scales.yAxes[0] = { ticks: { min: minVal / 2 } };
 
         temp.options.scales.xAxes[0] = { offset: true };
 
