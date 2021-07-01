@@ -40,6 +40,10 @@ body {
     /* transition: transform 0.25s ease-in-out; */
 }
 
+.projects-button {
+    margin-bottom: 0;
+}
+
 .toggle-button {
     font-size: 1rem;
     background-color: #67a286;
