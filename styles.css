@@ -6,7 +6,8 @@
 
 .title {
     font-family: "CooperBlack";
-    font-size: 6rem;
+    /* font-size: 6rem; */
+    font-size: calc(1.4em + 4vw);
 }
 
 body {
@@ -75,9 +76,9 @@ hr.dashed {
         font-size: 1rem;
         /* padding: 0.5rem 1.2rem; */
     }
-    .title {
+    /* .title {
         font-size: 2.6rem;
-    }
+    } */
     .toggle-button {
         font-size: 0.8rem;
     }
