@@ -88,9 +88,14 @@ async function fetchAnotherMonkey() {
         0
     );
 
+    let delta = data.length * 30;
+
+    let message = createTimeMessage(delta);
+
     document.getElementById("highestTypingSpeed").innerHTML = maxWPM.toFixed(2);
     document.getElementById("averageTypingSpeed").innerHTML = avgWPM;
     document.getElementById("averageAccuracy").innerHTML = avgAcc;
+    document.getElementById("totalTime").innerHTML = message;
 }
 
 function plotMonkey(labels, dat) {
