@@ -6,20 +6,25 @@ let ctx2;
 let backgroundColor = "#81b29a";
 
 function switchDots() {
-    let circles = [document.getElementById("circle0"), document.getElementById("circle1"), document.getElementById("circle2"), document.getElementById("circle3")];
+    let circles = [
+        document.getElementById("circle0"),
+        document.getElementById("circle1"),
+        document.getElementById("circle2"),
+        // , document.getElementById("circle3")
+    ];
     let desc = document.getElementById("spotify-desc");
 
     switch (toggleState) {
         case 0:
             desc.innerHTML = "On average, which days do I listen to the most music";
             break;
+            // case 1:
+            //     desc.innerHTML = "On average, at which time of the day do I listen to the most music";
+            //     break;
         case 1:
-            desc.innerHTML = "On average, at which time of the day do I listen to the most music";
-            break;
-        case 2:
             desc.innerHTML = "How many songs have I listened to in the last two weeks";
             break;
-        case 3:
+        case 2:
             desc.innerHTML = "All data";
             break;
     }
@@ -33,19 +38,19 @@ function spotifyToggle() {
             updateByDay();
             break;
 
-        case 1:
-            // updateByTime();
-            break;
+            // case 1:
+            //     updateByTime();
+            //     break;
 
-        case 2:
+        case 1:
             updateTwoWeeks(data);
             break;
 
-        case 3:
+        case 2:
             updateAllData();
             break;
     }
-    toggleState == 3 ? (toggleState = 0) : toggleState++;
+    toggleState == 2 ? (toggleState = 0) : toggleState++;
 }
 
 async function fetchSpotify() {
@@ -69,6 +74,75 @@ async function fetchSpotify() {
 }
 
 fetchSpotify();
+
+// function aggregateByHour(dat) {
+//     let datN = dat.map((d) => {
+//         let hour = moment(d.Date).format("HH");
+//         return { hofd: hour, Date: d.Date, Value: +d.Value };
+//     });
+
+//     console.log(datN);
+
+//     let totalAvgs = _.chain(datN)
+//         .groupBy("dofw")
+//         .map((entries, hour) => ({
+//             hofd: hour,
+//             avg: Math.round(_.meanBy(entries, (entry) => entry.Value)),
+//         }))
+//         .value();
+
+//     totalAvgs = _.sortBy(totalAvgs, "hofd");
+
+//     let labels = totalAvgs.map((val) => val.hofd);
+//     let avgs = totalAvgs.map((val) => val.avg);
+
+//     return { avgs, labels };
+// }
+
+// function updateByTime() {
+//     const { avgs, labels } = aggregateByHour(data);
+
+//     // console.log(avgs);
+
+//     if (myChart.config.type == "bar") {
+//         myChart.destroy();
+//         let temp = jQuery.extend(true, {}, config);
+
+//         let minVal = _.min(avgs);
+
+//         temp.type = "line";
+
+//         temp.data.labels = labels;
+
+//         let newDataset = {
+//             // tension: 0.3,
+//             // borderColor: "black",
+//             data: avgs,
+//             backgroundColor,
+//             // fill: false,
+//         };
+//         temp.data.datasets = [newDataset];
+
+//         // temp.options.scales.yAxes[0] = { ticks: { min: minVal / 2 } };
+
+//         temp.options.scales.xAxes[0] = { offset: true };
+
+//         myChart = new Chart(ctx2, temp);
+//     } else {
+//         myChart.data.labels = labels;
+//         let newDataset = {
+//             // tension: 0.3,
+//             // borderColor: "black",
+//             data: avgs,
+//             backgroundColor,
+//             // fill: false,
+//         };
+//         myChart.data.datasets = [newDataset];
+//         myChart.options.scales = {};
+//         //   console.log(myChart.data.datasets);
+//         myChart.update();
+//     }
+// }
 
 function updateByDay() {
     const { avgs, labels } = aggregateByDay(data);
@@ -114,12 +188,12 @@ function updateByDay() {
 }
 
 function aggregateByDay(dat) {
-    dat = dat.map((d) => {
+    let datN = dat.map((d) => {
         let day = moment(d.Date).format("dd");
         return { dofw: day, Date: d.Date, Value: +d.Value };
     });
 
-    let totalAvgs = _.chain(dat)
+    let totalAvgs = _.chain(datN)
         .groupBy("dofw")
         .map((entries, day) => ({
             dofw: day,

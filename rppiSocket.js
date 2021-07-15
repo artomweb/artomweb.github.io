@@ -46,7 +46,7 @@ socket.on("new data", function(msg) {
 });
 
 socket.on("server init", function(msg) {
-    console.log(msg);
+    // console.log(msg);
     let serverInit = new Date(msg.serverInitTime);
     let currentTime = new Date();
 
