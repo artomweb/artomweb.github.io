@@ -6,7 +6,7 @@ let ctx2;
 let backgroundColor = "#81b29a";
 
 function switchDots() {
-    let circles = [document.getElementById("circle0"), document.getElementById("circle1"), document.getElementById("circle2")];
+    let circles = [document.getElementById("circle0"), document.getElementById("circle1"), document.getElementById("circle2"), document.getElementById("circle3")];
     let desc = document.getElementById("spotify-desc");
 
     switch (toggleState) {

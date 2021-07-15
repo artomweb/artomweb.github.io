@@ -37,8 +37,12 @@ function createTimeMessage(delta) {
 socket.on("new data", function(msg) {
     // console.log(msg);
     document.getElementById("temperatureReading").innerHTML = msg.temperature.toFixed(2) + String.fromCharCode(176);
-    document.getElementById("pressureReading").innerHTML = msg.pressure.toFixed(2) + " hPa";
-    document.getElementById("humidityReading").innerHTML = msg.humidity.toFixed(2) + " %";
+    document.getElementById("pressureReading").innerHTML = msg.pressure.toFixed(2) + "mb";
+    if (!msg.humidity) {
+        document.getElementById("humid").style.display = "none";
+    } else {
+        document.getElementById("humidityReading").innerHTML = msg.humidity.toFixed(2) + " %";
+    }
 });
 
 socket.on("server init", function(msg) {
