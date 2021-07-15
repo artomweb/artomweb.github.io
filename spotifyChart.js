@@ -14,9 +14,12 @@ function switchDots() {
             desc.innerHTML = "On average, which days do I listen to the most music";
             break;
         case 1:
-            desc.innerHTML = "How many songs have I listened to in the last two weeks";
+            desc.innerHTML = "On average, at which time of the day do I listen to the most music";
             break;
         case 2:
+            desc.innerHTML = "How many songs have I listened to in the last two weeks";
+            break;
+        case 3:
             desc.innerHTML = "All data";
             break;
     }
@@ -27,21 +30,25 @@ function spotifyToggle() {
     switchDots();
     switch (toggleState) {
         case 0:
-            updateAggregate();
+            updateByDay();
             break;
 
         case 1:
-            updateChartTwoWeeks(data);
+            // updateByTime();
             break;
 
         case 2:
-            updateChartWeeks();
+            updateTwoWeeks(data);
+            break;
+
+        case 2:
+            updateAllData();
             break;
     }
-    toggleState == 2 ? (toggleState = 0) : toggleState++;
+    toggleState == 3 ? (toggleState = 0) : toggleState++;
 }
 
-async function newFetchSpotify() {
+async function fetchSpotify() {
     const response = await fetch("https://spreadsheets.google.com/feeds/list/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/1/public/full?alt=json");
 
     const json = await response.json();
@@ -61,9 +68,9 @@ async function newFetchSpotify() {
     spotifyToggle();
 }
 
-newFetchSpotify();
+fetchSpotify();
 
-function updateAggregate() {
+function updateByDay() {
     const { avgs, labels } = aggregateByDay(data);
 
     if (myChart.config.type == "line") {
@@ -150,7 +157,7 @@ function aggregateByWeek(dat) {
     return { dataWeek, labels };
 }
 
-function updateChartWeeks() {
+function updateAllData() {
     let { dataWeek, labels } = aggregateByWeek(data);
     let newDataset = {
         // tension: 0.3,
@@ -207,7 +214,7 @@ function updateChartWeeks() {
     }
 }
 
-function updateChartTwoWeeks() {
+function updateTwoWeeks() {
     let { rawData, labels } = processData(data);
     rawData = rawData.slice(0, 14);
     labels = labels.slice(0, 14);
