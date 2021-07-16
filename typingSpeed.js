@@ -72,9 +72,6 @@ async function fetchAnotherMonkey() {
         .value();
 
     weekAvg.sort((a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY"));
-    // console.log(weekAvg);
-
-    // console.log(weekAvg);
 
     let labels = weekAvg.map((el) => el.wofy);
     let dat = weekAvg.map((el) => el.sum);

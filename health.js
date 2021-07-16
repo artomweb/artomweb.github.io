@@ -1,3 +1,10 @@
+let sleepData;
+let sleepChart;
+let configSl;
+let toggleStateSl = 0;
+let ctxSl;
+let backgroundColorSl = "#8ecae6";
+
 async function fetchHealth() {
     const response = await fetch("https://spreadsheets.google.com/feeds/list/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/1/public/full?alt=json");
 
@@ -20,21 +27,51 @@ async function fetchHealth() {
         };
     });
 
-    data = data.sort(function(a, b) {
+    sleepData = data.sort(function(a, b) {
         return b.Date.getTime() - a.Date.getTime();
     });
 
-    // console.log(data);
+    console.log(data);
 
-    plotSleep(data);
+    plotSleep();
+    sleepToggle();
 
     // plotDailySleep(data)
 }
 
 fetchHealth();
 
-function aggregateSleepByDay(data) {
-    let dailyAvg = _.chain(data)
+function switchDotsSl() {
+    let circles = [document.getElementById("Slcircle0"), document.getElementById("Slcircle1")];
+    let desc = document.getElementById("sleepDesc");
+
+    switch (toggleStateSl) {
+        case 0:
+            desc.innerHTML = "On average, which days do I listen to the most music";
+            break;
+        case 1:
+            desc.innerHTML = "On average, what time do I usually wake up";
+            break;
+    }
+    circles.forEach((c) => (c.id.slice(-1) == toggleStateSl ? (c.style.fill = "black") : (c.style.fill = "none")));
+}
+
+function sleepToggle() {
+    switchDotsSl();
+    switch (toggleStateSl) {
+        case 0:
+            updateSleepDays();
+            break;
+
+        case 1:
+            updateSleepHours();
+            break;
+    }
+    toggleStateSl == 1 ? (toggleStateSl = 0) : toggleStateSl++;
+}
+
+function aggregateSleepByDay() {
+    let dailyAvg = _.chain(sleepData)
         .groupBy((d) => {
             return moment(d.Date).format("dd");
         })
@@ -48,9 +85,76 @@ function aggregateSleepByDay(data) {
     let labels = dailyAvg.map((w) => w.dofw);
     let dataDay = dailyAvg.map((w) => w.avg);
 
-    // console.log(dailyAvg);
-
     return { dataDay, labels };
+}
+
+function aggregateSleepByHour() {
+    let hourAvg = _.chain(sleepData)
+        .groupBy((h) => {
+            return moment(h.BedOut, "H:m").format("h a");
+        })
+        .map((entries, hour) => ({
+            hofd: hour,
+            tot: entries.length,
+        }))
+        .sortBy((o) => moment(o.hofd, "H a"))
+        .value();
+
+    let labels = hourAvg.map((w) => w.hofd);
+    let dataTot = hourAvg.map((w) => w.tot);
+
+    return { dataTot, labels };
+}
+
+function updateSleepHours() {
+    let { dataTot, labels } = aggregateSleepByHour();
+
+    if (sleepChart.config.type == "bar") {
+        sleepChart.destroy();
+        let temp = jQuery.extend(true, {}, configSl);
+
+        // let minVal = _.min(dataDay);
+
+        temp.type = "line";
+
+        temp.data.labels = labels;
+
+        let newDataset = {
+            // tension: 0.3,
+            // borderColor: "black",
+            data: dataTot,
+            backgroundColor: backgroundColorSl,
+            // fill: false,
+        };
+        temp.data.datasets = [newDataset];
+
+        // temp.options.scales.xAxes[0] = { offset: true };
+        temp.options.scales = {};
+        temp.options.tooltips = {};
+
+        sleepChart = new Chart(ctxSl, temp);
+    } else {
+        sleepChart.data.labels = labels;
+        let newDataset = {
+            data: dataTot,
+            backgroundColor: backgroundColorSl,
+        };
+        sleepChart.data.datasets = [newDataset];
+        sleepChart.options.scales = {};
+        sleepChart.options.tooltips = {};
+    }
+
+    sleepChart.options.scales.yAxes[0].ticks.beginAtZero = true;
+
+    sleepChart.options.scales.xAxes = [{
+        ticks: {
+            maxTicksLimit: 6.3,
+            stepSize: 5,
+            maxRotation: 0,
+            minRotation: 0,
+        },
+    }, ];
+    sleepChart.update();
 }
 
 function secondsToMins(e) {
@@ -60,53 +164,57 @@ function secondsToMins(e) {
     return hours.split(".")[0] + ":" + minutes;
 }
 
-function plotSleep(data) {
-    let { dataDay, labels } = aggregateSleepByDay(data);
+function updateSleepDays() {
+    let { dataDay, labels } = aggregateSleepByDay();
 
+    if (sleepChart.config.type == "line") {
+        sleepChart.destroy();
+        let temp = jQuery.extend(true, {}, configSl);
+
+        temp.type = "bar";
+
+        temp.data.labels = labels;
+
+        let newDataset = {
+            data: dataDay,
+            backgroundColor: backgroundColorSl,
+        };
+        temp.data.datasets = [newDataset];
+
+        temp.options.scales.xAxes[0] = { offset: true };
+
+        sleepChart = new Chart(ctxSl, temp);
+    } else {
+        sleepChart.data.labels = labels;
+        let newDataset = {
+            data: dataDay,
+            backgroundColor: backgroundColorSl,
+        };
+        sleepChart.data.datasets = [newDataset];
+        sleepChart.update();
+    }
+}
+
+function plotSleep() {
     // let rawData = data.map((e) => e.SleepDuration);
     // let labels = data.map((e) => e.Date);
-    let ctx = document.getElementById("sleepChart").getContext("2d");
+    ctxSl = document.getElementById("sleepChart").getContext("2d");
 
-    let sleepChart = new Chart(ctx, {
+    configSl = {
         type: "bar",
         data: {
-            labels: labels,
             datasets: [{
-                // tension: 0.3,
-                // borderColor: "black",
-                data: dataDay,
                 backgroundColor: "#8ecae6",
-                // fill: false,
             }, ],
         },
-
         options: {
             maintainAspectRatio: true,
             responsive: true,
-
-            // layout: {
-            //     padding: {
-            //         left: 0,
-            //         right: 25,
-            //         top: 20,
-            //         bottom: 20,
-            //     },
-            // },
 
             legend: {
                 display: false,
             },
             scales: {
-                // xAxes: [{
-                //     type: "time",
-                //     time: {
-                //         unit: "day",
-                //         round: "day",
-                //         displayFormats: {
-                //             day: "dd",
-                //         },
-                //     },
-                // }, ],
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
@@ -136,5 +244,6 @@ function plotSleep(data) {
                 },
             },
         },
-    });
+    };
+    sleepChart = new Chart(ctxSl, configSl);
 }
