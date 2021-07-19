@@ -1,16 +1,19 @@
 @font-face {
-    font-family: "CooperBlack";
-    src: url("CooperBlack.otf") format("opentype");
-    font-display: swap;
+    font-family: "Klasik";
+    src: url("Klasik Regular.otf");
 }
 
 .title {
-    font-family: "CooperBlack";
+    font-family: "Klasik";
+    /* font-family: "Stardos Stencil", cursive; */
     /* font-size: 6rem; */
-    font-size: calc(1.4em + 4vw);
+    margin-top: 0.5rem;
+    font-size: calc(1.5em + 5.6vw);
+    white-space: nowrap;
 }
 
 body {
+    /* font-family: arial; */
     margin: 0;
 }
 
