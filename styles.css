@@ -9,12 +9,12 @@
     /* font-size: 6rem; */
     margin-top: 0.5rem;
     font-size: calc(1.5em + 5.6vw);
-    white-space: nowrap;
 }
 
 body {
     /* font-family: arial; */
     margin: 0;
+    word-wrap: break-word;
 }
 
 ::selection {
