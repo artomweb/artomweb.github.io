@@ -53,15 +53,22 @@ function spotifyToggle() {
     toggleState == 2 ? (toggleState = 0) : toggleState++;
 }
 
-async function fetchSpotify() {
-    const response = await fetch("https://spreadsheets.google.com/feeds/list/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/1/public/full?alt=json");
+function getPapaParse() {
+    Papa.parse("https://docs.google.com/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/gviz/tq?tqx=out:csv&sheet=sheet1", {
+        download: true,
+        complete: function(results, file) {
+            parseSpotify(results.data);
+        },
+    });
+}
 
-    const json = await response.json();
+function parseSpotify(results) {
+    results.shift();
 
-    data = json.feed.entry.map((elt) => {
+    data = results.map((elt) => {
         return {
-            Date: new Date(elt.gsx$date.$t),
-            Value: elt.gsx$value.$t,
+            Date: new Date(elt[0]),
+            Value: elt[1],
         };
     });
 
@@ -73,76 +80,7 @@ async function fetchSpotify() {
     spotifyToggle();
 }
 
-fetchSpotify();
-
-// function aggregateByHour(dat) {
-//     let datN = dat.map((d) => {
-//         let hour = moment(d.Date).format("HH");
-//         return { hofd: hour, Date: d.Date, Value: +d.Value };
-//     });
-
-//     console.log(datN);
-
-//     let totalAvgs = _.chain(datN)
-//         .groupBy("dofw")
-//         .map((entries, hour) => ({
-//             hofd: hour,
-//             avg: Math.round(_.meanBy(entries, (entry) => entry.Value)),
-//         }))
-//         .value();
-
-//     totalAvgs = _.sortBy(totalAvgs, "hofd");
-
-//     let labels = totalAvgs.map((val) => val.hofd);
-//     let avgs = totalAvgs.map((val) => val.avg);
-
-//     return { avgs, labels };
-// }
-
-// function updateByTime() {
-//     const { avgs, labels } = aggregateByHour(data);
-
-//     // console.log(avgs);
-
-//     if (myChart.config.type == "bar") {
-//         myChart.destroy();
-//         let temp = jQuery.extend(true, {}, config);
-
-//         let minVal = _.min(avgs);
-
-//         temp.type = "line";
-
-//         temp.data.labels = labels;
-
-//         let newDataset = {
-//             // tension: 0.3,
-//             // borderColor: "black",
-//             data: avgs,
-//             backgroundColor,
-//             // fill: false,
-//         };
-//         temp.data.datasets = [newDataset];
-
-//         // temp.options.scales.yAxes[0] = { ticks: { min: minVal / 2 } };
-
-//         temp.options.scales.xAxes[0] = { offset: true };
-
-//         myChart = new Chart(ctx2, temp);
-//     } else {
-//         myChart.data.labels = labels;
-//         let newDataset = {
-//             // tension: 0.3,
-//             // borderColor: "black",
-//             data: avgs,
-//             backgroundColor,
-//             // fill: false,
-//         };
-//         myChart.data.datasets = [newDataset];
-//         myChart.options.scales = {};
-//         //   console.log(myChart.data.datasets);
-//         myChart.update();
-//     }
-// }
+getPapaParse();
 
 function updateByDay() {
     const { avgs, labels } = aggregateByDay(data);
