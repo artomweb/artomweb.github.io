@@ -34,8 +34,8 @@ function createTimeMessage(delta) {
 
     return message;
 }
-socket.on("new data", function(msg) {
-    // console.log(msg);
+
+function updateReadingText(msg) {
     document.getElementById("temperatureReading").innerHTML = msg.temperature.toFixed(2) + String.fromCharCode(176);
     document.getElementById("pressureReading").innerHTML = msg.pressure.toFixed(2) + "mb";
     if (!msg.humidity) {
@@ -43,10 +43,15 @@ socket.on("new data", function(msg) {
     } else {
         document.getElementById("humidityReading").innerHTML = msg.humidity.toFixed(2) + " %";
     }
+}
+socket.on("new data", function(msg) {
+    // console.log(msg);
+    updateReadingText(msg);
 });
 
 socket.on("server init", function(msg) {
     // console.log(msg);
+    if ("lastData" in msg) updateReadingText(msg.lastData);
     let serverInit = new Date(msg.serverInitTime);
     let currentTime = new Date();
 
