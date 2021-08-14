@@ -1,22 +1,19 @@
-async function fetchHealth() {
-    const response = await fetch("https://spreadsheets.google.com/feeds/list/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/1/public/full?alt=json");
+function healthMain(results) {
+    // console.log(results);
+    results.shift();
 
-    const json = await response.json();
-
-    // console.log(json);
-
-    let data = json.feed.entry.map((elt) => {
+    let data = results.map((elt) => {
         return {
-            Date: new Date(elt.gsx$date.$t),
-            SleepDuration: elt.gsx$sleepduration.$t,
-            AwakeDuration: elt.gsx$awakeduration.$t,
-            BedIn: elt.gsx$bedin.$t,
-            BedOut: elt.gsx$bedout.$t,
-            DeepDuration: elt.gsx$deepduration.$t,
-            LightDuration: elt.gsx$lightduration.$t,
-            HrAverage: elt.gsx$hraverage.$t,
-            nbawake: elt.gsx$nbawake.$t,
-            SleepScore: elt.gsx$sleepscore.$t,
+            Date: new Date(elt[0]),
+            SleepDuration: elt[1],
+            AwakeDuration: elt[2],
+            BedIn: elt[3],
+            BedOut: elt[4],
+            DeepDuration: elt[5],
+            LightDuration: elt[6],
+            HrAverage: +elt[7],
+            nbawake: +elt[8],
+            SleepScore: +elt[9],
         };
     });
 
@@ -29,6 +26,16 @@ async function fetchHealth() {
     plotSleep(data);
 
     // plotDailySleep(data)
+}
+
+async function fetchHealth() {
+    Papa.parse("https://docs.google.com/spreadsheets/d/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/gviz/tq?tqx=out:csv&sheet=sheet1", {
+        download: true,
+        complete: function(results, file) {
+            // console.log(results);
+            healthMain(results.data);
+        },
+    });
 }
 
 fetchHealth();

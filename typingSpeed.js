@@ -1,60 +1,26 @@
-async function fetchMonkey() {
-    const response = await fetch("https://spreadsheets.google.com/feeds/list/1KAEkM0SmmBlPAdkg7vcQyYMsSsMsjKcMnDf2xJijOFo/1/public/full?alt=json");
-
-    const json = await response.json();
-
-    // console.log(json);
-
-    let data = json.feed.entry.map((elt) => {
-        return {
-            Date: new Date(elt.gsx$date.$t),
-            wpmAvg: elt.gsx$wpmavg.$t,
-            rawAvg: elt.gsx$rawavg.$t,
-            accAvg: elt.gsx$accavg.$t,
-            corrAvg: elt.gsx$corravg.$t,
-            incorrAvg: elt.gsx$incorravg.$t,
-            consAvg: elt.gsx$consavg.$t,
-        };
+function getPapaParse() {
+    Papa.parse("https://docs.google.com/spreadsheets/d/1bpABRveXtGeY5Sqlzi2ul33i8Qp-ehhSDIFaMigKGfk/gviz/tq?tqx=out:csv&sheet=sheet1", {
+        download: true,
+        complete: function(results, file) {
+            fetchMonkey(results.data);
+        },
     });
-
-    let weekAvg = _.chain(data)
-        .groupBy((d) => {
-            return moment(d.Date).format("MMM YYYY");
-        })
-        .map((entries, week) => {
-            // console.log(entries);
-            return {
-                wofy: week,
-                sum: Math.round(_.meanBy(entries, (entry) => +entry.wpmAvg) * 10) / 10,
-            };
-        })
-        .value();
-
-    weekAvg.sort((a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY"));
-    console.log(weekAvg);
-
-    // console.log(weekAvg);
-
-    let labels = weekAvg.map((el) => el.wofy);
-    let dat = weekAvg.map((el) => el.sum);
-
-    plotMonkey(labels, dat);
 }
 
-async function fetchAnotherMonkey() {
-    const response = await fetch("https://spreadsheets.google.com/feeds/list/1bpABRveXtGeY5Sqlzi2ul33i8Qp-ehhSDIFaMigKGfk/1/public/full?alt=json");
+getPapaParse();
 
-    const json = await response.json();
+function fetchMonkey(results) {
+    results.shift();
 
-    let data = json.feed.entry.map((elt) => {
+    let data = results.map((elt) => {
         return {
-            dateTime: new Date(elt.gsx$datetime.$t),
-            wpm: elt.gsx$wpm.$t,
-            raw: elt.gsx$raw.$t,
-            acc: elt.gsx$acc.$t,
-            corr: elt.gsx$corr.$t,
-            incorr: elt.gsx$incorr.$t,
-            cons: elt.gsx$cons.$t,
+            dateTime: new Date(elt[0]),
+            wpm: +elt[1],
+            raw: +elt[2],
+            acc: +elt[3],
+            corr: +elt[4],
+            incorr: +elt[5],
+            cons: +elt[6],
         };
     });
 
@@ -180,4 +146,3 @@ function plotMonkey(labels, dat) {
 }
 
 // fetchMonkey();
-fetchAnotherMonkey();
