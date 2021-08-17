@@ -80,9 +80,9 @@ hr.dashed {
         font-size: 0.9rem;
         /* padding: 0.5rem 1.2rem; */
     }
-    /* .title {
-        font-size: 2.6rem;
-    } */
+    .title {
+        font-size: 2.5rem;
+    }
     .toggle-button {
         font-size: 0.8rem;
     }

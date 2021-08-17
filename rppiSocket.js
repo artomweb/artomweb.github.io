@@ -1,40 +1,5 @@
 let socket = io("https://rppi.artomweb.com", { reconnectionDelay: 500 });
 
-/**
- * Creates a time message from a number of seconds, eg 1 day, 2 hours
- *
- * @param {number} delta The amount of time to be converted (in seconds).
- * @returns {string} The time message
- */
-function createTimeMessage(delta) {
-    let days = Math.floor(delta / 86400);
-    delta -= days * 86400;
-
-    let hours = Math.floor(delta / 3600) % 24;
-
-    let message = "";
-
-    if (days != 0) {
-        message = days;
-
-        if (days == 1) {
-            message += " day, ";
-        } else {
-            message += " days, ";
-        }
-    }
-
-    message += hours;
-
-    if (hours == 1) {
-        message += " hour";
-    } else {
-        message += " hours";
-    }
-
-    return message;
-}
-
 function updateReadingText(msg) {
     document.getElementById("temperatureReading").innerHTML = msg.temperature.toFixed(2) + String.fromCharCode(176);
     document.getElementById("pressureReading").innerHTML = msg.pressure.toFixed(2) + "mb";
