@@ -19,17 +19,9 @@ function updateTexts() {
 }
 
 function mainMoreStats() {
-    // nowTime = new Date();
+    // let inst = setInterval(updateTexts, 1000);
 
-    // let delta = (nowTime.getTime() - begginingOfAllTime.getTime()) / 1000;
-
-    // let message = createTimeMessage(delta, "ydhms");
-
-    // timeAlive.innerHTML = message;
-
-    let inst = setInterval(updateTexts, 1000);
-
-    // console.log(message);
+    updateTexts();
 }
 
 mainMoreStats();

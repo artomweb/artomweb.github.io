@@ -5,7 +5,7 @@
  * @param {string} format The format of the result, ydhms for {years, days, hours, minutes, seconds}
  * @returns {string} The time message EG: 1 years, 2 days, 3 hours, 4 minutes, 5 seconds
  */
-function createTimeMessage(delta, format = "dhm") {
+function createTimeMessage(delta, format = "dh") {
     let message = "";
 
     if (format.includes("y")) {
@@ -78,7 +78,7 @@ function createTimeMessage(delta, format = "dhm") {
         }
     }
 
-    if (format.includes("m")) {
+    if (format.includes("s")) {
         if (delta > 0) {
             if (message !== "") {
                 message += ", ";
