@@ -21,7 +21,7 @@ message = """<!DOCTYPE html>
         <div class="row">
 """
 
-with open('projects.html', "w") as myfile:
+with open('projects/projects.html', "w") as myfile:
     myfile.write(message)
 
 # with open('main.html', "a") as myfileApp:
@@ -29,7 +29,7 @@ with open('projects.html', "w") as myfile:
 
 
 
-mdFiles = os.listdir('md')
+mdFiles = os.listdir('projects/md')
 
 i = 0
 
@@ -38,7 +38,7 @@ i = 0
 unsortedFiles = []
 
 for file in mdFiles:
-    with open('./md/' + file, 'r') as f:
+    with open('projects/md/' + file, 'r') as f:
         date = re.findall('date: (.*$)', f.read(), re.MULTILINE)[0]
         unsortedFiles.append([file, date])
 
@@ -48,7 +48,7 @@ sortedFiles = sorted(unsortedFiles, key=lambda x: dateP.parse(x[1]))
 
 for fileDate in sortedFiles:
     file = fileDate[0]
-    with open('./md/' + file, 'r') as f, open('projects.html', 'a') as htmlFile:
+    with open('projects/md/' + file, 'r') as f, open('projects/projects.html', 'a') as htmlFile:
 
         fileContents = f.read()
 
@@ -62,7 +62,7 @@ for fileDate in sortedFiles:
         desc = re.findall(r'desc: (.*$)', fileContents, re.MULTILINE)
         images = re.findall(r'!\[.*?\]\((.*?)\)', fileContents, re.MULTILINE)
 
-        os.system(f"pandoc ./md/{file} -o html/{fileName}.html -s --css ../css/pandoc.css")
+        os.system(f"pandoc projects/md/{file} -o projects/html/{fileName}.html -s --css projects/css/pandoc.css")
         print(f"converted {title} to html/{fileName}.html with title {title}")
 
         if i > 2:
@@ -83,7 +83,7 @@ for fileDate in sortedFiles:
         htmlFile.write(f"<a href=\"html/{fileName}.html\" class=\" stretched-link\"></a>\n<p class=\"card-text\"><small class=\"text-muted\">{fileDate[1]}</small></p></div>\n</div>\n</div>")
 
 
-with open('projects.html', 'a') as htmlFile:
+with open('projects/projects.html', 'a') as htmlFile:
     htmlFile.write('''</div>
 
     </body>
