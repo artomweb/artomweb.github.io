@@ -9,7 +9,7 @@ message = """<!DOCTYPE html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/projects/styles.css" />
 
 </head>
 
@@ -64,7 +64,7 @@ for fileDate in sortedFiles:
         images = re.findall(r'!\[.*?\]\((.*?)\)', fileContents, re.MULTILINE)
 
         os.system(
-            f"pandoc projects/md/{file} -o projects/html/{fileName}.html -s --css projects/css/pandoc.css")
+            f"pandoc projects/md/{file} -o projects/html/{fileName}.html -s --css /projects/css/pandoc.css")
         print(f"converted {title} to html/{fileName}.html with title {title}")
 
         if i > 2:
