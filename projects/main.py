@@ -1,4 +1,5 @@
-import os, re
+import os
+import re
 import dateutil.parser as dateP
 
 
@@ -6,6 +7,7 @@ message = """<!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
     <link rel="stylesheet" href="styles.css" />
 
@@ -26,7 +28,6 @@ with open('projects/projects.html', "w") as myfile:
 
 # with open('main.html', "a") as myfileApp:
 #     myfileApp.write(message)
-
 
 
 mdFiles = os.listdir('projects/md')
@@ -62,29 +63,34 @@ for fileDate in sortedFiles:
         desc = re.findall(r'desc: (.*$)', fileContents, re.MULTILINE)
         images = re.findall(r'!\[.*?\]\((.*?)\)', fileContents, re.MULTILINE)
 
-        os.system(f"pandoc projects/md/{file} -o projects/html/{fileName}.html -s --css projects/css/pandoc.css")
+        os.system(
+            f"pandoc projects/md/{file} -o projects/html/{fileName}.html -s --css projects/css/pandoc.css")
         print(f"converted {title} to html/{fileName}.html with title {title}")
 
         if i > 2:
             htmlFile.write("</div>\n<div class=\"row\">")
             i = 0
-        
-        htmlFile.write(f"<div class=\"col-lg-6 mb-3\">\n<div class=\"card\">\n")
+
+        htmlFile.write(
+            f"<div class=\"col-lg-6 mb-3\">\n<div class=\"card\">\n")
 
         if images:
             imageAddr = images[0]
-            htmlFile.write(f"<img class=\"card-img-top\" src=\"{imageAddr}\" alt=\"Card image cap\">")
+            htmlFile.write(
+                f"<img class=\"card-img-top\" src=\"{imageAddr}\" alt=\"Card image cap\">")
 
-        htmlFile.write(f"<div class=\"card-body\">\n<h4 class=\"card-title mb-2\"><i class=\"fab fa-spotify\"></i>{title}</h4>\n")
+        htmlFile.write(
+            f"<div class=\"card-body\">\n<h4 class=\"card-title mb-2\"><i class=\"fab fa-spotify\"></i>{title}</h4>\n")
 
         if desc:
             htmlFile.write(f"<p class=\"card-text\">{desc[0]}</p>\n")
-        
-        htmlFile.write(f"<a href=\"html/{fileName}.html\" class=\" stretched-link\"></a>\n<p class=\"card-text\"><small class=\"text-muted\">{fileDate[1]}</small></p></div>\n</div>\n</div>")
+
+        htmlFile.write(
+            f"<a href=\"html/{fileName}.html\" class=\" stretched-link\"></a>\n<p class=\"card-text\"><small class=\"text-muted\">{fileDate[1]}</small></p></div>\n</div>\n</div>")
 
 
 with open('projects/projects.html', 'a') as htmlFile:
-    htmlFile.write('''</div>
+    htmlFile.write('''</div></div>
 
     </body>
 
