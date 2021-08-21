@@ -6,13 +6,13 @@ header-includes:
   <meta name="description" content="Some help on using Python with Blender to create a Spotify Code Keyring" />
 ---
 
-![ ](/projects/images/keyring/keyring.jpg)
+![keyring](/projects/images/keyring/keyring.jpg)
 
 The easiest way to understand Blender's Python commands is to open up the GUI into the Scripting workspace. Here, any modification made to Blender's UI is displayed in the console.
 
 For example when deleting the default cube, this is the output to the console:
 
-![ ](/projects/images/keyring/keyring3.png)
+![keyring3](/projects/images/keyring/keyring3.png)
 
 ### Clearing the workspace
 
@@ -46,7 +46,7 @@ bpy.ops.mesh.primitive_cylinder_add(radius=0.003, depth=0.005, location=(.04, -0
 
 This line was actually run like this:
 
-![](/projects/images/keyring/keyring4.jpg)
+![keyring4](/projects/images/keyring/keyring4.jpg)
 
 For the next step it will be useful to keep track of the cube and cylinder. You can't assign objects to variables when you create them, however as they are the only objects in the scene, we can reference them like this:
 
@@ -81,7 +81,7 @@ Spotify doesn't have an API for it's codes however their website, [Spotify Codes
 
 For this purpose we want an SVG so it can be used in Blender, therefore our base URL will look like this:
 
-https://scannables.scdn.co/uri/plain/svg/ffffff/black/640/
+> https://scannables.scdn.co/uri/plain/svg/ffffff/black/640/
 
 Then all we need to do is append the song or playlist URI to the end.
 
@@ -107,7 +107,7 @@ bpy.ops.import_curve.svg(filepath="SpotifyCodeDownload.svg", filter_glob="*.svg"
 
 ### Processing the SVG
 
-![](/projects/images/keyring/keyring5.png)
+![keyring5](/projects/images/keyring/keyring5.png)
 
 EEEK! The SVG is imported as hundreds of individual curves and there is no way around this.
 
@@ -139,7 +139,7 @@ bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY', center='MEDIAN')
 
 The scene currently looks like this:
 
-![](/projects/images/keyring/keyring6.jpg)
+![keyring6](/projects/images/keyring/keyring6.jpg)
 
 So the last thing we need to do is move the SVG in the viewport and copy the output. The first two lines of this extract show an absolute rotation on the z axis.
 
@@ -181,7 +181,7 @@ And that's it, the program can be run with this command:
 blender -b --python BlenderStl.py
 ```
 
-![ ](/projects/images/keyring/keyring2.jpg)
+![keyring2](/projects/images/keyring/keyring2.jpg)
 
 ## Full code
 
