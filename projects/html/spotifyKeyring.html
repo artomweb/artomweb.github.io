@@ -283,8 +283,8 @@
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
     <![endif]-->
-    <meta name="keywords" content="Foo,Bar" />
-    <meta name="description" content="My description" />
+    <meta name="keywords" content="spotify, keyrings, spotify codes, blender, python" />
+    <meta name="description" content="Some help on using Python with Blender to create a Spotify Code Keyring" />
 </head>
 
 <body>
@@ -321,10 +321,7 @@
         <pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>bpy.ops.mesh.primitive_cylinder_add(radius<span class="op">=</span><span class="fl">0.003</span>, depth<span class="op">=</span><span class="fl">0.005</span>, location<span class="op">=</span>(<span class="fl">.04</span>, <span class="op">-</span><span class="fl">0.024</span>, <span class="dv">0</span>))</span></code></pre>
     </div>
     <p>This line was actually run like this:</p>
-    <figure>
-        <img src="/projects/images/keyring/keyring4.jpg" alt="keyring4" />
-        <figcaption aria-hidden="true">keyring4</figcaption>
-    </figure>
+    <p><img src="/projects/images/keyring/keyring4.jpg" /></p>
     <p>
         For the next step it will be useful to keep track of the cube and cylinder. You can’t assign objects to variables when you create them, however as they are the only objects in the scene, we can reference them like this:
     </p>
@@ -347,17 +344,12 @@
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>bpy.ops.<span class="bu">object</span>.delete()</span></code></pre>
     </div>
     <h3 id="getting-the-spotify-code">Getting the Spotify code</h3>
-    <p>
-        Spotify doesn’t have an API for it’s codes however their website,
-        <a href="https://www.spotifycodes.com/#">Spotify Codes</a> makes a request to this url:
-    </p>
+    <p>Spotify doesn’t have an API for it’s codes however their website, <a href="https://www.spotifycodes.com/#">Spotify Codes</a> makes a request to this url:</p>
     <blockquote>
         <p>https://scannables.scdn.co/uri/plain/{format}/{background-color}/{bar-color}/{resolution}/{URI}</p>
     </blockquote>
     <p>For this purpose we want an SVG so it can be used in Blender, therefore our base URL will look like this:</p>
-    <blockquote>
-        <p>https://scannables.scdn.co/uri/plain/svg/ffffff/black/640/</p>
-    </blockquote>
+    <p>https://scannables.scdn.co/uri/plain/svg/ffffff/black/640/</p>
     <p>Then all we need to do is append the song or playlist URI to the end.</p>
     <p>Blender can only open an SVG from a file so we must cache it into a file like this:</p>
     <div class="sourceCode" id="cb7">
@@ -369,6 +361,7 @@
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;SpotifyCodeDownload.svg&quot;</span>, <span class="st">&#39;wb&#39;</span>) <span class="im">as</span> f:</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>    <span class="cf">for</span> chunk <span class="kw">in</span> r.iter_content(<span class="dv">1024</span>):</span>
+<<<<<<< HEAD
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>        f.write(chunk)</span></code></pre>
     </div>
     <p>Then we can import it into Blender:</p>
@@ -391,6 +384,27 @@
     <p>In order to do most operations in Blender you need to have an active object, so after selecting the collection we will make Curve.001 the active object.</p>
     <div class="sourceCode" id="cb10">
         <pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="cf">for</span> obj <span class="kw">in</span> bpy.data.collections[<span class="st">&#39;SpotifyCodeDownload.svg&#39;</span>].all_objects:</span>
+=======
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>        f.write(chunk)</span></code></pre>
+    </div>
+    <p>Then we can import it into Blender:</p>
+    <div class="sourceCode" id="cb8">
+        <pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>bpy.ops.import_curve.svg(filepath<span class="op">=</span><span class="st">&quot;SpotifyCodeDownload.svg&quot;</span>, filter_glob<span class="op">=</span><span class="st">&quot;*.svg&quot;</span>)</span></code></pre>
+    </div>
+    <h3 id="processing-the-svg">Processing the SVG</h3>
+    <p><img src="/projects/images/keyring/keyring5.png" /></p>
+    <p>EEEK! The SVG is imported as hundreds of individual curves and there is no way around this.</p>
+    <p>First of all, the curve named ‘curve’ is a rectangle surrounding the code so we can delete that. Don’t forget to deselect everything before you start selecting.</p>
+    <div class="sourceCode" id="cb9">
+        <pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>bpy.ops.<span class="bu">object</span>.select_all(action<span class="op">=</span><span class="st">&#39;DESELECT&#39;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>bpy.data.objects[<span class="st">&#39;Curve&#39;</span>].select_set(<span class="va">True</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>bpy.ops.<span class="bu">object</span>.delete()</span></code></pre>
+    </div>
+    <p>Next we can combine the rest of the curves into one mesh, this can be done by selecting all the curves in the collection named after the SVG file.</p>
+    <p>In order to do most operations in Blender you need to have an active object, so after selecting the collection we will make Curve.001 the active object.</p>
+    <div class="sourceCode" id="cb10">
+        <pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="cf">for</span> obj <span class="kw">in</span> bpy.data.collections[<span class="st">&#39;SpotifyCodeDownload.svg&#39;</span>].all_objects:</span>
+>>>>>>> parent of d26271f... removed rppi
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>        obj.select_set(<span class="va">True</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a></span>
@@ -400,6 +414,7 @@
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>bpy.ops.<span class="bu">object</span>.convert(target<span class="op">=</span><span class="st">&#39;MESH&#39;</span>)</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a></span>
+<<<<<<< HEAD
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>bpy.ops.<span class="bu">object</span>.origin_set(<span class="bu">type</span><span class="op">=</span><span class="st">&#39;ORIGIN_GEOMETRY&#39;</span>, center<span class="op">=</span><span class="st">&#39;MEDIAN&#39;</span>)</span></code></pre>
     </div>
     <p>The scene currently looks like this:</p>
@@ -410,17 +425,34 @@
     <p>So the last thing we need to do is move the SVG in the viewport and copy the output. The first two lines of this extract show an absolute rotation on the z axis.</p>
     <div class="sourceCode" id="cb11">
         <pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>curve <span class="op">=</span> bpy.data.objects[<span class="st">&quot;Curve.001&quot;</span>]</span>
+=======
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>bpy.ops.<span class="bu">object</span>.origin_set(<span class="bu">type</span><span class="op">=</span><span class="st">&#39;ORIGIN_GEOMETRY&#39;</span>, center<span class="op">=</span><span class="st">&#39;MEDIAN&#39;</span>)</span></code></pre>
+    </div>
+    <p>The scene currently looks like this:</p>
+    <p><img src="/projects/images/keyring/keyring6.jpg" /></p>
+    <p>So the last thing we need to do is move the SVG in the viewport and copy the output. The first two lines of this extract show an absolute rotation on the z axis.</p>
+    <div class="sourceCode" id="cb11">
+        <pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>curve <span class="op">=</span> bpy.data.objects[<span class="st">&quot;Curve.001&quot;</span>]</span>
+>>>>>>> parent of d26271f... removed rppi
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>curve.rotation_euler[<span class="dv">2</span>] <span class="op">=</span> <span class="fl">1.5708</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a>bpy.ops.transform.resize(value<span class="op">=</span>(<span class="fl">0.277968</span>, <span class="fl">0.277968</span>, <span class="fl">0.277968</span>))</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a></span>
+<<<<<<< HEAD
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>bpy.ops.transform.translate(value<span class="op">=</span>(<span class="op">-</span><span class="fl">0.0734364</span>, <span class="op">-</span><span class="fl">0.0216113</span>, <span class="fl">0.0009043</span>))</span></code></pre>
     </div>
     <p>And then extrude it:</p>
     <div class="sourceCode" id="cb12">
         <pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>bpy.ops.<span class="bu">object</span>.mode_set(mode<span class="op">=</span><span class="st">&#39;EDIT&#39;</span>)</span>
+=======
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>bpy.ops.transform.translate(value<span class="op">=</span>(<span class="op">-</span><span class="fl">0.0734364</span>, <span class="op">-</span><span class="fl">0.0216113</span>, <span class="fl">0.0009043</span>))</span></code></pre>
+    </div>
+    <p>And then extrude it:</p>
+    <div class="sourceCode" id="cb12">
+        <pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>bpy.ops.<span class="bu">object</span>.mode_set(mode<span class="op">=</span><span class="st">&#39;EDIT&#39;</span>)</span>
+>>>>>>> parent of d26271f... removed rppi
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>bpy.ops.mesh.select_all(action<span class="op">=</span><span class="st">&#39;SELECT&#39;</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a></span>
@@ -436,15 +468,10 @@
     </div>
     <p>And that’s it, the program can be run with this command:</p>
     <pre class="shell"><code>blender -b --python BlenderStl.py</code></pre>
-    <figure>
-        <img src="/projects/images/keyring/keyring2.jpg" alt="keyring2" />
-        <figcaption aria-hidden="true">keyring2</figcaption>
-    </figure>
+    <p><img src="/projects/images/keyring/keyring2.jpg" /></p>
     <h2 id="full-code">Full code</h2>
     <p>You can find all the code here:</p>
-    <p>
-        <a href="https://github.com/artomweb/Spotify-Code-to-Stl" class="uri">https://github.com/artomweb/Spotify-Code-to-Stl</a>
-    </p>
+    <p><a href="https://github.com/artomweb/Spotify-Code-to-Stl" class="uri">https://github.com/artomweb/Spotify-Code-to-Stl</a></p>
 </body>
 
 </html>

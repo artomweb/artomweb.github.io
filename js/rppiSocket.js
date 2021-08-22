@@ -22,7 +22,7 @@ socket.on("server init", function(msg) {
 
     let delta = Math.abs(currentTime - serverInit) / 1000;
 
-    let message = createTimeMessage(delta);
+    let message = createTimeMessage(delta, "dhm");
 
     document.getElementById("serverUpTime").innerHTML = message;
 });

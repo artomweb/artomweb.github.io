@@ -72,7 +72,7 @@ for fileDate in sortedFiles:
             i = 0
 
         htmlFile.write(
-            f"<div class=\"col-sm-4 mb-3\">\n<div class=\"card\">\n")
+            f"<div class=\"col-lg-6 mb-3\">\n<div class=\"card\">\n")
 
         if images:
             imageAddr = images[0]
