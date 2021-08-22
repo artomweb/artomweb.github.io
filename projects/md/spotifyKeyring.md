@@ -1,9 +1,8 @@
 ---
 title: Generating Spotify keyrings with Python and Blender
 date: 28/04/21
-header-includes:
-  <meta name="keywords" content="spotify, keyrings, spotify codes, blender, python" />
-  <meta name="description" content="Some help on using Python with Blender to create a Spotify Code Keyring" />
+header-includes: <meta name="keywords" content="Foo,Bar" />
+  <meta name="description" content="My description" />
 ---
 
 ![keyring](/projects/images/keyring/keyring.jpg)
