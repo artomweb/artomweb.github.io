@@ -25,14 +25,21 @@ function healthMain(results) {
 
     plotSleep(data);
 
+    updateSleepDays(data);
+
     // plotDailySleep(data)
+}
+
+function updateSleepDays(data) {
+    let sleepDaysTotal = document.getElementById("sleepDaysTotal");
+
+    sleepDaysTotal.innerHTML = data.length;
 }
 
 async function fetchHealth() {
     Papa.parse("https://docs.google.com/spreadsheets/d/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/gviz/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
         complete: function(results, file) {
-            // console.log(results);
             healthMain(results.data);
         },
     });

@@ -78,7 +78,7 @@ function createTimeMessage(delta, format = "dh") {
         }
     }
 
-    if (format.includes("s")) {
+    if (format.includes("s") || message === "") {
         if (delta > 0) {
             if (message !== "") {
                 message += ", ";
