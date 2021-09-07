@@ -56,7 +56,7 @@ function fetchMonkey(results) {
 
     let delta = data.length * 30;
 
-    let message = createTimeMessage(delta);
+    let message = createTimeMessage(delta, "dhm");
 
     document.getElementById("highestTypingSpeed").innerHTML = maxWPM.toFixed(2);
     document.getElementById("averageTypingSpeed").innerHTML = avgWPM;

@@ -60,7 +60,7 @@ function createTimeMessage(delta, format = "dh") {
         }
     }
 
-    if (format.includes("m")) {
+    if (format.includes("m") || message === "") {
         let minutes = Math.floor(delta / 60);
         delta -= minutes * 60;
 
