@@ -53,6 +53,15 @@ hr.dashed {
     background-color: transparent;
 }
 
+.textItal {
+    /* font-style: italic; */
+    font-weight: 600;
+}
+
+.valDesc {
+    font-weight: 400;
+}
+
 @media (max-width: 750px) {
     .button {
         font-size: 0.9rem;

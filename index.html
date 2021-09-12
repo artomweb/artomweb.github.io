@@ -36,7 +36,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js" integrity="sha512-EbdJQSugx0nVWrtyK3JdQQ/03mS3Q1UiAhRtErbwl1YL/+e2hZdlIcSURxxh7WXHTzn83sjlh2rysACoJGfb6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/95ffa18c94.js" crossorigin="anonymous"></script>
 
     <script defer type="text/javascript" src="js/usefullFunc.js"></script>
@@ -46,6 +45,7 @@
     <script defer type="text/javascript" src="js/rppiSocket.js"></script>
     <script defer type="text/javascript" src="js/typingSpeed.js"></script>
     <script defer type="text/javascript" src="js/moreStats.js"></script>
+    <script defer type="text/javascript" src="js/gameStats.js"></script>
 
     <link rel="stylesheet" href="styles.css" />
 
@@ -110,10 +110,10 @@
                         <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc">How has my typing speed improved over time</h5>
 
                         <br />
-                        <h5 class="card-subtitle mb-2 text-muted">Highest typing speed: <span id="highestTypingSpeed" class="font-weight-bold"> no data</span> wpm</h5>
-                        <h5 class="card-subtitle mb-2 text-muted">Average typing speed: <span id="averageTypingSpeed" class="font-weight-bold"> no data</span> wpm</h5>
-                        <h5 class="card-subtitle mb-2 text-muted">Average accuracy: <span id="averageAccuracy" class="font-weight-bold"> no data</span>%</h5>
-                        <h5 class="card-subtitle mb-2 text-muted">Time spent doing tests: <span id="totalTime" class="font-weight-bold"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Highest typing speed: <span id="highestTypingSpeed" class="textItal"> no data</span><span class="textItal"> wpm</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Average typing speed: <span id="averageTypingSpeed" class="textItal"> no data</span><span class="textItal"> wpm</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Average accuracy: <span id="averageAccuracy" class="textItal"> no data</span><span class="textItal">%</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time spent doing tests: <span id="totalTime" class="textItal"> no data</span></h5>
                     </div>
                 </div>
             </div>
@@ -126,18 +126,18 @@
                         <h5 class="card-subtitle mb-2 text-muted">On average, which days do I get the most hours of sleep</h5>
 
                         <br />
-                        <h5 class="card-subtitle mb-2 text-muted">Nights recorded: <span id="sleepDaysTotal" class="font-weight-bold"> no data</span> days</h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Nights recorded: <span id="sleepDaysTotal" class="textItal"> no data</span><span class="textItal"> days</span></h5>
                     </div>
                 </div>
                 <div class="card mb-3">
                     <div class="card-body">
                         <h4 class="card-title" id="liveText"><i class="fas fa-dot-circle"></i> Live data from my desk:</h4>
                         <br />
-                        <h5 class="card-subtitle mb-2 text-muted">Temperature: <span id="temperatureReading"> no reading</span>&#176;</h5>
-                        <h5 class="card-subtitle mb-2 text-muted">Pressure: <span id="pressureReading"> no reading</span>mb</h5>
-                        <h5 class="card-subtitle mb-2 text-muted" id="humid">Humidity: <span id="humidityReading"> no reading</span>%</h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Temperature: <span id="temperatureReading" class="textItal"> no reading</span><span class="textItal">&#176;</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Pressure: <span id="pressureReading" class="textItal"> no reading</span><span class="textItal">mb</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc" id="humid">Humidity: <span id="humidityReading" class="textItal"> no reading</span><span class="textItal">%</span></h5>
                         <br />
-                        <h5 class="card-subtitle mb-2 text-muted">Server up time: <span id="serverUpTime"> no reading</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Server up time: <span id="serverUpTime" class="textItal"> no reading</span></h5>
                     </div>
                 </div>
                 <div class="card">
@@ -145,9 +145,12 @@
                         <h4 class="card-title mb-2"><i class="fas fa-clock"></i> More Stats</h4>
 
                         <br />
-                        <h5 class="card-subtitle mb-2 text-muted">Time alive: <span id="timeAlive" class="font-weight-bold"> no data</span></h5>
-                        <h5 class="card-subtitle mb-2 text-muted">Time able to drive: <span id="timeDriving" class="font-weight-bold"> no data</span></h5>
-                        <h5 class="card-subtitle mb-2 text-muted">Time with current phone: <span id="timePhone" class="font-weight-bold"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time alive: <span id="timeAlive" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time able to drive: <span id="timeDriving" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing CSGO: <span id="timeCSGO" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing BF5: <span id="timeBF5" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing RDR2: <span id="timeRDR2" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time with current phone: <span id="timePhone" class="textItal"> no data</span></h5>
                     </div>
                 </div>
             </div>

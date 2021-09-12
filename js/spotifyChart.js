@@ -87,7 +87,7 @@ function updateByDay() {
 
     if (myChart.config.type == "line") {
         myChart.destroy();
-        let temp = jQuery.extend(true, {}, config);
+        let temp = {...config };
 
         let minVal = _.min(avgs);
 
@@ -182,8 +182,7 @@ function updateAllData() {
 
     if (myChart.config.type == "bar") {
         myChart.destroy();
-        let temp = jQuery.extend(true, {}, config);
-
+        let temp = {...config };
         temp.type = "line";
 
         temp.data.labels = labels;
@@ -241,7 +240,7 @@ function updateTwoWeeks() {
 
     if (myChart.config.type == "bar") {
         myChart.destroy();
-        let temp = jQuery.extend(true, {}, config);
+        let temp = {...config };
 
         temp.type = "line";
 
