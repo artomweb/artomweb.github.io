@@ -61,7 +61,7 @@ function fetchMonkey(results) {
 
     let plus = changeInWPMPerMin > 0 ? "+" : "";
 
-    console.log(changeInWPMPerMin);
+    // console.log(changeInWPMPerMin);
 
     let avgWPM = _.meanBy(data, (o) => +o.wpm).toFixed(2);
     let avgAcc = Math.round(
