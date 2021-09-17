@@ -6,13 +6,11 @@
  */
 function createTimeMessage(delta) {
     let message = "";
-    let hasYears = false;
 
     let years = Math.floor(delta / 31540000);
     delta -= years * 31540000;
 
     if (years > 0) {
-        hasYears = true;
         message += years;
 
         if (years == 1) {
@@ -38,7 +36,7 @@ function createTimeMessage(delta) {
         }
     }
 
-    if (!hasYears) {
+    if (years == 0) {
         let hours = Math.floor(delta / 3600);
         delta -= hours * 3600;
         hours %= 24;
@@ -57,7 +55,7 @@ function createTimeMessage(delta) {
         }
     }
 
-    if (message === "") {
+    if (message === "" || days == 0) {
         let minutes = Math.floor(delta / 60);
         delta -= minutes * 60;
 
