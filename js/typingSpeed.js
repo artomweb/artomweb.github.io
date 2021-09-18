@@ -57,11 +57,11 @@ function fetchMonkey(results) {
 
     let delta = data.length * 30;
 
-    let changeInWPMPerMin = wpmChange * (3600 / (delta * 1.05675));
+    let changeInWPMPerMin = wpmChange * (3600 / delta) * 0.77988979;
 
     let plus = changeInWPMPerMin > 0 ? "+" : "";
 
-    // console.log(wpmChange);
+    console.log(changeInWPMPerMin);
 
     let avgWPM = _.meanBy(data, (o) => +o.wpm).toFixed(2);
     let avgAcc = Math.round(
