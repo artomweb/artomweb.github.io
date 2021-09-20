@@ -8,6 +8,7 @@
     margin-top: 0.6rem;
     margin-bottom: 0;
     font-size: calc(1.5em + 5.6vw);
+    font-display: swap;
 }
 
 body {
