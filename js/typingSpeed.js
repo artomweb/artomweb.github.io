@@ -49,7 +49,18 @@ function fetchMonkey(results) {
 
     let maxWPM = +_.maxBy(data, "wpm").wpm;
 
-    let wpmPoints = _.sortBy(data, (point) => point.dateTime.getTime()).map((point) => point.wpm);
+    let sortedWPM = _.sortBy(data, (point) => point.dateTime.getTime());
+
+    let firstTest = sortedWPM[0];
+    let lastTest = sortedWPM[sortedWPM.length - 1];
+
+    let dayDiff = (lastTest.dateTime - firstTest.dateTime) / (1000 * 60 * 60 * 24);
+
+    let testsPerDay = sortedWPM.length / dayDiff;
+
+    console.log(testsPerDay);
+
+    let wpmPoints = sortedWPM.map((point) => point.wpm);
 
     let trend = findLineByLeastSquares(wpmPoints);
 
@@ -60,8 +71,6 @@ function fetchMonkey(results) {
     let changeInWPMPerMin = wpmChange * (3600 / delta) * 0.77988979;
 
     let plus = changeInWPMPerMin > 0 ? "+" : "";
-
-    console.log(changeInWPMPerMin);
 
     let avgWPM = _.meanBy(data, (o) => +o.wpm).toFixed(2);
     let avgAcc = Math.round(
@@ -75,6 +84,7 @@ function fetchMonkey(results) {
     document.getElementById("averageTypingSpeed").innerHTML = avgWPM;
     document.getElementById("averageAccuracy").innerHTML = avgAcc;
     document.getElementById("totalTime").innerHTML = message;
+    document.getElementById("testsPerDay").innerHTML = testsPerDay.toFixed(1);
     document.getElementById("wpmChangePerHour").innerHTML = plus + changeInWPMPerMin.toFixed(2);
 }
 
