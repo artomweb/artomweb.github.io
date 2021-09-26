@@ -73,4 +73,7 @@ hr.dashed {
     .toggle-button {
         font-size: 0.8rem;
     }
+    abbr[title] {
+        text-decoration: none;
+    }
 }
