@@ -68,7 +68,7 @@ function fetchMonkey(results) {
 
     let delta = data.length * 30;
 
-    let changeInWPMPerMin = wpmChange * (3600 / delta) * 0.77988979;
+    let changeInWPMPerMin = wpmChange * (3600 / delta);
 
     let plus = changeInWPMPerMin > 0 ? "+" : "";
 
