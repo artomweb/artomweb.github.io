@@ -9,12 +9,23 @@ function updateReadingText(msg) {
         document.getElementById("humidityReading").innerHTML = msg.humidity.toFixed(2);
     }
 }
+
+function showSymbols() {
+    let symbols = document.getElementsByClassName("symbol");
+
+    for (let s of symbols) {
+        s.style.display = "inline";
+    }
+}
 socket.on("new data", function(msg) {
     updateReadingText(msg);
 });
 
 socket.on("server init", function(msg) {
-    if ("lastData" in msg) updateReadingText(msg.lastData);
+    if ("lastData" in msg) {
+        updateReadingText(msg.lastData);
+        showSymbols();
+    }
     let serverInit = new Date(msg.serverInitTime);
     let currentTime = new Date();
 

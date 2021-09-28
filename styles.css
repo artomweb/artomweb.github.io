@@ -25,6 +25,10 @@ body {
     margin: auto;
 }
 
+.symbol {
+    display: none;
+}
+
 .button {
     font-size: 1.5rem;
     display: inline-block;
