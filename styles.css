@@ -80,4 +80,7 @@ hr.dashed {
     abbr[title] {
         text-decoration: none;
     }
+    #circles {
+        margin-top: 4px;
+    }
 }
