@@ -1,6 +1,8 @@
 function getPapaParse() {
     Papa.parse("https://docs.google.com/spreadsheets/d/1bpABRveXtGeY5Sqlzi2ul33i8Qp-ehhSDIFaMigKGfk/gviz/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
+        header: true,
+        dynamicTyping: true,
         complete: function(results, file) {
             fetchMonkey(results.data);
         },
@@ -9,19 +11,11 @@ function getPapaParse() {
 
 getPapaParse();
 
-function fetchMonkey(results) {
-    results.shift();
+function fetchMonkey(data) {
+    console.log(data);
 
-    let data = results.map((elt) => {
-        return {
-            dateTime: new Date(elt[0]),
-            wpm: +elt[1],
-            raw: +elt[2],
-            acc: +elt[3],
-            corr: +elt[4],
-            incorr: +elt[5],
-            cons: +elt[6],
-        };
+    data.forEach((elt) => {
+        elt.dateTime = new Date(elt.dateTime);
     });
 
     let weekAvg = _.chain(data)
