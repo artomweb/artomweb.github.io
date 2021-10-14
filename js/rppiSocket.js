@@ -11,7 +11,7 @@ function updateReadingText(msg) {
 }
 
 function showSymbols() {
-    let symbols = document.getElementsByClassName("symbol");
+    let symbols = document.getElementsByClassName("liveDataSymbol");
 
     for (let s of symbols) {
         s.style.display = "inline";

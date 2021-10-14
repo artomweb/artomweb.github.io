@@ -11,8 +11,17 @@ function getPapaParse() {
 
 getPapaParse();
 
+function showSymbols() {
+    let symbols = document.getElementsByClassName("symbol");
+
+    for (let s of symbols) {
+        s.style.display = "inline";
+    }
+}
+
 function fetchMonkey(data) {
-    console.log(data);
+    // console.log(data);
+    showSymbols();
 
     data.forEach((elt) => {
         elt.dateTime = new Date(elt.dateTime);

@@ -13,6 +13,8 @@ For example when deleting the default cube, this is the output to the console:
 
 ![ ](/projects/images/keyring/keyring3.png)
 
+---
+
 ### Clearing the workspace
 
 The first thing you will want to do is delete everything in the default workspace. This makes sure that we are starting from a clean slate with no pesky default cube. Notice that we have to import Blender's python module to be able to interact with Blender.
@@ -32,6 +34,8 @@ Speaking of cubes, the first thing to do is add a cube for the base. As explaine
 bpy.ops.mesh.primitive_cube_add(enter_editmode=False, align='WORLD', location=(0, 0, 0))
 bpy.context.object.scale = (0.005, 0.03, 0.001)
 ```
+
+---
 
 ### Cutting the keyring
 
@@ -71,6 +75,8 @@ bpy.ops.object.select_all(action='DESELECT')
 cylinder.select_set(True)
 bpy.ops.object.delete()
 ```
+
+---
 
 ### Getting the Spotify code
 
@@ -165,6 +171,8 @@ bpy.ops.mesh.extrude_region_move(MESH_OT_extrude_region= TRANSFORM_OT_translate=
 bpy.ops.object.mode_set(mode='OBJECT')
 ```
 
+---
+
 ### Exporting
 
 Finally we can export everything as an stl so it can be 3D printed:
@@ -176,9 +184,7 @@ bpy.ops.export_mesh.stl(filepath="out.stl", use_selection=True, global_scale=100
 
 And that's it, the program can be run with this command:
 
-```shell
-blender -b --python BlenderStl.py
-```
+> blender -b --python BlenderStl.py
 
 ![ ](/projects/images/keyring/keyring2.jpg)
 
@@ -186,4 +192,4 @@ blender -b --python BlenderStl.py
 
 You can find all the code here:
 
-<https://github.com/artomweb/Spotify-Code-to-Stl>
+> <https://github.com/artomweb/Spotify-Code-to-Stl>

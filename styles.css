@@ -25,6 +25,10 @@ body {
     margin: auto;
 }
 
+.liveDataSymbol {
+    display: none;
+}
+
 .symbol {
     display: none;
 }
