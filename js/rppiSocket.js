@@ -10,7 +10,7 @@ function updateReadingText(msg) {
     }
 }
 
-function showSymbols() {
+function showDataSymbols() {
     let symbols = document.getElementsByClassName("liveDataSymbol");
 
     for (let s of symbols) {
@@ -24,8 +24,8 @@ socket.on("new data", function(msg) {
 socket.on("server init", function(msg) {
     if ("lastData" in msg) {
         updateReadingText(msg.lastData);
-        showSymbols();
     }
+    showDataSymbols();
     let serverInit = new Date(msg.serverInitTime);
     let currentTime = new Date();
 
