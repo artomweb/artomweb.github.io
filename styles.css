@@ -71,6 +71,21 @@ hr.dashed {
     font-weight: 400;
 }
 
+.incDecIcon {
+    position: relative;
+    padding-left: 4px;
+}
+
+.fa-caret-up {
+    color: #f4a4a4;
+    bottom: 2px;
+}
+
+.fa-caret-down {
+    color: #8ecae6;
+    top: 2px;
+}
+
 @media (max-width: 750px) {
     .button {
         font-size: 0.9rem;

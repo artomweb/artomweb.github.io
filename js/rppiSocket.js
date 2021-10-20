@@ -1,5 +1,7 @@
 let socket = io("https://rppi.artomweb.com", { reconnectionDelay: 500 });
 
+function addClassToIcon(icon, className) {}
+
 function updateReadingText(msg) {
     document.getElementById("temperatureReading").innerHTML = msg.temperature.toFixed(2);
     document.getElementById("pressureReading").innerHTML = msg.pressure.toFixed(2);
@@ -7,6 +9,44 @@ function updateReadingText(msg) {
         document.getElementById("humid").style.display = "none";
     } else {
         document.getElementById("humidityReading").innerHTML = msg.humidity.toFixed(2);
+    }
+
+    let tempIcon = document.getElementById("tempIcon");
+    let pressIcon = document.getElementById("pressIcon");
+    let humidIcon = document.getElementById("humidIcon");
+
+    // console.log("Temp classes", tempIcon.classList);
+
+    icons = [
+        ["temperature", tempIcon],
+        ["pressure", pressIcon],
+        ["humidity", humidIcon],
+    ];
+
+    // console.log(msg);
+
+    if (msg.averages) {
+        // console.log(msg.averages);
+
+        icons.map(([name, icon]) => {
+            // console.log("new", msg[name]);
+            // console.log("avg", msg.averages[name]);
+            if (msg[name] >= msg.averages[name]) {
+                if (icon.classList !== undefined) {
+                    if (icon.classList.contains("fa-caret-down")) icon.classList.remove("fa-caret-down");
+                    if (!icon.classList.contains("fa-caret-up")) icon.classList.add("fa-caret-up");
+                } else {
+                    icon.classList.add("fa-caret-up");
+                }
+            } else {
+                if (icon.classList !== undefined) {
+                    if (icon.classList.contains("fa-caret-up")) icon.classList.remove("fa-caret-up");
+                    if (!icon.classList.contains("fa-caret-down")) icon.classList.add("fa-caret-down");
+                } else {
+                    icon.classList.add("fa-caret-down");
+                }
+            }
+        });
     }
 }
 
