@@ -62,6 +62,7 @@ for fileDate in sortedFiles:
 
         desc = re.findall(r'desc: (.*$)', fileContents, re.MULTILINE)
         images = re.findall(r'!\[.*?\]\((.*?)\)', fileContents, re.MULTILINE)
+        links = re.findall(r'link: (.*$)', fileContents, re.MULTILINE)
 
         os.system(
             f"pandoc projects/md/{file} -o projects/html/{fileName}.html -s --css /projects/css/pandoc.css")
@@ -85,8 +86,12 @@ for fileDate in sortedFiles:
         if desc:
             htmlFile.write(f"<p class=\"card-text\">{desc[0]}</p>\n")
 
-        htmlFile.write(
-            f"<a href=\"html/{fileName}.html\" class=\" stretched-link\"></a>\n<p class=\"card-text\"><small class=\"text-muted\">{fileDate[1]}</small></p></div>\n</div>\n</div>")
+        if links:
+            htmlFile.write(
+                f"<a href=\"{links[0]}\" class=\" stretched-link\"></a>\n<p class=\"card-text\"><small class=\"text-muted\">{fileDate[1]}</small></p></div>\n</div>\n</div>")
+        else:
+            htmlFile.write(
+                f"<a href=\"html/{fileName}.html\" class=\" stretched-link\"></a>\n<p class=\"card-text\"><small class=\"text-muted\">{fileDate[1]}</small></p></div>\n</div>\n</div>")
 
 
 with open('projects/projects.html', 'a') as htmlFile:
