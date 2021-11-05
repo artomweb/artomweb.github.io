@@ -4,7 +4,7 @@
  * @param {number} delta The amount of time to be converted (in seconds).
  * @returns {string} The time message EG: 1 years, 2 days, 3 hours, 4 minutes, 5 seconds
  */
-function createTimeMessage(delta) {
+function createTimeMessage(delta, noMins = false) {
     let message = "";
 
     let years = Math.floor(delta / 31540000);
@@ -39,6 +39,7 @@ function createTimeMessage(delta) {
     let hours = Math.floor(delta / 3600);
     delta -= hours * 3600;
     hours %= 24;
+
     if (years == 0) {
         if (hours > 0) {
             if (message !== "") {
@@ -54,7 +55,7 @@ function createTimeMessage(delta) {
         }
     }
 
-    if (message === "" || days == 0) {
+    if ((message === "" || days == 0 || hours == 0) && !noMins) {
         let minutes = Math.floor(delta / 60);
         delta -= minutes * 60;
 
@@ -77,7 +78,7 @@ function createTimeMessage(delta) {
             if (message !== "") {
                 message += ", ";
             }
-            message += parseInt(delta);
+            message += delta;
 
             if (delta == 1) {
                 message += " second";
