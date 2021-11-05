@@ -12,14 +12,14 @@
 }
 
 body {
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     margin: 0;
     word-wrap: break-word;
 }
 
 .card {
     border: 0.1px solid rgba(0, 0, 0, 0.219);
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
