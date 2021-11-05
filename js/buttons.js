@@ -16,13 +16,28 @@ function shuffle(a) {
     return a;
 }
 
+let buttons = document.querySelectorAll(".button");
+
+buttons.forEach((but) => {
+    but.addEventListener("touchstart", function(e) {
+        but.classList.add("active");
+        setTimeout(function() {
+            but.classList.remove("active");
+        }, 200);
+    });
+
+    // but.addEventListener("touchend", function(e) {
+
+    // });
+});
+
 // colors = colorPallets[Math.floor(Math.random() * colorPallets.length)];
 
 let colors = ["#81b29a", "#8ecae6", "#f08080", "#62bdc7"];
 // colors = shuffle(colors);
 let butns = document.getElementById("butns").children;
-let i, e;
-for (i = 0; i < butns.length; i++) {
-    e = butns[i];
-    e.style.backgroundColor = colors[i];
-}
+// let i, e;
+// for (i = 0; i < butns.length; i++) {
+//     e = butns[i];
+//     e.style.backgroundColor = colors[i];
+// }

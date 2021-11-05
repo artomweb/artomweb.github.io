@@ -12,8 +12,15 @@
 }
 
 body {
+    background-color: #ece6e2;
     margin: 0;
     word-wrap: break-word;
+}
+
+.card {
+    border: 0.1px solid rgba(0, 0, 0, 0.219);
+    background-color: #ece6e2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
 ::selection {
@@ -21,8 +28,9 @@ body {
 }
 
 #butns {
-    text-align: center;
-    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .liveDataSymbol {
@@ -33,28 +41,52 @@ body {
     display: none;
 }
 
-.button {
-    font-size: 1.5rem;
-    display: inline-block;
-    padding: 0.3em 0.7em 0.5em 0.7em;
-    margin: 0 0.3em 0.4em 0;
-    border-radius: 0.15em;
-    box-sizing: border-box;
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    font-weight: 400;
-    color: #ffffff;
-    box-shadow: inset 0 -0.6em 0 -0.35em rgba(0, 0, 0, 0.17);
-    text-align: center;
+@media (pointer: fine) {
+    .button:hover {
+        /* padding: 8px 16px; */
+        text-decoration: none;
+        background-color: #413c3c;
+        color: #ffffff;
+        transition: all 0.1s ease;
+    }
 }
 
-.projects-button {
-    margin-bottom: 0;
+.button.active {
+    /* padding: 8px 16px; */
+    text-decoration: none;
+    background-color: #413c3c;
+    color: #ffffff;
+    transition: all 0.1s ease;
 }
+
+.button {
+    background-color: #ece6e2;
+    font-weight: 400;
+    /* font-family: sans-serif; */
+    border: 2px solid #413c3c;
+    font-size: 1.75rem;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #413c3c;
+    margin: 10px 10px;
+    border-radius: 10px;
+}
+
+
+/* .button:last-child {
+    margin-top: 3px;
+} */
+
+
+/* .projects-button {
+    margin-bottom: 0;
+} */
 
 .toggle-button {
     font-size: 1rem;
-    background-color: #67a286;
+    padding: 4px 8px;
+    margin: 0;
+    /* background-color: #67a286; */
 }
 
 hr.dashed {
@@ -86,20 +118,29 @@ hr.dashed {
     top: 2px;
 }
 
+button i.fab,
+button i.fas {
+    padding: 0 5px;
+}
+
 @media (max-width: 750px) {
     .button {
-        font-size: 0.9rem;
+        font-size: 1.5rem;
+        padding: 3px 8px;
+        margin: 0.5rem 0.5rem;
     }
     .title {
-        font-size: 2.5rem;
+        font-size: 2.7rem;
     }
     .toggle-button {
-        font-size: 0.8rem;
+        font-size: 1rem;
+        margin: 0 0;
+        /* padding: -2px 2px; */
     }
     abbr[title] {
         text-decoration: none;
     }
     #circles {
-        margin-top: 4px;
+        margin-top: 1px;
     }
 }
