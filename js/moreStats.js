@@ -14,9 +14,9 @@ function updateTexts() {
     let drivingDelta = (nowTime.getTime() - drivingPass.getTime()) / 1000;
     let phoneDelta = (nowTime.getTime() - getPhone.getTime()) / 1000;
 
-    let ageMessage = createTimeMessage(ageDelta, "yd");
-    let drivingMessage = createTimeMessage(drivingDelta, "yd");
-    let phoneMessage = createTimeMessage(phoneDelta, "yd");
+    let ageMessage = createTimeMessage(ageDelta);
+    let drivingMessage = createTimeMessage(drivingDelta);
+    let phoneMessage = createTimeMessage(phoneDelta);
 
     timeAlive.innerHTML = ageMessage;
     timeDriving.innerHTML = drivingMessage;

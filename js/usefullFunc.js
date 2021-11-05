@@ -54,7 +54,7 @@ function createTimeMessage(delta) {
         }
     }
 
-    if (message === "" || days == 0 || hours == 0) {
+    if (message === "" || days == 0) {
         let minutes = Math.floor(delta / 60);
         delta -= minutes * 60;
 

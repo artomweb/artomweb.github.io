@@ -18,9 +18,9 @@ function gamesMain(data) {
         dataJson[elem[0]] = elem[1];
     });
 
-    let CSGOMsg = createTimeMessage(dataJson[730] * 60, "dhm");
-    let BF5Msg = createTimeMessage(dataJson[1238810] * 60, "dhm");
-    let RDR2Msg = createTimeMessage(dataJson[1174180] * 60, "dhm");
+    let CSGOMsg = createTimeMessage(dataJson[730] * 60);
+    let BF5Msg = createTimeMessage(dataJson[1238810] * 60);
+    let RDR2Msg = createTimeMessage(dataJson[1174180] * 60);
 
     timeCSGO.innerHTML = CSGOMsg;
     timeBF5.innerHTML = BF5Msg;
