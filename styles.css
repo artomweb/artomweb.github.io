@@ -45,16 +45,16 @@ body {
     .button:hover {
         /* padding: 8px 16px; */
         text-decoration: none;
-        background-color: #413c3c;
+        background-color: var(--hiddenColour);
         color: #ffffff;
-        transition: all 0.1s ease;
+        transition: all 0.3s ease;
     }
 }
 
 .button.active {
     /* padding: 8px 16px; */
     text-decoration: none;
-    background-color: #413c3c;
+    background-color: var(--hiddenColour);
     color: #ffffff;
     transition: all 0.1s ease;
 }
