@@ -12,14 +12,14 @@
 }
 
 body {
-    background-color: #ece6e2;
+    background-color: #ffffff;
     margin: 0;
     word-wrap: break-word;
 }
 
 .card {
     border: 0.1px solid rgba(0, 0, 0, 0.219);
-    background-color: #ece6e2;
+    background-color: #ffffff;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -60,7 +60,7 @@ body {
 }
 
 .button {
-    background-color: #ece6e2;
+    background-color: #ffffff;
     font-weight: 400;
     /* font-family: sans-serif; */
     border: 2px solid #413c3c;
@@ -86,6 +86,7 @@ body {
     font-size: 1rem;
     padding: 4px 8px;
     margin: 0;
+    border-radius: 5px;
     /* background-color: #67a286; */
 }
 
