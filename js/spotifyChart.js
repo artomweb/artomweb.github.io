@@ -122,12 +122,11 @@ function updateByDay() {
 }
 
 function aggregateByDay(dat) {
-    let datN = dat.map((d) => {
-        let day = moment(d.Date).format("dd");
-        return { dofw: day, Date: d.Date, Value: +d.Value };
-    });
-
-    let totalAvgs = _.chain(datN)
+    let totalAvgs = _.chain(dat)
+        .map((d) => {
+            let day = moment(d.Date).format("dd");
+            return {...d, dofw: day };
+        })
         .groupBy("dofw")
         .map((entries, day) => ({
             dofw: day,
