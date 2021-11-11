@@ -56,6 +56,8 @@ function spotifyToggle() {
 function getPapaParse() {
     Papa.parse("https://docs.google.com/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/gviz/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
+        header: true,
+        dynamicTyping: true,
         complete: function(results, file) {
             parseSpotify(results.data);
         },
@@ -63,12 +65,10 @@ function getPapaParse() {
 }
 
 function parseSpotify(results) {
-    results.shift();
-
-    data = results.map((elt) => {
+    data = results.map((elem) => {
         return {
-            Date: new Date(elt[0]),
-            Value: elt[1],
+            Date: new Date(elem.Date),
+            Value: elem.Value,
         };
     });
 
@@ -89,8 +89,6 @@ function updateByDay() {
         myChart.destroy();
         let temp = {...config };
 
-        let minVal = _.min(avgs);
-
         temp.type = "bar";
 
         temp.data.labels = labels;
@@ -103,8 +101,6 @@ function updateByDay() {
             // fill: false,
         };
         temp.data.datasets = [newDataset];
-
-        // temp.options.scales.yAxes[0] = { ticks: { min: minVal / 2 } };
 
         temp.options.scales.xAxes[0] = { offset: true };
 
@@ -187,8 +183,6 @@ function updateAllData() {
 
         temp.data.labels = labels;
 
-        // console.log(labels, dataWeek);
-
         temp.data.datasets = [newDataset];
 
         temp.options.scales = {
@@ -203,8 +197,6 @@ function updateAllData() {
         };
     } else {
         myChart.data.labels = labels;
-
-        // console.log(labels, dataWeek);
 
         myChart.data.datasets = [newDataset];
 

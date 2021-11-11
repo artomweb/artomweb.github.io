@@ -61,7 +61,7 @@ function fetchMonkey(data) {
 
     let testsPerDay = sortedWPM.length / dayDiff;
 
-    console.log(testsPerDay);
+    // console.log(testsPerDay);
 
     let wpmPoints = sortedWPM.map((point) => point.wpm);
 
