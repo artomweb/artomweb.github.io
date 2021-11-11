@@ -1,26 +1,19 @@
-let data;
+let data; // sorted data from sheet
 let myChart;
 let config;
 let toggleState = 0;
 let ctx2;
 let backgroundColor = "#81b29a";
 
+// changes the description to the relevant text and changes the fill of the circles
 function switchDots() {
-    let circles = [
-        document.getElementById("circle0"),
-        document.getElementById("circle1"),
-        document.getElementById("circle2"),
-        // , document.getElementById("circle3")
-    ];
+    let circles = [document.getElementById("circle0"), document.getElementById("circle1"), document.getElementById("circle2")];
     let desc = document.getElementById("spotify-desc");
 
     switch (toggleState) {
         case 0:
             desc.innerHTML = "On average, which days do I listen to the most music";
             break;
-            // case 1:
-            //     desc.innerHTML = "On average, at which time of the day do I listen to the most music";
-            //     break;
         case 1:
             desc.innerHTML = "How many songs have I listened to in the last two weeks";
             break;
@@ -31,6 +24,7 @@ function switchDots() {
     circles.forEach((c) => (c.id.slice(-1) == toggleState ? (c.style.fill = "black") : (c.style.fill = "none")));
 }
 
+// updates the chart, calls the function to update the text and switch the dots and LASTLY increments the toggleState
 function spotifyToggle() {
     switchDots();
     switch (toggleState) {
@@ -38,12 +32,8 @@ function spotifyToggle() {
             updateByDay();
             break;
 
-            // case 1:
-            //     updateByTime();
-            //     break;
-
         case 1:
-            updateTwoWeeks(data);
+            updateTwoWeeks();
             break;
 
         case 2:
@@ -58,30 +48,32 @@ function getPapaParse() {
         download: true,
         header: true,
         dynamicTyping: true,
-        complete: function(results, file) {
+        complete: function(results) {
             parseSpotify(results.data);
         },
     });
 }
 
+getPapaParse();
+
+// sorts the data and stores it globally as data,
 function parseSpotify(results) {
-    data = results.map((elem) => {
+    let dateParse = results.map((elem) => {
         return {
             Date: new Date(elem.Date),
             Value: elem.Value,
         };
     });
 
-    data = data.sort(function(a, b) {
+    data = dateParse.sort(function(a, b) {
         return b.Date.getTime() - a.Date.getTime();
     });
 
-    spotifyChart();
-    spotifyToggle();
+    spotifyChart(); // create the template chart
+    spotifyToggle(); // change the text and dots with toggle state 0 and then increment toggle state for next call
 }
 
-getPapaParse();
-
+// update the chart to show the data, aggregated by day, BAR CHART
 function updateByDay() {
     const { avgs, labels } = aggregateByDay(data);
 
@@ -144,78 +136,19 @@ function aggregateByDay(dat) {
     return { avgs, labels };
 }
 
-function aggregateByWeek(dat) {
-    // console.log(moment(dat[0].Date).format("YY-M"));
-    let weekAvg = _.chain(dat)
-        .groupBy((d) => {
-            return moment(d.Date).format("W-YYYY");
-        })
-        .map((entries, week) => ({
-            wofy: week,
-            avg: _.sumBy(entries, (entry) => +entry.Value),
-        }))
-        .value();
+function processData(dat) {
+    let labels = dat.map((e) => {
+        return e.Date;
+    });
 
-    weekAvg.sort((a, b) => moment(a.wofy, "W-YYYY") - moment(b.wofy, "W-YYYY"));
+    let rawData = dat.map((e) => {
+        return e.Value;
+    });
 
-    let labels = weekAvg.map((w) => w.wofy);
-    let dataWeek = weekAvg.map((w) => w.avg);
-
-    return { dataWeek, labels };
+    return { rawData, labels };
 }
 
-function updateAllData() {
-    let { dataWeek, labels } = aggregateByWeek(data);
-    let newDataset = {
-        // tension: 0.3,
-        // borderColor: "black",
-        data: dataWeek,
-        backgroundColor,
-        // fill: false,
-    };
-    // console.log(values);
-
-    if (myChart.config.type == "bar") {
-        myChart.destroy();
-        let temp = {...config };
-        temp.type = "line";
-
-        temp.data.labels = labels;
-
-        temp.data.datasets = [newDataset];
-
-        temp.options.scales = {
-            xAxes: [{
-                ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 4,
-                    maxRotation: 0,
-                    minRotation: 0,
-                },
-            }, ],
-        };
-    } else {
-        myChart.data.labels = labels;
-
-        myChart.data.datasets = [newDataset];
-
-        myChart.options.scales = {
-            xAxes: [{
-                ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 4,
-                    maxRotation: 0,
-                    minRotation: 0,
-                },
-            }, ],
-        };
-
-        //   console.log(myChart.data.datasets);
-
-        myChart.update();
-    }
-}
-
+// update the chart to show the data, for the last two weeks, LIN CHART
 function updateTwoWeeks() {
     let { rawData, labels } = processData(data);
     rawData = rawData.slice(0, 14);
@@ -287,18 +220,79 @@ function updateTwoWeeks() {
     }
 }
 
-function processData(dat) {
-    let labels = dat.map((e) => {
-        return new Date(e.Date);
-    });
+function aggregateByWeek(dat) {
+    let weekAvg = _.chain(dat)
+        .groupBy((d) => {
+            return moment(d.Date).format("W-YYYY");
+        })
+        .map((entries, week) => ({
+            wofy: week,
+            avg: _.sumBy(entries, (entry) => +entry.Value),
+        }))
+        .value();
 
-    let rawData = dat.map((e) => {
-        return e.Value;
-    });
+    weekAvg.sort((a, b) => moment(a.wofy, "W-YYYY") - moment(b.wofy, "W-YYYY"));
 
-    return { rawData, labels };
+    let labels = weekAvg.map((w) => w.wofy);
+    let dataWeek = weekAvg.map((w) => w.avg);
+
+    return { dataWeek, labels };
 }
 
+// update the chart to show the data, aggregated by week, LIN CHART
+function updateAllData() {
+    let { dataWeek, labels } = aggregateByWeek(data);
+    let newDataset = {
+        // tension: 0.3,
+        // borderColor: "black",
+        data: dataWeek,
+        backgroundColor,
+        // fill: false,
+    };
+    // console.log(values);
+
+    if (myChart.config.type == "bar") {
+        myChart.destroy();
+        let temp = {...config };
+        temp.type = "line";
+
+        temp.data.labels = labels;
+
+        temp.data.datasets = [newDataset];
+
+        temp.options.scales = {
+            xAxes: [{
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 4,
+                    maxRotation: 0,
+                    minRotation: 0,
+                },
+            }, ],
+        };
+    } else {
+        myChart.data.labels = labels;
+
+        myChart.data.datasets = [newDataset];
+
+        myChart.options.scales = {
+            xAxes: [{
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 4,
+                    maxRotation: 0,
+                    minRotation: 0,
+                },
+            }, ],
+        };
+
+        //   console.log(myChart.data.datasets);
+
+        myChart.update();
+    }
+}
+
+// plot the template chart
 function spotifyChart() {
     // let rawData = [589, 445, 483, 503, 689, 692, 634];
     // let labels = ["S", "M", "T", "W", "T", "F", "S"];
