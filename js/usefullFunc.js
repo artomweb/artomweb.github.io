@@ -127,3 +127,14 @@ function findLineByLeastSquares(values_y) {
     let returnpoint2 = [values_length, values_length * m + b];
     return [returnpoint1, returnpoint2];
 }
+
+let touchButtons = document.querySelectorAll(".button");
+
+touchButtons.forEach((but) => {
+    but.addEventListener("touchstart", function(e) {
+        but.classList.add("active");
+        setTimeout(function() {
+            but.classList.remove("active");
+        }, 200);
+    });
+});
