@@ -1,4 +1,4 @@
-let socket = io("https://rppi.artomweb.com", { reconnectionDelay: 500 });
+let socket = io("https://rppi.artomweb.com/reading", { reconnectionDelay: 500 });
 
 function addClassToIcon(icon, className) {}
 
