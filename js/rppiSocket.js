@@ -1,7 +1,5 @@
 let socket = io("https://rppi.artomweb.com/reading", { reconnectionDelay: 500 });
 
-function addClassToIcon(icon, className) {}
-
 function updateReadingText(msg) {
     document.getElementById("temperatureReading").innerHTML = msg.temperature.toFixed(2);
     document.getElementById("pressureReading").innerHTML = msg.pressure.toFixed(2);
