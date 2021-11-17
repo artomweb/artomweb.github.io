@@ -37,10 +37,21 @@ function updateSleepDays(data) {
 }
 
 async function fetchHealth() {
-    Papa.parse("https://docs.google.com/spreadsheets/d/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/gviz/tq?tqx=out:csv&sheet=sheet1", {
+    Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/gviz/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
         complete: function(results, file) {
             healthMain(results.data);
+        },
+        error: function(error) {
+            Papa.parse("https://docs.google.com/spreadsheets/d/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/gviz/tq?tqx=out:csv&sheet=sheet1", {
+                download: true,
+                complete: function(results, file) {
+                    healthMain(results.data);
+                },
+                error: function(error) {
+                    console.log("failed both sources, uh oh, sleep");
+                },
+            });
         },
     });
 }

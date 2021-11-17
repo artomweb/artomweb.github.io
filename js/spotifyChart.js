@@ -44,12 +44,26 @@ function spotifyToggle() {
 }
 
 function getPapaParse() {
-    Papa.parse("https://docs.google.com/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/gviz/tq?tqx=out:csv&sheet=sheet1", {
+    Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/gviz/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
         header: true,
         dynamicTyping: true,
         complete: function(results) {
             parseSpotify(results.data);
+        },
+        error: function(error) {
+            console.log("failed to fetch from cache, spotify");
+            Papa.parse("https://docs.google.com/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/gviz/tq?tqx=out:csv&sheet=sheet1", {
+                download: true,
+                header: true,
+                dynamicTyping: true,
+                complete: function(results) {
+                    parseSpotify(results.data);
+                },
+                error: function(error) {
+                    console.log("failed both sources, uh oh, spotify");
+                },
+            });
         },
     });
 }

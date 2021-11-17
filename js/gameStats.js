@@ -1,8 +1,20 @@
 async function fetchGames() {
-    Papa.parse("https://docs.google.com/spreadsheets/d/1HcMmJBfNWdwyX4rMhh-b_pCnTvTkQ1CfACv37JTCuzE/gviz/tq?tqx=out:csv&sheet=sheet1", {
+    Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1HcMmJBfNWdwyX4rMhh-b_pCnTvTkQ1CfACv37JTCuzE/gviz/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
         complete: function(results) {
             gamesMain(results.data);
+        },
+        error: function(error) {
+            console.log("failed to fetch from cache, games");
+            Papa.parse("https://docs.google.com/spreadsheets/d/1HcMmJBfNWdwyX4rMhh-b_pCnTvTkQ1CfACv37JTCuzE/gviz/tq?tqx=out:csv&sheet=sheet1", {
+                download: true,
+                complete: function(results) {
+                    gamesMain(results.data);
+                },
+                error: function(error) {
+                    console.log("failed to fetch from both sources, games");
+                },
+            });
         },
     });
 }

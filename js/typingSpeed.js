@@ -1,10 +1,24 @@
 function getPapaParse() {
-    Papa.parse("https://docs.google.com/spreadsheets/d/1bpABRveXtGeY5Sqlzi2ul33i8Qp-ehhSDIFaMigKGfk/gviz/tq?tqx=out:csv&sheet=sheet1", {
+    Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1bpABRveXtGeY5Sqlzi2ul33i8Qp-ehhSDIFaMigKGfk/gviz/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
         header: true,
         dynamicTyping: true,
         complete: function(results, file) {
             fetchMonkey(results.data);
+        },
+        error: function(error) {
+            console.log("failed to fetch from cache, typing");
+            Papa.parse("https://docs.google.com/spreadsheets/d/1bpABRveXtGeY5Sqlzi2ul33i8Qp-ehhSDIFaMigKGfk/gviz/tq?tqx=out:csv&sheet=sheet1", {
+                download: true,
+                header: true,
+                dynamicTyping: true,
+                complete: function(results, file) {
+                    fetchMonkey(results.data);
+                },
+                error: function(error) {
+                    console.log("failed to fetch from both sources, typing");
+                },
+            });
         },
     });
 }
