@@ -1,4 +1,4 @@
-function getPapaParse() {
+function fetchTyping() {
     Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1bpABRveXtGeY5Sqlzi2ul33i8Qp-ehhSDIFaMigKGfk/gviz/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
         header: true,
@@ -23,7 +23,7 @@ function getPapaParse() {
     });
 }
 
-getPapaParse();
+fetchTyping();
 
 function showSymbols() {
     let symbols = document.getElementsByClassName("symbol");
