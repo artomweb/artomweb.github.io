@@ -39,23 +39,24 @@ function solarMain(data) {
         // console.log(data[i].reading, duration.asMinutes(), data[i].changePerMin);
     }
 
-    data.shift();
-
     console.log(Math.floor(data[0].date.valueOf() / (1000 * 60 * 15)));
 
     let dataAggr = _.chain(data)
         .groupBy((d) => {
-            return d.date.format("dd");
+            return d.date.format("DD-MM-YY");
         })
         .map((entries, day) => {
             return {
-                day,
-                avg: Math.round(_.meanBy(entries, (entry) => +entry.change) * 100) / 100,
+                day: moment(day, "DD-MM-YY"),
+                avg: Math.round(_.sumBy(entries, (entry) => +entry.change) * 100) / 100,
             };
         })
-        .sortBy((d) => +d.hour)
+        // .sortBy((d) => +d.hour)
         .value();
 
+    console.log(dataAggr);
+    dataAggr.pop();
+    dataAggr = dataAggr.slice(0, 14);
     console.log(dataAggr);
 
     let labels = dataAggr.map((d) => d.day);
@@ -72,15 +73,13 @@ function solarMain(data) {
     //     }
     // });
 
-    console.log(labels);
-
     plotSolar(labels, dat, labels);
 }
 
 function plotSolar(labels, dat, allLabels) {
     ctx2 = document.getElementById("solarChart").getContext("2d");
     config = {
-        type: "bar",
+        type: "line",
         data: {
             labels: labels,
             datasets: [{
@@ -112,28 +111,25 @@ function plotSolar(labels, dat, allLabels) {
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
+
                         // min: 5,
                     },
                 }, ],
                 xAxes: [{
-                    ticks: {
-                        autoSkip: true,
-                        // maxTicksLimit: 3,
+                    autoSkip: true,
+                    maxTicksLimit: 2,
+                    type: "time",
+                    time: {
+                        unit: "day",
+                        round: "day",
+                        displayFormats: {
+                            day: "dd",
+                        },
                     },
                 }, ],
             },
             tooltips: {
-                callbacks: {
-                    // label: function(tooltipItem, data) {
-                    //     let label = data.datasets[tooltipItem.datasetIndex].label || "";
-                    //     return label;
-                    // },
-                    title: function(tooltipItem, data) {
-                        // let title = tooltipItem[0].xLabel;
-                        return allLabels[tooltipItem[0].index];
-                        // return title;
-                    },
-                },
+                callbacks: {},
             },
         },
     };
