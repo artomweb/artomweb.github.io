@@ -26,7 +26,7 @@ async function fetchSolar() {
 fetchSolar();
 
 function solarMain(data) {
-    data = data.filter((d) => d.reading != null);
+    data = data.filter((d) => d.change != null);
 
     data.forEach((d) => {
         d.date = moment(d.image_taken_h);
@@ -35,20 +35,22 @@ function solarMain(data) {
     console.log(data);
     for (let i = 1; i < data.length; i++) {
         let duration = moment.duration(data[i].date.diff(data[i - 1].date));
-        data[i].changePerMin = (data[i].reading - data[i - 1].reading) / duration.asMinutes();
+        data[i].changePerMin = data[i].change / duration.asMinutes();
         // console.log(data[i].reading, duration.asMinutes(), data[i].changePerMin);
     }
 
     data.shift();
 
+    console.log(Math.floor(data[0].date.valueOf() / (1000 * 60 * 15)));
+
     let dataAggr = _.chain(data)
         .groupBy((d) => {
-            return d.date.format("HH");
+            return d.date.format("dd");
         })
-        .map((entries, hour) => {
+        .map((entries, day) => {
             return {
-                hour: (+hour + 1).toString().padStart(2, "0"),
-                avg: _.meanBy(entries, (entry) => +entry.changePerMin) * 15,
+                day,
+                avg: Math.round(_.meanBy(entries, (entry) => +entry.change) * 100) / 100,
             };
         })
         .sortBy((d) => +d.hour)
@@ -56,36 +58,36 @@ function solarMain(data) {
 
     console.log(dataAggr);
 
-    let labels = dataAggr.map((d) => d.hour);
+    let labels = dataAggr.map((d) => d.day);
     let dat = dataAggr.map((d) => d.avg);
 
-    let hours = ["01", "12", "24"];
+    // let hours = ["01", "12", "24"];
 
-    let allLabels = labels.slice();
+    // let allLabels = labels.slice();
 
-    labels.forEach((label, idx) => {
-        // idx % 6 == 0 ? label : "";
-        if (!hours.includes(label)) {
-            labels[idx] = "";
-        }
-    });
+    // labels.forEach((label, idx) => {
+    //     // idx % 6 == 0 ? label : "";
+    //     if (!hours.includes(label)) {
+    //         labels[idx] = "";
+    //     }
+    // });
 
     console.log(labels);
 
-    plotSolar(labels, dat, allLabels);
+    plotSolar(labels, dat, labels);
 }
 
 function plotSolar(labels, dat, allLabels) {
     ctx2 = document.getElementById("solarChart").getContext("2d");
     config = {
-        type: "line",
+        type: "bar",
         data: {
             labels: labels,
             datasets: [{
                 // tension: 0.3,
                 // borderColor: "black",
                 data: dat,
-                backgroundColor,
+                backgroundColor: "#8ecae6",
                 // fill: false,
             }, ],
         },
@@ -122,12 +124,10 @@ function plotSolar(labels, dat, allLabels) {
             },
             tooltips: {
                 callbacks: {
-                    label: function(tooltipItem, data) {
-                        let label = data.datasets[tooltipItem.datasetIndex].label || "";
-
-                        return label;
-                    },
-
+                    // label: function(tooltipItem, data) {
+                    //     let label = data.datasets[tooltipItem.datasetIndex].label || "";
+                    //     return label;
+                    // },
                     title: function(tooltipItem, data) {
                         // let title = tooltipItem[0].xLabel;
                         return allLabels[tooltipItem[0].index];
