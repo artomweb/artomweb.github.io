@@ -145,3 +145,15 @@ button i.fas {
         margin-top: 1px;
     }
 }
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1000px !important;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1200px !important;
+    }
+}
