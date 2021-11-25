@@ -32,14 +32,14 @@ function solarMain(data) {
         d.date = moment(d.image_taken_h);
     });
 
-    console.log(data);
+    // console.log(data);
     for (let i = 1; i < data.length; i++) {
         let duration = moment.duration(data[i].date.diff(data[i - 1].date));
         data[i].changePerMin = data[i].change / duration.asMinutes();
         // console.log(data[i].reading, duration.asMinutes(), data[i].changePerMin);
     }
 
-    console.log(Math.floor(data[0].date.valueOf() / (1000 * 60 * 15)));
+    // console.log(Math.floor(data[0].date.valueOf() / (1000 * 60 * 15)));
 
     let dataAggr = _.chain(data)
         .groupBy((d) => {
@@ -48,16 +48,16 @@ function solarMain(data) {
         .map((entries, day) => {
             return {
                 day: moment(day, "DD-MM-YY"),
-                avg: Math.round(_.sumBy(entries, (entry) => +entry.change) * 100) / 100,
+                avg: Math.floor(_.sumBy(entries, (entry) => +entry.change) * 100) / 100,
             };
         })
         // .sortBy((d) => +d.hour)
         .value();
 
-    console.log(dataAggr);
+    // console.log(dataAggr);
     dataAggr.pop();
     dataAggr = dataAggr.slice(0, 14);
-    console.log(dataAggr);
+    // console.log(dataAggr);
 
     let labels = dataAggr.map((d) => d.day);
     let dat = dataAggr.map((d) => d.avg);
@@ -129,7 +129,15 @@ function plotSolar(labels, dat, allLabels) {
                 }, ],
             },
             tooltips: {
-                callbacks: {},
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        // let label = data.datasets[tooltipItem.datasetIndex].label || "";
+
+                        // console.log(tooltipItem);
+
+                        return (tooltipItem.yLabel += " Watt Hours");
+                    },
+                },
             },
         },
     };
