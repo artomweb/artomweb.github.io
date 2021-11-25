@@ -43,7 +43,7 @@ function spotifyToggle() {
     toggleState == 2 ? (toggleState = 0) : toggleState++;
 }
 
-function getPapaParse() {
+function getPapaParseSpotify() {
     Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/gviz/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
         header: true,
@@ -68,7 +68,7 @@ function getPapaParse() {
     });
 }
 
-getPapaParse();
+getPapaParseSpotify();
 
 // sorts the data and stores it globally as data,
 function parseSpotify(results) {
