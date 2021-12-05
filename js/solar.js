@@ -135,7 +135,7 @@ function plotSolar(labels, dat, allLabels) {
 
                         // console.log(tooltipItem);
 
-                        return (tooltipItem.yLabel += " Watt Hours");
+                        return (tooltipItem.yLabel += "k Watt Hours");
                     },
                 },
             },
