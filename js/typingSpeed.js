@@ -41,6 +41,8 @@ function fetchMonkey(data) {
         elt.dateTime = new Date(elt.dateTime);
     });
 
+    data = _.sortBy(data, (point) => point.dateTime.getTime());
+
     let weekAvg = _.chain(data)
         .groupBy((d) => {
             return moment(d.dateTime).format("MMM YYYY");
@@ -64,8 +66,6 @@ function fetchMonkey(data) {
 
     plotMonkey(labels, dat);
 
-    let maxWPM = +_.maxBy(data, "wpm").wpm;
-
     let sortedWPM = _.sortBy(data, (point) => point.dateTime.getTime());
 
     let firstTest = sortedWPM[0];
@@ -75,7 +75,9 @@ function fetchMonkey(data) {
 
     let testsPerDay = sortedWPM.length / dayDiff;
 
+    let maxWPM = +_.maxBy(data, "wpm").wpm;
     // console.log(testsPerDay);
+    data = data.slice(-500);
 
     let wpmPoints = sortedWPM.map((point) => point.wpm);
 
@@ -87,7 +89,7 @@ function fetchMonkey(data) {
 
     let changeInWPMPerMin = wpmChange * (3600 / delta);
 
-    let plus = changeInWPMPerMin > 0 ? "+" : "";
+    let plus = changeInWPMPerMin > 0 ? "+" : "-";
 
     let avgWPM = _.meanBy(data, (o) => +o.wpm).toFixed(2);
     let avgAcc = Math.round(
