@@ -77,7 +77,7 @@ function solarMain(data) {
 }
 
 function plotSolar(labels, dat, allLabels) {
-    ctx2 = document.getElementById("solarChart").getContext("2d");
+    let ctx2 = document.getElementById("solarChart").getContext("2d");
     config = {
         type: "line",
         data: {
@@ -141,5 +141,5 @@ function plotSolar(labels, dat, allLabels) {
             },
         },
     };
-    myChart = new Chart(ctx2, config);
+    let myChart = new Chart(ctx2, config);
 }
