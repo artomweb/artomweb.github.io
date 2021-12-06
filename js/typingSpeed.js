@@ -77,7 +77,6 @@ function fetchMonkey(data) {
 
     let maxWPM = +_.maxBy(data, "wpm").wpm;
     // console.log(testsPerDay);
-    data = data.slice(-500);
 
     let wpmPoints = sortedWPM.map((point) => point.wpm);
 
@@ -90,6 +89,8 @@ function fetchMonkey(data) {
     let changeInWPMPerMin = wpmChange * (3600 / delta);
 
     let plus = changeInWPMPerMin > 0 ? "+" : "-";
+
+    data = data.slice(-500);
 
     let avgWPM = _.meanBy(data, (o) => +o.wpm).toFixed(2);
     let avgAcc = Math.round(
