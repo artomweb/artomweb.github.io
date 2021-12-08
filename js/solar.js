@@ -56,7 +56,7 @@ function solarMain(data) {
 
     // console.log(dataAggr);
     dataAggr.pop();
-    dataAggr = dataAggr.slice(0, 14);
+    dataAggr = dataAggr.slice(-14);
     // console.log(dataAggr);
 
     let labels = dataAggr.map((d) => d.day);
