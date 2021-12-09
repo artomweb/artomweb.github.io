@@ -41,37 +41,43 @@ function solarMain(data) {
 
     // console.log(Math.floor(data[0].date.valueOf() / (1000 * 60 * 15)));
 
-    let dataAggr = _.chain(data)
+    let newData = _.chain(data)
         .groupBy((d) => {
             return d.date.format("DD-MM-YY");
         })
         .map((entries, day) => {
             return {
-                day: moment(day, "DD-MM-YY"),
-                avg: Math.floor(_.sumBy(entries, (entry) => +entry.change) * 100) / 100,
+                day: moment(day, "DD-MM-YY").add(2, "hours"),
+                end: _.maxBy(entries, (entry) => entry.reading).reading,
             };
         })
-        // .sortBy((d) => +d.hour)
+        // .sortBy("date")
         .value();
 
-    // console.log(dataAggr);
-    dataAggr.pop();
-    dataAggr = dataAggr.slice(-14);
-    // console.log(dataAggr);
+    for (let i = 0; i < newData.length; i++) {
+        // console.log(newData[i]);
+        let thisDay = newData[i];
+        // console.log("");
 
-    let labels = dataAggr.map((d) => d.day);
-    let dat = dataAggr.map((d) => d.avg);
+        let yest = thisDay.day.clone().subtract(1, "day").format("DD-MM-YY");
+        // console.log(yest);
 
-    // let hours = ["01", "12", "24"];
+        let found = newData.find((el) => {
+            return el.day.format("DD-MM-YY") === yest;
+        });
 
-    // let allLabels = labels.slice();
+        if (found) {
+            thisDay.changeDay = Math.floor((thisDay.end - found.end) * 100) / 100;
+        }
+    }
 
-    // labels.forEach((label, idx) => {
-    //     // idx % 6 == 0 ? label : "";
-    //     if (!hours.includes(label)) {
-    //         labels[idx] = "";
-    //     }
-    // });
+    newData = newData.filter((el) => el.changeDay !== undefined);
+
+    newData.pop();
+    newData = newData.slice(0, 14);
+
+    let labels = newData.map((d) => d.day);
+    let dat = newData.map((d) => d.changeDay);
 
     plotSolar(labels, dat, labels);
 }
@@ -83,7 +89,7 @@ function plotSolar(labels, dat, allLabels) {
         data: {
             labels: labels,
             datasets: [{
-                // tension: 0.3,
+                tension: 0.2,
                 // borderColor: "black",
                 data: dat,
                 backgroundColor: "#8ecae6",
