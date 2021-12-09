@@ -57,10 +57,11 @@ function solarMain(data) {
     // console.log(dataAggr);
     dataAggr.pop();
     dataAggr = dataAggr.slice(0, 14);
+
     // console.log(dataAggr);
 
-    let labels = dataAggr.map((d) => d.day);
-    let dat = dataAggr.map((d) => d.avg);
+    // let labels = dataAggr.map((d) => d.day);
+    // let dat = dataAggr.map((d) => d.avg);
 
     // let hours = ["01", "12", "24"];
 
@@ -73,7 +74,63 @@ function solarMain(data) {
     //     }
     // });
 
+    // plotSolar(labels, dat, labels);
+
+    let newData = _.chain(data)
+        .groupBy((d) => {
+            return d.date.format("DD-MM-YY");
+        })
+        .map((entries, day) => {
+            return {
+                day: moment(day, "DD-MM-YY").add(2, "hours"),
+                end: _.maxBy(entries, (entry) => entry.reading).reading,
+            };
+        })
+        // .sortBy("date")
+        .value();
+
+    for (let i = 0; i < newData.length; i++) {
+        // console.log(newData[i]);
+        let thisDay = newData[i];
+        // console.log("");
+
+        let yest = thisDay.day.clone().subtract(1, "day").format("DD-MM-YY");
+        // console.log(yest);
+
+        let found = newData.find((el) => {
+            return el.day.format("DD-MM-YY") === yest;
+        });
+
+        if (found) {
+            thisDay.changeDay = Math.floor((thisDay.end - found.end) * 100) / 100;
+        }
+    }
+
+    newData = newData.filter((el) => el.changeDay);
+
+    newData.pop();
+    newData = newData.slice(0, 14);
+
+    console.log(newData);
+
+    let labels = newData.map((d) => d.day);
+    let dat = newData.map((d) => d.changeDay);
+
     plotSolar(labels, dat, labels);
+
+    // for (let i = 0; i < newData.length; i++) {
+    //     console.log(newData[i].day);
+    // }
+
+    // console.log(newData);
+    // for (let d of newData) {
+    //     console.log(d.day.subtract(1, "day").format("DD-MM-YY"));
+    // }
+    // console.log(
+    //     newData.find((el) => {
+    //         return el.day.format("DD-MM-YY") === "12-11-21";
+    //     })
+    // );
 }
 
 function plotSolar(labels, dat, allLabels) {
