@@ -255,7 +255,7 @@ function aggregateByWeek(dat) {
 
 // update the chart to show the data, aggregated by week, LIN CHART
 function updateAllData() {
-    let { dataWeek, labels } = aggregateByWeek(data);
+    let { dataWeek, labels } = aggregateByWeek(data.slice(0, 365));
     let newDataset = {
         // tension: 0.3,
         // borderColor: "black",
