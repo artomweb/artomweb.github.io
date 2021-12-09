@@ -84,7 +84,7 @@ function solarMain(data) {
 
 function plotSolar(labels, dat, allLabels) {
     let ctx2 = document.getElementById("solarChart").getContext("2d");
-    config = {
+    let config = {
         type: "line",
         data: {
             labels: labels,
