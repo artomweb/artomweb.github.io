@@ -74,7 +74,7 @@ function solarMain(data) {
     newData = newData.filter((el) => el.changeDay !== undefined);
 
     newData.pop();
-    newData = newData.slice(0, 14);
+    newData = newData.slice(-14);
 
     let labels = newData.map((d) => d.day);
     let dat = newData.map((d) => d.changeDay);
