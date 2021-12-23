@@ -26,18 +26,18 @@ async function fetchSolar() {
 fetchSolar();
 
 function solarMain(data) {
-    data = data.filter((d) => d.change != null);
+    // data = data.filter((d) => d.change != null);
 
     data.forEach((d) => {
         d.date = moment(d.image_taken_h);
     });
 
     // console.log(data);
-    for (let i = 1; i < data.length; i++) {
-        let duration = moment.duration(data[i].date.diff(data[i - 1].date));
-        data[i].changePerMin = data[i].change / duration.asMinutes();
-        // console.log(data[i].reading, duration.asMinutes(), data[i].changePerMin);
-    }
+    // for (let i = 1; i < data.length; i++) {
+    //     let duration = moment.duration(data[i].date.diff(data[i - 1].date));
+    //     data[i].changePerMin = data[i].change / duration.asMinutes();
+    //     // console.log(data[i].reading, duration.asMinutes(), data[i].changePerMin);
+    // }
 
     // console.log(Math.floor(data[0].date.valueOf() / (1000 * 60 * 15)));
 
@@ -47,7 +47,7 @@ function solarMain(data) {
         })
         .map((entries, day) => {
             return {
-                day: moment(day, "DD-MM-YY").add(2, "hours"),
+                day: moment(day, "DD-MM-YY"),
                 end: _.maxBy(entries, (entry) => entry.reading).reading,
             };
         })
@@ -55,12 +55,9 @@ function solarMain(data) {
         .value();
 
     for (let i = 0; i < newData.length; i++) {
-        // console.log(newData[i]);
         let thisDay = newData[i];
-        // console.log("");
 
         let yest = thisDay.day.clone().subtract(1, "day").format("DD-MM-YY");
-        // console.log(yest);
 
         let found = newData.find((el) => {
             return el.day.format("DD-MM-YY") === yest;
@@ -79,10 +76,10 @@ function solarMain(data) {
     let labels = newData.map((d) => d.day);
     let dat = newData.map((d) => d.changeDay);
 
-    plotSolar(labels, dat, labels);
+    plotSolar(labels, dat);
 }
 
-function plotSolar(labels, dat, allLabels) {
+function plotSolar(labels, dat) {
     let ctx2 = document.getElementById("solarChart").getContext("2d");
     let config = {
         type: "line",
