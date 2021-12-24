@@ -68,17 +68,15 @@ function fetchMonkey(data) {
 
     let sortedWPM = _.sortBy(data, (point) => point.dateTime.getTime());
 
-    let firstTest = sortedWPM[0];
-    let lastTest = sortedWPM[sortedWPM.length - 1];
-
-    let dayDiff = (lastTest.dateTime - firstTest.dateTime) / (1000 * 60 * 60 * 24);
-
-    let testsPerDay = sortedWPM.length / dayDiff;
-
     let maxWPM = +_.maxBy(data, "wpm").wpm;
-    // console.log(testsPerDay);
 
-    let wpmPoints = sortedWPM.map((point) => point.wpm);
+    // Only last 500 tests
+
+    let dataRecent = sortedWPM.slice(-500);
+
+    // speed change per hour
+
+    let wpmPoints = dataRecent.map((point) => point.wpm);
 
     let trend = findLineByLeastSquares(wpmPoints);
 
@@ -90,13 +88,22 @@ function fetchMonkey(data) {
 
     let plus = changeInWPMPerMin > 0 ? "+" : "-";
 
-    data = data.slice(-500);
+    // avg wpm and acc
 
-    let avgWPM = _.meanBy(data, (o) => +o.wpm).toFixed(2);
+    let avgWPM = _.meanBy(dataRecent, (o) => +o.wpm).toFixed(2);
     let avgAcc = Math.round(
-        _.meanBy(data, (o) => +o.acc),
+        _.meanBy(dataRecent, (o) => +o.acc),
         0
     );
+
+    // number of tests per day
+
+    let firstTest = dataRecent[0];
+    let lastTest = dataRecent[dataRecent.length - 1];
+
+    let dayDiff = (lastTest.dateTime - firstTest.dateTime) / (1000 * 60 * 60 * 24);
+
+    let testsPerDay = dataRecent.length / dayDiff;
 
     let message = createTimeMessage(delta);
 

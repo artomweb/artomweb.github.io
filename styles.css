@@ -97,7 +97,7 @@ hr.dashed {
 
 .textItal {
     /* font-style: italic; */
-    font-weight: 600;
+    font-weight: 600 !important;
 }
 
 .valDesc {

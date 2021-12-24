@@ -1,10 +1,12 @@
 async function fetchSolar() {
+    console.time("solarParse");
     Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1QwrB_H8QE7fxDc05FGbmGm7ch59pXuJ73vM5Jl9VA-E/tq?tqx=out:csv&sheet=sheet1", {
         download: true,
         header: true,
         dynamicTyping: true,
         complete: function(results) {
             solarMain(results.data);
+            console.timeEnd("solarParse");
         },
         error: function(error) {
             console.log("failed to fetch from cache, games");
