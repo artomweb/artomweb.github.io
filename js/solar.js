@@ -1,5 +1,4 @@
 async function fetchSolar() {
-    console.time("solarParse");
     fetch("https://rppi.artomweb.com/cache/spreadsheets/1QwrB_H8QE7fxDc05FGbmGm7ch59pXuJ73vM5Jl9VA-E")
         .then((res) => res.json())
         .then((out) => solarMain(out))
@@ -22,9 +21,6 @@ async function fetchSolar() {
 fetchSolar();
 
 function solarMain(data) {
-    console.timeEnd("solarParse");
-    // data = data.filter((d) => d.change != null);
-
     data.forEach((d) => {
         d.date = moment(d.image_taken_h);
     });

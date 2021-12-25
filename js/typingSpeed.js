@@ -70,7 +70,7 @@ function parseTyping(data) {
 
     // speed change per hour
 
-    let wpmPoints = dataRecent.map((point) => point.wpm);
+    let wpmPoints = dataRecent.map((point) => +point.wpm);
 
     let trend = findLineByLeastSquares(wpmPoints);
 
