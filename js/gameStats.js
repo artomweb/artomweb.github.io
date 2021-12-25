@@ -1,5 +1,5 @@
 function fetchGames() {
-    Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1HcMmJBfNWdwyX4rMhh-b_pCnTvTkQ1CfACv37JTCuzE/gviz/tq?tqx=out:csv&sheet=sheet1", {
+    Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/1HcMmJBfNWdwyX4rMhh-b_pCnTvTkQ1CfACv37JTCuzE", {
         download: true,
         complete: function(results) {
             gamesMain(results.data);

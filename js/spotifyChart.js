@@ -1,9 +1,31 @@
-let data; // sorted data from sheet
+let spotifyData; // sorted data from sheet
 let myChart;
 let config;
 let toggleState = 0;
 let ctx2;
 let backgroundColor = "#81b29a";
+
+function getPapaParseSpotify() {
+    fetch("https://rppi.artomweb.com/cache/spreadsheets/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE")
+        .then((res) => res.json())
+        .then((out) => parseSpotify(out))
+        .catch((err) => {
+            console.log("failed to fetch from cache, spotify");
+            Papa.parse("https://docs.google.com/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/gviz/tq?tqx=out:csv&sheet=sheet1", {
+                download: true,
+                header: true,
+                dynamicTyping: true,
+                complete: function(results, file) {
+                    parseSpotify(results.data);
+                },
+                error: function(error) {
+                    console.log("failed to fetch from both sources, spotify");
+                },
+            });
+        });
+}
+
+getPapaParseSpotify();
 
 // changes the description to the relevant text and changes the fill of the circles
 function switchDots() {
@@ -43,43 +65,16 @@ function spotifyToggle() {
     toggleState == 2 ? (toggleState = 0) : toggleState++;
 }
 
-function getPapaParseSpotify() {
-    Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/gviz/tq?tqx=out:csv&sheet=sheet1", {
-        download: true,
-        header: true,
-        dynamicTyping: true,
-        complete: function(results) {
-            parseSpotify(results.data);
-        },
-        error: function(error) {
-            console.log("failed to fetch from cache, spotify");
-            Papa.parse("https://docs.google.com/spreadsheets/d/1UYWe_3L4NiBU8_bwAbI1XTIRCToCDkOF44wUWVQ2gRE/gviz/tq?tqx=out:csv&sheet=sheet1", {
-                download: true,
-                header: true,
-                dynamicTyping: true,
-                complete: function(results) {
-                    parseSpotify(results.data);
-                },
-                error: function(error) {
-                    console.log("failed both sources, uh oh, spotify");
-                },
-            });
-        },
-    });
-}
-
-getPapaParseSpotify();
-
 // sorts the data and stores it globally as data,
 function parseSpotify(results) {
     let dateParse = results.map((elem) => {
         return {
             Date: new Date(elem.Date),
-            Value: elem.Value,
+            Value: +elem.Value,
         };
     });
 
-    data = dateParse.sort(function(a, b) {
+    spotifyData = dateParse.sort(function(a, b) {
         return b.Date.getTime() - a.Date.getTime();
     });
 
@@ -89,7 +84,7 @@ function parseSpotify(results) {
 
 // update the chart to show the data, aggregated by day, BAR CHART
 function updateByDay() {
-    const { avgs, labels } = aggregateByDay(data);
+    const { avgs, labels } = aggregateByDay(spotifyData);
 
     if (myChart.config.type == "line") {
         myChart.destroy();
@@ -164,7 +159,7 @@ function processData(dat) {
 
 // update the chart to show the data, for the last two weeks, LIN CHART
 function updateTwoWeeks() {
-    let { rawData, labels } = processData(data);
+    let { rawData, labels } = processData(spotifyData);
     rawData = rawData.slice(0, 14);
     labels = labels.slice(0, 14);
 
@@ -255,7 +250,7 @@ function aggregateByWeek(dat) {
 
 // update the chart to show the data, aggregated by week, LIN CHART
 function updateAllData() {
-    let { dataWeek, labels } = aggregateByWeek(data.slice(0, 365));
+    let { dataWeek, labels } = aggregateByWeek(spotifyData.slice(0, 365));
     let newDataset = {
         // tension: 0.3,
         // borderColor: "black",

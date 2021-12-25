@@ -1,33 +1,28 @@
 async function fetchSolar() {
     console.time("solarParse");
-    Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1QwrB_H8QE7fxDc05FGbmGm7ch59pXuJ73vM5Jl9VA-E/tq?tqx=out:csv&sheet=sheet1", {
-        download: true,
-        header: true,
-        dynamicTyping: true,
-        complete: function(results) {
-            solarMain(results.data);
-            console.timeEnd("solarParse");
-        },
-        error: function(error) {
-            console.log("failed to fetch from cache, games");
+    fetch("https://rppi.artomweb.com/cache/spreadsheets/1QwrB_H8QE7fxDc05FGbmGm7ch59pXuJ73vM5Jl9VA-E")
+        .then((res) => res.json())
+        .then((out) => solarMain(out))
+        .catch((err) => {
+            console.log("failed to fetch from cache, solar");
             Papa.parse("https://docs.google.com/spreadsheets/d/1QwrB_H8QE7fxDc05FGbmGm7ch59pXuJ73vM5Jl9VA-E/gviz/tq?tqx=out:csv&sheet=sheet1", {
                 download: true,
                 header: true,
                 dynamicTyping: true,
-                complete: function(results) {
+                complete: function(results, file) {
                     solarMain(results.data);
                 },
                 error: function(error) {
-                    console.log("failed to fetch from both sources, games");
+                    console.log("failed to fetch from both sources, solar");
                 },
             });
-        },
-    });
+        });
 }
 
 fetchSolar();
 
 function solarMain(data) {
+    console.timeEnd("solarParse");
     // data = data.filter((d) => d.change != null);
 
     data.forEach((d) => {

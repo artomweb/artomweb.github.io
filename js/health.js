@@ -1,33 +1,37 @@
-function healthMain(results) {
-    // console.log(results);
-    results.shift();
+function fetchHealth() {
+    fetch("https://rppi.artomweb.com/cache/spreadsheets/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E")
+        .then((res) => res.json())
+        .then((out) => parseHealth(out))
+        .catch((err) => {
+            console.log("failed to fetch from cache, health");
+            Papa.parse("https://docs.google.com/spreadsheets/d/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/gviz/tq?tqx=out:csv&sheet=sheet1", {
+                download: true,
+                header: true,
+                dynamicTyping: true,
+                complete: function(results, file) {
+                    parseHealth(results.data);
+                },
+                error: function(error) {
+                    console.log("failed to fetch from both sources, health");
+                },
+            });
+        });
+}
 
-    let data = results.map((elt) => {
-        return {
-            Date: new Date(elt[0]),
-            SleepDuration: elt[1],
-            AwakeDuration: elt[2],
-            BedIn: elt[3],
-            BedOut: elt[4],
-            DeepDuration: elt[5],
-            LightDuration: elt[6],
-            HrAverage: +elt[7],
-            nbawake: +elt[8],
-            SleepScore: +elt[9],
-        };
+fetchHealth();
+
+function parseHealth(results) {
+    results.forEach((elt) => {
+        elt.Date = new Date(elt.Date);
     });
 
-    data = data.sort(function(a, b) {
+    data = results.sort(function(a, b) {
         return b.Date.getTime() - a.Date.getTime();
     });
-
-    // console.log(data);
 
     plotSleep(data);
 
     updateSleepDays(data);
-
-    // plotDailySleep(data)
 }
 
 function updateSleepDays(data) {
@@ -36,28 +40,6 @@ function updateSleepDays(data) {
     sleepDaysTotal.innerHTML = data.length;
 }
 
-function fetchHealth() {
-    Papa.parse("https://rppi.artomweb.com/cache/spreadsheets/d/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/gviz/tq?tqx=out:csv&sheet=sheet1", {
-        download: true,
-        complete: function(results, file) {
-            healthMain(results.data);
-        },
-        error: function(error) {
-            Papa.parse("https://docs.google.com/spreadsheets/d/1CIYOalNR0s8359XEJRbpMfnixpXUIfuHOL1o_IQfn4E/gviz/tq?tqx=out:csv&sheet=sheet1", {
-                download: true,
-                complete: function(results, file) {
-                    healthMain(results.data);
-                },
-                error: function(error) {
-                    console.log("failed both sources, uh oh, sleep");
-                },
-            });
-        },
-    });
-}
-
-fetchHealth();
-
 function aggregateSleepByDay(data) {
     let dailyAvg = _.chain(data)
         .groupBy((d) => {
@@ -65,7 +47,7 @@ function aggregateSleepByDay(data) {
         })
         .map((entries, week) => ({
             dofw: week,
-            avg: _.meanBy(entries, (entry) => +entry.SleepDuration),
+            avg: _.meanBy(entries, (entry) => +entry.sleepDuration),
         }))
         .sortBy((o) => moment(o.dofw, "dd").isoWeekday())
         .value();
