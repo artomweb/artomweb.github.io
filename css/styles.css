@@ -1,0 +1,159 @@
+@font-face {
+    font-family: "Klasik";
+    src: url("/fonts/Klasik Regular.otf");
+}
+
+.title {
+    font-family: "Klasik";
+    margin-top: 0.6rem;
+    margin-bottom: 0;
+    font-size: calc(1.5em + 5.6vw);
+    font-display: swap;
+}
+
+body {
+    /* background-color: #ffffff; */
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.card {
+    border: 0.1px solid rgba(0, 0, 0, 0.219);
+    /* background-color: #ffffff; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+::selection {
+    background: #9ee6fa;
+}
+
+#butns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.liveDataSymbol {
+    display: none;
+}
+
+.symbol {
+    display: none;
+}
+
+@media (pointer: fine) {
+    .button:hover {
+        /* padding: 8px 16px; */
+        text-decoration: none;
+        background-color: var(--hiddenColour);
+        color: #ffffff;
+        transition: all 0.3s ease;
+    }
+}
+
+.button.active {
+    /* padding: 8px 16px; */
+    text-decoration: none;
+    background-color: var(--hiddenColour);
+    color: #ffffff;
+    transition: all 0.1s ease;
+}
+
+.button {
+    background-color: #ffffff;
+    font-weight: 400;
+    /* font-family: sans-serif; */
+    border: 2px solid #413c3c;
+    font-size: 1.75rem;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #413c3c;
+    margin: 10px 10px;
+    border-radius: 10px;
+}
+
+
+/* .button:last-child {
+    margin-top: 3px;
+} */
+
+
+/* .projects-button {
+    margin-bottom: 0;
+} */
+
+.toggle-button {
+    font-size: 1rem;
+    padding: 4px 8px;
+    margin: 0;
+    border-radius: 5px;
+    /* background-color: #67a286; */
+}
+
+hr.dashed {
+    border-top: 2px dashed rgb(0, 0, 0);
+    background-color: transparent;
+}
+
+.textItal {
+    /* font-style: italic; */
+    font-weight: 600 !important;
+}
+
+.valDesc {
+    font-weight: 400;
+}
+
+.incDecIcon {
+    position: relative;
+    padding-left: 4px;
+}
+
+.fa-caret-up {
+    color: #f4a4a4;
+    bottom: 2px;
+}
+
+.fa-caret-down {
+    color: #8ecae6;
+    top: 2px;
+}
+
+button i.fab,
+button i.fas {
+    padding: 0 5px;
+}
+
+@media (max-width: 750px) {
+    .button {
+        font-size: 1.5rem;
+        padding: 3px 8px;
+        margin: 0.5rem 0.5rem;
+    }
+    .title {
+        font-size: 2.7rem;
+    }
+    .toggle-button {
+        font-size: 1rem;
+        margin: 0 0;
+        /* padding: -2px 2px; */
+    }
+    abbr[title] {
+        text-decoration: none;
+    }
+    #circles {
+        margin-top: 1px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1000px !important;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1200px !important;
+    }
+}
