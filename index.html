@@ -40,6 +40,7 @@
     <script src="https://kit.fontawesome.com/95ffa18c94.js" crossorigin="anonymous"></script>
 
     <script defer type="text/javascript" src="js/usefullFunc.js"></script>
+    <script defer type="text/javascript" src="js/catDogMl.js"></script>
     <script defer type="text/javascript" src="js/solar.js"></script>
     <script defer type="text/javascript" src="js/spotifyChart.js"></script>
     <script defer type="text/javascript" src="js/health.js"></script>
@@ -79,6 +80,26 @@
             <button class="button spotify-button" style="--hiddenColour: #81b29a" onclick="window.open('https://open.spotify.com/user/artomweb');"><i class="fab fa-spotify"></i>Spotify</button>
             <button class="button github-button" style="--hiddenColour: #8ecae6" onclick="window.open('https://github.com/artomweb');"><i class="fab fa-github"></i>Github</button>
             <!-- <button class="button projects-button" onclick="location.href='../projects/projects.html';"><i class="fas fa-book"></i>Projects</button> -->
+        </div>
+    </div>
+
+    <div class="container">
+        <hr class="dashed" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <img class="card-img-top" id="catDogImage" />
+                    <div class="card-body">
+                        <h4 class="card-title mb-2"><i class="fas fa-image"></i> Image Classifier</h4>
+                        <h5 class="card-subtitle mb-2 text-muted">Is this an image of a cat or a dog?</h5>
+
+                        <!-- <br /> -->
+
+                        <button class="button toggle-button" style="--hiddenColour: #040f16" onclick="">DOG</button>
+                        <button class="button toggle-button" style="--hiddenColour: #040f16" onclick="">CAT</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -172,7 +193,7 @@
                     <div class="card-body">
                         <canvas id="solarChart"></canvas>
                         <h4 class="card-title mb-2"><i class="fas fa-solar-panel"></i> Solar</h4>
-                        <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc">Which days have been the most sunny, in the past two weeks</h5>
+                        <h5 class="card-subtitle mb-2 text-muted">Which days have been the most sunny, in the past two weeks</h5>
 
                         <br />
                     </div>
