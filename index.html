@@ -86,17 +86,15 @@
     <div class="container">
         <hr class="dashed" />
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div class="card mb-3">
                     <img class="card-img-top" id="catDogImage" />
                     <div class="card-body">
-                        <h4 class="card-title mb-2"><i class="fas fa-image"></i> Image Classifier</h4>
+                        <h4 class="card-title mb-2"><i class="fas fa-image"></i> Help train an image classifier</h4>
                         <h5 class="card-subtitle mb-2 text-muted">Is this an image of a cat or a dog?</h5>
 
-                        <!-- <br /> -->
-
-                        <button class="button toggle-button" style="--hiddenColour: #040f16" onclick="">DOG</button>
-                        <button class="button toggle-button" style="--hiddenColour: #040f16" onclick="">CAT</button>
+                        <button class="button toggle-button" style="--hiddenColour: #040f16" onclick="catDogChoice('dog')">DOG</button>
+                        <button class="button toggle-button" style="--hiddenColour: #040f16" onclick="catDogChoice('cat')">CAT</button>
                     </div>
                 </div>
             </div>
