@@ -105,6 +105,8 @@ function updateByDay() {
 function updateTwoWeeks() {
   let { data, labels } = spotifyData.lastTwoWeeks;
 
+  labels = labels.map((l) => new Date(l));
+
   let newDataset = {
     // tension: 0.3,
     // borderColor: "black",
