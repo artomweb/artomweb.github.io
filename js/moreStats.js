@@ -1,7 +1,6 @@
 let timeAlive = document.getElementById("timeAlive");
 let timeDriving = document.getElementById("timeDriving");
 let timeWithPhone = document.getElementById("timePhone");
-let seconds;
 let beginningOfAllTime = new Date(1050631200 * 1000);
 let drivingPass = new Date(1626864660 * 1000);
 let getPhone = new Date(1582210140 * 1000);
@@ -23,10 +22,4 @@ function updateTexts() {
   timeWithPhone.innerHTML = phoneMessage;
 }
 
-function mainMoreStats() {
-  // let inst = setInterval(updateTexts, 1000);
-
-  updateTexts();
-}
-
-mainMoreStats();
+updateTexts();

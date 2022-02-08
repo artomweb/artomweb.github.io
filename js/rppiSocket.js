@@ -19,7 +19,7 @@ function updateReadingText(msg) {
 
   // console.log("Temp classes", tempIcon.classList);
 
-  icons = [
+  let icons = [
     ["temperature", tempIcon],
     ["pressure", pressIcon],
     ["humidity", humidIcon],
