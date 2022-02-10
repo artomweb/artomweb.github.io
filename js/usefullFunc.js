@@ -2,10 +2,10 @@
  * Creates a time message from a number of seconds, eg 1 day, 2 hours
  *
  * @param {number} delta The amount of time to be converted (in seconds).
- * @param {boolean} noMins If true, the message will not contain time shorter than minutes
+ * @param {boolean} noHours If true, the message will not contain time shorter than hours
  * @returns {string} The time message EG: 1 years, 2 days, 3 hours, 4 minutes, 5 seconds
  */
-function createTimeMessage(delta, noMins = false) {
+function createTimeMessage(delta, noHours = false) {
     let message = "";
 
     let years = Math.floor(delta / 31540000);
@@ -41,7 +41,7 @@ function createTimeMessage(delta, noMins = false) {
     delta -= hours * 3600;
     hours %= 24;
 
-    if (years == 0) {
+    if (years == 0 && !noHours) {
         if (hours > 0) {
             if (message !== "") {
                 message += ", ";
@@ -56,7 +56,7 @@ function createTimeMessage(delta, noMins = false) {
         }
     }
 
-    if ((message === "" || days == 0 || hours == 0) && !noMins) {
+    if ((message === "" || days == 0 || hours == 0) && !noHours) {
         let minutes = Math.floor(delta / 60);
         delta -= minutes * 60;
 
@@ -74,7 +74,7 @@ function createTimeMessage(delta, noMins = false) {
         }
     }
 
-    if (message === "" && !noMins) {
+    if (message === "" && !noHours) {
         if (delta > 0) {
             if (message !== "") {
                 message += ", ";

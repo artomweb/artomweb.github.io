@@ -7,19 +7,19 @@ let getPhone = new Date(1582210140 * 1000);
 let nowTime;
 
 function updateTexts() {
-  nowTime = new Date();
+    nowTime = new Date();
 
-  let ageDelta = (nowTime.getTime() - beginningOfAllTime.getTime()) / 1000;
-  let drivingDelta = (nowTime.getTime() - drivingPass.getTime()) / 1000;
-  let phoneDelta = (nowTime.getTime() - getPhone.getTime()) / 1000;
+    let ageDelta = (nowTime.getTime() - beginningOfAllTime.getTime()) / 1000;
+    let drivingDelta = (nowTime.getTime() - drivingPass.getTime()) / 1000;
+    let phoneDelta = (nowTime.getTime() - getPhone.getTime()) / 1000;
 
-  let ageMessage = createTimeMessage(ageDelta, true);
-  let drivingMessage = createTimeMessage(drivingDelta);
-  let phoneMessage = createTimeMessage(phoneDelta);
+    let ageMessage = createTimeMessage(ageDelta, true);
+    let drivingMessage = createTimeMessage(drivingDelta, true);
+    let phoneMessage = createTimeMessage(phoneDelta, true);
 
-  timeAlive.innerHTML = ageMessage;
-  timeDriving.innerHTML = drivingMessage;
-  timeWithPhone.innerHTML = phoneMessage;
+    timeAlive.innerHTML = ageMessage;
+    timeDriving.innerHTML = drivingMessage;
+    timeWithPhone.innerHTML = phoneMessage;
 }
 
 updateTexts();
