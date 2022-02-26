@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Google Tag Manager -->
     <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-          "gtm.start": new Date().getTime(),
-          event: "gtm.js",
-        });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-K3CNP25");
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                "gtm.start": new Date().getTime(),
+                event: "gtm.js",
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != "dataLayer" ? "&l=" + l : "";
+            j.async = true;
+            j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, "script", "dataLayer", "GTM-K3CNP25");
     </script>
     <!-- End Google Tag Manager -->
 
@@ -27,54 +28,40 @@
     <meta name="author" content="Archie Webster" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- <link rel="preload" href="https://rppi.artomweb.com/cache/data/game" as="fetch" />
+    <link rel="preload" href="https://rppi.artomweb.com/cache/data/sleep" as="fetch" />
+    <link rel="preload" href="https://rppi.artomweb.com/cache/data/solar" as="fetch" />
+    <link rel="preload" href="https://rppi.artomweb.com/cache/data/spotify" as="fetch" />
+    <link rel="preload" href="https://rppi.artomweb.com/cache/data/typing" as="fetch" />
+    <link rel="preload" href="https://rppi.artomweb.com/cache/data/driving" as="fetch" /> -->
     <link rel="preload" href="fonts/Klasik Regular.otf" as="font" type="font/otf" crossorigin />
     <link rel="stylesheet" href="css/styles.css" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
-      integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"
-      integrity="sha512-iqRVtNB+t9O+epcgUTIPF+nklypcR23H1yR1NFM9kffn6/iBhZ9bTB6oKLaGMv8JE9UgjcwfBFg/eHC/VMws+g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js" integrity="sha512-iqRVtNB+t9O+epcgUTIPF+nklypcR23H1yR1NFM9kffn6/iBhZ9bTB6oKLaGMv8JE9UgjcwfBFg/eHC/VMws+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
-      integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYJPBD6HXS"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
+        window.dataLayer = window.dataLayer || [];
 
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
 
-      gtag("config", "G-MYJPBD6HXS");
+        gtag("config", "G-MYJPBD6HXS");
     </script>
-  </head>
+</head>
 
-  <body>
+<body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3CNP25" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
@@ -82,129 +69,132 @@
     <h1 class="text-center title">Archie Webster</h1>
 
     <div class="container">
-      <hr class="dashed" />
+        <hr class="dashed" />
     </div>
 
     <div class="container d-flex justify-content-center">
-      <div id="butns">
-        <button class="button instagram-button" style="--hiddenColour: #f08080" onclick="window.open('https://www.instagram.com/artomweb/');"><i class="fab fa-instagram"></i>Instagram</button>
-        <button class="button spotify-button" style="--hiddenColour: #81b29a" onclick="window.open('https://open.spotify.com/user/artomweb');"><i class="fab fa-spotify"></i>Spotify</button>
-        <button class="button github-button" style="--hiddenColour: #8ecae6" onclick="window.open('https://github.com/artomweb');"><i class="fab fa-github"></i>Github</button>
-        <!-- <button class="button projects-button" onclick="location.href='../projects/projects.html';"><i class="fas fa-book"></i>Projects</button> -->
-      </div>
+        <div id="butns">
+            <button class="button instagram-button" style="--hiddenColour: #f08080" onclick="window.open('https://www.instagram.com/artomweb/');"><i class="fab fa-instagram"></i>Instagram</button>
+            <button class="button spotify-button" style="--hiddenColour: #81b29a" onclick="window.open('https://open.spotify.com/user/artomweb');"><i class="fab fa-spotify"></i>Spotify</button>
+            <button class="button github-button" style="--hiddenColour: #8ecae6" onclick="window.open('https://github.com/artomweb');"><i class="fab fa-github"></i>Github</button>
+            <!-- <button class="button projects-button" onclick="location.href='../projects/projects.html';"><i class="fas fa-book"></i>Projects</button> -->
+        </div>
     </div>
 
     <div class="container">
-      <hr class="dashed" />
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card mb-3 spotifyCard">
-            <div class="card-body">
-              <canvas id="spotifyChart"></canvas>
-              <h4 class="card-title mb-2"><i class="fab fa-spotify"></i> Spotify</h4>
-              <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc"></h5>
-              <button class="button toggle-button" style="--hiddenColour: #81b29a" onclick="spotifyToggle()">Toggle data source</button>
-              <svg width="80" height="50" viewBox="0 0 250 80" fill="none" xmlns="http://www.w3.org/2000/svg" id="circles">
+        <hr class="dashed" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3 spotifyCard">
+                    <div class="card-body">
+                        <canvas id="spotifyChart"></canvas>
+                        <h4 class="card-title mb-2"><i class="fab fa-spotify"></i> Spotify</h4>
+                        <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc"></h5>
+                        <button class="button toggle-button" style="--hiddenColour: #81b29a" onclick="spotifyToggle()">Toggle data source</button>
+                        <svg width="80" height="50" viewBox="0 0 250 80" fill="none" xmlns="http://www.w3.org/2000/svg" id="circles">
                 <circle cx="36" cy="35" r="18.5" stroke="black" id="circle0" />
                 <circle cx="89" cy="35" r="18.5" stroke="black" id="circle1" />
                 <circle cx="142" cy="35" r="18.5" stroke="black" id="circle2" />
               </svg>
-            </div>
-          </div>
-          <div class="card mb-3">
-            <div class="card-body">
-              <canvas id="monkeyChart"></canvas>
-              <h4 class="card-title mb-2"><i class="fas fa-keyboard"></i> Typing Speed</h4>
-              <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc">How has my typing speed improved over time</h5>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <canvas id="monkeyChart"></canvas>
+                        <h4 class="card-title mb-2"><i class="fas fa-keyboard"></i> Typing Speed</h4>
+                        <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc">How has my typing speed improved over time</h5>
 
-              <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Highest typing speed: <span id="highestTypingSpeed" class="textItal"> no data</span><span class="textItal symbol"> wpm</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Time spent doing tests: <span id="totalTime" class="textItal"> no data</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average typing speed: <span id="averageTypingSpeed" class="textItal"> no data</span><span class="textItal symbol"> wpm</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average accuracy: <span id="averageAccuracy" class="textItal"> no data</span><span class="textItal symbol">%</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average number of tests per day: <span id="testsPerDay" class="textItal"> no data</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                <sup>&#8224;</sup>Speed change per hour spent typing: <span id="wpmChangePerHour" class="textItal"> no data</span><span class="textItal symbol"> wpm</span>
-              </h5>
+                        <br />
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Highest typing speed: <span id="highestTypingSpeed" class="textItal"> no data</span><span class="textItal symbol"> wpm</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time spent doing tests: <span id="totalTime" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average typing speed: <span id="averageTypingSpeed" class="textItal"> no data</span><span class="textItal symbol"> wpm</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average accuracy: <span id="averageAccuracy" class="textItal"> no data</span><span class="textItal symbol">%</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average number of tests per day: <span id="testsPerDay" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">
+                            <sup>&#8224;</sup>Speed change per hour spent typing: <span id="wpmChangePerHour" class="textItal"> no data</span><span class="textItal symbol"> wpm</span>
+                        </h5>
 
-              <div class="text-muted"><span class="textItal">&#8224;</span> Based on the last 500 tests</div>
+                        <div class="text-muted"><span class="textItal">&#8224;</span> Based on the last 500 tests</div>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <canvas id="sleepChart"></canvas>
+                        <h4 class="card-title"><i class="fas fa-bed"></i> Sleep</h4>
+                        <h5 class="card-subtitle mb-2 text-muted">On average, which days do I get the most hours of sleep</h5>
+
+                        <br />
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Nights recorded: <span id="sleepDaysTotal" class="textItal"> no data</span></h5>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title" id="liveText"><i class="fas fa-dot-circle"></i> Live data from my desk:</h4>
+                        <br />
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">
+                            Temperature: <span id="temperatureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">&#176;</span><span><i class="fas incDecIcon" id="tempIcon"></i></span>
+                        </h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">
+                            Pressure: <span id="pressureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol"> mbar</span><span><i class="fas incDecIcon" id="pressIcon"></i></span>
+                        </h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc" id="humid">
+                            Humidity: <span id="humidityReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">%</span><span><i class="fas incDecIcon" id="humidIcon"></i></span>
+                        </h5>
+                        <br />
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Server uptime: <span id="serverUpTime" class="textItal"> no reading</span></h5>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title mb-2"><i class="fa-solid fa-car"></i> Driving</h4>
+                        <!-- <br /> -->
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time able to drive: <span id="timeAbleDrive" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time spent driving: <span id="timeDriving" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Miles driven: <span id="milesDriven" class="textItal"> no data</span><span class="textItal drivingSymbol"> miles</span></h5>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-2"><i class="fas fa-clock"></i> More Stats</h4>
+
+                        <!-- <br /> -->
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Counter-Strike: Global Offensive">CSGO</abbr>: <span id="timeCSGO" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Battlefield V">BF5</abbr>: <span id="timeBF5" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Red Dead Redemption 2">RDR2</abbr>: <span id="timeRDR2" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time with current phone: <span id="timePhone" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time alive: <span id="timeAlive" class="textItal"> no data</span></h5>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="col-md-6">
-          <div class="card mb-3">
-            <div class="card-body">
-              <canvas id="sleepChart"></canvas>
-              <h4 class="card-title"><i class="fas fa-bed"></i> Sleep</h4>
-              <h5 class="card-subtitle mb-2 text-muted">On average, which days do I get the most hours of sleep</h5>
-
-              <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Nights recorded: <span id="sleepDaysTotal" class="textItal"> no data</span></h5>
-            </div>
-          </div>
-          <div class="card mb-3">
-            <div class="card-body">
-              <h4 class="card-title" id="liveText"><i class="fas fa-dot-circle"></i> Live data from my desk:</h4>
-              <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Temperature: <span id="temperatureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">&#176;</span><span><i class="fas incDecIcon" id="tempIcon"></i></span>
-              </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Pressure: <span id="pressureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol"> mbar</span><span><i class="fas incDecIcon" id="pressIcon"></i></span>
-              </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc" id="humid">
-                Humidity: <span id="humidityReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">%</span><span><i class="fas incDecIcon" id="humidIcon"></i></span>
-              </h5>
-              <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Server uptime: <span id="serverUpTime" class="textItal"> no reading</span></h5>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title mb-2"><i class="fas fa-clock"></i> More Stats</h4>
-
-              <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Time able to drive: <span id="timeDriving" class="textItal"> no data</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Counter-Strike: Global Offensive">CSGO</abbr>: <span id="timeCSGO" class="textItal"> no data</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Battlefield V">BF5</abbr>: <span id="timeBF5" class="textItal"> no data</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Red Dead Redemption 2">RDR2</abbr>: <span id="timeRDR2" class="textItal"> no data</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Time with current phone: <span id="timePhone" class="textItal"> no data</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">Time alive: <span id="timeAlive" class="textItal"> no data</span></h5>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr class="dashed" />
+        <hr class="dashed" />
     </div>
     <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card mb-3">
-            <div class="card-body">
-              <canvas id="solarChart"></canvas>
-              <h4 class="card-title mb-2"><i class="fas fa-solar-panel"></i> Solar</h4>
-              <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc">Which days have been the most sunny, in the past two weeks</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <canvas id="solarChart"></canvas>
+                        <h4 class="card-title mb-2"><i class="fas fa-solar-panel"></i> Solar</h4>
+                        <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc">Which days have been the most sunny, in the past two weeks</h5>
 
-              <br />
+                        <br />
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <hr class="dashed" />
-      <h6 class="text-center text-muted">Data is updated daily where possible</h6>
+        <hr class="dashed" />
+        <h6 class="text-center text-muted">Data is updated daily where possible</h6>
     </div>
     <!-- <br/> -->
     <!-- <h6 class="text-center text-muted">View this site on the dark web with a Tor browser: <a href="http://artomweb34d5lb2id2a6f5zm5qm3v5obyflpnv5vcdq6va774jp3bbad.onion/">copy this</a> :D</h6> -->
 
     <br />
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"
-      integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/usefullFunc.js"></script>
     <script type="module" src="js/solar.js"></script>
     <script src="js/spotifyChart.js"></script>
@@ -213,5 +203,7 @@
     <script type="module" src="js/typingSpeed.js"></script>
     <script src="js/moreStats.js"></script>
     <script type="module" src="js/gameStats.js"></script>
-  </body>
+    <script type="module" src="js/driving.js"></script>
+</body>
+
 </html>

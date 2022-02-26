@@ -2,16 +2,18 @@
  * Creates a time message from a number of seconds, eg 1 day, 2 hours
  *
  * @param {number} delta The amount of time to be converted (in seconds).
- * @param {boolean} noHours If true, the message will not contain time shorter than hours
- * @returns {string} The time message EG: 1 years, 2 days, 3 hours, 4 minutes, 5 seconds
+ * @param {number} units The number of units to return, 2 will be days and hours, 1 will be just hours etc beginning with the largest unit
+ * @returns {string} The time message EG: 1 year, 2 days, 3 hours, 4 minutes, 5 seconds
  */
-function createTimeMessage(delta, noHours = false) {
+function createTimeMessage(delta, units = 1) {
     let message = "";
 
+    let numberOfUnits = 0;
+
     let years = Math.floor(delta / 31540000);
-    delta -= years * 31540000;
 
     if (years > 0) {
+        delta -= years * 31540000;
         message += years;
 
         if (years == 1) {
@@ -19,12 +21,16 @@ function createTimeMessage(delta, noHours = false) {
         } else {
             message += " years";
         }
+        numberOfUnits++;
     }
 
+    if (numberOfUnits >= units) return message;
+
     let days = Math.floor(delta / 86400);
-    delta -= days * 86400;
 
     if (days > 0) {
+        delta -= days * 86400;
+
         if (message !== "") {
             message += ", ";
         }
@@ -35,13 +41,17 @@ function createTimeMessage(delta, noHours = false) {
         } else {
             message += " days";
         }
+        numberOfUnits++;
     }
 
-    let hours = Math.floor(delta / 3600);
-    delta -= hours * 3600;
-    hours %= 24;
+    if (numberOfUnits >= units) return message;
 
-    if (years == 0 && !noHours) {
+    let hours = Math.floor(delta / 3600);
+
+    if (hours > 0) {
+        delta -= hours * 3600;
+        hours %= 24;
+
         if (hours > 0) {
             if (message !== "") {
                 message += ", ";
@@ -54,10 +64,15 @@ function createTimeMessage(delta, noHours = false) {
                 message += " hours";
             }
         }
+
+        numberOfUnits++;
     }
 
-    if ((message === "" || days == 0 || hours == 0) && !noHours) {
-        let minutes = Math.floor(delta / 60);
+    if (numberOfUnits >= units) return message;
+
+    let minutes = Math.floor(delta / 60);
+
+    if (minutes > 0) {
         delta -= minutes * 60;
 
         if (minutes > 0) {
@@ -72,20 +87,20 @@ function createTimeMessage(delta, noHours = false) {
                 message += " minutes";
             }
         }
+        numberOfUnits++;
     }
+    if (numberOfUnits >= units) return message;
 
-    if (message === "" && !noHours) {
-        if (delta > 0) {
-            if (message !== "") {
-                message += ", ";
-            }
-            message += delta;
+    if (delta > 0) {
+        if (message !== "") {
+            message += ", ";
+        }
+        message += delta.toFixed(0);
 
-            if (delta == 1) {
-                message += " second";
-            } else {
-                message += " seconds";
-            }
+        if (delta.toFixed(0) == "1") {
+            message += " second";
+        } else {
+            message += " seconds";
         }
     }
 

@@ -1,5 +1,5 @@
 let timeAlive = document.getElementById("timeAlive");
-let timeDriving = document.getElementById("timeDriving");
+let timeDriving = document.getElementById("timeAbleDrive");
 let timeWithPhone = document.getElementById("timePhone");
 let beginningOfAllTime = new Date(1050631200 * 1000);
 let drivingPass = new Date(1626864660 * 1000);
@@ -13,9 +13,11 @@ function updateTexts() {
     let drivingDelta = (nowTime.getTime() - drivingPass.getTime()) / 1000;
     let phoneDelta = (nowTime.getTime() - getPhone.getTime()) / 1000;
 
-    let ageMessage = createTimeMessage(ageDelta, true);
-    let drivingMessage = createTimeMessage(drivingDelta, true);
-    let phoneMessage = createTimeMessage(phoneDelta, true);
+    let ageMessage = createTimeMessage(ageDelta, 2);
+    let drivingMessage = createTimeMessage(drivingDelta);
+    let phoneMessage = createTimeMessage(phoneDelta, 2);
+
+    console.log(phoneDelta);
 
     timeAlive.innerHTML = ageMessage;
     timeDriving.innerHTML = drivingMessage;

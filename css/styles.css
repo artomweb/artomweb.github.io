@@ -41,6 +41,10 @@ body {
     display: none;
 }
 
+.drivingSymbol {
+    display: none;
+}
+
 @media (pointer: fine) {
     .button:hover {
         /* padding: 8px 16px; */
