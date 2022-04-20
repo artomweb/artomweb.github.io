@@ -1,5 +1,5 @@
 function fetchDriving() {
-    fetch("https://rppi.artomweb.com/cache/data/driving")
+    fetch("https://rppi.artomweb.com/cache/driving")
         .then((res) => res.json())
         .then((out) => driving(out))
         .catch((err) => {
@@ -18,7 +18,7 @@ function showdrivingSymbols() {
 }
 
 function driving(data) {
-    console.log(data);
+    // console.log(data);
     showdrivingSymbols();
     let totalSeconds = data.totalSeconds;
     let totalMiles = data.totalMiles;

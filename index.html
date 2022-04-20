@@ -34,6 +34,7 @@
     <link rel="preload" href="https://rppi.artomweb.com/cache/data/spotify" as="fetch" crossorigin="anonymous" />
     <link rel="preload" href="https://rppi.artomweb.com/cache/data/typing" as="fetch" crossorigin="anonymous" />
     <link rel="preload" href="https://rppi.artomweb.com/cache/data/driving" as="fetch" crossorigin="anonymous" />
+    <link rel="preload" href="https://rppi.artomweb.com/cache/data/work" as="fetch" crossorigin="anonymous" />
     <link rel="preload" href="fonts/Klasik Regular.otf" as="font" type="font/otf" crossorigin />
     <link rel="stylesheet" href="css/styles.css" />
 
@@ -140,7 +141,7 @@
                         <h5 class="card-subtitle mb-2 text-muted valDesc">Miles driven: <span id="milesDriven" class="textItal"> no data</span><span class="textItal drivingSymbol"> miles</span></h5>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-body">
                         <h4 class="card-title mb-2"><i class="fas fa-clock"></i> More Stats</h4>
 
@@ -150,6 +151,13 @@
                         <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Red Dead Redemption 2">RDR2</abbr>: <span id="timeRDR2" class="textItal"> no data</span></h5>
                         <h5 class="card-subtitle mb-2 text-muted valDesc">Time with current phone: <span id="timePhone" class="textItal"> no data</span></h5>
                         <h5 class="card-subtitle mb-2 text-muted valDesc">Time alive: <span id="timeAlive" class="textItal"> no data</span></h5>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-2"><i class="fas fa-clock"></i> Work</h4>
+
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Hours spent working: <span id="hoursWorking" class="textItal"> no data</span></h5>
                     </div>
                 </div>
             </div>
@@ -201,12 +209,13 @@
     <script src="js/usefullFunc.js"></script>
     <script type="module" src="js/solar.js"></script>
     <script src="js/spotifyChart.js"></script>
-    <script type="module" src="js/health.js"></script>
+    <script type="module" src="js/sleep.js"></script>
     <script type="module" src="js/rppiSocket.js"></script>
     <script type="module" src="js/typingSpeed.js"></script>
     <script src="js/moreStats.js"></script>
     <script type="module" src="js/gameStats.js"></script>
     <script type="module" src="js/driving.js"></script>
+    <script type="module" src="js/work.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 function fetchGames() {
-    fetch("https://rppi.artomweb.com/cache/data/game")
+    fetch("https://rppi.artomweb.com/cache/game")
         .then((res) => res.json())
         .then((out) => gamesMain(out))
         .catch((err) => {

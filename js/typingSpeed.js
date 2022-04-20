@@ -1,5 +1,5 @@
 function fetchTyping() {
-    fetch("https://rppi.artomweb.com/cache/data/typing")
+    fetch("https://rppi.artomweb.com/cache/typing")
         .then((res) => res.json())
         .then((out) => parseTyping(out))
         .catch((err) => {
