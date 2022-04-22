@@ -1,5 +1,5 @@
 let spotifyData;
-let myChart;
+let mySpotifyChart;
 let config;
 let toggleState = 0;
 let ctx2;
@@ -17,8 +17,8 @@ function getPapaParseSpotify() {
 getPapaParseSpotify();
 
 // changes the description to the relevant text and changes the fill of the circles
-function switchDots() {
-    let circles = [document.getElementById("circle0"), document.getElementById("circle1"), document.getElementById("circle2")];
+function switchSpotifyDots() {
+    let circles = Array.from(document.getElementsByClassName("spotifyCircles"));
     let desc = document.getElementById("spotify-desc");
 
     switch (toggleState) {
@@ -37,7 +37,7 @@ function switchDots() {
 
 // updates the chart, calls the function to update the text and switch the dots and LASTLY increments the toggleState
 function spotifyToggle() {
-    switchDots();
+    switchSpotifyDots();
     switch (toggleState) {
         case 0:
             updateByDay();
@@ -65,8 +65,8 @@ function parseSpotify(dataIn) {
 function updateByDay() {
     const { data, labels } = spotifyData.byDay;
 
-    if (myChart.config.type == "line") {
-        myChart.destroy();
+    if (mySpotifyChart.config.type == "line") {
+        mySpotifyChart.destroy();
         let temp = {...config };
 
         temp.type = "bar";
@@ -84,9 +84,9 @@ function updateByDay() {
 
         temp.options.scales.xAxes[0] = { offset: true };
 
-        myChart = new Chart(ctx2, temp);
+        mySpotifyChart = new Chart(ctx2, temp);
     } else {
-        myChart.data.labels = labels;
+        mySpotifyChart.data.labels = labels;
         let newDataset = {
             // tension: 0.3,
             // borderColor: "black",
@@ -94,10 +94,10 @@ function updateByDay() {
             backgroundColor,
             // fill: false,
         };
-        myChart.data.datasets = [newDataset];
-        myChart.options.scales = {};
-        //   console.log(myChart.data.datasets);
-        myChart.update();
+        mySpotifyChart.data.datasets = [newDataset];
+        mySpotifyChart.options.scales = {};
+        //   console.log(mySpotifyChart.data.datasets);
+        mySpotifyChart.update();
     }
 }
 
@@ -115,8 +115,8 @@ function updateTwoWeeks() {
         // fill: false,
     };
 
-    if (myChart.config.type == "bar") {
-        myChart.destroy();
+    if (mySpotifyChart.config.type == "bar") {
+        mySpotifyChart.destroy();
         let temp = {...config };
 
         temp.type = "line";
@@ -143,13 +143,13 @@ function updateTwoWeeks() {
             }, ],
         };
 
-        myChart = new Chart(ctx2, temp);
+        mySpotifyChart = new Chart(ctx2, temp);
     } else {
-        myChart.data.labels = labels;
+        mySpotifyChart.data.labels = labels;
 
-        myChart.data.datasets = [newDataset];
+        mySpotifyChart.data.datasets = [newDataset];
 
-        myChart.options.scales = {
+        mySpotifyChart.options.scales = {
             xAxes: [{
                 type: "time",
                 time: {
@@ -167,9 +167,9 @@ function updateTwoWeeks() {
             }, ],
         };
 
-        //   console.log(myChart.data.datasets);
+        //   console.log(mySpotifyChart.data.datasets);
 
-        myChart.update();
+        mySpotifyChart.update();
     }
 }
 
@@ -185,8 +185,8 @@ function updateAllData() {
     };
     // console.log(values);
 
-    if (myChart.config.type == "bar") {
-        myChart.destroy();
+    if (mySpotifyChart.config.type == "bar") {
+        mySpotifyChart.destroy();
         let temp = {...config };
         temp.type = "line";
 
@@ -205,11 +205,11 @@ function updateAllData() {
             }, ],
         };
     } else {
-        myChart.data.labels = labels;
+        mySpotifyChart.data.labels = labels;
 
-        myChart.data.datasets = [newDataset];
+        mySpotifyChart.data.datasets = [newDataset];
 
-        myChart.options.scales = {
+        mySpotifyChart.options.scales = {
             xAxes: [{
                 ticks: {
                     autoSkip: true,
@@ -220,9 +220,9 @@ function updateAllData() {
             }, ],
         };
 
-        //   console.log(myChart.data.datasets);
+        //   console.log(mySpotifyChart.data.datasets);
 
-        myChart.update();
+        mySpotifyChart.update();
     }
 }
 
@@ -302,6 +302,6 @@ function spotifyChart() {
             },
         },
     };
-    myChart = new Chart(ctx2, config);
+    mySpotifyChart = new Chart(ctx2, config);
     Chart.defaults.global.defaultFontColor = "#000";
 }
