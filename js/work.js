@@ -10,7 +10,7 @@ function fetchWork() {
 fetchWork();
 
 function working(data) {
-    console.log(data);
+    // console.log(data);
     let totalSeconds = data.totalSeconds;
 
     document.getElementById("hoursWorking").innerHTML = (totalSeconds / 3600).toFixed(2) + " hours";

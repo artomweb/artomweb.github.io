@@ -26,7 +26,7 @@ function driving(data) {
     let timeDriving = document.getElementById("timeDriving");
     let milesDriven = document.getElementById("milesDriven");
 
-    let timeMessage = createTimeMessage(totalSeconds, 2);
+    let timeMessage = createTimeMessage(totalSeconds);
 
     timeDriving.innerHTML = timeMessage;
     milesDriven.innerHTML = totalMiles.toFixed(1);

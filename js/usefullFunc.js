@@ -5,7 +5,7 @@
  * @param {number} units The number of units to return, 2 will be days and hours, 1 will be just hours etc beginning with the largest unit
  * @returns {string} The time message EG: 1 year, 2 days, 3 hours, 4 minutes, 5 seconds
  */
-function createTimeMessage(delta, units = 1) {
+function createTimeMessage(delta, units = 2) {
     let message = "";
 
     let numberOfUnits = 0;

@@ -5,16 +5,16 @@ let solarToggleState = 0;
 
 let solarBackgroundColor = "#8ecae6";
 
-async function fetchRawSolar() {
-    fetch("https://rppi.artomweb.com/cache/raw/solar")
+async function fetchSolar() {
+    fetch("https://rppi.artomweb.com/cache/solar")
         .then((res) => res.json())
-        .then((out) => solarRawMain(out))
+        .then((out) => solarMain(out))
         .catch((err) => {
             console.log("failed to fetch from cache, solar", err);
         });
 }
 
-fetchRawSolar();
+fetchSolar();
 
 function switchSolarDots() {
     let circles = Array.from(document.getElementsByClassName("solarCircles"));
@@ -45,70 +45,8 @@ function solarToggle() {
     solarToggleState == 1 ? (solarToggleState = 0) : solarToggleState++;
 }
 
-function solarRawMain(dataIn) {
-    // console.log(dataIn);
-    // solarData = data;
-
-    dataIn.forEach((d) => {
-        d.date = moment(d.image_taken_h);
-    });
-
-    let newData = _.chain(dataIn)
-        .groupBy((d) => {
-            return d.date.format("DD-MM-YY");
-        })
-        .map((entries, day) => {
-            return {
-                day: moment(day, "DD-MM-YY"),
-                end: _.maxBy(entries, (entry) => entry.reading).reading,
-            };
-        })
-        // .sortBy("date")
-        .value();
-
-    for (let i = 0; i < newData.length; i++) {
-        let thisDay = newData[i];
-
-        let yest = thisDay.day.clone().subtract(1, "day").format("DD-MM-YY");
-
-        let found = newData.find((el) => {
-            return el.day.format("DD-MM-YY") === yest;
-        });
-
-        if (found) {
-            thisDay.changeDay = Math.floor((thisDay.end - found.end) * 100) / 100;
-        }
-    }
-
-    newData = newData.filter((el) => el.changeDay !== undefined);
-
-    let monthlyData = _.chain(newData)
-        .groupBy((d) => {
-            return d.day.format("MM-YY");
-        })
-        .map((entries, day) => {
-            return {
-                month: moment(day, "MM-YY"),
-                changeMonth: Math.floor(_.sumBy(entries, (entry) => entry.changeDay) * 100) / 100,
-            };
-        })
-        .value();
-    console.log(monthlyData);
-
-    newData.pop();
-    let twoWeeks = newData.slice(-14);
-
-    let twoWeekslabels = twoWeeks.map((d) => d.day);
-    let twoWeeksdata = twoWeeks.map((d) => d.changeDay);
-
-    solarData.lastTwoWeeks = { data: twoWeeksdata, labels: twoWeekslabels };
-
-    let twoMonths = monthlyData.slice(-12);
-
-    let twoMonthslabels = twoMonths.map((d) => d.month);
-    let twoMonthsdata = twoMonths.map((d) => d.changeMonth);
-
-    solarData.lastTwoMonths = { data: twoMonthsdata, labels: twoMonthslabels };
+function solarMain(dataIn) {
+    solarData = dataIn;
 
     plotSolar();
     solarToggle();
