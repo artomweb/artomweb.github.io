@@ -149,6 +149,7 @@ function solarLastTwoWeeks() {
             xAxes: [{
                 type: "time",
                 time: {
+                    tooltipFormat: "dd-mm-yy",
                     unit: "day",
                     round: "day",
                     displayFormats: {
@@ -173,6 +174,7 @@ function solarLastTwoWeeks() {
             xAxes: [{
                 type: "time",
                 time: {
+                    tooltipFormat: "D-MMMM-YYYY",
                     unit: "day",
                     round: "day",
                     displayFormats: {
