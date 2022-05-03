@@ -4,6 +4,8 @@ function fetchDriving() {
         .then((out) => driving(out))
         .catch((err) => {
             console.log("failed to fetch from cache, driving", err);
+            let drivingCard = document.getElementById("drivingCard");
+            drivingCard.style.display = "none";
         });
 }
 

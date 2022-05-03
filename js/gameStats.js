@@ -4,6 +4,8 @@ function fetchGames() {
         .then((out) => gamesMain(out))
         .catch((err) => {
             console.log("failed to fetch from cache, games", err);
+            let moreStatsCard = document.getElementById("moreStatsCard");
+            moreStatsCard.style.display = "none";
         });
 }
 

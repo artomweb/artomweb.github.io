@@ -4,6 +4,8 @@ function fetchTyping() {
         .then((out) => parseTyping(out))
         .catch((err) => {
             console.log("failed to fetch from cache, typing", err);
+            let typingCard = document.getElementById("typingCard");
+            typingCard.style.display = "none";
         });
 }
 

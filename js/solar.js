@@ -11,6 +11,8 @@ async function fetchSolar() {
         .then((out) => solarMain(out))
         .catch((err) => {
             console.log("failed to fetch from cache, solar", err);
+            let solarCard = document.getElementById("solarCard");
+            solarCard.style.display = "none";
         });
 }
 

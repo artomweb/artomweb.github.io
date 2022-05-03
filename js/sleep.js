@@ -4,6 +4,8 @@ function fetchHealth() {
         .then((out) => parseHealth(out))
         .catch((err) => {
             console.log("failed to fetch from cache, health", err);
+            let sleepCard = document.getElementById("sleepCard");
+            sleepCard.style.display = "none";
         });
 }
 

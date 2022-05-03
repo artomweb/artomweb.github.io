@@ -11,6 +11,8 @@ function getPapaParseSpotify() {
         .then((out) => parseSpotify(out))
         .catch((err) => {
             console.log("failed to fetch from cache, spotify", err);
+            let spotifyCard = document.getElementById("spotifyCard");
+            spotifyCard.style.display = "none";
         });
 }
 

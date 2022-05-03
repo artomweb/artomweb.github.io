@@ -4,6 +4,8 @@ function fetchWork() {
         .then((out) => working(out))
         .catch((err) => {
             console.log("failed to fetch from cache, work", err);
+            let workCard = document.getElementById("workCard");
+            workCard.style.display = "none";
         });
 }
 
