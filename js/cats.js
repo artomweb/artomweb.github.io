@@ -1,4 +1,4 @@
-const NUMCATS = 67;
+const NUMCATS = 64;
 
 function loadCat() {
     let catInt = Math.floor(Math.random() * NUMCATS) + 1;
