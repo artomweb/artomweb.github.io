@@ -10,6 +10,7 @@ let currentImageIndex = 0;
 
 function loadCat() {
     let catImg = document.getElementById("catImage");
+    let imageCache = document.getElementById("imageCache");
 
     catImg.src = "standingCats/" + imageNumbers[currentImageIndex] + ".jpg";
 
@@ -19,6 +20,7 @@ function loadCat() {
     } else {
         currentImageIndex++;
     }
+    imageCache.src = "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
 }
 
 loadCat();
