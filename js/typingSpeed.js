@@ -1,12 +1,16 @@
 function fetchTyping() {
-    fetch("https://rppi.artomweb.com/cache/typing")
-        .then((res) => res.json())
-        .then((out) => parseTyping(out))
-        .catch((err) => {
-            console.log("failed to fetch from cache, typing", err);
-            let typingCard = document.getElementById("typingCard");
-            typingCard.style.display = "none";
-        });
+    Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vRja1dH4XPOz3Ct35A36SiVhfymt_Lk6A6k_8g9rH1ABldOTlWnVwfD-JnNlzRmFFv1u8B8iY6GZG0l/pub?output=csv", {
+        download: true,
+        header: true,
+        complete: function(results) {
+            // gamesMain(results.data);
+            console.log(results.data);
+            processTyping(results.data);
+        },
+        error: function(error) {
+            console.log("failed to fetch from cache, games");
+        },
+    });
 }
 
 fetchTyping();
@@ -19,7 +23,83 @@ function showSymbols() {
     }
 }
 
-function parseTyping(data) {
+function processTyping(dataIn) {
+    dataIn.forEach((elt) => {
+        elt.dateTime = new Date(elt.dateTime);
+    });
+
+    dataIn = _.sortBy(dataIn, (point) => point.dateTime.getTime());
+
+    let weekAvg = _.chain(dataIn)
+        .groupBy((d) => {
+            return moment(d.dateTime).format("MMM YYYY");
+        })
+        .map((entries, week) => {
+            // console.log(entries);
+            return {
+                wofy: week,
+                sum: Math.round(_.meanBy(entries, (entry) => +entry.wpm) * 10) / 10,
+            };
+        })
+        .value();
+
+    weekAvg.sort((a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY"));
+    // console.log(weekAvg);
+
+    // console.log(weekAvg);
+
+    const labels = weekAvg.map((el) => el.wofy);
+    const data = weekAvg.map((el) => el.sum);
+
+    let sortedWPM = _.sortBy(dataIn, (point) => point.dateTime.getTime());
+
+    const maxWPM = +_.maxBy(dataIn, "wpm").wpm;
+
+    // Only last 500 tests
+
+    let dataRecent = sortedWPM.slice(-500);
+
+    // speed change per hour
+
+    let wpmPoints = dataRecent.map((point) => +point.wpm);
+
+    let trend = findLineByLeastSquares(wpmPoints);
+
+    let wpmChange = trend[1][1] - trend[0][1];
+
+    let delta = dataRecent.length * 30;
+
+    const changeInWPMPerMin = (wpmChange * (3600 / delta)).toFixed(2);
+
+    const PorNchange = changeInWPMPerMin > 0 ? "+" : "-";
+
+    // avg wpm and acc
+
+    const avgWPM = _.meanBy(dataRecent, (o) => +o.wpm).toFixed(2);
+    const avgACC = Math.round(
+        _.meanBy(dataRecent, (o) => +o.acc),
+        0
+    );
+
+    // number of tests per day
+
+    let firstTest = dataRecent[0];
+    let lastTest = dataRecent[dataRecent.length - 1];
+
+    let dayDiff = (lastTest.dateTime - firstTest.dateTime) / (1000 * 60 * 60 * 24);
+
+    const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
+
+    const totalTimeMessage = createTimeMessage(delta, 2);
+
+    console.log(wpmChange);
+
+    const dataToSave = { totalTimeMessage, maxWPM, avgWPM, avgACC, testsPerDay, PorNchange, changeInWPMPerMin, labels, data };
+
+    typingMain(dataToSave);
+}
+
+function typingMain(data) {
     showSymbols();
 
     plotMonkey(data.labels, data.data);

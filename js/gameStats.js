@@ -1,7 +1,9 @@
 async function fetchGames() {
     Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vRd3YjXEoMgwyej-Y6uIwHtZUlWtBYjB6nBoexbjVxreBsbDPaY9cPsr8QnUuY-WthpVfS3gNbIXidV/pub?output=csv", {
         download: true,
+        // header: true,
         complete: function(results) {
+            console.log(results.data);
             gamesMain(results.data);
         },
         error: function(error) {
