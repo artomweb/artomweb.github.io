@@ -3,7 +3,7 @@ async function fetchGames() {
         download: true,
         // header: true,
         complete: function(results) {
-            console.log(results.data);
+            // console.log(results.data);
             gamesMain(results.data);
         },
         error: function(error) {

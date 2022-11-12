@@ -105,19 +105,19 @@
                         <img id="imageCache" style="display: none" />
                     </div>
                 </div>
-                <!-- <div class="card mb-3 spotifyCard" id="spotifyCard">
+
+                <div class="card" id="moreStatsCard">
                     <div class="card-body">
-                        <canvas id="spotifyChart"></canvas>
-                        <h4 class="card-title mb-2"><i class="fab fa-spotify"></i> Spotify</h4>
-                        <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc"></h5>
-                        <button class="button toggle-button" style="--hiddenColour: #81b29a" onclick="spotifyToggle()">Toggle data source</button>
-                        <svg width="80" height="50" viewBox="0 0 250 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="36" cy="35" r="18.5" stroke="black" id="circle0" class="spotifyCircles" />
-                <circle cx="89" cy="35" r="18.5" stroke="black" id="circle1" class="spotifyCircles" />
-                <circle cx="142" cy="35" r="18.5" stroke="black" id="circle2" class="spotifyCircles" />
-              </svg>
+                        <h4 class="card-title mb-2"><i class="fas fa-clock"></i> More Stats</h4>
+
+                        <!-- <br /> -->
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Counter-Strike: Global Offensive">CSGO</abbr>: <span id="timeCSGO" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Battlefield V">BF5</abbr>: <span id="timeBF5" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Red Dead Redemption 2">RDR2</abbr>: <span id="timeRDR2" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time with current phone: <span id="timePhone" class="textItal"> no data</span></h5>
+                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time alive: <span id="timeAlive" class="textItal"> no data</span></h5>
                     </div>
-                </div> -->
+                </div>
             </div>
 
             <div class="col-md-6">
@@ -139,14 +139,17 @@
                         <h5 class="card-subtitle mb-2 text-muted valDesc">Time spent driving: <span id="timeDriving" class="textItal"> no data</span></h5>
                         <h5 class="card-subtitle mb-2 text-muted valDesc">Miles driven: <span id="milesDriven" class="textItal"> no data</span><span class="textItal drivingSymbol"> miles</span></h5>
                     </div>
-                </div>
-                <div class="card mb-3" id="workCard">
-                    <div class="card-body">
-                        <h4 class="card-title mb-2"><i class="fa-solid fa-briefcase"></i> Work</h4>
-
-                        <h5 class="card-subtitle mb-2 text-muted valDesc">Hours spent working: <span id="hoursWorking" class="textItal"> no data</span></h5>
-                    </div>
                 </div> -->
+                <!-- 
+
+                    <div class="card mb-3" id="workCard">
+                        <div class="card-body">
+                            <h4 class="card-title mb-2"><i class="fa-solid fa-briefcase"></i> Work</h4>
+                            
+                            <h5 class="card-subtitle mb-2 text-muted valDesc">Hours spent working: <span id="hoursWorking" class="textItal"> no data</span></h5>
+                        </div>
+                    </div>
+                -->
 
                 <div class="card mb-3" id="typingCard">
                     <div class="card-body">
@@ -167,16 +170,17 @@
                         <div class="text-muted"><span class="textItal">&#8224;</span> Based on the last 500 tests</div>
                     </div>
                 </div>
-                <div class="card" id="moreStatsCard">
+                <div class="card mb-3 spotifyCard" id="spotifyCard">
                     <div class="card-body">
-                        <h4 class="card-title mb-2"><i class="fas fa-clock"></i> More Stats</h4>
-
-                        <!-- <br /> -->
-                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Counter-Strike: Global Offensive">CSGO</abbr>: <span id="timeCSGO" class="textItal"> no data</span></h5>
-                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Battlefield V">BF5</abbr>: <span id="timeBF5" class="textItal"> no data</span></h5>
-                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time playing <abbr title="Red Dead Redemption 2">RDR2</abbr>: <span id="timeRDR2" class="textItal"> no data</span></h5>
-                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time with current phone: <span id="timePhone" class="textItal"> no data</span></h5>
-                        <h5 class="card-subtitle mb-2 text-muted valDesc">Time alive: <span id="timeAlive" class="textItal"> no data</span></h5>
+                        <canvas id="spotifyChart"></canvas>
+                        <h4 class="card-title mb-2"><i class="fab fa-spotify"></i> Spotify</h4>
+                        <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc"></h5>
+                        <button class="button toggle-button" style="--hiddenColour: #81b29a" onclick="spotifyToggle()">Toggle data source</button>
+                        <svg width="80" height="50" viewBox="0 0 250 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="36" cy="35" r="18.5" stroke="black" id="circle0" class="spotifyCircles" />
+                <circle cx="89" cy="35" r="18.5" stroke="black" id="circle1" class="spotifyCircles" />
+                <circle cx="142" cy="35" r="18.5" stroke="black" id="circle2" class="spotifyCircles" />
+              </svg>
                     </div>
                 </div>
             </div>
@@ -212,7 +216,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/usefullFunc.js"></script>
     <!-- <script src="js/solar.js"></script> -->
-    <!-- <script src="js/spotifyChart.js"></script> -->
+    <script src="js/spotifyChart.js"></script>
     <!-- <script type="module" src="js/sleep.js"></script> -->
     <script type="module" src="js/typingSpeed.js"></script>
     <script src="js/moreStats.js"></script>

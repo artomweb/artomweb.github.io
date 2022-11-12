@@ -6,14 +6,18 @@ let ctx2;
 let backgroundColor = "#81b29a";
 
 function getPapaParseSpotify() {
-    fetch("https://rppi.artomweb.com/cache/spotify")
-        .then((res) => res.json())
-        .then((out) => parseSpotify(out))
-        .catch((err) => {
-            console.log("failed to fetch from cache, spotify", err);
-            let spotifyCard = document.getElementById("spotifyCard");
-            spotifyCard.style.display = "none";
-        });
+    Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv", {
+        download: true,
+        header: true,
+        complete: function(results) {
+            // gamesMain(results.data);
+            console.log("hello");
+            parseSpotify(results.data);
+        },
+        error: function(error) {
+            console.log("failed to fetch from cache, spotify");
+        },
+    });
 }
 
 getPapaParseSpotify();
@@ -57,10 +61,18 @@ function spotifyToggle() {
 }
 
 function parseSpotify(dataIn) {
-    spotifyData = dataIn;
+    spotifyData = updateSpotify(dataIn);
+
+    console.log(spotifyData);
 
     spotifyChart();
     spotifyToggle();
+}
+
+function createDatabase(dataIn) {
+    let dataOut = {};
+    dataOut.lastTwoWeeks = getLastTwoWeeks(dataIn);
+    return dataOut;
 }
 
 // update the chart to show the data, aggregated by day, BAR CHART
@@ -306,4 +318,89 @@ function spotifyChart() {
     };
     mySpotifyChart = new Chart(ctx2, config);
     Chart.defaults.global.defaultFontColor = "#000";
+}
+
+function getLastTwoWeeks(dat) {
+    let rawLabels = dat.map((e) => {
+        return e.Date;
+    });
+
+    let rawData = dat.map((e) => {
+        return e.Value;
+    });
+
+    let data = rawData.slice(0, 14);
+    let labels = rawLabels.slice(0, 14);
+
+    return { data, labels };
+}
+
+function getAllWeeks(dat) {
+    dat = dat.slice(0, 365);
+    let weekAvg = _.chain(dat)
+        .groupBy((d) => {
+            return moment(d.Date).format("W-YYYY");
+        })
+        .map((entries, week) => ({
+            wofy: week,
+            avg: _.sumBy(entries, (entry) => +entry.Value),
+        }))
+        .value();
+
+    weekAvg.sort((a, b) => moment(a.wofy, "W-YYYY") - moment(b.wofy, "W-YYYY"));
+
+    let labels = weekAvg.map((w) => w.wofy);
+    let data = weekAvg.map((w) => w.avg);
+
+    return { data, labels };
+}
+
+function getByDay(dat) {
+    let totalAvgs = _.chain(dat)
+        .map((d) => {
+            let day = moment(d.Date).format("dd");
+            return {...d, dofw: day };
+        })
+        .groupBy("dofw")
+        .map((entries, day) => ({
+            dofw: day,
+            avg: Math.round(_.meanBy(entries, (entry) => entry.Value)),
+        }))
+        .value();
+
+    totalAvgs = _.sortBy(totalAvgs, (o) => {
+        return moment(o.dofw, "dd").isoWeekday();
+    });
+
+    let labels = totalAvgs.map((val) => val.dofw);
+    let data = totalAvgs.map((val) => val.avg);
+
+    return { data, labels };
+}
+
+function parseSpotifyDates(results) {
+    let dateParse = results.map((elem) => {
+        return {
+            Date: new Date(elem.Date),
+            Value: +elem.Value,
+        };
+    });
+
+    spotifyData = dateParse.sort(function(a, b) {
+        return b.Date.getTime() - a.Date.getTime();
+    });
+
+    return spotifyData;
+}
+
+function updateSpotify(dataIn) {
+    let parsed = parseSpotifyDates(dataIn);
+
+    let byDay = getByDay(parsed);
+    let lastTwoWeeks = getLastTwoWeeks(parsed);
+    let byWeek = getAllWeeks(parsed);
+
+    const dataToSave = { byDay, byWeek, lastTwoWeeks };
+
+    return dataToSave;
 }

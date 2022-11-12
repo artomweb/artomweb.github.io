@@ -4,7 +4,7 @@ function fetchTyping() {
         header: true,
         complete: function(results) {
             // gamesMain(results.data);
-            console.log(results.data);
+            // console.log(results.data);
             processTyping(results.data);
         },
         error: function(error) {
@@ -92,7 +92,7 @@ function processTyping(dataIn) {
 
     const totalTimeMessage = createTimeMessage(delta, 2);
 
-    console.log(wpmChange);
+    // console.log(wpmChange);
 
     const dataToSave = { totalTimeMessage, maxWPM, avgWPM, avgACC, testsPerDay, PorNchange, changeInWPMPerMin, labels, data };
 
