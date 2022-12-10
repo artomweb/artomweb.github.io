@@ -90,7 +90,7 @@ function processTyping(dataIn) {
 
     const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
 
-    const totalTimeMessage = createTimeMessage(delta, 2);
+    const totalTimeMessage = createTimeMessage(dataIn.length * 30, 2);
 
     // console.log(wpmChange);
 
