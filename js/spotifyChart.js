@@ -11,7 +11,6 @@ function getPapaParseSpotify() {
         header: true,
         complete: function(results) {
             // gamesMain(results.data);
-            console.log("hello");
             parseSpotify(results.data);
         },
         error: function(error) {
@@ -63,7 +62,7 @@ function spotifyToggle() {
 function parseSpotify(dataIn) {
     spotifyData = updateSpotify(dataIn);
 
-    console.log(spotifyData);
+    // console.log(spotifyData);
 
     spotifyChart();
     spotifyToggle();
