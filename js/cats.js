@@ -6,7 +6,7 @@ let imageNumbers = Array(MAX_CATS)
 
 imageNumbers = shuffle(imageNumbers);
 
-let currentImageIndex = 0;
+let currentImageIndex = 120;
 
 function loadCat() {
     let catImg = document.getElementById("catImage");
@@ -18,9 +18,9 @@ function loadCat() {
         currentImageIndex = 0;
         imageNumbers = shuffle(imageNumbers);
     } else {
+        imageCache.src = "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
         currentImageIndex++;
     }
-    imageCache.src = "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
 }
 
 loadCat();
