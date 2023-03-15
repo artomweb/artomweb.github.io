@@ -409,8 +409,6 @@ function parseSpotifyDates(results) {
 function updateSpotify(dataIn) {
   let parsed = parseSpotifyDates(dataIn);
 
-  console.log(parsed[0]);
-
   let dateOfLastTest = moment(parsed[0].Date).format("Do [of] MMMM");
 
   let timeSinceLastTest = (new Date().getTime() - parsed[0].Date.getTime()) / 1000;
