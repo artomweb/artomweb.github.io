@@ -1,5 +1,5 @@
 function fetchTyping() {
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vRja1dH4XPOz3Ct35A36SiVhfymt_Lk6A6k_8g9rH1ABldOTlWnVwfD-JnNlzRmFFv1u8B8iY6GZG0l/pub?output=csv", {
+  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv", {
     download: true,
     header: true,
     complete: function (results) {
@@ -25,14 +25,14 @@ function showSymbols() {
 
 function processTyping(dataIn) {
   dataIn.forEach((elt) => {
-    elt.dateTime = new Date(elt.dateTime);
+    elt.timestamp = new Date(+elt.timestamp);
   });
 
-  dataIn = _.sortBy(dataIn, (point) => point.dateTime.getTime());
+  dataIn = _.sortBy(dataIn, (point) => point.timestamp.getTime());
 
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
-      return moment(d.dateTime).format("MMM YYYY");
+      return moment(d.timestamp).format("MMM YYYY");
     })
     .map((entries, week) => {
       // console.log(entries);
@@ -51,7 +51,7 @@ function processTyping(dataIn) {
   const labels = weekAvg.map((el) => el.wofy);
   const data = weekAvg.map((el) => el.sum);
 
-  let sortedWPM = _.sortBy(dataIn, (point) => point.dateTime.getTime());
+  let sortedWPM = _.sortBy(dataIn, (point) => point.timestamp.getTime());
 
   const maxWPM = +_.maxBy(dataIn, "wpm").wpm;
 
@@ -83,9 +83,9 @@ function processTyping(dataIn) {
 
   //time since last test
 
-  let dateOfLastTest = moment(dataRecent[dataRecent.length - 1].dateTime).format("Do [of] MMMM");
+  let dateOfLastTest = moment(dataRecent[dataRecent.length - 1].timestamp).format("Do [of] MMMM");
 
-  let timeSinceLastTest = (new Date().getTime() - dataRecent[dataRecent.length - 1].dateTime.getTime()) / 1000;
+  let timeSinceLastTest = (new Date().getTime() - dataRecent[dataRecent.length - 1].timestamp.getTime()) / 1000;
 
   let dateOfLastTestMessage = dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, 1) + " ago)";
 
@@ -94,7 +94,7 @@ function processTyping(dataIn) {
   let firstTest = dataRecent[0];
   let lastTest = dataRecent[dataRecent.length - 1];
 
-  let dayDiff = (lastTest.dateTime - firstTest.dateTime) / (1000 * 60 * 60 * 24);
+  let dayDiff = (lastTest.timestamp - firstTest.timestamp) / (1000 * 60 * 60 * 24);
 
   const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
 
