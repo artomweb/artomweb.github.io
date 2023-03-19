@@ -1,10 +1,12 @@
+let ctx3;
+let myTypingChart;
+let typingToggleState = 0;
+
 function fetchTyping() {
   Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv", {
     download: true,
     header: true,
     complete: function (results) {
-      // gamesMain(results.data);
-      // console.log(results.data);
       processTyping(results.data);
     },
     error: function (error) {
@@ -100,9 +102,19 @@ function processTyping(dataIn) {
 
   const totalTimeMessage = createTimeMessage(dataIn.length * 30, 1);
 
-  // console.log(wpmChange);
-
   const dataToSave = { totalTimeMessage, dateOfLastTestMessage, maxWPM, avgWPM, avgACC, testsPerDay, PorNchange, changeInWPMPerMin, labels, data };
+
+  let groupedByHour = _.chain(dataIn)
+    .groupBy((d) => {
+      return moment(d.timestamp).format("H");
+    })
+    .map((entries, hour) => ({
+      hour,
+      count: entries.length,
+    }))
+    .value();
+
+  console.log(groupedByHour);
 
   typingMain(dataToSave);
 }
@@ -121,6 +133,19 @@ function typingMain(data) {
   document.getElementById("wpmChangePerHour").innerHTML = data.PorNchange + data.changeInWPMPerMin;
 }
 
+function typingToggle() {
+  switch (toggleState) {
+    case 0:
+      console.log("By Month");
+      break;
+
+    case 1:
+      console.log("by hour");
+      break;
+  }
+  toggleState == 1 ? (toggleState = 0) : toggleState++;
+}
+
 function plotMonkey(labels, data) {
   let ctx = document.getElementById("monkeyChart").getContext("2d");
 
@@ -130,12 +155,8 @@ function plotMonkey(labels, data) {
       labels: labels,
       datasets: [
         {
-          // tension: 0.3,
-          // borderColor: "black",
           data,
           backgroundColor: "#F4A4A4",
-
-          // fill: false,
         },
       ],
     },
@@ -144,15 +165,6 @@ function plotMonkey(labels, data) {
       maintainAspectRatio: true,
       responsive: true,
 
-      // layout: {
-      //     padding: {
-      //         left: 0,
-      //         right: 25,
-      //         top: 20,
-      //         bottom: 20,
-      //     },
-      // },
-
       legend: {
         display: false,
       },
@@ -160,30 +172,16 @@ function plotMonkey(labels, data) {
         xAxes: [
           {
             ticks: {
-              // autoSkip: true,
               maxTicksLimit: 6.3,
               stepSize: 5,
               maxRotation: 0,
               minRotation: 0,
             },
-            // type: "time",
-            // time: {
-            //     unit: "week",
-            //     round: "week",
-            //     displayFormats: {
-            //         day: "W-YYYY",
-            //     },
-            // },
           },
         ],
         yAxes: [
           {
-            ticks: {
-              // beginAtZero: true,
-              //             callback: function(value, index, values) {
-              //                 return secondsToMins(value);
-              //             },
-            },
+            ticks: {},
           },
         ],
       },
@@ -197,15 +195,43 @@ function plotMonkey(labels, data) {
             label += tooltipItem.yLabel + " WPM";
             return label;
           },
-          //         title: function(tooltipItem, data) {
-          //             let title = tooltipItem[0].xLabel;
-          //             title = moment(title, "dd").format("dddd");
-          //             return title;
-          //         },
         },
       },
     },
   });
 }
 
-// fetchMonkey();
+function plotSkeletonChart() {
+  ctx3 = document.getElementById("spotifyChart").getContext("2d");
+  config = {
+    type: "line",
+    data: {
+      // labels: labels,
+      datasets: [
+        {
+          backgroundColor: "#F4A4A4",
+        },
+      ],
+    },
+
+    options: {
+      maintainAspectRatio: true,
+      responsive: true,
+
+      legend: {
+        display: false,
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              // min: 5,
+            },
+          },
+        ],
+      },
+    },
+  };
+  myTypingChart = new Chart(ctx3, config);
+}
