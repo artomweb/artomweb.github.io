@@ -1,13 +1,15 @@
 let ctx3;
-let myTypingChart;
+// let myTypingChart;
 let typingToggleState = 0;
+let typingData;
+let typingBackgroundColor = "#F4A4A4";
 
 function fetchTyping() {
   Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv", {
     download: true,
     header: true,
     complete: function (results) {
-      processTyping(results.data);
+      typingMain(results.data);
     },
     error: function (error) {
       console.log("failed to fetch from cache, games");
@@ -26,11 +28,12 @@ function showSymbols() {
 }
 
 function processTyping(dataIn) {
-  dataIn.forEach((elt) => {
-    elt.timestamp = new Date(+elt.timestamp);
-  });
-
-  dataIn = _.sortBy(dataIn, (point) => point.timestamp.getTime());
+  dataIn = _.chain(dataIn)
+    .forEach((elt) => {
+      elt.timestamp = new Date(+elt.timestamp);
+    })
+    .sortBy(dataIn, (point) => point.timestamp.getTime())
+    .value();
 
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
@@ -102,8 +105,6 @@ function processTyping(dataIn) {
 
   const totalTimeMessage = createTimeMessage(dataIn.length * 30, 1);
 
-  const dataToSave = { totalTimeMessage, dateOfLastTestMessage, maxWPM, avgWPM, avgACC, testsPerDay, PorNchange, changeInWPMPerMin, labels, data };
-
   let groupedByHour = _.chain(dataIn)
     .groupBy((d) => {
       return moment(d.timestamp).format("H");
@@ -114,99 +115,179 @@ function processTyping(dataIn) {
     }))
     .value();
 
-  console.log(groupedByHour);
+  let hoursLabels = [...Array(24).keys()];
+  let hoursData = new Array(24).fill(0);
 
-  typingMain(dataToSave);
+  groupedByHour.forEach((d) => {
+    hoursData[+d.hour] = d.count;
+  });
+
+  console.log(hoursLabels);
+  console.log(hoursData);
+
+  const dataToSave = { totalTimeMessage, dateOfLastTestMessage, maxWPM, avgWPM, avgACC, testsPerDay, PorNchange, changeInWPMPerMin, labels, data, hoursLabels, hoursData };
+  return dataToSave;
 }
 
 function typingMain(data) {
+  typingData = processTyping(data);
+  plotSkeletonChart();
+
   showSymbols();
+  typingToggle();
 
-  plotMonkey(data.labels, data.data);
-
-  document.getElementById("timeSinceLastTest").innerHTML = data.dateOfLastTestMessage;
-  document.getElementById("highestTypingSpeed").innerHTML = data.maxWPM;
-  document.getElementById("averageTypingSpeed").innerHTML = data.avgWPM;
-  document.getElementById("averageAccuracy").innerHTML = data.avgACC;
-  document.getElementById("totalTime").innerHTML = data.totalTimeMessage;
-  document.getElementById("testsPerDay").innerHTML = data.testsPerDay;
-  document.getElementById("wpmChangePerHour").innerHTML = data.PorNchange + data.changeInWPMPerMin;
+  document.getElementById("timeSinceLastTest").innerHTML = typingData.dateOfLastTestMessage;
+  document.getElementById("highestTypingSpeed").innerHTML = typingData.maxWPM;
+  document.getElementById("averageTypingSpeed").innerHTML = typingData.avgWPM;
+  document.getElementById("averageAccuracy").innerHTML = typingData.avgACC;
+  document.getElementById("totalTime").innerHTML = typingData.totalTimeMessage;
+  document.getElementById("testsPerDay").innerHTML = typingData.testsPerDay;
+  document.getElementById("wpmChangePerHour").innerHTML = typingData.PorNchange + typingData.changeInWPMPerMin;
 }
 
 function typingToggle() {
-  switch (toggleState) {
+  switch (typingToggleState) {
     case 0:
+      plotMonths();
       console.log("By Month");
       break;
 
     case 1:
+      plotHours();
       console.log("by hour");
       break;
   }
-  toggleState == 1 ? (toggleState = 0) : toggleState++;
+  typingToggleState == 1 ? (typingToggleState = 0) : typingToggleState++;
 }
 
-function plotMonkey(labels, data) {
-  let ctx = document.getElementById("monkeyChart").getContext("2d");
+function plotHours() {
+  let newDataset = {
+    data: typingData.hoursData,
+    backgroundColor: "#F4A4A4",
+  };
 
-  let sleepChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          data,
-          backgroundColor: "#F4A4A4",
-        },
-      ],
-    },
+  myTypingChart.data.labels = typingData.hoursLabels;
 
-    options: {
-      maintainAspectRatio: true,
-      responsive: true,
+  myTypingChart.data.datasets = [newDataset];
 
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [
-          {
-            ticks: {
-              maxTicksLimit: 6.3,
-              stepSize: 5,
-              maxRotation: 0,
-              minRotation: 0,
-            },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {},
-          },
-        ],
-      },
-      tooltips: {
-        callbacks: {
-          label: function (tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || "";
-            if (label) {
-              label += ": ";
-            }
-            label += tooltipItem.yLabel + " WPM";
-            return label;
-          },
+  myTypingChart.options.tooltips = {
+    // callbacks: {
+    //   label: function (tooltipItem, data) {
+    //     let label = data.datasets[tooltipItem.datasetIndex].label || "";
+    //     if (label) {
+    //       label += ": ";
+    //     }
+    //     label += tooltipItem.yLabel + " WPM";
+    //     return label;
+    //   },
+    // },
+  };
+
+  myTypingChart.update();
+}
+
+function plotMonths() {
+  let newDataset = {
+    data: typingData.data,
+    backgroundColor: "#F4A4A4",
+  };
+
+  myTypingChart.data.labels = typingData.labels;
+
+  myTypingChart.data.datasets = [newDataset];
+
+  myTypingChart.options.scales = {
+    xAxes: [
+      {
+        ticks: {
+          maxTicksLimit: 6.3,
+          stepSize: 5,
+          maxRotation: 0,
+          minRotation: 0,
         },
       },
+    ],
+    yAxes: [
+      {
+        ticks: {},
+      },
+    ],
+  };
+
+  myTypingChart.options.tooltips = {
+    callbacks: {
+      label: function (tooltipItem, data) {
+        let label = data.datasets[tooltipItem.datasetIndex].label || "";
+        if (label) {
+          label += ": ";
+        }
+        label += tooltipItem.yLabel + " WPM";
+        return label;
+      },
     },
-  });
+  };
+
+  myTypingChart.update();
+
+  // let ctx = document.getElementById("monkeyChart").getContext("2d");
+
+  // let sleepChart = new Chart(ctx, {
+  //   type: "line",
+  //   data: {
+  //     labels: typingData.labels,
+  //     datasets: [
+  //       {
+  //         data: typingData.data,
+  //         backgroundColor: "#F4A4A4",
+  //       },
+  //     ],
+  //   },
+
+  //   options: {
+  //     maintainAspectRatio: true,
+  //     responsive: true,
+
+  //     legend: {
+  //       display: false,
+  //     },
+  //     scales: {
+  //       xAxes: [
+  //         {
+  //           ticks: {
+  //             maxTicksLimit: 6.3,
+  //             stepSize: 5,
+  //             maxRotation: 0,
+  //             minRotation: 0,
+  //           },
+  //         },
+  //       ],
+  //       yAxes: [
+  //         {
+  //           ticks: {},
+  //         },
+  //       ],
+  //     },
+  //     tooltips: {
+  //       callbacks: {
+  //         label: function (tooltipItem, data) {
+  //           let label = data.datasets[tooltipItem.datasetIndex].label || "";
+  //           if (label) {
+  //             label += ": ";
+  //           }
+  //           label += tooltipItem.yLabel + " WPM";
+  //           return label;
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
 }
 
 function plotSkeletonChart() {
-  ctx3 = document.getElementById("spotifyChart").getContext("2d");
-  config = {
+  ctx3 = document.getElementById("monkeyChart").getContext("2d");
+  let config = {
     type: "line",
     data: {
-      // labels: labels,
       datasets: [
         {
           backgroundColor: "#F4A4A4",
