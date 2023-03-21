@@ -34,7 +34,7 @@ function switchSpotifyDots() {
       desc.innerHTML = "How many songs have I listened to in the last two weeks";
       break;
     case 2:
-      desc.innerHTML = "Each week, for the last year";
+      desc.innerHTML = "Each week, for the last year <br><br>";
       break;
   }
   circles.forEach((c) => (c.id.slice(-1) == toggleState ? (c.style.fill = "black") : (c.style.fill = "none")));
