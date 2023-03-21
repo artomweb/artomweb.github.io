@@ -34,7 +34,7 @@ function switchSpotifyDots() {
       desc.innerHTML = "How many songs have I listened to in the last two weeks";
       break;
     case 2:
-      desc.innerHTML = "Each week, for the last year <br><br>";
+      desc.innerHTML = "Each month, for the last two years";
       break;
   }
   circles.forEach((c) => (c.id.slice(-1) == toggleState ? (c.style.fill = "black") : (c.style.fill = "none")));
@@ -349,10 +349,13 @@ function getLastTwoWeeks(dat) {
 }
 
 function getAllWeeks(dat) {
-  dat = dat.slice(0, 365);
+  let twoYearsAgo = moment().subtract(2, "years");
+  dat = dat.filter((d) => {
+    return moment(d.Date).isSameOrAfter(twoYearsAgo);
+  });
   let weekAvg = _.chain(dat)
     .groupBy((d) => {
-      return moment(d.Date).format("W-YYYY");
+      return moment(d.Date).format("MMM-YYYY");
     })
     .map((entries, week) => ({
       wofy: week,
@@ -360,7 +363,7 @@ function getAllWeeks(dat) {
     }))
     .value();
 
-  weekAvg.sort((a, b) => moment(a.wofy, "W-YYYY") - moment(b.wofy, "W-YYYY"));
+  weekAvg.sort((a, b) => moment(a.wofy, "MMM-YYYY") - moment(b.wofy, "MMM-YYYY"));
 
   let labels = weekAvg.map((w) => w.wofy);
   let data = weekAvg.map((w) => w.avg);
