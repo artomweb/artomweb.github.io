@@ -123,6 +123,10 @@
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
+    <!-- <button class="darkModeSwitch" onclick="darkModeToggle()">
+      <i class="fa-regular fa-moon"></i>
+    </button> -->
+
     <h1 class="text-center title">Archie Webster</h1>
 
     <div class="container">
@@ -168,7 +172,7 @@
 
               <button
                 class="button toggle-button kitten-button"
-                style="--hiddenColour: #81b29a"
+                style="--hiddenColour: #8ecae6"
                 onclick="loadCat()"
               >
                 Show me another!
@@ -183,27 +187,31 @@
                 <i class="fas fa-dot-circle"></i> Live data from my desk:
               </h4>
               <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Temperature:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted">Temperature:</span>
+
                 <span id="temperatureReading" class="textItal"> no reading</span
                 ><span class="textItal liveDataSymbol">&#176;</span
                 ><span><i class="fas incDecIcon" id="tempIcon"></i></span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Pressure:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted">Pressure:</span>
+
                 <span id="pressureReading" class="textItal"> no reading</span
                 ><span class="textItal liveDataSymbol"> mbar</span
                 ><span><i class="fas incDecIcon" id="pressIcon"></i></span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc" id="humid">
-                Humidity:
+              <h5 class="card-subtitle mb-2 valDesc" id="humid">
+                <span class="muted">Humidity:</span>
+
                 <span id="humidityReading" class="textItal"> no reading</span
                 ><span class="textItal liveDataSymbol">%</span
                 ><span><i class="fas incDecIcon" id="humidIcon"></i></span>
               </h5>
               <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Server uptime:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted">Server uptime:</span>
+
                 <span id="serverUpTime" class="textItal"> no reading</span>
               </h5>
             </div>
@@ -214,20 +222,24 @@
               <h4 class="card-title mb-2">
                 <i class="fa-solid fa-car"></i> Driving
               </h4>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Time able to drive:
+            </br>
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted">Time able to drive:</span>
+
                 <span id="timeAbleDrive" class="textItal"> no data</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Time spent driving:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted">Time spent driving:</span>
+
                 <span id="timeDriving" class="textItal"> no data</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Miles driven:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted">Miles driven:</span>
+
                 <span id="milesDriven" class="textItal"> no data</span
                 ><span class="textItal drivingSymbol"> miles</span>
               </h5>
-              <small class="text-muted"
+              <small class="muted"
                 >Last drive:
                 <span id="timeSinceLastDrive" class="textItal">
                   no data</span
@@ -244,46 +256,58 @@
               <h4 class="card-title mb-2">
                 <i class="fas fa-keyboard"></i> Typing Speed
               </h4>
-              <h5 class="card-subtitle mb-2 text-muted">
+              <h5 class="card-subtitle mb-2">
                 How has my typing speed improved over time
               </h5>
 
               <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Highest typing speed:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted">Highest typing speed:</span>
+
                 <span id="highestTypingSpeed" class="textItal"> no data</span
                 ><span class="textItal symbol"> wpm</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Time spent doing tests:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted">Time spent doing tests:</span>
+
                 <span id="totalTime" class="textItal"> no data</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                <sup>&#8224;</sup>Average typing speed:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted"
+                  ><sup>&#8224;</sup>Average typing speed:</span
+                >
+
                 <span id="averageTypingSpeed" class="textItal"> no data</span
                 ><span class="textItal symbol"> wpm</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                <sup>&#8224;</sup>Average accuracy:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted"><sup>&#8224;</sup>Average accuracy:</span>
+
                 <span id="averageAccuracy" class="textItal"> no data</span
                 ><span class="textItal symbol">%</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                <sup>&#8224;</sup>Average number of tests per day:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted"
+                  ><sup>&#8224;</sup>Average number of tests per day:</span
+                >
+
                 <span id="testsPerDay" class="textItal"> no data</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                <sup>&#8224;</sup>Speed change per hour spent typing:
+              <h5 class="card-subtitle mb-2 valDesc">
+                <span class="muted"
+                  ><sup>&#8224;</sup>Speed change per hour spent typing:</span
+                >
+
                 <span id="wpmChangePerHour" class="textItal"> no data</span
                 ><span class="textItal symbol"> wpm</span>
               </h5>
 
-              <small class="text-muted"
+              <small class="muted"
                 ><span class="textItal">&#8224;</span> Based on the last 500
                 tests</small
               >
               <br />
-              <small class="text-muted"
+              <small class="muted"
                 >Last test:
                 <span id="timeSinceLastTest" class="textItal">
                   no data</span
@@ -298,47 +322,48 @@
               <h4 class="card-title mb-2">
                 <i class="fab fa-spotify"></i> Spotify
               </h4>
-              <button
-                class="button toggle-button"
-                style="--hiddenColour: #81b29a"
-                onclick="spotifyToggle()"
-              >
-                Toggle data source
-              </button>
-              <svg
-                width="80"
-                height="50"
-                viewBox="0 0 250 80"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="36"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle0"
-                  class="spotifyCircles"
-                />
-                <circle
-                  cx="89"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle1"
-                  class="spotifyCircles"
-                />
-                <circle
-                  cx="142"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle2"
-                  class="spotifyCircles"
-                />
-              </svg>
-              <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc"></h5>
-              <small class="text-muted"
+              <!-- </br> -->
+              <h5 class="card-subtitle mb-2" id="spotify-desc"></h5>
+              <div id="buttonAndDots">
+                <button
+                  class="button toggle-button"
+                  style="--hiddenColour: #81b29a"
+                  onclick="spotifyToggle()"
+                >
+                  Toggle data source
+                </button>
+                <svg
+                  width="80"
+                  height="50"
+                  viewBox="0 0 250 80"
+                  fill="none"
+                  class="dots"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="36"
+                    cy="35"
+                    r="18.5"
+                    id="circle0"
+                    class="spotifyCircles"
+                  />
+                  <circle
+                    cx="89"
+                    cy="35"
+                    r="18.5"
+                    id="circle1"
+                    class="spotifyCircles"
+                  />
+                  <circle
+                    cx="142"
+                    cy="35"
+                    r="18.5"
+                    id="circle2"
+                    class="spotifyCircles"
+                  />
+                </svg>
+              </div>
+              <small class="muted"
                 >Last day recorded:
                 <span id="timeSinceLastSong" class="textItal">
                   no data</span
@@ -356,9 +381,7 @@
         <div class="col-md-6"></div>
         <div class="col-md-6"></div>
       </div>
-      <h6 class="text-center text-muted">
-        Data is updated daily where possible
-      </h6>
+      <h6 class="text-center">Data is updated daily where possible</h6>
     </div>
 
     <br />

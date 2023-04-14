@@ -1,3 +1,10 @@
+:root {
+  --mainText: #e3e3e3;
+  --background: #1f1f1f;
+  --surface1: #28292a;
+  --mutedText: #c1c1c1;
+}
+
 @font-face {
   font-family: "Klasik";
   src: url("/fonts/Klasik Regular.otf");
@@ -11,20 +18,36 @@
   font-display: swap;
 }
 
+#buttonAndDots {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.dots {
+  stroke: var(--mainText) !important;
+}
+
 body {
-  /* background-color: #ffffff; */
+  background-color: var(--background) !important;
   margin: 0;
   word-wrap: break-word;
+  color: var(--mainText) !important;
 }
 
 .card {
   border: 0.1px solid rgba(0, 0, 0, 0.219);
-  /* background-color: #ffffff; */
+  background-color: var(--surface1) !important;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  color: var(--mainText) !important;
 }
 
 ::selection {
   background: #9ee6fa;
+}
+
+.muted {
+  color: var(--mutedText) !important;
 }
 
 #butns {
@@ -59,24 +82,38 @@ body {
   /* padding: 8px 16px; */
   text-decoration: none;
   background-color: var(--hiddenColour);
-  color: #ffffff;
   transition: all 0.1s ease;
 }
 
 .button {
-  background-color: #ffffff;
+  background-color: var(--surface1);
   font-weight: 400;
   /* font-family: sans-serif; */
-  border: 2px solid #413c3c;
+  border: 1px solid var(--hiddenColour);
   font-size: 1.75rem;
   padding: 8px 16px;
   text-decoration: none;
-  color: #413c3c;
+  /* color: #413c3c; */
+  color: var(--mainText);
   margin: 10px 10px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.darkModeSwitch {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.button:visited,
+.button:active,
+.button:hover {
+  color: var(--mainText) !important;
 }
 
 /* .button:last-child {
@@ -92,11 +129,13 @@ body {
   padding: 4px 8px;
   margin: 0;
   border-radius: 5px;
+  border: 1px solid var(--hiddenColour);
+
   /* background-color: #67a286; */
 }
 
 hr.dashed {
-  border-top: 2px dashed rgb(0, 0, 0);
+  border-top: 2px dashed #ffffff;
   background-color: transparent;
 }
 

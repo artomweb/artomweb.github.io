@@ -1,16 +1,20 @@
+const CHART_COLOR = "#e3e3e3";
 function fetchTyping() {
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv", {
-    download: true,
-    header: true,
-    complete: function (results) {
-      // gamesMain(results.data);
-      // console.log(results.data);
-      processTyping(results.data);
-    },
-    error: function (error) {
-      console.log("failed to fetch from cache, games");
-    },
-  });
+  Papa.parse(
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv",
+    {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // gamesMain(results.data);
+        // console.log(results.data);
+        processTyping(results.data);
+      },
+      error: function (error) {
+        console.log("failed to fetch from cache, games");
+      },
+    }
+  );
 }
 
 fetchTyping();
@@ -43,7 +47,9 @@ function processTyping(dataIn) {
     })
     .value();
 
-  weekAvg.sort((a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY"));
+  weekAvg.sort(
+    (a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY")
+  );
   // console.log(weekAvg);
 
   // console.log(weekAvg);
@@ -53,7 +59,7 @@ function processTyping(dataIn) {
 
   let sortedWPM = _.sortBy(dataIn, (point) => point.timestamp.getTime());
 
-  const maxWPM = +_.maxBy(dataIn, "wpm").wpm;
+  const maxWPM = Math.round(+_.maxBy(dataIn, "wpm").wpm * 10) / 10;
 
   // Only last 500 tests
 
@@ -75,7 +81,8 @@ function processTyping(dataIn) {
 
   // avg wpm and acc
 
-  const avgWPM = _.meanBy(dataRecent, (o) => +o.wpm).toFixed(2);
+  const avgWPM =
+    Math.round(_.meanBy(dataRecent, (o) => +o.wpm).toFixed(2) * 10) / 10;
   const avgACC = Math.round(
     _.meanBy(dataRecent, (o) => +o.acc),
     0
@@ -83,18 +90,25 @@ function processTyping(dataIn) {
 
   //time since last test
 
-  let dateOfLastTest = moment(dataRecent[dataRecent.length - 1].timestamp).format("Do [of] MMMM");
+  let dateOfLastTest = moment(
+    dataRecent[dataRecent.length - 1].timestamp
+  ).format("Do [of] MMMM");
 
-  let timeSinceLastTest = (new Date().getTime() - dataRecent[dataRecent.length - 1].timestamp.getTime()) / 1000;
+  let timeSinceLastTest =
+    (new Date().getTime() -
+      dataRecent[dataRecent.length - 1].timestamp.getTime()) /
+    1000;
 
-  let dateOfLastTestMessage = dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, 1) + " ago)";
+  let dateOfLastTestMessage =
+    dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, 1) + " ago)";
 
   // number of tests per day
 
   let firstTest = dataRecent[0];
   let lastTest = dataRecent[dataRecent.length - 1];
 
-  let dayDiff = (lastTest.timestamp - firstTest.timestamp) / (1000 * 60 * 60 * 24);
+  let dayDiff =
+    (lastTest.timestamp - firstTest.timestamp) / (1000 * 60 * 60 * 24);
 
   const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
 
@@ -102,7 +116,18 @@ function processTyping(dataIn) {
 
   // console.log(wpmChange);
 
-  const dataToSave = { totalTimeMessage, dateOfLastTestMessage, maxWPM, avgWPM, avgACC, testsPerDay, PorNchange, changeInWPMPerMin, labels, data };
+  const dataToSave = {
+    totalTimeMessage,
+    dateOfLastTestMessage,
+    maxWPM,
+    avgWPM,
+    avgACC,
+    testsPerDay,
+    PorNchange,
+    changeInWPMPerMin,
+    labels,
+    data,
+  };
 
   typingMain(dataToSave);
 }
@@ -112,13 +137,15 @@ function typingMain(data) {
 
   plotMonkey(data.labels, data.data);
 
-  document.getElementById("timeSinceLastTest").innerHTML = data.dateOfLastTestMessage;
+  document.getElementById("timeSinceLastTest").innerHTML =
+    data.dateOfLastTestMessage;
   document.getElementById("highestTypingSpeed").innerHTML = data.maxWPM;
   document.getElementById("averageTypingSpeed").innerHTML = data.avgWPM;
   document.getElementById("averageAccuracy").innerHTML = data.avgACC;
   document.getElementById("totalTime").innerHTML = data.totalTimeMessage;
   document.getElementById("testsPerDay").innerHTML = data.testsPerDay;
-  document.getElementById("wpmChangePerHour").innerHTML = data.PorNchange + data.changeInWPMPerMin;
+  document.getElementById("wpmChangePerHour").innerHTML =
+    data.PorNchange + data.changeInWPMPerMin;
 }
 
 function plotMonkey(labels, data) {
@@ -144,15 +171,6 @@ function plotMonkey(labels, data) {
       maintainAspectRatio: true,
       responsive: true,
 
-      // layout: {
-      //     padding: {
-      //         left: 0,
-      //         right: 25,
-      //         top: 20,
-      //         bottom: 20,
-      //     },
-      // },
-
       legend: {
         display: false,
       },
@@ -166,23 +184,15 @@ function plotMonkey(labels, data) {
               maxRotation: 0,
               minRotation: 0,
             },
-            // type: "time",
-            // time: {
-            //     unit: "week",
-            //     round: "week",
-            //     displayFormats: {
-            //         day: "W-YYYY",
-            //     },
-            // },
+            gridLines: {
+              color: CHART_COLOR,
+            },
           },
         ],
         yAxes: [
           {
-            ticks: {
-              // beginAtZero: true,
-              //             callback: function(value, index, values) {
-              //                 return secondsToMins(value);
-              //             },
+            gridLines: {
+              color: CHART_COLOR,
             },
           },
         ],

@@ -5,18 +5,23 @@ let toggleState = 0;
 let ctx2;
 let backgroundColor = "#81b29a";
 
+const CHART_COLOR = "#c1c1c1";
+
 function getPapaParseSpotify() {
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv", {
-    download: true,
-    header: true,
-    complete: function (results) {
-      // gamesMain(results.data);
-      parseSpotify(results.data);
-    },
-    error: function (error) {
-      console.log("failed to fetch from cache, spotify");
-    },
-  });
+  Papa.parse(
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv",
+    {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // gamesMain(results.data);
+        parseSpotify(results.data);
+      },
+      error: function (error) {
+        console.log("failed to fetch from cache, spotify");
+      },
+    }
+  );
 }
 
 getPapaParseSpotify();
@@ -31,13 +36,18 @@ function switchSpotifyDots() {
       desc.innerHTML = "On average, which days do I listen to the most music";
       break;
     case 1:
-      desc.innerHTML = "How many songs have I listened to in the last two weeks";
+      desc.innerHTML =
+        "How many songs have I listened to in the last two weeks";
       break;
     case 2:
       desc.innerHTML = "Each month, for the last two years";
       break;
   }
-  circles.forEach((c) => (c.id.slice(-1) == toggleState ? (c.style.fill = "black") : (c.style.fill = "none")));
+  circles.forEach((c) =>
+    c.id.slice(-1) == toggleState
+      ? (c.style.fill = "#f7f7f7")
+      : (c.style.fill = "none")
+  );
 }
 
 // updates the chart, calls the function to update the text and switch the dots and LASTLY increments the toggleState
@@ -76,6 +86,12 @@ function createDatabase(dataIn) {
 function updateByDay() {
   const { data, labels } = spotifyData.byDay;
 
+  let newDataset = {
+    data: data,
+    backgroundColor,
+    // borderColor: CHART_COLOR,
+  };
+
   if (mySpotifyChart.config.type == "line") {
     mySpotifyChart.destroy();
     let temp = { ...config };
@@ -84,30 +100,29 @@ function updateByDay() {
 
     temp.data.labels = labels;
 
-    let newDataset = {
-      // tension: 0.3,
-      // borderColor: "black",
-      data: data,
-      backgroundColor,
-      // fill: false,
-    };
     temp.data.datasets = [newDataset];
 
-    temp.options.scales.xAxes[0] = { offset: true };
+    temp.options.scales.xAxes[0] = {
+      offset: true,
+      gridLines: {
+        color: CHART_COLOR,
+      },
+    };
 
     mySpotifyChart = new Chart(ctx2, temp);
   } else {
+    console.log("THIS IS NEVER RUN");
     mySpotifyChart.data.labels = labels;
-    let newDataset = {
-      // tension: 0.3,
-      // borderColor: "black",
-      data: avgs,
-      backgroundColor,
-      // fill: false,
-    };
     mySpotifyChart.data.datasets = [newDataset];
-    mySpotifyChart.options.scales = {};
-    //   console.log(mySpotifyChart.data.datasets);
+    mySpotifyChart.options.scales = {
+      xAxes: [
+        {
+          gridLines: {
+            color: CHART_COLOR,
+          },
+        },
+      ],
+    };
     mySpotifyChart.update();
   }
 }
@@ -119,11 +134,9 @@ function updateTwoWeeks() {
   labels = labels.map((l) => new Date(l));
 
   let newDataset = {
-    // tension: 0.3,
-    // borderColor: "black",
     data: data,
     backgroundColor,
-    // fill: false,
+    // borderColor: CHART_COLOR,
   };
 
   if (mySpotifyChart.config.type == "bar") {
@@ -147,12 +160,18 @@ function updateTwoWeeks() {
               day: "dd",
             },
           },
+          gridLines: {
+            color: CHART_COLOR,
+          },
         },
       ],
       yAxes: [
         {
           ticks: {
             beginAtZero: true,
+          },
+          gridLines: {
+            color: CHART_COLOR,
           },
         },
       ],
@@ -175,12 +194,18 @@ function updateTwoWeeks() {
               day: "dd",
             },
           },
+          gridLines: {
+            color: CHART_COLOR,
+          },
         },
       ],
       yAxes: [
         {
           ticks: {
             beginAtZero: true,
+          },
+          gridLines: {
+            color: CHART_COLOR,
           },
         },
       ],
@@ -196,13 +221,10 @@ function updateTwoWeeks() {
 function updateAllData() {
   let { data, labels } = spotifyData.byWeek;
   let newDataset = {
-    // tension: 0.3,
-    // borderColor: "black",
     data: data,
     backgroundColor,
-    // fill: false,
+    // borderColor: CHART_COLOR,
   };
-  // console.log(values);
 
   if (mySpotifyChart.config.type == "bar") {
     mySpotifyChart.destroy();
@@ -222,6 +244,16 @@ function updateAllData() {
             maxRotation: 0,
             minRotation: 0,
           },
+          gridLines: {
+            color: CHART_COLOR,
+          },
+        },
+      ],
+      yAxes: [
+        {
+          gridLines: {
+            color: CHART_COLOR,
+          },
         },
       ],
     };
@@ -239,11 +271,19 @@ function updateAllData() {
             maxRotation: 0,
             minRotation: 0,
           },
+          gridLines: {
+            color: CHART_COLOR,
+          },
+        },
+      ],
+      yAxes: [
+        {
+          gridLines: {
+            color: CHART_COLOR,
+          },
         },
       ],
     };
-
-    //   console.log(mySpotifyChart.data.datasets);
 
     mySpotifyChart.update();
   }
@@ -251,23 +291,14 @@ function updateAllData() {
 
 // plot the template chart
 function spotifyChart() {
-  // let rawData = [589, 445, 483, 503, 689, 692, 634];
-  // let labels = ["S", "M", "T", "W", "T", "F", "S"];
-
-  //   console.log(currData);
-
   ctx2 = document.getElementById("spotifyChart").getContext("2d");
   config = {
     type: "line",
     data: {
-      // labels: labels,
       datasets: [
         {
-          // tension: 0.3,
-          // borderColor: "black",
-          // data: rawData,
           backgroundColor,
-          // fill: false,
+          // borderColor: CHART_COLOR,
         },
       ],
     },
@@ -275,15 +306,6 @@ function spotifyChart() {
     options: {
       maintainAspectRatio: true,
       responsive: true,
-
-      // layout: {
-      //     padding: {
-      //         left: 0,
-      //         right: 25,
-      //         top: 20,
-      //         bottom: 20,
-      //     },
-      // },
 
       legend: {
         display: false,
@@ -293,7 +315,16 @@ function spotifyChart() {
           {
             ticks: {
               beginAtZero: true,
-              // min: 5,
+            },
+            gridLines: {
+              color: CHART_COLOR,
+            },
+          },
+        ],
+        xAxes: [
+          {
+            gridLines: {
+              color: CHART_COLOR,
             },
           },
         ],
@@ -313,8 +344,6 @@ function spotifyChart() {
               label += tooltipItem.yLabel + " songs";
             }
 
-            // label += tooltipItem.yLabel + (toggleState == 2 ? " average" : " songs");
-
             return label;
           },
 
@@ -330,7 +359,7 @@ function spotifyChart() {
     },
   };
   mySpotifyChart = new Chart(ctx2, config);
-  Chart.defaults.global.defaultFontColor = "#000";
+  Chart.defaults.global.defaultFontColor = CHART_COLOR;
 }
 
 function getLastTwoWeeks(dat) {
@@ -363,7 +392,9 @@ function getAllWeeks(dat) {
     }))
     .value();
 
-  weekAvg.sort((a, b) => moment(a.wofy, "MMM-YYYY") - moment(b.wofy, "MMM-YYYY"));
+  weekAvg.sort(
+    (a, b) => moment(a.wofy, "MMM-YYYY") - moment(b.wofy, "MMM-YYYY")
+  );
 
   let labels = weekAvg.map((w) => w.wofy);
   let data = weekAvg.map((w) => w.avg);
@@ -414,11 +445,14 @@ function updateSpotify(dataIn) {
 
   let dateOfLastTest = moment(parsed[0].Date).format("Do [of] MMMM");
 
-  let timeSinceLastTest = (new Date().getTime() - parsed[0].Date.getTime()) / 1000;
+  let timeSinceLastTest =
+    (new Date().getTime() - parsed[0].Date.getTime()) / 1000;
 
-  let dateOfLastTestMessage = dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, 1) + " ago)";
+  let dateOfLastTestMessage =
+    dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, 1) + " ago)";
 
-  document.getElementById("timeSinceLastSong").innerHTML = dateOfLastTestMessage;
+  document.getElementById("timeSinceLastSong").innerHTML =
+    dateOfLastTestMessage;
 
   let byDay = getByDay(parsed);
   let lastTwoWeeks = getLastTwoWeeks(parsed);

@@ -6,167 +6,188 @@
  * @returns {string} The time message EG: 1 year, 2 days, 3 hours, 4 minutes, 5 seconds
  */
 function createTimeMessage(delta, units = 2) {
-    let message = "";
+  let message = "";
 
-    let numberOfUnits = 0;
+  let numberOfUnits = 0;
 
-    let years = Math.floor(delta / 31540000);
+  let years = Math.floor(delta / 31540000);
 
-    if (years > 0) {
-        delta -= years * 31540000;
-        message += years;
+  if (years > 0) {
+    delta -= years * 31540000;
+    message += years;
 
-        if (years == 1) {
-            message += " year";
-        } else {
-            message += " years";
-        }
-        numberOfUnits++;
+    if (years == 1) {
+      message += " year";
+    } else {
+      message += " years";
     }
+    numberOfUnits++;
+  }
 
-    if (numberOfUnits >= units) return message;
+  if (numberOfUnits >= units) return message;
 
-    let days = Math.floor(delta / 86400);
+  let days = Math.floor(delta / 86400);
 
-    if (days > 0) {
-        delta -= days * 86400;
+  if (days > 0) {
+    delta -= days * 86400;
 
-        if (message !== "") {
-            message += ", ";
-        }
-        message += days;
-
-        if (days == 1) {
-            message += " day";
-        } else {
-            message += " days";
-        }
-        numberOfUnits++;
+    if (message !== "") {
+      message += ", ";
     }
+    message += days;
 
-    if (numberOfUnits >= units) return message;
+    if (days == 1) {
+      message += " day";
+    } else {
+      message += " days";
+    }
+    numberOfUnits++;
+  }
 
-    let hours = Math.floor(delta / 3600);
+  if (numberOfUnits >= units) return message;
+
+  let hours = Math.floor(delta / 3600);
+
+  if (hours > 0) {
+    delta -= hours * 3600;
+    hours %= 24;
 
     if (hours > 0) {
-        delta -= hours * 3600;
-        hours %= 24;
+      if (message !== "") {
+        message += ", ";
+      }
+      message += hours;
 
-        if (hours > 0) {
-            if (message !== "") {
-                message += ", ";
-            }
-            message += hours;
-
-            if (hours == 1) {
-                message += " hour";
-            } else {
-                message += " hours";
-            }
-        }
-
-        numberOfUnits++;
+      if (hours == 1) {
+        message += " hour";
+      } else {
+        message += " hours";
+      }
     }
 
-    if (numberOfUnits >= units) return message;
+    numberOfUnits++;
+  }
 
-    let minutes = Math.floor(delta / 60);
+  if (numberOfUnits >= units) return message;
+
+  let minutes = Math.floor(delta / 60);
+
+  if (minutes > 0) {
+    delta -= minutes * 60;
 
     if (minutes > 0) {
-        delta -= minutes * 60;
+      if (message !== "") {
+        message += ", ";
+      }
+      message += minutes;
 
-        if (minutes > 0) {
-            if (message !== "") {
-                message += ", ";
-            }
-            message += minutes;
-
-            if (minutes == 1) {
-                message += " minute";
-            } else {
-                message += " minutes";
-            }
-        }
-        numberOfUnits++;
+      if (minutes == 1) {
+        message += " minute";
+      } else {
+        message += " minutes";
+      }
     }
-    if (numberOfUnits >= units) return message;
+    numberOfUnits++;
+  }
+  if (numberOfUnits >= units) return message;
 
-    if (delta > 0) {
-        if (message !== "") {
-            message += ", ";
-        }
-        message += delta.toFixed(0);
-
-        if (delta.toFixed(0) == "1") {
-            message += " second";
-        } else {
-            message += " seconds";
-        }
+  if (delta > 0) {
+    if (message !== "") {
+      message += ", ";
     }
+    message += delta.toFixed(0);
 
-    return message;
+    if (delta.toFixed(0) == "1") {
+      message += " second";
+    } else {
+      message += " seconds";
+    }
+  }
+
+  return message;
 }
 
 function findLineByLeastSquares(values_y) {
-    let sum_x = 0;
-    let sum_y = 0;
-    let sum_xy = 0;
-    let sum_xx = 0;
-    let count = 0;
+  let sum_x = 0;
+  let sum_y = 0;
+  let sum_xy = 0;
+  let sum_xx = 0;
+  let count = 0;
 
-    let x = 0;
-    let y = 0;
-    let values_length = values_y.length;
+  let x = 0;
+  let y = 0;
+  let values_length = values_y.length;
 
-    if (values_length === 0) {
-        return [
-            [],
-            []
-        ];
-    }
+  if (values_length === 0) {
+    return [[], []];
+  }
 
-    for (let v = 0; v < values_length; v++) {
-        x = v + 1;
-        y = values_y[v];
-        sum_x += x;
-        sum_y += y;
-        sum_xx += x * x;
-        sum_xy += x * y;
-        count++;
-    }
+  for (let v = 0; v < values_length; v++) {
+    x = v + 1;
+    y = values_y[v];
+    sum_x += x;
+    sum_y += y;
+    sum_xx += x * x;
+    sum_xy += x * y;
+    count++;
+  }
 
-    let m = (count * sum_xy - sum_x * sum_y) / (count * sum_xx - sum_x * sum_x);
-    let b = sum_y / count - (m * sum_x) / count;
+  let m = (count * sum_xy - sum_x * sum_y) / (count * sum_xx - sum_x * sum_x);
+  let b = sum_y / count - (m * sum_x) / count;
 
-    let returnpoint1 = [1, 1 * m + b];
-    let returnpoint2 = [values_length, values_length * m + b];
-    return [returnpoint1, returnpoint2];
+  let returnpoint1 = [1, 1 * m + b];
+  let returnpoint2 = [values_length, values_length * m + b];
+  return [returnpoint1, returnpoint2];
 }
 
 function shuffle(array) {
-    let currentIndex = array.length,
-        randomIndex;
+  let currentIndex = array.length,
+    randomIndex;
 
-    // While there remain elements to shuffle.
-    while (currentIndex != 0) {
-        // Pick a remaining element.
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
 
-        // And swap it with the current element.
-        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-    }
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
 
-    return array;
+  return array;
 }
 
 let touchButtons = document.querySelectorAll(".button");
 
 touchButtons.forEach((but) => {
-    but.addEventListener("touchstart", function(e) {
-        but.classList.add("active");
-        setTimeout(function() {
-            but.classList.remove("active");
-        }, 200);
-    });
+  but.addEventListener("touchstart", function (e) {
+    but.classList.add("active");
+    setTimeout(function () {
+      but.classList.remove("active");
+    }, 200);
+  });
 });
+
+// let darkMode = "on";
+
+// function darkModeToggle() {
+//   switch (darkMode) {
+//     case "on":
+//       // light mode
+//       darkMode = "off";
+//       document.documentElement.style.setProperty("--mainText", "#000000");
+//       document.documentElement.style.setProperty("--background", "#ffffff");
+//       document.documentElement.style.setProperty("--surface1", "#ffffff");
+//       break;
+//     case "off":
+//       // dark mode
+//       darkMode = "on";
+//       document.documentElement.style.setProperty("--mainText", "#e3e3e3");
+//       document.documentElement.style.setProperty("--background", "#1f1f1f");
+//       document.documentElement.style.setProperty("--surface1", "#28292a");
+//       break;
+//   }
+// }
