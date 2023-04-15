@@ -1,4 +1,4 @@
-const CHART_COLOR = "#e3e3e3";
+const CHART_COLOR = "#c1c1c1";
 function fetchTyping() {
   Papa.parse(
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv",
