@@ -82,8 +82,10 @@ socket.on("server init", function (msg) {
 
 socket.on("connect", function () {
   document.getElementById("liveText").style.color = "red";
+  document.getElementById("liveTextSymbol").style.stroke = "red";
 });
 
 socket.on("disconnect", function () {
   document.getElementById("liveText").style.color = "black";
+  document.getElementById("liveTextSymbol").style.stroke = "black";
 });

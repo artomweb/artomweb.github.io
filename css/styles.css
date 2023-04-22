@@ -3,6 +3,16 @@
   src: url("/fonts/Klasik Regular.otf");
 }
 
+.iconAndText {
+  display: flex;
+  align-items: center;
+}
+
+.lucide {
+  margin-bottom: 0.5rem;
+  margin-right: 0.25rem;
+}
+
 .title {
   font-family: "Klasik";
   margin-top: 0.6rem;
