@@ -22,49 +22,17 @@
     <title>Archie Webster | artomweb</title>
 
     <meta charset="utf-8" />
-    <meta
-      name="description"
-      content="Archie Webster, On average, which days do I listen to the most music"
-    />
-    <meta
-      name="keywords"
-      content="artomweb, Archie Webster, Archie, personal website, Webster"
-    />
+    <meta name="description" content="Archie Webster, On average, which days do I listen to the most music" />
+    <meta name="keywords" content="artomweb, Archie Webster, Archie, personal website, Webster" />
     <meta name="author" content="Archie Webster" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link
-      crossorigin
-      rel="preload"
-      href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSlFhe-8wZDuYkepfvfo3g0uP4OEFh-r1PFkqaf_M73SyphJD8sSVIWsJ17-B2z-Hfu8MscZ8TfB9K8/pub?output=csv"
-      as="fetch"
-    />
-    <link
-      crossorigin
-      rel="preload"
-      href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv"
-      as="fetch"
-    />
-    <link
-      crossorigin
-      rel="preload"
-      href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv"
-      as="fetch"
-    />
-    <link
-      crossorigin
-      rel="preload"
-      href="/fonts/Klasik Regular.otf"
-      as="font"
-      type="font/otf"
-    />
+    <link crossorigin rel="preload" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSlFhe-8wZDuYkepfvfo3g0uP4OEFh-r1PFkqaf_M73SyphJD8sSVIWsJ17-B2z-Hfu8MscZ8TfB9K8/pub?output=csv" as="fetch" />
+    <link crossorigin rel="preload" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv" as="fetch" />
+    <link crossorigin rel="preload" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv" as="fetch" />
+    <link crossorigin rel="preload" href="/fonts/Klasik Regular.otf" as="font" type="font/otf" />
     <link rel="stylesheet" href="css/styles.css" />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"
-      integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
@@ -88,10 +56,7 @@
     ></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-MYJPBD6HXS"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYJPBD6HXS"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
 
@@ -106,14 +71,7 @@
 
   <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-K3CNP25"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3CNP25" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <h1 class="text-center title">Archie Webster</h1>
@@ -124,26 +82,37 @@
 
     <div class="container d-flex justify-content-center">
       <div id="butns">
-        <button
-          class="button instagram-button"
-          style="--hiddenColour: #f08080"
-          onclick="window.open('https://www.instagram.com/artomweb/');"
-        >
-          <i class="fab fa-instagram"></i>Instagram
+        <button class="button instagram-button" style="--hiddenColour: #f08080" onclick="window.open('https://www.instagram.com/artomweb/');">
+          <div class="iconAndText">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="noBottom lucide lucide-instagram">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+            </svg>
+            <div>Instagram</div>
+          </div>
         </button>
-        <button
-          class="button spotify-button"
-          style="--hiddenColour: #81b29a"
-          onclick="window.open('https://open.spotify.com/user/artomweb');"
-        >
-          <i class="fab fa-spotify"></i>Spotify
+        <button class="button spotify-button" style="--hiddenColour: #81b29a" onclick="window.open('https://open.spotify.com/user/artomweb');">
+          <div class="iconAndText">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="noBottom lucide lucide-music-4">
+              <path d="M9 18V5l12-2v13"></path>
+              <path d="m9 9 12-2"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+            <div>Spotify</div>
+          </div>
         </button>
-        <button
-          class="button github-button"
-          style="--hiddenColour: #8ecae6"
-          onclick="window.open('https://github.com/artomweb');"
-        >
-          <i class="fab fa-github"></i>Github
+        <button class="button github-button" style="--hiddenColour: #8ecae6" onclick="window.open('https://github.com/artomweb');">
+          <div class="iconAndText">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="noBottom lucide lucide-github">
+              <path
+                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+              ></path>
+              <path d="M9 18c-4.51 2-5-2-7-2"></path>
+            </svg>
+            <div>Github</div>
+          </div>
         </button>
       </div>
     </div>
@@ -155,17 +124,9 @@
           <div class="card mb-3">
             <div class="card-body">
               <img id="catImage" />
-              <h4 class="card-title mt-2 mb-2">
-                <i class="fa-solid fa-cat"></i> A standing cat
-              </h4>
+              <h4 class="card-title mt-2 mb-2"><i class="fa-solid fa-cat"></i> A standing cat</h4>
 
-              <button
-                class="button toggle-button kitten-button"
-                style="--hiddenColour: #81b29a"
-                onclick="loadCat()"
-              >
-                Show me another!
-              </button>
+              <button class="button toggle-button kitten-button" style="--hiddenColour: #81b29a" onclick="loadCat()">Show me another!</button>
               <img id="imageCache" style="display: none" />
             </div>
           </div>
@@ -173,47 +134,37 @@
           <div class="card mb-3">
             <div class="card-body">
               <div class="iconAndText liveText">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  id="liveTextSymbol"
-                  class="lucide lucide-radio"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="liveTextSymbol" class="lucide lucide-radio">
                   <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path>
                   <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path>
                   <circle cx="12" cy="12" r="2"></circle>
                   <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path>
                   <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path>
                 </svg>
-                <h4 class="card-title" id="liveText">
-                  Live data from my desk:
-                </h4>
+                <h4 class="card-title" id="liveText">Live data from my desk:</h4>
               </div>
               <br />
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Temperature:
-                <span id="temperatureReading" class="textItal"> no reading</span
-                ><span class="textItal liveDataSymbol">&#176;</span
-                ><span><i class="fas incDecIcon" id="tempIcon"></i></span>
+                <span id="temperatureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">&#176;</span
+                ><span>
+                  <div class="upDownChevrons">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up">
+                      <polyline points="18 15 12 9 6 15"></polyline>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </div>
+                </span>
               </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Pressure:
-                <span id="pressureReading" class="textItal"> no reading</span
-                ><span class="textItal liveDataSymbol"> mbar</span
-                ><span><i class="fas incDecIcon" id="pressIcon"></i></span>
+                <span id="pressureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol"> mbar</span><span><i class="fas incDecIcon" id="pressIcon"></i></span>
               </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc" id="humid">
                 Humidity:
-                <span id="humidityReading" class="textItal"> no reading</span
-                ><span class="textItal liveDataSymbol">%</span
-                ><span><i class="fas incDecIcon" id="humidIcon"></i></span>
+                <span id="humidityReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">%</span><span><i class="fas incDecIcon" id="humidIcon"></i></span>
               </h5>
               <br />
               <h5 class="card-subtitle mb-2 text-muted valDesc">
@@ -226,21 +177,8 @@
           <div class="card mb-3" id="drivingCard">
             <div class="card-body">
               <div class="iconAndText">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-car"
-                >
-                  <path
-                    d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"
-                  ></path>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-car">
+                  <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"></path>
                   <circle cx="6.5" cy="16.5" r="2.5"></circle>
                   <circle cx="16.5" cy="16.5" r="2.5"></circle>
                 </svg>
@@ -256,15 +194,9 @@
               </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Miles driven:
-                <span id="milesDriven" class="textItal"> no data</span
-                ><span class="textItal drivingSymbol"> miles</span>
+                <span id="milesDriven" class="textItal"> no data</span><span class="textItal drivingSymbol"> miles</span>
               </h5>
-              <small class="text-muted"
-                >Last drive:
-                <span id="timeSinceLastDrive" class="textItal">
-                  no data</span
-                ></small
-              >
+              <small class="text-muted">Last drive: <span id="timeSinceLastDrive" class="textItal"> no data</span></small>
             </div>
           </div>
         </div>
@@ -274,18 +206,7 @@
             <div class="card-body">
               <canvas id="monkeyChart"></canvas>
               <div class="iconAndText">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-keyboard"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-keyboard">
                   <rect width="20" height="16" x="2" y="4" rx="2" ry="2"></rect>
                   <path d="M6 8h.001"></path>
                   <path d="M10 8h.001"></path>
@@ -298,51 +219,28 @@
                 </svg>
                 <h4 class="card-title mb-2">Typing Speed</h4>
               </div>
-              <h5 class="card-subtitle mb-2 text-muted">
-                How has my typing speed improved over time
-              </h5>
+              <h5 class="card-subtitle mb-2 text-muted">How has my typing speed improved over time</h5>
 
               <br />
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Highest typing speed:
-                <span id="highestTypingSpeed" class="textItal"> no data</span
-                ><span class="textItal symbol"> wpm</span>
+                <span id="highestTypingSpeed" class="textItal"> no data</span><span class="textItal symbol"> wpm</span>
               </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Time spent doing tests:
                 <span id="totalTime" class="textItal"> no data</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                <sup>&#8224;</sup>Average typing speed:
-                <span id="averageTypingSpeed" class="textItal"> no data</span
-                ><span class="textItal symbol"> wpm</span>
-              </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                <sup>&#8224;</sup>Average accuracy:
-                <span id="averageAccuracy" class="textItal"> no data</span
-                ><span class="textItal symbol">%</span>
-              </h5>
+              <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average typing speed: <span id="averageTypingSpeed" class="textItal"> no data</span><span class="textItal symbol"> wpm</span></h5>
+              <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average accuracy: <span id="averageAccuracy" class="textItal"> no data</span><span class="textItal symbol">%</span></h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 <sup>&#8224;</sup>Average number of tests per day:
                 <span id="testsPerDay" class="textItal"> no data</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                <sup>&#8224;</sup>Speed change per hour spent typing:
-                <span id="wpmChangePerHour" class="textItal"> no data</span
-                ><span class="textItal symbol"> wpm</span>
-              </h5>
+              <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Speed change per hour spent typing: <span id="wpmChangePerHour" class="textItal"> no data</span><span class="textItal symbol"> wpm</span></h5>
 
-              <small class="text-muted"
-                ><span class="textItal">&#8224;</span> Based on the last 500
-                tests</small
-              >
+              <small class="text-muted"><span class="textItal">&#8224;</span> Based on the last 500 tests</small>
               <br />
-              <small class="text-muted"
-                >Last test:
-                <span id="timeSinceLastTest" class="textItal">
-                  no data</span
-                ></small
-              >
+              <small class="text-muted">Last test: <span id="timeSinceLastTest" class="textItal"> no data</span></small>
             </div>
           </div>
 
@@ -350,18 +248,7 @@
             <div class="card-body">
               <canvas id="spotifyChart"></canvas>
               <div class="iconAndText">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-music-4"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-music-4">
                   <path d="M9 18V5l12-2v13"></path>
                   <path d="m9 9 12-2"></path>
                   <circle cx="6" cy="18" r="3"></circle>
@@ -369,52 +256,14 @@
                 </svg>
                 <h4 class="card-title mb-2">Spotify</h4>
               </div>
-              <button
-                class="button toggle-button"
-                style="--hiddenColour: #81b29a"
-                onclick="spotifyToggle()"
-              >
-                Toggle data source
-              </button>
-              <svg
-                width="80"
-                height="50"
-                viewBox="0 0 250 80"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="36"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle0"
-                  class="spotifyCircles"
-                />
-                <circle
-                  cx="89"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle1"
-                  class="spotifyCircles"
-                />
-                <circle
-                  cx="142"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle2"
-                  class="spotifyCircles"
-                />
+              <button class="button toggle-button" style="--hiddenColour: #81b29a" onclick="spotifyToggle()">Toggle data source</button>
+              <svg width="80" height="50" viewBox="0 0 250 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="36" cy="35" r="18.5" stroke="black" id="circle0" class="spotifyCircles" />
+                <circle cx="89" cy="35" r="18.5" stroke="black" id="circle1" class="spotifyCircles" />
+                <circle cx="142" cy="35" r="18.5" stroke="black" id="circle2" class="spotifyCircles" />
               </svg>
               <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc"></h5>
-              <small class="text-muted"
-                >Last day recorded:
-                <span id="timeSinceLastSong" class="textItal">
-                  no data</span
-                ></small
-              >
+              <small class="text-muted">Last day recorded: <span id="timeSinceLastSong" class="textItal"> no data</span></small>
             </div>
           </div>
         </div>
@@ -427,9 +276,7 @@
         <div class="col-md-6"></div>
         <div class="col-md-6"></div>
       </div>
-      <h6 class="text-center text-muted">
-        Data is updated daily where possible
-      </h6>
+      <h6 class="text-center text-muted">Data is updated daily where possible</h6>
     </div>
 
     <br />

@@ -32,20 +32,10 @@ function updateReadingText(msg) {
   if (msg.averages) {
     icons.map(([name, icon]) => {
       if (msg[name] >= msg.averages[name]) {
-        if (icon.classList !== undefined) {
-          if (icon.classList.contains("fa-caret-down"))
-            icon.classList.remove("fa-caret-down");
-          if (!icon.classList.contains("fa-caret-up"))
-            icon.classList.add("fa-caret-up");
-        } else {
-          icon.classList.add("fa-caret-up");
-        }
       } else {
         if (icon.classList !== undefined) {
-          if (icon.classList.contains("fa-caret-up"))
-            icon.classList.remove("fa-caret-up");
-          if (!icon.classList.contains("fa-caret-down"))
-            icon.classList.add("fa-caret-down");
+          if (icon.classList.contains("fa-caret-up")) icon.classList.remove("fa-caret-up");
+          if (!icon.classList.contains("fa-caret-down")) icon.classList.add("fa-caret-down");
         } else {
           icon.classList.add("fa-caret-down");
         }

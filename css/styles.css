@@ -3,6 +3,12 @@
   src: url("/fonts/Klasik Regular.otf");
 }
 
+.upDownChevrons {
+  display: flex;
+  flex-direction: column;
+  width: 20px;
+}
+
 .iconAndText {
   display: flex;
   align-items: center;
@@ -11,6 +17,10 @@
 .lucide {
   margin-bottom: 0.5rem;
   margin-right: 0.25rem;
+}
+
+.noBottom {
+  margin-bottom: 0;
 }
 
 .title {
