@@ -45,6 +45,8 @@ function driving(data) {
     return b.startTimestamp - a.startTimestamp;
   });
 
+  console.log(sortedData);
+
   let dateOfLastDrive = moment.unix(sortedData[0].endTimestamp / 1000).format("Do [of] MMMM");
 
   let timeSinceLastDrive = (new Date().getTime() - sortedData[0].endTimestamp) / 1000;
