@@ -69,9 +69,13 @@ function processTyping(dataIn) {
 
   let delta = dataRecent.length * 30;
 
-  const changeInWPMPerMin = (wpmChange * (3600 / delta)).toFixed(2);
+  let changeInWPMPerMinSigned = (wpmChange * (3600 / delta)).toFixed(2);
 
-  const PorNchange = changeInWPMPerMin > 0 ? "+" : "-";
+  const PorNchange = changeInWPMPerMinSigned > 0 ? "+" : "-";
+
+  const changeInWPMPerMin = Math.abs(changeInWPMPerMinSigned);
+
+  console.log(changeInWPMPerMin, PorNchange);
 
   // avg wpm and acc
 
