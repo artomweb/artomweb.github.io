@@ -27,9 +27,24 @@
     <meta name="author" content="Archie Webster" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link crossorigin rel="preload" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSlFhe-8wZDuYkepfvfo3g0uP4OEFh-r1PFkqaf_M73SyphJD8sSVIWsJ17-B2z-Hfu8MscZ8TfB9K8/pub?output=csv" as="fetch" />
-    <link crossorigin rel="preload" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv" as="fetch" />
-    <link crossorigin rel="preload" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv" as="fetch" />
+    <link
+      crossorigin
+      rel="preload"
+      href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSlFhe-8wZDuYkepfvfo3g0uP4OEFh-r1PFkqaf_M73SyphJD8sSVIWsJ17-B2z-Hfu8MscZ8TfB9K8/pub?output=csv"
+      as="fetch"
+    />
+    <link
+      crossorigin
+      rel="preload"
+      href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv"
+      as="fetch"
+    />
+    <link
+      crossorigin
+      rel="preload"
+      href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv"
+      as="fetch"
+    />
     <link crossorigin rel="preload" href="/fonts/Klasik Regular.otf" as="font" type="font/otf" />
     <link rel="stylesheet" href="css/styles.css" />
     <script
@@ -88,7 +103,14 @@
 
   <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3CNP25" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-K3CNP25"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <h1 class="text-center title">Archie Webster</h1>
@@ -99,9 +121,24 @@
 
     <div class="container d-flex justify-content-center">
       <div id="butns">
-        <button class="button instagram-button" style="--hiddenColour: #f08080" onclick="window.open('https://www.instagram.com/artomweb/');"><i class="fab fa-instagram"></i>Instagram</button>
-        <button class="button spotify-button" style="--hiddenColour: #81b29a" onclick="window.open('https://open.spotify.com/user/artomweb');"><i class="fab fa-spotify"></i>Spotify</button>
-        <button class="button github-button" style="--hiddenColour: #8ecae6" onclick="window.open('https://github.com/artomweb');"><i class="fab fa-github"></i>Github</button>
+        <button
+          class="button instagram-button"
+          style="--hiddenColour: #f08080"
+          onclick="window.open('https://www.instagram.com/artomweb/');"
+        >
+          <i class="fab fa-instagram"></i>Instagram
+        </button>
+        <button
+          class="button spotify-button"
+          style="--hiddenColour: #81b29a"
+          onclick="window.open('https://open.spotify.com/user/artomweb');"
+        >
+          <i class="fab fa-spotify"></i>Spotify
+        </button>
+        <button class="button github-button" style="--hiddenColour: #8ecae6" onclick="window.open('https://github.com/artomweb');">
+          <i class="fab fa-github"></i>Github
+        </button>
+        <!-- <button class="button" style="--hiddenColour: #f8c8dc" onclick="window.open('/blog');"><i class="fa-solid fa-pen"></i>BLOG</button> -->
       </div>
     </div>
 
@@ -114,7 +151,9 @@
               <img id="catImage" />
               <h4 class="card-title mt-2 mb-2"><i class="fa-solid fa-cat"></i> A standing cat</h4>
 
-              <button class="button toggle-button kitten-button" style="--hiddenColour: #81b29a" onclick="loadCat()">Show me another!</button>
+              <button class="button toggle-button kitten-button" style="--hiddenColour: #81b29a" onclick="loadCat()">
+                Show me another!
+              </button>
               <img id="imageCache" style="display: none" />
             </div>
           </div>
@@ -125,15 +164,18 @@
               <br />
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Temperature:
-                <span id="temperatureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">&#176;</span><span><i class="fas incDecIcon" id="tempIcon"></i></span>
+                <span id="temperatureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">&#176;</span
+                ><span><i class="fas incDecIcon" id="tempIcon"></i></span>
               </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Pressure:
-                <span id="pressureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol"> mbar</span><span><i class="fas incDecIcon" id="pressIcon"></i></span>
+                <span id="pressureReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol"> mbar</span
+                ><span><i class="fas incDecIcon" id="pressIcon"></i></span>
               </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc" id="humid">
                 Humidity:
-                <span id="humidityReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">%</span><span><i class="fas incDecIcon" id="humidIcon"></i></span>
+                <span id="humidityReading" class="textItal"> no reading</span><span class="textItal liveDataSymbol">%</span
+                ><span><i class="fas incDecIcon" id="humidIcon"></i></span>
               </h5>
               <br />
               <h5 class="card-subtitle mb-2 text-muted valDesc">
@@ -179,14 +221,21 @@
                 Time spent doing tests:
                 <span id="totalTime" class="textItal"> no data</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average typing speed: <span id="averageTypingSpeed" class="textItal"> no data</span><span class="textItal symbol"> wpm</span></h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc"><sup>&#8224;</sup>Average accuracy: <span id="averageAccuracy" class="textItal"> no data</span><span class="textItal symbol">%</span></h5>
+              <h5 class="card-subtitle mb-2 text-muted valDesc">
+                <sup>&#8224;</sup>Average typing speed: <span id="averageTypingSpeed" class="textItal"> no data</span
+                ><span class="textItal symbol"> wpm</span>
+              </h5>
+              <h5 class="card-subtitle mb-2 text-muted valDesc">
+                <sup>&#8224;</sup>Average accuracy: <span id="averageAccuracy" class="textItal"> no data</span
+                ><span class="textItal symbol">%</span>
+              </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 <sup>&#8224;</sup>Average number of tests per day:
                 <span id="testsPerDay" class="textItal"> no data</span>
               </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
-                <sup>&#8224;</sup>Speed change per hour spent typing: <span id="wpmChangePerHour" class="textItal"> no data</span><span class="textItal symbol"> wpm</span>
+                <sup>&#8224;</sup>Speed change per hour spent typing: <span id="wpmChangePerHour" class="textItal"> no data</span
+                ><span class="textItal symbol"> wpm</span>
               </h5>
 
               <small class="text-muted"><span class="textItal">&#8224;</span> Based on the last 500 tests</small>

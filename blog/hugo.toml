@@ -1,0 +1,4 @@
+baseurl = "https://artomweb.com/blog/"
+canonifyURLs = true
+title = "Archie's Stuff"
+theme = "paper"
