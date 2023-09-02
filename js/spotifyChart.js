@@ -6,17 +6,20 @@ let ctx2;
 let backgroundColor = "#81b29a";
 
 function getPapaParseSpotify() {
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv", {
-    download: true,
-    header: true,
-    complete: function (results) {
-      // gamesMain(results.data);
-      parseSpotify(results.data);
-    },
-    error: function (error) {
-      console.log("failed to fetch from cache, spotify");
-    },
-  });
+  Papa.parse(
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv",
+    {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // gamesMain(results.data);
+        parseSpotify(results.data);
+      },
+      error: function (error) {
+        console.log("failed to fetch from cache, spotify");
+      },
+    }
+  );
 }
 
 getPapaParseSpotify();
@@ -416,7 +419,7 @@ function updateSpotify(dataIn) {
 
   let timeSinceLastTest = (new Date().getTime() - parsed[0].Date.getTime()) / 1000;
 
-  let dateOfLastTestMessage = dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, 1) + " ago)";
+  let dateOfLastTestMessage = dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, "DH", 1) + " ago)";
 
   document.getElementById("timeSinceLastSong").innerHTML = dateOfLastTestMessage;
 

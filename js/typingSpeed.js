@@ -1,16 +1,19 @@
 function fetchTyping() {
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv", {
-    download: true,
-    header: true,
-    complete: function (results) {
-      // gamesMain(results.data);
-      // console.log(results.data);
-      processTyping(results.data);
-    },
-    error: function (error) {
-      console.log("failed to fetch from cache, games");
-    },
-  });
+  Papa.parse(
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv",
+    {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // gamesMain(results.data);
+        // console.log(results.data);
+        processTyping(results.data);
+      },
+      error: function (error) {
+        console.log("failed to fetch from cache, games");
+      },
+    }
+  );
 }
 
 fetchTyping();
@@ -91,7 +94,7 @@ function processTyping(dataIn) {
 
   let timeSinceLastTest = (new Date().getTime() - dataRecent[dataRecent.length - 1].timestamp.getTime()) / 1000;
 
-  let dateOfLastTestMessage = dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, 1) + " ago)";
+  let dateOfLastTestMessage = dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, "DH", 1) + " ago)";
 
   // number of tests per day
 
@@ -102,11 +105,22 @@ function processTyping(dataIn) {
 
   const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
 
-  const totalTimeMessage = createTimeMessage(dataIn.length * 30, 2);
+  const totalTimeMessage = createTimeMessage(dataIn.length * 30, "HMS", 2);
 
   // console.log(wpmChange);
 
-  const dataToSave = { totalTimeMessage, dateOfLastTestMessage, maxWPM, avgWPM, avgACC, testsPerDay, PorNchange, changeInWPMPerMin, labels, data };
+  const dataToSave = {
+    totalTimeMessage,
+    dateOfLastTestMessage,
+    maxWPM,
+    avgWPM,
+    avgACC,
+    testsPerDay,
+    PorNchange,
+    changeInWPMPerMin,
+    labels,
+    data,
+  };
 
   typingMain(dataToSave);
 }
