@@ -261,6 +261,33 @@
               <small class="text-muted">Last day recorded: <span id="timeSinceLastSong" class="textItal"> no data</span></small>
             </div>
           </div>
+
+          <div class="card mb-3" id="stepsCard">
+            <div class="card-body">
+              <canvas id="stepsChart"></canvas>
+              <h4 class="card-title mb-2">
+                <i class="fas fa-person-walking"></i> Steps
+              </h4>
+              <h5 class="card-subtitle mb-2 text-muted">
+                Number of steps per month
+              </h5>
+
+              <br />
+              <h5 class="card-subtitle mb-2 text-muted valDesc">
+                Most steps in a day:
+                <span id="mostStepsInDay" class="textItal"> no data</span>
+                <!-- <span class="textItal symbol"> wpm</span> -->
+              </h5>
+              <!-- <br /> -->
+              <small class="text-muted"
+                >Last day recorded:
+                <span id="timeSinceLastTestSteps" class="textItal">
+                  no data</span
+                ></small
+              >
+            </div>
+          </div>
+
         </div>
       </div>
       <hr class="dashed" />
@@ -288,6 +315,7 @@
     <script src="js/typingSpeed.js"></script>
     <script src="js/moreStats.js"></script>
     <script src="js/driving.js"></script>
+    <script src="js/steps.js"></script>
     <script src="js/cats.js"></script>
   </body>
 </html>
