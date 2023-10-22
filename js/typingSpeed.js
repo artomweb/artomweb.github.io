@@ -197,7 +197,7 @@ function plotMonkey(labels, data) {
         yAxes: [
           {
             ticks: {
-              // beginAtZero: true,
+              beginAtZero: true,
               //             callback: function(value, index, values) {
               //                 return secondsToMins(value);
               //             },

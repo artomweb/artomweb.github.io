@@ -69,6 +69,8 @@ socket.on("server init", function (msg) {
   let serverInit = new Date(msg.serverInitTime);
   let currentTime = new Date();
 
+  // console.log(msg.serverInitTime, serverInit, currentTime);
+
   let delta = Math.abs(currentTime - serverInit) / 1000;
 
   let message = createTimeMessage(delta, "YDHMS", 2);
