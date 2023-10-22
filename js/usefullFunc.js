@@ -7,7 +7,7 @@
  * @returns {string} The time message EG: 1 year, 2 days, 3 hours, 4 minutes, 5 seconds
  */
 function createTimeMessage(delta, format, maxUnits) {
-  console.log(delta, format);
+  // console.log(delta, format);
   let message = "";
   format = format.toLowerCase();
 

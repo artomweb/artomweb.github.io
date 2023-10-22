@@ -1,19 +1,16 @@
 function fetchTyping() {
-  Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv",
-    {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // gamesMain(results.data);
-        // console.log(results.data);
-        processTyping(results.data);
-      },
-      error: function (error) {
-        console.log("failed to fetch from cache, games");
-      },
-    }
-  );
+  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv", {
+    download: true,
+    header: true,
+    complete: function (results) {
+      // gamesMain(results.data);
+      // console.log(results.data);
+      processTyping(results.data);
+    },
+    error: function (error) {
+      console.log("failed to fetch from cache, games");
+    },
+  });
 }
 
 fetchTyping();
@@ -29,6 +26,7 @@ function showSymbols() {
 function processTyping(dataIn) {
   dataIn.forEach((elt) => {
     elt.timestamp = new Date(+elt.timestamp);
+    elt.wpm = +elt.wpm;
   });
 
   dataIn = _.sortBy(dataIn, (point) => point.timestamp.getTime());
