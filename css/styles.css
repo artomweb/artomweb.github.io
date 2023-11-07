@@ -84,6 +84,10 @@ body {
     margin-bottom: 0;
 } */
 
+.hidden {
+  display: none !important;
+}
+
 .toggle-button {
   font-size: 1rem;
   padding: 4px 8px;
