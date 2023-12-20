@@ -27,7 +27,7 @@ function plotDobble(dataIn) {
 
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
-      return moment(d.timestamp).format("MMM YYYY");
+      return moment(d.timestamp).format("DD MMM YYYY");
     })
     .map((entries, week) => {
       return {
@@ -43,6 +43,12 @@ function plotDobble(dataIn) {
   const labels = weekAvg.map((el) => el.mofy);
   const data = weekAvg.map((el) => el.avg);
 
+  const maxScore = _.maxBy(dataIn, "score").score;
+
+  document.getElementById("highestDobble").innerHTML = maxScore;
+
+  console.log(maxScore);
+
   let ctx = document.getElementById("dobbleChart").getContext("2d");
 
   config = {
@@ -54,7 +60,7 @@ function plotDobble(dataIn) {
           // tension: 0.3,
           // borderColor: "black",
           data: data,
-          backgroundColor,
+          backgroundColor: "#8ecae6",
           // fill: false,
         },
       ],
@@ -95,11 +101,7 @@ function plotDobble(dataIn) {
               label += ": ";
             }
 
-            if (toggleState == 1) {
-              label += tooltipItem.yLabel + " average";
-            } else {
-              label += tooltipItem.yLabel + " songs";
-            }
+            label += tooltipItem.yLabel + " average";
 
             // label += tooltipItem.yLabel + (toggleState == 2 ? " average" : " songs");
 
@@ -108,9 +110,9 @@ function plotDobble(dataIn) {
 
           title: function (tooltipItem, data) {
             let title = tooltipItem[0].xLabel;
-            if (toggleState == 1) {
-              title = moment(title, "dd").format("dddd");
-            }
+            // if (toggleState == 1) {
+            //   title = moment(title, "dd").format("dddd");
+            // }
             return title;
           },
         },
