@@ -25,9 +25,12 @@ function plotDobble(dataIn) {
     elt.score = +elt.score;
   });
 
+  const numTests = dataIn.length;
+
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
-      return moment(d.timestamp).format("DD MMM YYYY");
+      // return moment(d.timestamp).format("DD MMM YYYY");
+      return moment(d.timestamp).format("MMM YYYY");
     })
     .map((entries, week) => {
       return {
@@ -46,6 +49,7 @@ function plotDobble(dataIn) {
   const maxScore = _.maxBy(dataIn, "score").score;
 
   document.getElementById("highestDobble").innerHTML = maxScore;
+  document.getElementById("numberDobble").innerHTML = numTests;
 
   console.log(maxScore);
 
@@ -87,8 +91,12 @@ function plotDobble(dataIn) {
           {
             ticks: {
               beginAtZero: true,
-              // min: 5,
             },
+          },
+        ],
+        xAxes: [
+          {
+            // type: "time",
           },
         ],
       },
