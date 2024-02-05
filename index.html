@@ -255,25 +255,22 @@
 
           <div class="card mb-3" id="climbingCard">
             <div class="card-body">
+              <canvas id="climbingChart"></canvas>
               <h4 class="card-title mb-2">
-                <i class="fa-solid fa-car"></i> Driving
+                <i class="fa-solid fa-dumbbell"></i> Climbing
               </h4>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Time able to drive:
-                <span id="timeAbleDrive" class="textItal"> no data</span>
+                Highest grade climbed:
+                <span id="highestGrade" class="textItal"> no data</span>
               </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Time spent driving:
-                <span id="timeDriving" class="textItal"> no data</span>
+                Number of climbing sessions recorded:
+                <span id="climbingSessions" class="textItal"> no data</span>
               </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Miles driven:
-                <span id="milesDriven" class="textItal"> no data</span
-                ><span class="textItal drivingSymbol"> miles</span>
-              </h5>
+
               <small class="text-muted"
-                >Last drive:
-                <span id="timeSinceLastDrive" class="textItal">
+                >Last climb:
+                <span id="timeSinceLastClimb" class="textItal">
                   no data</span
                 ></small
               >
@@ -449,6 +446,7 @@
     <script src="js/typingSpeed.js"></script>
     <script src="js/moreStats.js"></script>
     <script src="js/driving.js"></script>
+    <script src="js/climbing.js"></script>
     <script src="js/cats.js"></script>
   </body>
 </html>

@@ -5,7 +5,7 @@ function fetchDobble() {
       download: true,
       header: true,
       complete: function (results) {
-        console.log(results.data);
+        // console.log(results.data);
         plotDobble(results.data);
       },
       error: function (error) {
@@ -40,8 +40,8 @@ function plotDobble(dataIn) {
     })
     .value();
 
-  console.log(dataIn);
-  console.log(weekAvg);
+  // console.log(dataIn);
+  // console.log(weekAvg);
 
   const labels = weekAvg.map((el) => el.mofy);
   const data = weekAvg.map((el) => el.avg);
@@ -51,7 +51,7 @@ function plotDobble(dataIn) {
   document.getElementById("highestDobble").innerHTML = maxScore;
   document.getElementById("numberDobble").innerHTML = numTests;
 
-  console.log(maxScore);
+  // console.log(maxScore);
 
   let ctx = document.getElementById("dobbleChart").getContext("2d");
 
@@ -111,16 +111,11 @@ function plotDobble(dataIn) {
 
             label += tooltipItem.yLabel + " average";
 
-            // label += tooltipItem.yLabel + (toggleState == 2 ? " average" : " songs");
-
             return label;
           },
 
           title: function (tooltipItem, data) {
             let title = tooltipItem[0].xLabel;
-            // if (toggleState == 1) {
-            //   title = moment(title, "dd").format("dddd");
-            // }
             return title;
           },
         },

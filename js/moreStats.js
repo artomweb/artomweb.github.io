@@ -17,7 +17,7 @@ function updateTexts() {
   let drivingMessage = createTimeMessage(drivingDelta, "YDHM", 2);
   // let phoneMessage = createTimeMessage(phoneDelta);
 
-  console.log(drivingDelta);
+  // console.log(drivingDelta);
   // timeAlive.innerHTML = ageMessage;
   timeDriving.innerHTML = drivingMessage;
   // timeWithPhone.innerHTML = phoneMessage;
