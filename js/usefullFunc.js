@@ -155,6 +155,7 @@ function shuffle(array) {
   return array;
 }
 
+// fix button animation on mobile
 let touchButtons = document.querySelectorAll(".button");
 
 touchButtons.forEach((but) => {
