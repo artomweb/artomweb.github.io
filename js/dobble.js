@@ -27,12 +27,14 @@ function plotDobble(dataIn) {
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
       // return moment(d.timestamp).format("DD MMM YYYY");
-      return moment(d.timestamp).format("DD[/]MM[/]YY");
+      // return moment(d.timestamp).format("DD[/]MM[/]YY");
+      return moment(d.timestamp).format("MMM YY");
     })
     .map((entries, week) => {
       return {
         mofy: week,
-        avg: Math.round(_.meanBy(entries, (entry) => entry.score) * 10) / 10,
+        // avg: Math.round(_.meanBy(entries, (entry) => entry.score) * 10) / 10,
+        avg: Math.round(_.maxBy(entries, "score").score * 10) / 10,
       };
     })
     .value();
@@ -117,7 +119,7 @@ function plotDobble(dataIn) {
               label += ": ";
             }
 
-            label += tooltipItem.yLabel + " average";
+            label += "Highest was " + tooltipItem.yLabel;
 
             return label;
           },
