@@ -1,4 +1,4 @@
-const MAX_CATS = 59;
+const MAX_CATS = 78;
 
 // Create an array of integers
 let imageNumbers = Array(MAX_CATS)
