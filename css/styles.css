@@ -166,8 +166,11 @@ button i.fas {
 }
 
 #catImage {
-  object-fit: cover;
-  width: 100%;
-  height: 75vh;
+  /* object-fit: cover; */
+  /* width: 100%; */
+  /* height: 25vw; */
   border-radius: 0.25rem;
+}
+.card-content {
+  justify-content: space-between;
 }
