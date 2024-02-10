@@ -1,12 +1,12 @@
 // https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv
 
-function fetchClimbing() {
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv", {
+function fetchCod() {
+  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv", {
     download: true,
     header: true,
     complete: function (results) {
       // console.log(results.data);
-      processClimbing(results.data);
+      processCod(results.data);
     },
     error: function (error) {
       console.log("failed to fetch from cache, climbing");
@@ -16,63 +16,54 @@ function fetchClimbing() {
   });
 }
 
-fetchClimbing();
+fetchCod();
 
-function processClimbing(data) {
-  // console.log(data);
+function processCod(data) {
+  console.log(data);
+  data.forEach((day) => {
+    day.Archie = +day.Archie;
+    day.Ben = +day.Ben;
 
-  data.forEach((elt) => {
-    elt.timestamp = moment(elt.date, "DD/MM/YYYY").hour(10);
+    let totalGames = day.Archie + day.Ben;
+    day.ArchiePerc = day.Archie / totalGames;
+    day.BenPerc = day.Ben / totalGames;
   });
 
-  data = _.sortBy(data, "timestamp");
+  let totalArchie = _.sumBy(data, "Archie");
+  document.getElementById("numGamesArchie").innerHTML = totalArchie;
+  let totalBen = _.sumBy(data, "Ben");
+  document.getElementById("numGamesBen").innerHTML = totalBen;
+  console.log(data);
 
-  let highestGrade = _.maxBy(data, "bestGrade").bestGrade;
+  let dataArchie = data.map((e) => e.Archie);
+  let dataBen = data.map((e) => -e.Ben);
 
-  document.getElementById("highestGrade").innerHTML = highestGrade;
-  document.getElementById("climbingSessions").innerHTML = data.length;
+  let labels = data.map((e) => e.Date);
 
-  let dateOfLastTest = data[data.length - 1].timestamp;
+  plotCod(labels, [
+    { label: "Archie", data: dataArchie, backgroundColor: "#8ecae6", tension: 0.1 },
+    {
+      label: "Ben",
+      data: dataBen,
+      backgroundColor: "#F4A4A4",
+      tension: 0.1,
+    },
+  ]);
 
-  // console.log(dateOfLastTest.unix());
-  // console.log(new Date().getTime());
+  //   console.log(labels);
+  //   console.log(graphData);
 
-  let timeSinceLastTest = new Date().getTime() / 1000 - dateOfLastTest.unix();
-
-  // console.log(timeSinceLastTest);
-
-  let dateOfLastTestMessage = dateOfLastTest.format("Do [of] MMMM") + " (" + createTimeMessage(timeSinceLastTest, "DH", 1) + " ago)";
-
-  // console.log(dateOfLastTestMessage);
-
-  document.getElementById("timeSinceLastClimb").innerHTML = dateOfLastTestMessage;
-
-  let labels = data.map((elt) => elt.date);
-  let graphData = data.map((elt) => elt.bestGrade[1]);
-
-  // console.log(labels);
-  // console.log(graphData);
-
-  plotClimbing(labels, graphData);
+  //   plotCod(labels, graphData);
 }
 
-function plotClimbing(labels, data) {
-  let ctx = document.getElementById("climbingChart").getContext("2d");
+function plotCod(labels, data) {
+  let ctx = document.getElementById("CODChart").getContext("2d");
 
-  let climbingChart = new Chart(ctx, {
+  let codChart = new Chart(ctx, {
     type: "line",
     data: {
       labels: labels,
-      datasets: [
-        {
-          // tension: 0.3,
-          // borderColor: "black",
-          data,
-          backgroundColor: "#81b29a",
-
-          // fill: false,
-        },
-      ],
+      datasets: data,
     },
     options: {
       maintainAspectRatio: true,
@@ -88,7 +79,7 @@ function plotClimbing(labels, data) {
       // },
 
       legend: {
-        display: false,
+        display: true,
       },
       scales: {
         xAxes: [
@@ -115,19 +106,19 @@ function plotClimbing(labels, data) {
             ticks: {
               beginAtZero: true,
               callback: function (value, index, values) {
-                if (value % 1 === 0) {
-                  return "V" + value;
-                }
+                return Math.abs(value);
               },
             },
           },
         ],
       },
       tooltips: {
+        mode: "index",
+        intersect: false,
         callbacks: {
           label: function (tooltipItem, data) {
             let label = data.datasets[tooltipItem.datasetIndex].label || "";
-            label += "V" + tooltipItem.yLabel;
+            label += " " + Math.abs(tooltipItem.yLabel);
             return label;
           },
           //         title: function(tooltipItem, data) {
