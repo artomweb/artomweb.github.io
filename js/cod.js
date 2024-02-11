@@ -25,12 +25,6 @@ function processCod(data) {
     day.Ben = +day.Ben;
   });
 
-  let totalArchie = _.sumBy(data, "Archie");
-  document.getElementById("numGamesArchie").innerHTML = totalArchie;
-  let totalBen = _.sumBy(data, "Ben");
-  document.getElementById("numGamesBen").innerHTML = totalBen;
-  console.log(data);
-
   let dataArchie = data.map((e) => e.Archie);
   let dataBen = data.map((e) => -e.Ben);
 
@@ -45,6 +39,25 @@ function processCod(data) {
       tension: 0.1,
     },
   ]);
+
+  let totalArchie = _.sumBy(data, "Archie");
+  document.getElementById("numGamesArchie").innerHTML = totalArchie;
+  let totalBen = _.sumBy(data, "Ben");
+  document.getElementById("numGamesBen").innerHTML = totalBen;
+  console.log(data);
+
+  let dateOfLastTest = moment(data[data.length - 1].Date, "DD/MM/YYYY").hour(8);
+
+  // console.log(dateOfLastTest.unix());
+  // console.log(new Date().getTime());
+
+  let timeSinceLastTest = new Date().getTime() / 1000 - dateOfLastTest.unix();
+
+  // console.log(timeSinceLastTest);
+
+  let dateOfLastTestMessage = dateOfLastTest.format("Do [of] MMMM") + " (" + createTimeMessage(timeSinceLastTest, "DH", 1) + " ago)";
+
+  document.getElementById("timeSinceLastCod").innerHTML = dateOfLastTestMessage;
 
   //   console.log(labels);
   //   console.log(graphData);
