@@ -102,7 +102,9 @@ function plotCod(labels, data) {
             ticks: {
               beginAtZero: true,
               callback: function (value, index, values) {
-                return Math.abs(value);
+                if (value % 1 == 0) {
+                  return Math.abs(value);
+                }
               },
             },
           },
