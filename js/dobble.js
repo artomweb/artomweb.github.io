@@ -39,15 +39,15 @@ function plotDobble(dataIn) {
     })
     .value();
 
-  console.log(weekAvg);
+  // console.log(weekAvg);
   if (weekAvg.length > 20) {
     const step = Math.round(weekAvg.length / 20); // Calculate step size, limit to n
-    console.log(step);
+    // console.log(step);
     weekAvg = weekAvg.filter((_, index) => index % step === 0); // Keep points at regular intervals
   }
 
   // console.log(dataIn);
-  console.log(weekAvg);
+  // console.log(weekAvg);
 
   const labels = weekAvg.map((el) => el.mofy);
   const data = weekAvg.map((el) => el.avg);

@@ -122,7 +122,6 @@
             <div class="card-body">
               <img class="card-img-top" id="catImage" />
               <h4 class="card-title mt-2 mb-2"><i class="fa-solid fa-cat"></i> A standing cat</h4>
-
               <button class="button toggle-button kitten-button" style="--hiddenColour: #81b29a" onclick="loadCat()">Show me another!</button>
               <img id="imageCache" style="display: none" />
             </div>
@@ -174,7 +173,7 @@
           <div class="card mb-3" id="climbingCard">
             <div class="card-body">
               <canvas id="climbingChart"></canvas>
-              <h4 class="card-title mb-2"><i class="fa-solid fa-dumbbell"></i> Climbing</h4>
+              <br />
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Highest grade climbed:
                 <span id="highestGrade" class="textItal"> no data</span>
@@ -190,6 +189,26 @@
         </div>
 
         <div class="col-md-6">
+          <div class="card mb-3" id="CODCard">
+            <div class="card-body">
+              <canvas id="CODChart"></canvas>
+              <h4 class="card-title mb-2">
+                <i class="fa-solid fa-gamepad"></i>
+                Call of Duty
+              </h4>
+              <h5 class="card-subtitle mb-2 text-muted">Ben and I often play Call of Duty together, who's winning?</h5>
+
+              <br />
+              <h5 class="card-subtitle mb-2 text-muted valDesc">
+                Games won by Archie:
+                <span id="numGamesArchie" class="textItal"> no data</span>
+                <br />
+
+                Games won by Ben:
+                <span id="numGamesBen" class="textItal"> no data</span>
+              </h5>
+            </div>
+          </div>
           <div class="card mb-3" id="typingCard">
             <div class="card-body">
               <canvas id="monkeyChart"></canvas>
@@ -281,6 +300,7 @@
     ></script>
     <script src="js/usefullFunc.js"></script>
     <script src="js/rppiSocket.js"></script>
+    <script src="js/cod.js"></script>
     <script src="js/dobble.js"></script>
     <script src="js/spotifyChart.js"></script>
     <script src="js/typingSpeed.js"></script>
