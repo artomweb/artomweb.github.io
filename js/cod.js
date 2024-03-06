@@ -13,7 +13,7 @@ function switchCodDots() {
       desc.innerHTML = "Ben and I often play Call of Duty together, who's winning? This graph shows the number of games won per day.";
       break;
     case 1:
-      desc.innerHTML = "This graph shows the margin that each of us was winning by. A red line with a value of 4 means that Ben was winning by 4 points overall.";
+      desc.innerHTML = "This graph shows the margin that either of is was winning by. A red line with a value of 4 means that Ben was winning by 4 points overall.";
       break;
   }
   circles.forEach((c) => (c.id.slice(-1) == codToggleState ? (c.style.fill = "black") : (c.style.fill = "none")));
