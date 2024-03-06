@@ -6,20 +6,17 @@ let ctx2;
 let backgroundColor = "#81b29a";
 
 function getPapaParseSpotify() {
-  Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv",
-    {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // gamesMain(results.data);
-        parseSpotify(results.data);
-      },
-      error: function (error) {
-        console.log("failed to fetch from cache, spotify");
-      },
-    }
-  );
+  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv", {
+    download: true,
+    header: true,
+    complete: function (results) {
+      // gamesMain(results.data);
+      parseSpotify(results.data);
+    },
+    error: function (error) {
+      console.log("failed to fetch from cache, spotify");
+    },
+  });
 }
 
 getPapaParseSpotify();
@@ -79,40 +76,32 @@ function createDatabase(dataIn) {
 function updateByDay() {
   const { data, labels } = spotifyData.byDay;
 
-  if (mySpotifyChart.config.type == "line") {
-    mySpotifyChart.destroy();
-    let temp = { ...config };
+  mySpotifyChart.destroy();
+  let temp = { ...config };
 
-    temp.type = "bar";
+  temp.type = "bar";
 
-    temp.data.labels = labels;
+  temp.data.labels = labels;
 
-    let newDataset = {
-      // tension: 0.3,
-      // borderColor: "black",
-      data: data,
-      backgroundColor,
-      // fill: false,
-    };
-    temp.data.datasets = [newDataset];
+  let newDataset = {
+    // tension: 0.3,
+    // borderColor: "black",
+    data: data,
+    backgroundColor,
+    // fill: false,
+  };
+  temp.data.datasets = [newDataset];
 
-    temp.options.scales.xAxes[0] = { offset: true };
+  temp.options.scales.x = { offset: true };
 
-    mySpotifyChart = new Chart(ctx2, temp);
-  } else {
-    mySpotifyChart.data.labels = labels;
-    let newDataset = {
-      // tension: 0.3,
-      // borderColor: "black",
-      data: avgs,
-      backgroundColor,
-      // fill: false,
-    };
-    mySpotifyChart.data.datasets = [newDataset];
-    mySpotifyChart.options.scales = {};
-    //   console.log(mySpotifyChart.data.datasets);
-    mySpotifyChart.update();
-  }
+  mySpotifyChart.options.scales.y = {
+    title: {
+      text: "Average songs played",
+      display: true,
+    },
+  };
+
+  mySpotifyChart = new Chart(ctx2, temp);
 }
 
 // update the chart to show the data, for the last two weeks, LIN CHART
@@ -122,77 +111,45 @@ function updateTwoWeeks() {
   labels = labels.map((l) => new Date(l));
 
   let newDataset = {
-    // tension: 0.3,
+    tension: 0.3,
     // borderColor: "black",
     data: data,
     backgroundColor,
-    // fill: false,
+    fill: true,
   };
 
-  if (mySpotifyChart.config.type == "bar") {
-    mySpotifyChart.destroy();
-    let temp = { ...config };
+  mySpotifyChart.destroy();
+  let temp = { ...config };
 
-    temp.type = "line";
+  temp.type = "line";
 
-    temp.data.labels = labels;
+  temp.data.labels = labels;
 
-    temp.data.datasets = [newDataset];
+  temp.data.datasets = [newDataset];
 
-    temp.options.scales = {
-      xAxes: [
-        {
-          type: "time",
-          time: {
-            unit: "day",
-            round: "day",
-            displayFormats: {
-              day: "dd",
-            },
-          },
-        },
-      ],
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    };
+  temp.options.scales = {
+    x: {
+      ticks: {
+        maxTicksLimit: 6.3,
+      },
+      type: "time",
+      time: {
+        tooltipFormat: "dd-MM-yyyy",
+      },
+    },
 
-    mySpotifyChart = new Chart(ctx2, temp);
-  } else {
-    mySpotifyChart.data.labels = labels;
+    y: {
+      title: {
+        text: "Total songs played",
+        display: true,
+      },
+      ticks: {
+        beginAtZero: true,
+      },
+    },
+  };
 
-    mySpotifyChart.data.datasets = [newDataset];
-
-    mySpotifyChart.options.scales = {
-      xAxes: [
-        {
-          type: "time",
-          time: {
-            unit: "day",
-            round: "day",
-            displayFormats: {
-              day: "dd",
-            },
-          },
-        },
-      ],
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    };
-
-    //   console.log(mySpotifyChart.data.datasets);
-
-    mySpotifyChart.update();
-  }
+  mySpotifyChart = new Chart(ctx2, temp);
 }
 
 // update the chart to show the data, aggregated by week, LINE CHART
@@ -203,53 +160,35 @@ function updateAllData() {
     // borderColor: "black",
     data: data,
     backgroundColor,
-    // fill: false,
+    fill: true,
   };
   // console.log(values);
 
-  if (mySpotifyChart.config.type == "bar") {
-    mySpotifyChart.destroy();
-    let temp = { ...config };
-    temp.type = "line";
+  mySpotifyChart.data.labels = labels;
 
-    temp.data.labels = labels;
+  mySpotifyChart.data.datasets = [newDataset];
 
-    temp.data.datasets = [newDataset];
+  mySpotifyChart.options.scales = {
+    x: {
+      ticks: {
+        autoSkip: true,
+        maxTicksLimit: 4,
+        maxRotation: 0,
+        minRotation: 0,
+      },
+    },
+  };
 
-    temp.options.scales = {
-      xAxes: [
-        {
-          ticks: {
-            autoSkip: true,
-            maxTicksLimit: 4,
-            maxRotation: 0,
-            minRotation: 0,
-          },
-        },
-      ],
-    };
-  } else {
-    mySpotifyChart.data.labels = labels;
+  mySpotifyChart.options.scales.y = {
+    title: {
+      text: "Total songs played",
+      display: true,
+    },
+  };
 
-    mySpotifyChart.data.datasets = [newDataset];
+  //   console.log(mySpotifyChart.data.datasets);
 
-    mySpotifyChart.options.scales = {
-      xAxes: [
-        {
-          ticks: {
-            autoSkip: true,
-            maxTicksLimit: 4,
-            maxRotation: 0,
-            minRotation: 0,
-          },
-        },
-      ],
-    };
-
-    //   console.log(mySpotifyChart.data.datasets);
-
-    mySpotifyChart.update();
-  }
+  mySpotifyChart.update();
 }
 
 // plot the template chart
@@ -279,61 +218,50 @@ function spotifyChart() {
       maintainAspectRatio: true,
       responsive: true,
 
-      // layout: {
-      //     padding: {
-      //         left: 0,
-      //         right: 25,
-      //         top: 20,
-      //         bottom: 20,
-      //     },
-      // },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              let label = context.dataset.label || "";
 
-      legend: {
-        display: false,
-      },
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-              // min: 5,
+              if (label) {
+                label += ": ";
+              }
+              if (context.parsed.y !== null) {
+                if (toggleState == 1) {
+                  label += context.parsed.y + " average";
+                } else {
+                  label += context.parsed.y + " songs";
+                }
+              }
+              return label;
+            },
+
+            title: function (context) {
+              let title = context[0].label;
+              if (toggleState == 1) {
+                title = moment(title, "dd").format("dddd");
+              }
+
+              return title;
             },
           },
-        ],
+        },
       },
-      tooltips: {
-        callbacks: {
-          label: function (tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || "";
-
-            if (label) {
-              label += ": ";
-            }
-
-            if (toggleState == 1) {
-              label += tooltipItem.yLabel + " average";
-            } else {
-              label += tooltipItem.yLabel + " songs";
-            }
-
-            // label += tooltipItem.yLabel + (toggleState == 2 ? " average" : " songs");
-
-            return label;
-          },
-
-          title: function (tooltipItem, data) {
-            let title = tooltipItem[0].xLabel;
-            if (toggleState == 1) {
-              title = moment(title, "dd").format("dddd");
-            }
-            return title;
-          },
+      scales: {
+        y: {
+          beginAtZero: true,
+          // ticks: {
+          // min: 5,
+          // },
         },
       },
     },
   };
   mySpotifyChart = new Chart(ctx2, config);
-  Chart.defaults.global.defaultFontColor = "#000";
 }
 
 function getLastTwoWeeks(dat) {
@@ -352,7 +280,7 @@ function getLastTwoWeeks(dat) {
 }
 
 function getAllWeeks(dat) {
-  let twoYearsAgo = moment().subtract(2, "years");
+  let twoYearsAgo = moment().subtract(3, "years");
   dat = dat.filter((d) => {
     return moment(d.Date).isSameOrAfter(twoYearsAgo);
   });

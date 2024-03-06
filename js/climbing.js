@@ -48,7 +48,7 @@ function processClimbing(data) {
   document.getElementById("timeSinceLastClimb").innerHTML = dateOfLastTestMessage;
 
   let labels = data.map((elt) => elt.date);
-  let graphData = data.map((elt) => elt.bestGrade[1]);
+  let graphData = data.map((elt) => +elt.bestGrade[1]);
 
   // console.log(labels);
   // console.log(graphData);
@@ -59,17 +59,19 @@ function processClimbing(data) {
 function plotClimbing(labels, data) {
   let ctx = document.getElementById("climbingChart").getContext("2d");
 
-  let climbingChart = new Chart(ctx, {
+  console.log(data, labels);
+
+  new Chart(ctx, {
     type: "line",
     data: {
       labels: labels,
       datasets: [
         {
-          // tension: 0.3,
+          tension: 0.3,
           // borderColor: "black",
           data,
           backgroundColor: "#81b29a",
-
+          fill: true,
           // fill: false,
         },
       ],
@@ -78,63 +80,46 @@ function plotClimbing(labels, data) {
       maintainAspectRatio: true,
       responsive: true,
 
-      // layout: {
-      //     padding: {
-      //         left: 0,
-      //         right: 25,
-      //         top: 20,
-      //         bottom: 20,
-      //     },
-      // },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              let label = context.dataset.label || "";
 
-      legend: {
-        display: false,
+              if (label) {
+                label += ": ";
+              }
+              if (context.parsed.y !== null) {
+                label += "V" + context.parsed.y;
+              }
+              return label;
+            },
+          },
+        },
       },
       scales: {
-        xAxes: [
-          {
-            ticks: {
-              // autoSkip: true,
-              maxTicksLimit: 6.3,
-              stepSize: 5,
-              maxRotation: 0,
-              minRotation: 0,
-            },
-            // type: "time",
-            // time: {
-            //     unit: "week",
-            //     round: "week",
-            //     displayFormats: {
-            //         day: "W-YYYY",
-            //     },
-            // },
+        x: {
+          ticks: {
+            maxTicksLimit: 4,
           },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-              callback: function (value, index, values) {
-                if (value % 1 === 0) {
-                  return "V" + value;
-                }
-              },
+        },
+
+        y: {
+          title: {
+            text: "Highest grade",
+            display: true,
+          },
+          beginAtZero: true,
+          ticks: {
+            callback: function (value, index, values) {
+              if (value % 1 === 0) {
+                return "V" + value;
+              }
             },
           },
-        ],
-      },
-      tooltips: {
-        callbacks: {
-          label: function (tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || "";
-            label += "V" + tooltipItem.yLabel;
-            return label;
-          },
-          //         title: function(tooltipItem, data) {
-          //             let title = tooltipItem[0].xLabel;
-          //             title = moment(title, "dd").format("dddd");
-          //             return title;
-          //         },
         },
       },
     },

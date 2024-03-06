@@ -26,28 +26,21 @@ function plotDobble(dataIn) {
 
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
-      // return moment(d.timestamp).format("DD MMM YYYY");
-      // return moment(d.timestamp).format("DD[/]MM[/]YY");
       return moment(d.timestamp).format("MMM YY");
     })
     .map((entries, week) => {
       return {
         mofy: week,
-        // avg: Math.round(_.meanBy(entries, (entry) => entry.score) * 10) / 10,
-        avg: Math.round(_.maxBy(entries, "score").score * 10) / 10,
+        avg: Math.round(_.meanBy(entries, (entry) => entry.score) * 10) / 10,
+        // avg: Math.round(_.maxBy(entries, "score").score * 10) / 10,
       };
     })
     .value();
 
-  // console.log(weekAvg);
   if (weekAvg.length > 20) {
     const step = Math.round(weekAvg.length / 20); // Calculate step size, limit to n
-    // console.log(step);
     weekAvg = weekAvg.filter((_, index) => index % step === 0); // Keep points at regular intervals
   }
-
-  // console.log(dataIn);
-  // console.log(weekAvg);
 
   const labels = weekAvg.map((el) => el.mofy);
   const data = weekAvg.map((el) => el.avg);
@@ -67,11 +60,11 @@ function plotDobble(dataIn) {
       labels: labels,
       datasets: [
         {
-          // tension: 0.3,
+          tension: 0.3,
           // borderColor: "black",
           data: data,
           backgroundColor: "#8ecae6",
-          // fill: false,
+          fill: true,
         },
       ],
     },
@@ -80,53 +73,47 @@ function plotDobble(dataIn) {
       maintainAspectRatio: true,
       responsive: true,
 
-      // layout: {
-      //     padding: {
-      //         left: 0,
-      //         right: 25,
-      //         top: 20,
-      //         bottom: 20,
-      //     },
-      // },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              let label = context.dataset.label || "";
 
-      legend: {
-        display: false,
+              if (label) {
+                label += ": ";
+              }
+              if (context.parsed.y !== null) {
+                label += "Average was " + context.parsed.y;
+              }
+              return label;
+            },
+
+            title: function (context) {
+              let title = context[0].label;
+              return title;
+            },
+          },
+        },
       },
       scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            },
+        y: {
+          title: {
+            text: "Average score",
+            display: true,
           },
-        ],
-        xAxes: [
-          {
-            ticks: {
-              beginAtZero: false,
-              autoSkip: true,
-              maxTicksLimit: 5.1,
-            },
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1,
           },
-        ],
-      },
-      tooltips: {
-        callbacks: {
-          label: function (tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || "";
+        },
 
-            if (label) {
-              label += ": ";
-            }
-
-            label += "Highest was " + tooltipItem.yLabel;
-
-            return label;
-          },
-
-          title: function (tooltipItem, data) {
-            let title = tooltipItem[0].xLabel;
-            return title;
+        x: {
+          ticks: {
+            autoSkip: true,
+            maxTicksLimit: 5.1,
           },
         },
       },

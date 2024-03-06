@@ -1,19 +1,16 @@
 function fetchTyping() {
-  Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv",
-    {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // gamesMain(results.data);
-        // console.log(results.data);
-        processTyping(results.data);
-      },
-      error: function (error) {
-        console.log("failed to fetch from cache, games");
-      },
-    }
-  );
+  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv", {
+    download: true,
+    header: true,
+    complete: function (results) {
+      // gamesMain(results.data);
+      // console.log(results.data);
+      processTyping(results.data);
+    },
+    error: function (error) {
+      console.log("failed to fetch from cache, games");
+    },
+  });
 }
 
 fetchTyping();
@@ -27,6 +24,7 @@ function showSymbols() {
 }
 
 function processTyping(dataIn) {
+  // dataIn = dataIn.slice(-3000);
   dataIn.forEach((elt) => {
     elt.timestamp = new Date(+elt.timestamp);
     elt.wpm = +elt.wpm;
@@ -47,9 +45,7 @@ function processTyping(dataIn) {
     })
     .value();
 
-  weekAvg.sort(
-    (a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY")
-  );
+  weekAvg.sort((a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY"));
   // console.log(weekAvg);
 
   // console.log(weekAvg);
@@ -93,34 +89,22 @@ function processTyping(dataIn) {
 
   //time since last test
 
-  let dateOfLastTest = moment(
-    dataRecent[dataRecent.length - 1].timestamp
-  ).format("Do [of] MMMM");
+  let dateOfLastTest = moment(dataRecent[dataRecent.length - 1].timestamp).format("Do [of] MMMM");
 
-  let timeSinceLastTest =
-    (new Date().getTime() -
-      dataRecent[dataRecent.length - 1].timestamp.getTime()) /
-    1000;
+  let timeSinceLastTest = (new Date().getTime() - dataRecent[dataRecent.length - 1].timestamp.getTime()) / 1000;
 
-  let dateOfLastTestMessage =
-    dateOfLastTest +
-    " (" +
-    createTimeMessage(timeSinceLastTest, "DH", 1) +
-    " ago)";
+  let dateOfLastTestMessage = dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, "DH", 1) + " ago)";
 
   // number of tests per day
 
   let firstTest = dataRecent[0];
   let lastTest = dataRecent[dataRecent.length - 1];
 
-  let dayDiff =
-    (lastTest.timestamp - firstTest.timestamp) / (1000 * 60 * 60 * 24);
+  let dayDiff = (lastTest.timestamp - firstTest.timestamp) / (1000 * 60 * 60 * 24);
 
   const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
 
   const totalTimeMessage = createTimeMessage(dataIn.length * 30, "HMS", 2);
-
-  // console.log(wpmChange);
 
   const dataToSave = {
     totalTimeMessage,
@@ -143,32 +127,28 @@ function typingMain(data) {
 
   plotMonkey(data.labels, data.data);
 
-  document.getElementById("timeSinceLastTest").innerHTML =
-    data.dateOfLastTestMessage;
+  document.getElementById("timeSinceLastTest").innerHTML = data.dateOfLastTestMessage;
   document.getElementById("highestTypingSpeed").innerHTML = data.maxWPM;
   document.getElementById("averageTypingSpeed").innerHTML = data.avgWPM;
   document.getElementById("averageAccuracy").innerHTML = data.avgACC;
   document.getElementById("totalTime").innerHTML = data.totalTimeMessage;
   document.getElementById("testsPerDay").innerHTML = data.testsPerDay;
-  document.getElementById("wpmChangePerHour").innerHTML =
-    data.PorNchange + data.changeInWPMPerMin;
+  document.getElementById("wpmChangePerHour").innerHTML = data.PorNchange + data.changeInWPMPerMin;
 }
 
 function plotMonkey(labels, data) {
   let ctx = document.getElementById("monkeyChart").getContext("2d");
 
-  let sleepChart = new Chart(ctx, {
+  new Chart(ctx, {
     type: "line",
     data: {
       labels: labels,
       datasets: [
         {
-          // tension: 0.3,
-          // borderColor: "black",
           data,
           backgroundColor: "#F4A4A4",
 
-          // fill: false,
+          fill: true,
         },
       ],
     },
@@ -177,68 +157,44 @@ function plotMonkey(labels, data) {
       maintainAspectRatio: true,
       responsive: true,
 
-      // layout: {
-      //     padding: {
-      //         left: 0,
-      //         right: 25,
-      //         top: 20,
-      //         bottom: 20,
-      //     },
-      // },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              let label = context.dataset.label || "";
 
-      legend: {
-        display: false,
+              if (label) {
+                label += ": ";
+              }
+              if (context.parsed.y !== null) {
+                label += context.parsed.y + " WPM";
+              }
+              return label;
+            },
+          },
+        },
       },
       scales: {
-        xAxes: [
-          {
-            ticks: {
-              // autoSkip: true,
-              maxTicksLimit: 6.3,
-              stepSize: 5,
-              maxRotation: 0,
-              minRotation: 0,
-            },
-            // type: "time",
-            // time: {
-            //     unit: "week",
-            //     round: "week",
-            //     displayFormats: {
-            //         day: "W-YYYY",
-            //     },
-            // },
+        x: {
+          maxTicksLimit: 6.3,
+          ticks: {
+            stepSize: 5,
+            maxRotation: 0,
+            minRotation: 0,
           },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-              //             callback: function(value, index, values) {
-              //                 return secondsToMins(value);
-              //             },
-            },
+        },
+
+        y: {
+          title: {
+            text: "Average WPM",
+            display: true,
           },
-        ],
-      },
-      tooltips: {
-        callbacks: {
-          label: function (tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || "";
-            if (label) {
-              label += ": ";
-            }
-            label += tooltipItem.yLabel + " WPM";
-            return label;
-          },
-          //         title: function(tooltipItem, data) {
-          //             let title = tooltipItem[0].xLabel;
-          //             title = moment(title, "dd").format("dddd");
-          //             return title;
-          //         },
+          beginAtZero: true,
         },
       },
     },
   });
 }
-
-// fetchMonkey();
