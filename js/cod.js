@@ -10,13 +10,19 @@ function switchCodDots() {
 
   switch (codToggleState) {
     case 0:
-      desc.innerHTML = "Ben and I often play Call of Duty together, who's winning? This graph shows the number of games won per day.";
+      desc.innerHTML =
+        "Ben and I often play Call of Duty together, who's winning? This graph shows the number of games won per day.";
       break;
     case 1:
-      desc.innerHTML = "This graph shows the margin that either of is was winning by. A red line with a value of 4 means that Ben was winning by 4 points overall.";
+      desc.innerHTML =
+        "This graph shows the margin that either of is was winning by. A red line with a value of 4 means that Ben was winning by 4 points overall.";
       break;
   }
-  circles.forEach((c) => (c.id.slice(-1) == codToggleState ? (c.style.fill = "black") : (c.style.fill = "none")));
+  circles.forEach((c) =>
+    c.id.slice(-1) == codToggleState
+      ? (c.style.fill = "black")
+      : (c.style.fill = "none")
+  );
 }
 
 function codToggle() {
@@ -34,19 +40,22 @@ function codToggle() {
 }
 
 function fetchCod() {
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv", {
-    download: true,
-    header: true,
-    complete: function (results) {
-      // console.log(results.data);
-      processCod(results.data);
-    },
-    error: function (error) {
-      console.log("failed to fetch from cache, climbing");
-      let climbingCard = document.getElementById("climbingCard");
-      climbingCard.style.display = "none";
-    },
-  });
+  Papa.parse(
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv",
+    {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // console.log(results.data);
+        processCod(results.data);
+      },
+      error: function (error) {
+        console.log("failed to fetch from cache, climbing");
+        let climbingCard = document.getElementById("climbingCard");
+        climbingCard.style.display = "none";
+      },
+    }
+  );
 }
 
 fetchCod();
@@ -88,7 +97,9 @@ function updateCodData(data) {
   document.getElementById("numGamesBen").innerHTML = totalBen;
   console.log(data);
 
-  const dateOfLastTest = moment(data[data.length - 1].Date, "DD/MM/YYYY").hour(8);
+  const dateOfLastTest = moment(data[data.length - 1].Date, "DD/MM/YYYY").hour(
+    8
+  );
 
   // console.log(dateOfLastTest.unix());
   // console.log(new Date().getTime());
@@ -97,7 +108,11 @@ function updateCodData(data) {
 
   // console.log(timeSinceLastTest);
 
-  const dateOfLastTestMessage = dateOfLastTest.format("Do [of] MMMM") + " (" + createTimeMessage(timeSinceLastTest, "DH", 1) + " ago)";
+  const dateOfLastTestMessage =
+    dateOfLastTest.format("Do [of] MMMM") +
+    " (" +
+    createTimeMessage(timeSinceLastTest, "DH", 1) +
+    " ago)";
 
   document.getElementById("timeSinceLastCod").innerHTML = dateOfLastTestMessage;
 }
@@ -107,7 +122,13 @@ function updateCodNormal() {
 
   codChart.data.labels = labels;
   codChart.data.datasets = [
-    { label: "Archie", data: dataArchie, backgroundColor: "#8ecae6", tension: 0.1, fill: true },
+    {
+      label: "Archie",
+      data: dataArchie,
+      backgroundColor: "#8ecae6",
+      tension: 0.1,
+      fill: true,
+    },
     {
       label: "Ben",
       data: dataBen,
@@ -158,12 +179,12 @@ function updateCodRunning() {
       pointBackgroundColor: function (context) {
         var index = context.dataIndex;
         var value = context.dataset.data[index];
-        return value > 0 ? "#8ecae6" : "#F4A4A4";
+        return value > 0 ? "#8ecae6" : value < 0 ? "#F4A4A4" : "#000000";
       },
       pointBorderColor: function (context) {
         var index = context.dataIndex;
         var value = context.dataset.data[index];
-        return value > 0 ? "#8ecae6" : "#F4A4A4";
+        return value > 0 ? "#8ecae6" : value < 0 ? "#F4A4A4" : "#000000";
       },
     },
     { label: "Archie", data: [], backgroundColor: "#8ecae6" },
