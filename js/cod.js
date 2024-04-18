@@ -111,7 +111,7 @@ function updateCodData(data) {
   const dateOfLastTestMessage =
     dateOfLastTest.format("Do [of] MMMM") +
     " (" +
-    createTimeMessage(timeSinceLastTest, "DH", 1) +
+    createTimeMessage(timeSinceLastTest) +
     " ago)";
 
   document.getElementById("timeSinceLastCod").innerHTML = dateOfLastTestMessage;

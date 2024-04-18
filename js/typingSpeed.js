@@ -104,10 +104,7 @@ function processTyping(dataIn) {
     1000;
 
   let dateOfLastTestMessage =
-    dateOfLastTest +
-    " (" +
-    createTimeMessage(timeSinceLastTest, "DH", 1) +
-    " ago)";
+    dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest) + " ago)";
 
   // number of tests per day
 

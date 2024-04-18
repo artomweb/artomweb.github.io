@@ -51,7 +51,7 @@ function plotDobble(dataIn) {
   const data = weekAvg.map((el) => el.avg);
 
   const maxScore = _.maxBy(dataIn, "score").score;
-  const timeMessage = createTimeMessage(totalTime, "DHMS", 2);
+  const timeMessage = createTimeMessage(totalTime, true);
   console.log(timeMessage);
 
   document.getElementById("dobbleTime").innerHTML = timeMessage;

@@ -39,7 +39,7 @@ function driving(data) {
   let timeDriving = document.getElementById("timeDriving");
   let milesDriven = document.getElementById("milesDriven");
 
-  let timeMessage = createTimeMessage(totalSeconds, "HMS", 2);
+  let timeMessage = createTimeMessage(totalSeconds, true);
 
   timeDriving.innerHTML = timeMessage;
   milesDriven.innerHTML = totalMiles.toFixed(1);
@@ -48,11 +48,16 @@ function driving(data) {
     return b.startTimestamp - a.startTimestamp;
   });
 
-  let dateOfLastDrive = moment.unix(sortedData[0].endTimestamp / 1000).format("Do [of] MMMM");
+  let dateOfLastDrive = moment
+    .unix(sortedData[0].endTimestamp / 1000)
+    .format("Do [of] MMMM");
 
-  let timeSinceLastDrive = (new Date().getTime() - sortedData[0].endTimestamp) / 1000;
+  let timeSinceLastDrive =
+    (new Date().getTime() - sortedData[0].endTimestamp) / 1000;
 
-  let dateOfLastDriveMessage = dateOfLastDrive + " (" + createTimeMessage(timeSinceLastDrive, "DH", 1) + " ago)";
+  let dateOfLastDriveMessage =
+    dateOfLastDrive + " (" + createTimeMessage(timeSinceLastDrive) + " ago)";
 
-  document.getElementById("timeSinceLastDrive").innerHTML = dateOfLastDriveMessage;
+  document.getElementById("timeSinceLastDrive").innerHTML =
+    dateOfLastDriveMessage;
 }

@@ -1,19 +1,22 @@
 // https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv
 
 function fetchClimbing() {
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv", {
-    download: true,
-    header: true,
-    complete: function (results) {
-      // console.log(results.data);
-      processClimbing(results.data);
-    },
-    error: function (error) {
-      console.log("failed to fetch from cache, climbing");
-      let climbingCard = document.getElementById("climbingCard");
-      climbingCard.style.display = "none";
-    },
-  });
+  Papa.parse(
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv",
+    {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // console.log(results.data);
+        processClimbing(results.data);
+      },
+      error: function (error) {
+        console.log("failed to fetch from cache, climbing");
+        let climbingCard = document.getElementById("climbingCard");
+        climbingCard.style.display = "none";
+      },
+    }
+  );
 }
 
 fetchClimbing();
@@ -41,11 +44,16 @@ function processClimbing(data) {
 
   // console.log(timeSinceLastTest);
 
-  let dateOfLastTestMessage = dateOfLastTest.format("Do [of] MMMM") + " (" + createTimeMessage(timeSinceLastTest, "DH", 1) + " ago)";
+  let dateOfLastTestMessage =
+    dateOfLastTest.format("Do [of] MMMM") +
+    " (" +
+    createTimeMessage(timeSinceLastTest) +
+    " ago)";
 
   // console.log(dateOfLastTestMessage);
 
-  document.getElementById("timeSinceLastClimb").innerHTML = dateOfLastTestMessage;
+  document.getElementById("timeSinceLastClimb").innerHTML =
+    dateOfLastTestMessage;
 
   let labels = data.map((elt) => elt.date);
   let graphData = data.map((elt) => +elt.bestGrade[1]);

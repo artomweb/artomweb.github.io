@@ -6,17 +6,20 @@ let ctx2;
 let backgroundColor = "#81b29a";
 
 function getPapaParseSpotify() {
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv", {
-    download: true,
-    header: true,
-    complete: function (results) {
-      // gamesMain(results.data);
-      parseSpotify(results.data);
-    },
-    error: function (error) {
-      console.log("failed to fetch from cache, spotify");
-    },
-  });
+  Papa.parse(
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv",
+    {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // gamesMain(results.data);
+        parseSpotify(results.data);
+      },
+      error: function (error) {
+        console.log("failed to fetch from cache, spotify");
+      },
+    }
+  );
 }
 
 getPapaParseSpotify();
@@ -31,13 +34,18 @@ function switchSpotifyDots() {
       desc.innerHTML = "On average, which days do I listen to the most music";
       break;
     case 1:
-      desc.innerHTML = "How many songs have I listened to in the last two weeks";
+      desc.innerHTML =
+        "How many songs have I listened to in the last two weeks";
       break;
     case 2:
       desc.innerHTML = "Each month, for the last two years";
       break;
   }
-  circles.forEach((c) => (c.id.slice(-1) == toggleState ? (c.style.fill = "black") : (c.style.fill = "none")));
+  circles.forEach((c) =>
+    c.id.slice(-1) == toggleState
+      ? (c.style.fill = "black")
+      : (c.style.fill = "none")
+  );
 }
 
 // updates the chart, calls the function to update the text and switch the dots and LASTLY increments the toggleState
@@ -294,7 +302,9 @@ function getAllWeeks(dat) {
     }))
     .value();
 
-  weekAvg.sort((a, b) => moment(a.wofy, "MMM-YYYY") - moment(b.wofy, "MMM-YYYY"));
+  weekAvg.sort(
+    (a, b) => moment(a.wofy, "MMM-YYYY") - moment(b.wofy, "MMM-YYYY")
+  );
 
   let labels = weekAvg.map((w) => w.wofy);
   let data = weekAvg.map((w) => w.avg);
@@ -345,11 +355,14 @@ function updateSpotify(dataIn) {
 
   let dateOfLastTest = moment(parsed[0].Date).format("Do [of] MMMM");
 
-  let timeSinceLastTest = (new Date().getTime() - parsed[0].Date.getTime()) / 1000;
+  let timeSinceLastTest =
+    (new Date().getTime() - parsed[0].Date.getTime()) / 1000;
 
-  let dateOfLastTestMessage = dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest, "DH", 1) + " ago)";
+  let dateOfLastTestMessage =
+    dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest) + " ago)";
 
-  document.getElementById("timeSinceLastSong").innerHTML = dateOfLastTestMessage;
+  document.getElementById("timeSinceLastSong").innerHTML =
+    dateOfLastTestMessage;
 
   let byDay = getByDay(parsed);
   let lastTwoWeeks = getLastTwoWeeks(parsed);
