@@ -52,7 +52,7 @@ function plotDobble(dataIn) {
 
   const maxScore = _.maxBy(dataIn, "score").score;
   const timeMessage = createTimeMessage(totalTime, true);
-  console.log(timeMessage);
+  // console.log(timeMessage);
 
   document.getElementById("dobbleTime").innerHTML = timeMessage;
 

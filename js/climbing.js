@@ -67,7 +67,7 @@ function processClimbing(data) {
 function plotClimbing(labels, data) {
   let ctx = document.getElementById("climbingChart").getContext("2d");
 
-  console.log(data, labels);
+  // console.log(data, labels);
 
   new Chart(ctx, {
     type: "line",

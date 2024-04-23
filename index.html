@@ -263,9 +263,72 @@
               >
             </div>
           </div>
+
+          <div class="card mb-3" id="dobbleCard">
+            <div class="card-body">
+              <canvas id="dobbleChart"></canvas>
+              <h4 class="card-title mb-2">
+                <i class="fa-solid fa-otter"></i>
+                Dobble
+              </h4>
+              <h5 class="card-subtitle mb-2 text-muted">
+                I made <a href="https://artomweb.com/dobbleScore">this</a> game
+                to see if I can get better at playing Dobble. Can you beat my
+                score?
+              </h5>
+
+              <br />
+              <h5 class="card-subtitle mb-2 text-muted valDesc">
+                Highest score:
+                <span id="highestDobble" class="textItal"> no data</span>
+                <br />
+
+                Number of games:
+                <span id="numberDobble" class="textItal"> no data</span>
+              </h5>
+
+              <small class="text-muted"
+                >Time spent dobbling:
+                <span id="dobbleTime" class="textItal"> no data</span></small
+              >
+              <br />
+              <small class="text-muted"
+                ><span class="textItal"></span>For the 60 second mode</small
+              >
+            </div>
+          </div>
         </div>
 
         <div class="col-md-6">
+          <div class="card mb-3" id="ChessCard">
+            <div class="card-body">
+              <canvas id="ChessChart"></canvas>
+              <h4 class="card-title mb-2">
+                <i class="fa-solid fa-chess-knight"></i>
+                Chess
+              </h4>
+
+              <h5 class="card-subtitle mb-2 text-muted">
+                How has my chess rating improved over time?
+              </h5>
+
+              <br />
+              <h5 class="card-subtitle mb-2 text-muted valDesc">
+                Highest rating:
+                <span id="ChessHighestRating" class="textItal"> no data</span>
+
+                <br />
+                Number of games played:
+                <span id="ChessNumGames" class="textItal"> no data</span>
+              </h5>
+              <small class="text-muted"
+                >Last game:
+                <span id="timeSinceLastChess" class="textItal">
+                  no data</span
+                ></small
+              >
+            </div>
+          </div>
           <div class="card mb-3" id="CODCard">
             <div class="card-body">
               <canvas id="CODChart"></canvas>
@@ -434,40 +497,6 @@
               >
             </div>
           </div>
-
-          <div class="card mb-3" id="dobbleCard">
-            <div class="card-body">
-              <canvas id="dobbleChart"></canvas>
-              <h4 class="card-title mb-2">
-                <i class="fa-solid fa-otter"></i>
-                Dobble
-              </h4>
-              <h5 class="card-subtitle mb-2 text-muted">
-                I made <a href="https://artomweb.com/dobbleScore">this</a> game
-                to see if I can get better at playing Dobble. Can you beat my
-                score?
-              </h5>
-
-              <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Highest score:
-                <span id="highestDobble" class="textItal"> no data</span>
-                <br />
-
-                Number of games:
-                <span id="numberDobble" class="textItal"> no data</span>
-              </h5>
-
-              <small class="text-muted"
-                >Time spent dobbling:
-                <span id="dobbleTime" class="textItal"> no data</span></small
-              >
-              <br />
-              <small class="text-muted"
-                ><span class="textItal"></span>For the 60 second mode</small
-              >
-            </div>
-          </div>
         </div>
       </div>
       <hr class="dashed" />
@@ -493,6 +522,7 @@
     ></script>
     <script src="js/usefullFunc.js"></script>
     <script src="js/rppiSocket.js"></script>
+    <script src="js/chess.js"></script>
     <script src="js/cod.js"></script>
     <script src="js/dobble.js"></script>
     <script src="js/spotifyChart.js"></script>

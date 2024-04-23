@@ -68,7 +68,7 @@ function processCod(dataIn) {
 }
 
 function updateCodData(data) {
-  console.log(data);
+  // console.log(data);
   data.forEach((day) => {
     day.Archie = +day.Archie;
     day.Ben = +day.Ben;
@@ -95,7 +95,7 @@ function updateCodData(data) {
   document.getElementById("numGamesArchie").innerHTML = totalArchie;
   const totalBen = _.sumBy(data, "Ben");
   document.getElementById("numGamesBen").innerHTML = totalBen;
-  console.log(data);
+  // console.log(data);
 
   const dateOfLastTest = moment(data[data.length - 1].Date, "DD/MM/YYYY").hour(
     8
