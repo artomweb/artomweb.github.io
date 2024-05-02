@@ -11,7 +11,7 @@ function switchCodDots() {
   switch (codToggleState) {
     case 0:
       desc.innerHTML =
-        "Ben and I sometimes play Call of Duty together, who's winning? This graph shows the margin that either of us were winning by.";
+        "Ben and I sometimes play Call of Duty together, who's winning? This graph shows the margin that either of us was winning by.";
       break;
     case 1:
       desc.innerHTML = "This graph shows the number of games won per day";
