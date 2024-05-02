@@ -11,11 +11,10 @@ function switchCodDots() {
   switch (codToggleState) {
     case 0:
       desc.innerHTML =
-        "Ben and I often play Call of Duty together, who's winning? This graph shows the number of games won per day";
+        "Ben and I sometimes play Call of Duty together, who's winning? This graph shows the margin that either of us were winning by.";
       break;
     case 1:
-      desc.innerHTML =
-        "This graph shows the margin that either of is was winning by. A red line with a value of 4 means that Ben was winning by 4 points overall.";
+      desc.innerHTML = "This graph shows the number of games won per day";
       break;
   }
   circles.forEach((c) =>
@@ -29,11 +28,11 @@ function codToggle() {
   switchCodDots();
   switch (codToggleState) {
     case 0:
-      updateCodNormal();
+      updateCodRunning();
       break;
 
     case 1:
-      updateCodRunning();
+      updateCodNormal();
       break;
   }
   codToggleState == 1 ? (codToggleState = 0) : codToggleState++;
@@ -206,6 +205,12 @@ function updateCodRunning() {
     },
   };
 
+  codChart.options.plugins.legend = {
+    labels: {
+      filter: (item) => item.text !== "Margin",
+    },
+    display: true,
+  };
   // codChart.options.plugins.legend = {
   //   display: false,
   // };
