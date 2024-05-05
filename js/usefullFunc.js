@@ -1,61 +1,99 @@
 function createTimeMessage(seconds, detailed = false) {
-  const units = {
-    y: 31536000, // seconds in a year
-    M: 2628000, // seconds in a month (approx)
-    w: 604800, // seconds in a week
-    d: 86400, // seconds in a day
-    h: 3600, // seconds in an hour
-    m: 60, // seconds in a minute
-    s: 1, // seconds
-  };
+  var interval = seconds / 31536000;
+  var message = "";
 
-  const timeAgoStrings = {
-    y: "year",
-    M: "month",
-    w: "week",
-    d: "day",
-    h: "hour",
-    m: "minute",
-    s: "second",
-  };
-
-  let remainingSeconds = seconds;
-  let output = [];
-  let detailedOutput = "";
-
-  let unitsUsed = 0;
-
-  for (let [unit, value] of Object.entries(units)) {
-    if (unitsUsed >= 2) {
-      break;
-    }
-
-    if (remainingSeconds >= value) {
-      const num = Math.floor(remainingSeconds / value);
-      const timeString = `${num} ${timeAgoStrings[unit]}${
-        num !== 1 ? "s" : ""
-      }`;
-      output.push(timeString);
-
-      if (detailed) {
-        detailedOutput += `${timeString}, `;
+  if (interval >= 1) {
+    message +=
+      Math.floor(interval) + (Math.floor(interval) === 1 ? " year" : " years");
+    if (detailed) {
+      seconds %= 31536000;
+      interval = seconds / 2592000;
+      if (interval >= 1) {
+        message +=
+          " and " +
+          Math.floor(interval) +
+          (Math.floor(interval) === 1 ? " month" : " months");
+        seconds %= 2592000;
       }
-
-      remainingSeconds %= value;
-      unitsUsed++;
     }
+    return message;
   }
 
-  // Remove the trailing ", " from detailedOutput if it exists
-  if (detailedOutput.endsWith(", ")) {
-    detailedOutput = detailedOutput.slice(0, -2);
+  interval = seconds / 2592000;
+  if (interval >= 1) {
+    message +=
+      Math.floor(interval) +
+      (Math.floor(interval) === 1 ? " month" : " months");
+    if (detailed) {
+      seconds %= 2592000;
+      interval = seconds / 86400;
+      if (interval >= 1) {
+        message +=
+          " and " +
+          Math.floor(interval) +
+          (Math.floor(interval) === 1 ? " day" : " days");
+        seconds %= 86400;
+      }
+    }
+    return message;
   }
 
-  if (detailed && detailedOutput) {
-    return detailedOutput;
+  interval = seconds / 86400;
+  if (interval >= 1) {
+    message +=
+      Math.floor(interval) + (Math.floor(interval) === 1 ? " day" : " days");
+    if (detailed) {
+      seconds %= 86400;
+      interval = seconds / 3600;
+      if (interval >= 1) {
+        message +=
+          " and " +
+          Math.floor(interval) +
+          (Math.floor(interval) === 1 ? " hour" : " hours");
+        seconds %= 3600;
+      }
+    }
+    return message;
   }
 
-  return output[0];
+  interval = seconds / 3600;
+  if (interval >= 1) {
+    message +=
+      Math.floor(interval) + (Math.floor(interval) === 1 ? " hour" : " hours");
+    if (detailed) {
+      seconds %= 3600;
+      interval = seconds / 60;
+      if (interval >= 1) {
+        message +=
+          " and " +
+          Math.floor(interval) +
+          (Math.floor(interval) === 1 ? " minute" : " minutes");
+        seconds %= 60;
+      }
+    }
+    return message;
+  }
+
+  interval = seconds / 60;
+  if (interval >= 1) {
+    message +=
+      Math.floor(interval) +
+      (Math.floor(interval) === 1 ? " minute" : " minutes");
+    if (detailed) {
+      seconds %= 60;
+      if (seconds >= 1) {
+        message +=
+          " and " +
+          Math.floor(seconds) +
+          (Math.floor(seconds) === 1 ? " second" : " seconds");
+      }
+    }
+    return message;
+  }
+
+  return (
+    Math.floor(seconds) + (Math.floor(seconds) === 1 ? " second" : " seconds")
+  );
 }
 
 function findLineByLeastSquares(values_y) {
