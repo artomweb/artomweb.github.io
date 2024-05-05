@@ -1,6 +1,43 @@
-function fetchChess1() {
+let chessToggleState = 0;
+let chessData = {};
+let chessChart;
+
+function switchChessDots() {
+  let circles = Array.from(document.getElementsByClassName("chessCircles"));
+  let desc = document.getElementById("chessDesc");
+
+  switch (chessToggleState) {
+    case 0:
+      desc.innerHTML = "How has my chess rating improved over time?";
+      break;
+    case 1:
+      desc.innerHTML = "This graph shows my win % at each hour of the day.";
+      break;
+  }
+  circles.forEach((c) =>
+    c.id.slice(-1) == chessToggleState
+      ? (c.style.fill = "black")
+      : (c.style.fill = "none")
+  );
+}
+
+function chessToggle() {
+  switchChessDots();
+  switch (chessToggleState) {
+    case 0:
+      updateChessNormal();
+      break;
+
+    case 1:
+      updateChessPerHour();
+      break;
+  }
+  chessToggleState == 1 ? (chessToggleState = 0) : chessToggleState++;
+}
+
+function fetchChess() {
   Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vR0RbVnsngyVYHx18kQQIMDg8zB3sCqHXSznIPQBrt3YA4OO_x17IDCEUZX0XPB5-9qb0M5Tx3oSbCH/pub?output=csv",
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqA27pG_xkV7W0Gu4KfYcV3fjkIj0WNz7-DlGDMNtXtNkR4ECA85-BWEgBbz7vYh7aqijPtLpFhw8h/pub?output=csv",
     {
       download: true,
       header: true,
@@ -10,49 +47,166 @@ function fetchChess1() {
       },
       error: function (error) {
         console.log("failed to fetch from cache, climbing");
-        let climbingCard = document.getElementById("climbingCard");
-        climbingCard.style.display = "none";
+        let chessCard = document.getElementById("chessCard");
+        chessCard.style.display = "none";
       },
     }
   );
 }
-fetchChess1();
-
-function fetchChess2() {
-  Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vR0RbVnsngyVYHx18kQQIMDg8zB3sCqHXSznIPQBrt3YA4OO_x17IDCEUZX0XPB5-9qb0M5Tx3oSbCH/pub?output=csv&gid=808327424",
-    {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // console.log(results.data);
-        processChess2(results.data[0]);
-      },
-      error: function (error) {
-        console.log("failed to fetch from cache, climbing");
-        let climbingCard = document.getElementById("climbingCard");
-        climbingCard.style.display = "none";
-      },
-    }
-  );
-}
-fetchChess2();
-
-function processChess2(data) {
-  console.log(data);
-
-  document.getElementById("ChessHighestRating").innerHTML = data.rating_max;
-  document.getElementById("ChessNumGames").innerHTML = data.rated_count;
-}
+fetchChess();
 
 function processChess(data) {
-  console.log(data);
+  updateChessData(data);
+
+  plotChess();
+  chessToggle();
+}
+
+function updateChessNormal() {
+  const { labels, graphData } = chessData;
+
+  chessChart.options.scales = {
+    x: {
+      ticks: {
+        maxTicksLimit: 4,
+      },
+    },
+
+    y: {
+      title: {
+        text: "Chess rating",
+        display: true,
+      },
+      beginAtZero: true,
+    },
+  };
+
+  chessChart.options.plugins.tooltip.callbacks = {};
+
+  chessChart.data.labels = labels;
+  chessChart.data.datasets = [
+    {
+      data: graphData,
+      backgroundColor: "#81b29a",
+      tension: 0.1,
+      fill: true,
+    },
+  ];
+
+  chessChart.update();
+}
+
+function updateChessPerHour() {
+  const { labelsByHour, dataByHour, pointRadiusArray } = chessData;
+
+  chessChart.options.scales.y = {
+    title: {
+      text: "Win %",
+      display: true,
+    },
+    beginAtZero: true,
+  };
+
+  chessChart.options.plugins.tooltip.callbacks = {
+    label: function (context) {
+      let label = context.dataset.label || "";
+
+      if (label) {
+        label += ": ";
+      }
+
+      if (context.parsed.y !== null) {
+        label += context.parsed.y + "%";
+      }
+      return label;
+    },
+    title: function (tooltipItem) {
+      return tooltipItem[0].label + ":00";
+    },
+  };
+
+  chessChart.options.scales.x = {
+    type: "linear",
+    position: "bottom",
+    ticks: {
+      stepSize: 1,
+      callback: function (value, index, values) {
+        return `${value}:00`;
+      },
+    },
+  };
+
+  chessChart.data.labels = labelsByHour;
+  chessChart.data.datasets = [
+    {
+      data: dataByHour,
+      backgroundColor: "#81b29a",
+      tension: 0.1,
+      fill: true,
+      pointRadius: pointRadiusArray,
+    },
+  ];
+
+  chessChart.update();
+}
+
+function updateChessData(data) {
   data.forEach((elt) => {
-    elt.timestamp = +elt.timestamp;
+    elt.timestamp = +elt.timestamp * 1000;
     elt.Date = moment(+elt.timestamp).format("DD/MM/YYYY");
   });
-  data = data.sort((a, b) => a.timestamp - b.timestamp);
-  // console.log(data);
+
+  data = _.sortBy(data, "timestamp");
+
+  const dataByDay = _.chain(data)
+    .groupBy((d) => d.Date)
+    .map((entries, day) => {
+      let highest = _.maxBy(entries, (entry) => +entry.myRating);
+      return {
+        timestamp: highest.timestamp,
+        day,
+        highest: +highest.myRating,
+      };
+    })
+    .sortBy("timestamp")
+    .value();
+
+  const hoursOfDay = Array.from({ length: 24 }, (_, i) =>
+    i.toString().padStart(2, "0")
+  );
+
+  const byHour = _.chain(data)
+    .groupBy((d) => moment(+d.timestamp).format("HH"))
+    .map((entries, hour) => {
+      return {
+        hour: +hour,
+        winPercent:
+          Math.round(
+            (entries.filter((e) => e.myResult == "win").length /
+              entries.length) *
+              100 *
+              10
+          ) / 10,
+      };
+    })
+    .sortBy("timestamp")
+    .value();
+
+  const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
+    const existingHourData = byHour.find(
+      (item) => item.hour === parseInt(hour)
+    );
+    return existingHourData || { hour: +hour, winPercent: 0 };
+  });
+
+  console.log(completedByTimeOfDay);
+
+  const labelsByHour = completedByTimeOfDay.map((item) => item.hour);
+  const dataByHour = completedByTimeOfDay.map((item) => item.winPercent);
+
+  const pointRadiusArray = completedByTimeOfDay.map((item) =>
+    item.winPercent !== 0 ? 3 : 0
+  );
 
   const dateOfLastGame = data[data.length - 1].timestamp;
 
@@ -67,10 +221,25 @@ function processChess(data) {
   document.getElementById("timeSinceLastChess").innerHTML =
     dateOfLastTestMessage;
 
-  let labels = data.map((elt) => elt.Date);
-  let graphData = data.map((elt) => +elt.rating);
+  const highestRating = _.maxBy(data, "myRating").myRating;
 
-  plotChess(graphData, labels);
+  const numGames = data.length;
+
+  document.getElementById("ChessHighestRating").innerHTML = highestRating;
+  document.getElementById("ChessNumGames").innerHTML = numGames;
+
+  let labels = dataByDay.map((elt) => elt.day);
+  let graphData = dataByDay.map((elt) => +elt.highest);
+
+  // plotChess(graphData, labels);
+
+  chessData = {
+    labels,
+    graphData,
+    labelsByHour,
+    dataByHour,
+    pointRadiusArray,
+  };
 }
 
 function plotChess(data, labels) {
@@ -78,20 +247,20 @@ function plotChess(data, labels) {
 
   // console.log(data, labels);
 
-  new Chart(ctx, {
+  chessChart = new Chart(ctx, {
     type: "line",
     data: {
-      labels: labels,
-      datasets: [
-        {
-          tension: 0.3,
-          // borderColor: "black",
-          data,
-          backgroundColor: "#8ecae6",
-          fill: true,
-          // fill: false,
-        },
-      ],
+      // labels: labels,
+      // datasets: [
+      //   {
+      //     tension: 0.3,
+      //     // borderColor: "black",
+      //     data,
+      //     backgroundColor: "#81b29a",
+      //     fill: true,
+      //     // fill: false,
+      //   },
+      // ],
     },
     options: {
       maintainAspectRatio: true,

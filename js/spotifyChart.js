@@ -16,7 +16,9 @@ function getPapaParseSpotify() {
         parseSpotify(results.data);
       },
       error: function (error) {
-        console.log("failed to fetch from cache, spotify");
+        console.log("failed to fetch from cache, spotifyCard");
+        let spotifyCard = document.getElementById("spotifyCard");
+        spotifyCard.style.display = "none";
       },
     }
   );

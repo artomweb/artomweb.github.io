@@ -1,3 +1,41 @@
+let dobbleToggleState = 0;
+let dobbleData = {};
+let dobbleChart;
+
+function switchdobbleDots() {
+  let circles = Array.from(document.getElementsByClassName("dobbleCircles"));
+  let desc = document.getElementById("dobbleDesc");
+
+  switch (dobbleToggleState) {
+    case 0:
+      desc.innerHTML = "How has my dobble speed improved over time?";
+      break;
+    case 1:
+      desc.innerHTML =
+        "This graph shows my average score at each hour of the day.";
+      break;
+  }
+  circles.forEach((c) =>
+    c.id.slice(-1) == dobbleToggleState
+      ? (c.style.fill = "black")
+      : (c.style.fill = "none")
+  );
+}
+
+function dobbleToggle() {
+  switchdobbleDots();
+  switch (dobbleToggleState) {
+    case 0:
+      updatedobbleNormal();
+      break;
+
+    case 1:
+      updatedobblePerHour();
+      break;
+  }
+  dobbleToggleState == 1 ? (dobbleToggleState = 0) : dobbleToggleState++;
+}
+
 function fetchDobble() {
   Papa.parse(
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv",
@@ -6,12 +44,12 @@ function fetchDobble() {
       header: true,
       complete: function (results) {
         // console.log(results.data);
-        plotDobble(results.data);
+        processDobble(results.data);
       },
       error: function (error) {
-        console.log("failed to fetch from cache, driving");
-        let drivingCard = document.getElementById("drivingCard");
-        drivingCard.style.display = "none";
+        console.log("failed to fetch from cache, dobble");
+        let dobbleCard = document.getElementById("dobbleCard");
+        dobbleCard.style.display = "none";
       },
     }
   );
@@ -19,7 +57,74 @@ function fetchDobble() {
 
 fetchDobble();
 
-function plotDobble(dataIn) {
+function updatedobbleNormal() {
+  const { labels, data } = dobbleData;
+
+  dobbleChart.options.scales.x = {
+    ticks: {
+      autoSkip: true,
+      maxTicksLimit: 5.1,
+    },
+  };
+
+  dobbleChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
+    return tooltipItem[0].label;
+  };
+
+  dobbleChart.data.labels = labels;
+  dobbleChart.data.datasets = [
+    {
+      data: data,
+      backgroundColor: "#8ecae6",
+      tension: 0.1,
+      fill: true,
+    },
+  ];
+
+  dobbleChart.update();
+}
+
+function updatedobblePerHour() {
+  const { timOfDayLabels, timOfDayData, pointRadiusArray } = dobbleData;
+
+  dobbleChart.options.scales.x = {
+    type: "linear",
+    position: "bottom",
+    ticks: {
+      stepSize: 1,
+      callback: function (value, index, values) {
+        return `${value}:00`;
+      },
+    },
+  };
+
+  dobbleChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
+    return tooltipItem[0].label + ":00";
+  };
+
+  dobbleChart.data.labels = timOfDayLabels;
+  dobbleChart.data.datasets = [
+    {
+      data: timOfDayData,
+      backgroundColor: "#8ecae6",
+      tension: 0.1,
+      fill: true,
+      pointRadius: pointRadiusArray,
+    },
+  ];
+
+  dobbleChart.update();
+}
+
+function processDobble(dataIn) {
+  updateDobbleData(dataIn);
+
+  plotDobble();
+
+  dobbleToggle();
+}
+
+function updateDobbleData(dataIn) {
   let totalTime = 0;
   dataIn.forEach((elt) => {
     elt.timestamp = new Date(+elt.unix * 1000);
@@ -33,22 +138,48 @@ function plotDobble(dataIn) {
     .groupBy((d) => {
       return moment(d.timestamp).format("MMM YY");
     })
-    .map((entries, week) => {
+    .map((entries, mofy) => {
       return {
-        mofy: week,
+        mofy,
         avg: Math.round(_.meanBy(entries, (entry) => entry.score) * 10) / 10,
         // avg: Math.round(_.maxBy(entries, "score").score * 10) / 10,
       };
     })
     .value();
 
-  if (weekAvg.length > 20) {
-    const step = Math.round(weekAvg.length / 20); // Calculate step size, limit to n
-    weekAvg = weekAvg.filter((_, index) => index % step === 0); // Keep points at regular intervals
-  }
-
   const labels = weekAvg.map((el) => el.mofy);
   const data = weekAvg.map((el) => el.avg);
+
+  const hoursOfDay = Array.from({ length: 24 }, (_, i) =>
+    i.toString().padStart(2, "0")
+  );
+
+  const byTimeOfDay = _.chain(dataIn)
+    .groupBy((d) => {
+      return moment(d.timestamp).format("HH");
+    })
+    .map((entries, hour) => {
+      return {
+        hour: +hour,
+        avg: Math.round(_.meanBy(entries, (entry) => +entry.score) * 10) / 10,
+      };
+    })
+    .sortBy((d) => d.hour)
+    .value();
+
+  const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
+    const existingHourData = byTimeOfDay.find(
+      (item) => item.hour === parseInt(hour)
+    );
+    return existingHourData || { hour: +hour, avg: 0 };
+  });
+
+  const timOfDayLabels = completedByTimeOfDay.map((item) => item.hour);
+  const timOfDayData = completedByTimeOfDay.map((item) => item.avg);
+
+  const pointRadiusArray = completedByTimeOfDay.map((item) =>
+    item.avg !== 0 ? 3 : 0
+  );
 
   const maxScore = _.maxBy(dataIn, "score").score;
   const timeMessage = createTimeMessage(totalTime, true);
@@ -59,23 +190,33 @@ function plotDobble(dataIn) {
   document.getElementById("highestDobble").innerHTML = maxScore;
   document.getElementById("numberDobble").innerHTML = numTests;
 
-  // console.log(maxScore);
+  dobbleData = {
+    labels,
+    data,
+    timOfDayLabels,
+    timOfDayData,
+    pointRadiusArray,
+  };
 
+  // console.log(maxScore);
+}
+
+function plotDobble() {
   let ctx = document.getElementById("dobbleChart").getContext("2d");
 
   config = {
     type: "line",
     data: {
-      labels: labels,
-      datasets: [
-        {
-          tension: 0.3,
-          // borderColor: "black",
-          data: data,
-          backgroundColor: "#8ecae6",
-          fill: true,
-        },
-      ],
+      // labels: labels,
+      // datasets: [
+      //   {
+      //     tension: 0.3,
+      //     // borderColor: "black",
+      //     data: data,
+      //     backgroundColor: "#8ecae6",
+      //     fill: true,
+      //   },
+      // ],
     },
 
     options: {
@@ -95,7 +236,7 @@ function plotDobble(dataIn) {
                 label += ": ";
               }
               if (context.parsed.y !== null) {
-                label += "Average was " + context.parsed.y;
+                label += "Average: " + context.parsed.y;
               }
               return label;
             },
@@ -128,5 +269,5 @@ function plotDobble(dataIn) {
       },
     },
   };
-  new Chart(ctx, config);
+  dobbleChart = new Chart(ctx, config);
 }

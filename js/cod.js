@@ -49,9 +49,9 @@ function fetchCod() {
         processCod(results.data);
       },
       error: function (error) {
-        console.log("failed to fetch from cache, climbing");
-        let climbingCard = document.getElementById("climbingCard");
-        climbingCard.style.display = "none";
+        console.log("failed to fetch from cache, CODCard");
+        let CODCard = document.getElementById("CODCard");
+        CODCard.style.display = "none";
       },
     }
   );

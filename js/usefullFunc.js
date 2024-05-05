@@ -56,9 +56,6 @@ function createTimeMessage(seconds, detailed = false) {
   }
 
   return output[0];
-
-  // If output array is empty, it means seconds are less than a second
-  return "Just now";
 }
 
 function findLineByLeastSquares(values_y) {

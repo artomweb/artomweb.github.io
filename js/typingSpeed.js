@@ -1,3 +1,41 @@
+let typingToggleState = 0;
+let typingData = {};
+let typingChart;
+
+function switchTypingDots() {
+  let circles = Array.from(document.getElementsByClassName("typingCircles"));
+  let desc = document.getElementById("typingDesc");
+
+  switch (typingToggleState) {
+    case 0:
+      desc.innerHTML = "How has my typing speed improved over time?";
+      break;
+    case 1:
+      desc.innerHTML =
+        "This graph shows my average WPM at each hour of the day.";
+      break;
+  }
+  circles.forEach((c) =>
+    c.id.slice(-1) == typingToggleState
+      ? (c.style.fill = "black")
+      : (c.style.fill = "none")
+  );
+}
+
+function typingToggle() {
+  switchTypingDots();
+  switch (typingToggleState) {
+    case 0:
+      updateTypingNormal();
+      break;
+
+    case 1:
+      updateTypingPerHour();
+      break;
+  }
+  typingToggleState == 1 ? (typingToggleState = 0) : typingToggleState++;
+}
+
 function fetchTyping() {
   Papa.parse(
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv",
@@ -10,7 +48,9 @@ function fetchTyping() {
         processTyping(results.data);
       },
       error: function (error) {
-        console.log("failed to fetch from cache, games");
+        console.log("failed to fetch from cache, Typing");
+        let typingCard = document.getElementById("typingCard");
+        typingCard.style.display = "none";
       },
     }
   );
@@ -26,8 +66,76 @@ function showSymbols() {
   }
 }
 
+function updateTypingPerHour() {
+  const { timOfDayLabels, timOfDayData, pointRadiusArray } = typingData;
+
+  typingChart.options.scales.x = {
+    type: "linear",
+    position: "bottom",
+    ticks: {
+      stepSize: 1,
+      callback: function (value, index, values) {
+        return `${value}:00`;
+      },
+    },
+  };
+
+  typingChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
+    return tooltipItem[0].label + ":00";
+  };
+
+  typingChart.data.labels = timOfDayLabels;
+  typingChart.data.datasets = [
+    {
+      data: timOfDayData,
+      backgroundColor: "#f4a4a4",
+      tension: 0.1,
+      fill: true,
+      pointRadius: pointRadiusArray,
+    },
+  ];
+
+  typingChart.update();
+}
+
+function updateTypingNormal() {
+  const { labels, data } = typingData;
+
+  typingChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
+    return tooltipItem[0].label;
+  };
+
+  typingChart.options.scales.x = {
+    maxTicksLimit: 6.3,
+    ticks: {
+      stepSize: 5,
+      maxRotation: 0,
+      minRotation: 0,
+    },
+  };
+  typingChart.data.labels = labels;
+  typingChart.data.datasets = [
+    {
+      data: data,
+      backgroundColor: "#f4a4a4",
+      tension: 0.1,
+      fill: true,
+    },
+  ];
+
+  typingChart.update();
+}
+
 function processTyping(dataIn) {
-  // dataIn = dataIn.slice(-3000);
+  showSymbols();
+  updateTypingData(dataIn);
+
+  drawtypingChart();
+  typingToggle();
+}
+
+function updateTypingData(dataIn) {
+  // dataIn = dataIn.slice(-2000);
   dataIn.forEach((elt) => {
     elt.timestamp = new Date(+elt.timestamp);
     elt.wpm = +elt.wpm;
@@ -35,15 +143,46 @@ function processTyping(dataIn) {
 
   dataIn = _.sortBy(dataIn, (point) => point.timestamp.getTime());
 
+  const hoursOfDay = Array.from({ length: 24 }, (_, i) =>
+    i.toString().padStart(2, "0")
+  );
+
+  const byTimeOfDay = _.chain(dataIn)
+    .groupBy((d) => {
+      return moment(d.timestamp).format("HH");
+    })
+    .map((entries, hour) => {
+      return {
+        hour: +hour,
+        avg: Math.round(_.meanBy(entries, (entry) => +entry.wpm) * 10) / 10,
+      };
+    })
+    .sortBy((d) => d.hour)
+    .value();
+
+  const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
+    const existingHourData = byTimeOfDay.find(
+      (item) => item.hour === parseInt(hour)
+    );
+    return existingHourData || { hour: +hour, avg: 0 };
+  });
+
+  const timOfDayLabels = completedByTimeOfDay.map((item) => item.hour);
+  const timOfDayData = completedByTimeOfDay.map((item) => item.avg);
+
+  const pointRadiusArray = completedByTimeOfDay.map((item) =>
+    item.avg !== 0 ? 3 : 0
+  );
+
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
-      return moment(d.timestamp).format("MMM YYYY");
+      return moment(d.timestamp).format("MMM YY");
     })
     .map((entries, week) => {
       // console.log(entries);
       return {
         wofy: week,
-        sum: Math.round(_.meanBy(entries, (entry) => +entry.wpm) * 10) / 10,
+        avg: Math.round(_.meanBy(entries, (entry) => +entry.wpm) * 10) / 10,
       };
     })
     .value();
@@ -56,7 +195,7 @@ function processTyping(dataIn) {
   // console.log(weekAvg);
 
   const labels = weekAvg.map((el) => el.wofy);
-  const data = weekAvg.map((el) => el.sum);
+  const data = weekAvg.map((el) => el.avg);
 
   let sortedWPM = _.sortBy(dataIn, (point) => point.timestamp.getTime());
 
@@ -70,13 +209,13 @@ function processTyping(dataIn) {
 
   let wpmPoints = dataRecent.map((point) => +point.wpm);
 
-  let trend = findLineByLeastSquares(wpmPoints);
+  const trend = findLineByLeastSquares(wpmPoints);
 
-  let wpmChange = trend[1][1] - trend[0][1];
+  const wpmChange = trend[1][1] - trend[0][1];
 
-  let delta = dataRecent.length * 30;
+  const delta = dataRecent.length * 30;
 
-  let changeInWPMPerMinSigned = (wpmChange * (3600 / delta)).toFixed(2);
+  const changeInWPMPerMinSigned = (wpmChange * (3600 / delta)).toFixed(2);
 
   const PorNchange = changeInWPMPerMinSigned > 0 ? "+" : "-";
 
@@ -94,78 +233,55 @@ function processTyping(dataIn) {
 
   //time since last test
 
-  let dateOfLastTest = moment(
+  const dateOfLastTest = moment(
     dataRecent[dataRecent.length - 1].timestamp
   ).format("Do [of] MMMM");
 
-  let timeSinceLastTest =
+  const timeSinceLastTest =
     (new Date().getTime() -
       dataRecent[dataRecent.length - 1].timestamp.getTime()) /
     1000;
 
-  let dateOfLastTestMessage =
+  const dateOfLastTestMessage =
     dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest) + " ago)";
 
   // number of tests per day
 
-  let firstTest = dataRecent[0];
-  let lastTest = dataRecent[dataRecent.length - 1];
+  const firstTest = dataRecent[0];
+  const lastTest = dataRecent[dataRecent.length - 1];
 
-  let dayDiff =
+  const dayDiff =
     (lastTest.timestamp - firstTest.timestamp) / (1000 * 60 * 60 * 24);
 
   const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
 
   const totalTimeMessage = createTimeMessage(dataIn.length * 30, "HMS", 2);
 
-  const dataToSave = {
-    totalTimeMessage,
-    dateOfLastTestMessage,
-    maxWPM,
-    avgWPM,
-    avgACC,
-    testsPerDay,
-    PorNchange,
-    changeInWPMPerMin,
+  typingData = {
     labels,
     data,
+    timOfDayLabels,
+    timOfDayData,
+    pointRadiusArray,
   };
 
-  typingMain(dataToSave);
-}
-
-function typingMain(data) {
-  showSymbols();
-
-  plotMonkey(data.labels, data.data);
-
   document.getElementById("timeSinceLastTest").innerHTML =
-    data.dateOfLastTestMessage;
-  document.getElementById("highestTypingSpeed").innerHTML = data.maxWPM;
-  document.getElementById("averageTypingSpeed").innerHTML = data.avgWPM;
-  document.getElementById("averageAccuracy").innerHTML = data.avgACC;
-  document.getElementById("totalTime").innerHTML = data.totalTimeMessage;
-  document.getElementById("testsPerDay").innerHTML = data.testsPerDay;
+    dateOfLastTestMessage;
+  document.getElementById("highestTypingSpeed").innerHTML = maxWPM;
+  document.getElementById("averageTypingSpeed").innerHTML = avgWPM;
+  document.getElementById("averageAccuracy").innerHTML = avgACC;
+  document.getElementById("totalTime").innerHTML = totalTimeMessage;
+  document.getElementById("testsPerDay").innerHTML = testsPerDay;
   document.getElementById("wpmChangePerHour").innerHTML =
-    data.PorNchange + data.changeInWPMPerMin;
+    PorNchange + changeInWPMPerMin;
 }
 
-function plotMonkey(labels, data) {
+function drawtypingChart() {
   let ctx = document.getElementById("monkeyChart").getContext("2d");
 
-  new Chart(ctx, {
+  typingChart = new Chart(ctx, {
     type: "line",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          data,
-          backgroundColor: "#F4A4A4",
-
-          fill: true,
-        },
-      ],
-    },
+    data: {},
 
     options: {
       maintainAspectRatio: true,
@@ -192,15 +308,6 @@ function plotMonkey(labels, data) {
         },
       },
       scales: {
-        x: {
-          maxTicksLimit: 6.3,
-          ticks: {
-            stepSize: 5,
-            maxRotation: 0,
-            minRotation: 0,
-          },
-        },
-
         y: {
           title: {
             text: "Average WPM",
