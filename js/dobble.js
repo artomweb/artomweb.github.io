@@ -8,11 +8,11 @@ function switchdobbleDots() {
 
   switch (dobbleToggleState) {
     case 0:
-      desc.innerHTML = "How has my dobble speed improved over time?";
+      desc.innerHTML = "I made <a href=\"https://artomweb.com/dobbleScore\">this</a> game to see if I can get better at playing Dobble. Can you beat my score?";
       break;
     case 1:
       desc.innerHTML =
-        "This graph shows my average score at each hour of the day.";
+        "This graph shows my weighted average score at each hour of the day.";
       break;
   }
   circles.forEach((c) =>
@@ -67,6 +67,14 @@ function updatedobbleNormal() {
     },
   };
 
+  dobbleChart.options.scales.y = {
+    title: {
+      text: "Average Score",
+      display: true,
+    },
+    beginAtZero: true,
+  };
+
   dobbleChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
     return tooltipItem[0].label;
   };
@@ -96,6 +104,14 @@ function updatedobblePerHour() {
         return `${value}:00`;
       },
     },
+  };
+
+  dobbleChart.options.scales.y = {
+    title: {
+      text: "Weighted average",
+      display: true,
+    },
+    beginAtZero: true,
   };
 
   dobbleChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
@@ -162,10 +178,14 @@ function updateDobbleData(dataIn) {
       return {
         hour: +hour,
         avg: Math.round(_.meanBy(entries, (entry) => +entry.score) * 10) / 10,
+        // avg: Math.round(_.maxBy(entries, "score").score * 10) / 10,
+        // avg: entries.length,
       };
     })
     .sortBy((d) => d.hour)
     .value();
+
+  console.log(byTimeOfDay);
 
   const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
     const existingHourData = byTimeOfDay.find(

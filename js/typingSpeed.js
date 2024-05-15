@@ -12,7 +12,7 @@ function switchTypingDots() {
       break;
     case 1:
       desc.innerHTML =
-        "This graph shows my average WPM at each hour of the day.";
+        "This graph shows my weighted average WPM at each hour of the day.";
       break;
   }
   circles.forEach((c) =>
@@ -155,10 +155,13 @@ function updateTypingData(dataIn) {
       return {
         hour: +hour,
         avg: Math.round(_.meanBy(entries, (entry) => +entry.wpm) * 10) / 10,
+        // avg: Math.round(_.maxBy(entries, "wpm").wpm * 10) / 10,
       };
     })
     .sortBy((d) => d.hour)
     .value();
+
+  console.log(byTimeOfDay);
 
   const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
     const existingHourData = byTimeOfDay.find(

@@ -199,7 +199,7 @@ function updateChessData(data) {
     return existingHourData || { hour: +hour, winPercent: 0 };
   });
 
-  console.log(completedByTimeOfDay);
+  // console.log(completedByTimeOfDay);
 
   const labelsByHour = completedByTimeOfDay.map((item) => item.hour);
   const dataByHour = completedByTimeOfDay.map((item) => item.winPercent);
