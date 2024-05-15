@@ -201,9 +201,26 @@ function updateDobbleData(dataIn) {
     item.avg !== 0 ? 3 : 0
   );
 
+  let scorePoints = dataIn.map((point) => +point.score);
+
+  const trend = findLineByLeastSquares(scorePoints);
+
+  const scoreChange = trend[1][1] - trend[0][1];
+
+  const delta = dataIn.length * 60;
+
+  const changeInScorePerMinSigned = (scoreChange * (3600 / delta)).toFixed(2);
+
+  const PorNchange = changeInScorePerMinSigned > 0 ? "+" : "-";
+
+  const changeInScorePerMin = Math.abs(changeInScorePerMinSigned);
+
+
   const maxScore = _.maxBy(dataIn, "score").score;
   const timeMessage = createTimeMessage(totalTime, true);
   // console.log(timeMessage);
+
+  document.getElementById("dobbleScoreChangePerHour").innerHTML = PorNchange + changeInScorePerMin
 
   document.getElementById("dobbleTime").innerHTML = timeMessage;
 

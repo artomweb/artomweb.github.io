@@ -96,6 +96,7 @@ function createTimeMessage(seconds, detailed = false) {
   );
 }
 
+// https://github.com/monkeytypegame/monkeytype
 function findLineByLeastSquares(values_y) {
   let sum_x = 0;
   let sum_y = 0;
