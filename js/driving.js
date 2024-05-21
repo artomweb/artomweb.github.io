@@ -1,5 +1,5 @@
 function fetchDriving() {
-  const primaryUrl = "https://rppi.artomweb.com/driving";
+  const primaryUrl = "https://rppi.artomweb.com/cache/driving";
   const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlFhe-8wZDuYkepfvfo3g0uP4OEFh-r1PFkqaf_M73SyphJD8sSVIWsJ17-B2z-Hfu8MscZ8TfB9K8/pub?output=csv";
 
   function parseCSV(url) {
@@ -7,7 +7,18 @@ function fetchDriving() {
           download: true,
           header: true,
           complete: function (results) {
+            try {
               processDriving(results.data);
+          } catch (error) {
+              console.log("Error processing driving data:", error);
+              if (url !== fallbackUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let drivingCard = document.getElementById("drivingCard");
+                  drivingCard.style.display = "none";
+              }
+          }
           },
           error: function (error) {
               console.log("Failed to fetch driving data from:", url);

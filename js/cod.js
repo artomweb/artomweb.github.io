@@ -39,7 +39,7 @@ function codToggle() {
 }
 
 function fetchCod() {
-  const primaryUrl = "https://rppi.artomweb.com/cod";
+  const primaryUrl = "https://rppi.artomweb.com/cache/cod";
   const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv";
 
   function parseCSV(url) {
@@ -47,7 +47,18 @@ function fetchCod() {
           download: true,
           header: true,
           complete: function (results) {
+            try {
               processCod(results.data);
+          } catch (error) {
+              console.log("Error processing cod data:", error);
+              if (url !== fallbackUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let CODCard = document.getElementById("CODCard");
+                  CODCard.style.display = "none";
+              }
+          }
           },
           error: function (error) {
               console.log("Failed to fetch cod data from:", url);

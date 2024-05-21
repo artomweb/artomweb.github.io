@@ -6,7 +6,7 @@ let ctx2;
 let backgroundColor = "#81b29a";
 
 function getPapaParseSpotify() {
-  const primaryUrl = "https://rppi.artomweb.com/spotify";
+  const primaryUrl = "https://rppi.artomweb.com/cache/spotify";
   const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv";
 
   function parseCSV(url) {
@@ -14,7 +14,18 @@ function getPapaParseSpotify() {
           download: true,
           header: true,
           complete: function (results) {
+            try {
               parseSpotify(results.data);
+          } catch (error) {
+              console.log("Error processing data from:", url);
+              if (url !== fallbackUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let spotifyCard = document.getElementById("spotifyCard");
+                  spotifyCard.style.display = "none";
+              }
+          }
           },
           error: function (error) {
               console.log("Failed to fetch data from:", url);

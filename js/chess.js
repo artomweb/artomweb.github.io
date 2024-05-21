@@ -36,7 +36,7 @@ function chessToggle() {
 }
 
 function fetchChess() {
-  const primaryUrl = "https://rppi.artomweb.com/chess";
+  const primaryUrl = "https://rppi.artomweb.com/cache/chess";
   const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqA27pG_xkV7W0Gu4KfYcV3fjkIj0WNz7-DlGDMNtXtNkR4ECA85-BWEgBbz7vYh7aqijPtLpFhw8h/pub?output=csv";
 
   function parseCSV(url) {
@@ -44,7 +44,18 @@ function fetchChess() {
           download: true,
           header: true,
           complete: function (results) {
+            try {
               processChess(results.data);
+          } catch (error) {
+              console.log("Error processing chess data:", error);
+              if (url !== fallbackUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let chessCard = document.getElementById("chessCard");
+                  chessCard.style.display = "none";
+              }
+          }
           },
           error: function (error) {
               console.log("Failed to fetch chess data from:", url);

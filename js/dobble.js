@@ -36,7 +36,7 @@ function dobbleToggle() {
   dobbleToggleState == 1 ? (dobbleToggleState = 0) : dobbleToggleState++;
 }
 function fetchDobble() {
-  const primaryUrl = "https://rppi.artomweb.com/dobble";
+  const primaryUrl = "https://rppi.artomweb.com/cache/dobble";
   const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv";
 
   function parseCSV(url) {
@@ -44,7 +44,18 @@ function fetchDobble() {
           download: true,
           header: true,
           complete: function (results) {
+            try {
               processDobble(results.data);
+          } catch (error) {
+              console.log("Error processing dobble data:", error);
+              if (url !== fallbackUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let dobbleCard = document.getElementById("dobbleCard");
+                  dobbleCard.style.display = "none";
+              }
+          }
           },
           error: function (error) {
               console.log("Failed to fetch dobble data from:", url);

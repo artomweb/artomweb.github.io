@@ -37,7 +37,7 @@ function typingToggle() {
 }
 
 function fetchTyping() {
-  const primaryUrl = "https://rppi.artomweb.com/typing";
+  const primaryUrl = "https://rppi.artomweb.com/cache/typing";
   const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv";
 
   function parseCSV(url) {
@@ -45,7 +45,18 @@ function fetchTyping() {
           download: true,
           header: true,
           complete: function (results) {
-              processTyping(results.data);
+            try {
+              processTyping(results.data, url);
+            } catch (error) {
+                console.log("Error processing data:", error);
+                if (url !== fallbackUrl) {
+                    console.log("Trying the fallback URL...");
+                    parseCSV(fallbackUrl);
+                } else {
+                    let typingCard = document.getElementById("typingCard");
+                    typingCard.style.display = "none";
+                }
+            }
           },
           error: function (error) {
               console.log("Failed to fetch typing data from:", url);
