@@ -35,24 +35,32 @@ function dobbleToggle() {
   }
   dobbleToggleState == 1 ? (dobbleToggleState = 0) : dobbleToggleState++;
 }
-
 function fetchDobble() {
-  Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv",
-    {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // console.log(results.data);
-        processDobble(results.data);
-      },
-      error: function (error) {
-        console.log("failed to fetch from cache, dobble");
-        let dobbleCard = document.getElementById("dobbleCard");
-        dobbleCard.style.display = "none";
-      },
-    }
-  );
+  const primaryUrl = "https://rppi.artomweb.com/dobble";
+  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv";
+
+  function parseCSV(url) {
+      Papa.parse(url, {
+          download: true,
+          header: true,
+          complete: function (results) {
+              processDobble(results.data);
+          },
+          error: function (error) {
+              console.log("Failed to fetch dobble data from:", url);
+              if (url === primaryUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let dobbleCard = document.getElementById("dobbleCard");
+                  dobbleCard.style.display = "none";
+              }
+          }
+      });
+  }
+
+  // Try to fetch data from the primary URL first
+  parseCSV(primaryUrl);
 }
 
 fetchDobble();

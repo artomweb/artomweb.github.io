@@ -37,23 +37,31 @@ function typingToggle() {
 }
 
 function fetchTyping() {
-  Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv",
-    {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // gamesMain(results.data);
-        // console.log(results.data);
-        processTyping(results.data);
-      },
-      error: function (error) {
-        console.log("failed to fetch from cache, Typing");
-        let typingCard = document.getElementById("typingCard");
-        typingCard.style.display = "none";
-      },
-    }
-  );
+  const primaryUrl = "https://rppi.artomweb.com/typing";
+  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv";
+
+  function parseCSV(url) {
+      Papa.parse(url, {
+          download: true,
+          header: true,
+          complete: function (results) {
+              processTyping(results.data);
+          },
+          error: function (error) {
+              console.log("Failed to fetch typing data from:", url);
+              if (url === primaryUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let typingCard = document.getElementById("typingCard");
+                  typingCard.style.display = "none";
+              }
+          }
+      });
+  }
+
+  // Try to fetch data from the primary URL first
+  parseCSV(primaryUrl);
 }
 
 fetchTyping();

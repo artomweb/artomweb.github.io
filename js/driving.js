@@ -1,20 +1,29 @@
 function fetchDriving() {
-  Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlFhe-8wZDuYkepfvfo3g0uP4OEFh-r1PFkqaf_M73SyphJD8sSVIWsJ17-B2z-Hfu8MscZ8TfB9K8/pub?output=csv",
-    {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // console.log(results.data)
-        driving(results.data);
-      },
-      error: function (error) {
-        console.log("failed to fetch from cache, driving");
-        let drivingCard = document.getElementById("drivingCard");
-        drivingCard.style.display = "none";
-      },
-    }
-  );
+  const primaryUrl = "https://rppi.artomweb.com/driving";
+  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlFhe-8wZDuYkepfvfo3g0uP4OEFh-r1PFkqaf_M73SyphJD8sSVIWsJ17-B2z-Hfu8MscZ8TfB9K8/pub?output=csv";
+
+  function parseCSV(url) {
+      Papa.parse(url, {
+          download: true,
+          header: true,
+          complete: function (results) {
+              processDriving(results.data);
+          },
+          error: function (error) {
+              console.log("Failed to fetch driving data from:", url);
+              if (url === primaryUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let drivingCard = document.getElementById("drivingCard");
+                  drivingCard.style.display = "none";
+              }
+          }
+      });
+  }
+
+  // Try to fetch data from the primary URL first
+  parseCSV(primaryUrl);
 }
 
 fetchDriving();
@@ -27,7 +36,7 @@ function showdrivingSymbols() {
   }
 }
 
-function driving(data) {
+function processDriving(data) {
   showdrivingSymbols();
   let totalMiles = _.sumBy(data, function (o) {
     return +o.totalMiles;

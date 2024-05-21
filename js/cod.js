@@ -39,22 +39,31 @@ function codToggle() {
 }
 
 function fetchCod() {
-  Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv",
-    {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // console.log(results.data);
-        processCod(results.data);
-      },
-      error: function (error) {
-        console.log("failed to fetch from cache, CODCard");
-        let CODCard = document.getElementById("CODCard");
-        CODCard.style.display = "none";
-      },
-    }
-  );
+  const primaryUrl = "https://rppi.artomweb.com/cod";
+  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv";
+
+  function parseCSV(url) {
+      Papa.parse(url, {
+          download: true,
+          header: true,
+          complete: function (results) {
+              processCod(results.data);
+          },
+          error: function (error) {
+              console.log("Failed to fetch cod data from:", url);
+              if (url === primaryUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let CODCard = document.getElementById("CODCard");
+                  CODCard.style.display = "none";
+              }
+          }
+      });
+  }
+
+  // Try to fetch data from the primary URL first
+  parseCSV(primaryUrl);
 }
 
 fetchCod();

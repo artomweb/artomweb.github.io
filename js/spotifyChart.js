@@ -6,22 +6,31 @@ let ctx2;
 let backgroundColor = "#81b29a";
 
 function getPapaParseSpotify() {
-  Papa.parse(
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv",
-    {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // gamesMain(results.data);
-        parseSpotify(results.data);
-      },
-      error: function (error) {
-        console.log("failed to fetch from cache, spotifyCard");
-        let spotifyCard = document.getElementById("spotifyCard");
-        spotifyCard.style.display = "none";
-      },
-    }
-  );
+  const primaryUrl = "https://rppi.artomweb.com/spotify";
+  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv";
+
+  function parseCSV(url) {
+      Papa.parse(url, {
+          download: true,
+          header: true,
+          complete: function (results) {
+              parseSpotify(results.data);
+          },
+          error: function (error) {
+              console.log("Failed to fetch data from:", url);
+              if (url === primaryUrl) {
+                  console.log("Trying the fallback URL...");
+                  parseCSV(fallbackUrl);
+              } else {
+                  let spotifyCard = document.getElementById("spotifyCard");
+                  spotifyCard.style.display = "none";
+              }
+          }
+      });
+  }
+
+  // Try to fetch data from the primary URL first
+  parseCSV(primaryUrl);
 }
 
 getPapaParseSpotify();
