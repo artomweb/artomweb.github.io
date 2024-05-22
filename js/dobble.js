@@ -8,11 +8,12 @@ function switchdobbleDots() {
 
   switch (dobbleToggleState) {
     case 0:
-      desc.innerHTML = "I made <a href=\"https://artomweb.com/dobbleScore\">this</a> game to see if I can get better at playing Dobble. Can you beat my score?";
+      desc.innerHTML =
+        'I made <a href="https://artomweb.com/dobbleScore">this</a> game to see if I can get better at playing Dobble. Can you beat my score?';
       break;
     case 1:
       desc.innerHTML =
-        "This graph shows my weighted average score at each hour of the day.";
+        "This graph shows my average score at each hour of the day.";
       break;
   }
   circles.forEach((c) =>
@@ -37,37 +38,38 @@ function dobbleToggle() {
 }
 function fetchDobble() {
   const primaryUrl = "https://rppi.artomweb.com/cache/dobble";
-  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv";
+  const fallbackUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv";
 
   function parseCSV(url) {
-      Papa.parse(url, {
-          download: true,
-          header: true,
-          complete: function (results) {
-            try {
-              processDobble(results.data);
-          } catch (error) {
-              console.log("Error processing dobble data:", error);
-              if (url !== fallbackUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  let dobbleCard = document.getElementById("dobbleCard");
-                  dobbleCard.style.display = "none";
-              }
+    Papa.parse(url, {
+      download: true,
+      header: true,
+      complete: function (results) {
+        try {
+          processDobble(results.data);
+        } catch (error) {
+          console.log("Error processing dobble data:", error);
+          if (url !== fallbackUrl) {
+            console.log("Trying the fallback URL...");
+            parseCSV(fallbackUrl);
+          } else {
+            let dobbleCard = document.getElementById("dobbleCard");
+            dobbleCard.style.display = "none";
           }
-          },
-          error: function (error) {
-              console.log("Failed to fetch dobble data from:", url);
-              if (url === primaryUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  let dobbleCard = document.getElementById("dobbleCard");
-                  dobbleCard.style.display = "none";
-              }
-          }
-      });
+        }
+      },
+      error: function (error) {
+        console.log("Failed to fetch dobble data from:", url);
+        if (url === primaryUrl) {
+          console.log("Trying the fallback URL...");
+          parseCSV(fallbackUrl);
+        } else {
+          let dobbleCard = document.getElementById("dobbleCard");
+          dobbleCard.style.display = "none";
+        }
+      },
+    });
   }
 
   // Try to fetch data from the primary URL first
@@ -234,12 +236,12 @@ function updateDobbleData(dataIn) {
 
   const changeInScorePerMin = Math.abs(changeInScorePerMinSigned);
 
-
   const maxScore = _.maxBy(dataIn, "score").score;
   const timeMessage = createTimeMessage(totalTime, true);
   // console.log(timeMessage);
 
-  document.getElementById("dobbleScoreChangePerHour").innerHTML = PorNchange + changeInScorePerMin
+  document.getElementById("dobbleScoreChangePerHour").innerHTML =
+    PorNchange + changeInScorePerMin;
 
   document.getElementById("dobbleTime").innerHTML = timeMessage;
 
