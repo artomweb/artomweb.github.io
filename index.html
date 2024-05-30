@@ -271,37 +271,41 @@
                 <i class="fa-solid fa-otter"></i>
                 Dobble
               </h4>
-              <button
-                class="button toggle-button"
-                style="--hiddenColour: #8ecae6"
-                onclick="dobbleToggle()"
-              >
-                Toggle data source
-              </button>
-              <svg
-                width="80"
-                height="50"
-                viewBox="0 0 250 80"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="36"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle0"
-                  class="dobbleCircles"
-                />
-                <circle
-                  cx="89"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle1"
-                  class="dobbleCircles"
-                />
-              </svg>
+              <div class="dotsAndButton">
+                <button
+                    class="toggle-button"
+                    style="--hiddenColour: 142, 202, 230"
+                    onclick="dobbleToggle()"
+                >
+                    Toggle data source
+                </button>
+                <svg
+                    width="80"
+                    height="50"
+                    viewBox="0 0 250 80"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <circle
+                        cx="36"
+                        cy="35"
+                        r="18.5"
+                        stroke="black"
+                        id="circle0"
+                        class="dobbleCircles"
+                    />
+                    <circle
+                        cx="89"
+                        cy="35"
+                        r="18.5"
+                        stroke="black"
+                        id="circle1"
+                        class="dobbleCircles"
+                    />
+                </svg>
+            </div>
+              
+              
               <h5 class="card-subtitle mb-2 text-muted" id="dobbleDesc">
                 I made <a href="https://artomweb.com/dobbleScore">this</a> game
                 to see if I can get better at playing Dobble. Can you beat my
@@ -341,56 +345,59 @@
               <h4 class="card-title mb-2">
                 <i class="fab fa-spotify"></i> Spotify
               </h4>
-              <button
-                class="button toggle-button"
-                style="--hiddenColour: #81b29a"
+              <div class="dotsAndButton">
+
+                <button
+                class="toggle-button"
+                style="--hiddenColour: 	129, 178, 154"
                 onclick="spotifyToggle()"
-              >
+                >
                 Toggle data source
               </button>
               <svg
-                width="80"
-                height="50"
-                viewBox="0 0 250 80"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              width="80"
+              height="50"
+              viewBox="0 0 250 80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
               >
-                <circle
-                  cx="36"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle0"
-                  class="spotifyCircles"
-                />
-                <circle
-                  cx="89"
-                  cy="35"
+              <circle
+              cx="36"
+              cy="35"
+              r="18.5"
+              stroke="black"
+              id="circle0"
+              class="spotifyCircles"
+              />
+              <circle
+              cx="89"
+              cy="35"
                   r="18.5"
                   stroke="black"
                   id="circle1"
                   class="spotifyCircles"
-                />
-                <circle
+                  />
+                  <circle
                   cx="142"
                   cy="35"
                   r="18.5"
                   stroke="black"
                   id="circle2"
                   class="spotifyCircles"
-                />
-              </svg>
-              <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc"></h5>
-              <small class="text-muted"
+                  />
+                </svg>
+              </div>
+                <h5 class="card-subtitle mb-2 text-muted" id="spotify-desc"></h5>
+                <small class="text-muted"
                 >Last day recorded:
                 <span id="timeSinceLastSong" class="textItal">
                   no data</span
-                ></small
-              >
-            </div>
+                  ></small
+                  >
+                </div>
           </div>
         </div>
-
+        
         <div class="col-md-6">
           <!-- <div class="card mb-3">
             <div class="card-body">
@@ -413,10 +420,10 @@
                 <i class="fa-solid fa-chess-knight"></i>
                 Chess
               </h4>
-
+              <div class="dotsAndButton">
               <button
-                class="button toggle-button"
-                style="--hiddenColour: #81b29a"
+                class=" toggle-button"
+                style="--hiddenColour: 129, 178, 154"
                 onclick="chessToggle()"
               >
                 Toggle data source
@@ -445,7 +452,7 @@
                   class="chessCircles"
                 />
               </svg>
-
+            </div>
               <h5 class="card-subtitle mb-2 text-muted" id="chessDesc">
                 How has my chess rating improved over time?
               </h5>
@@ -474,42 +481,45 @@
                 <i class="fa-solid fa-gamepad"></i>
                 Call of Duty
               </h4>
-              <button
-                class="button toggle-button"
-                style="--hiddenColour: #8ecae6"
+              <div class="dotsAndButton">
+
+                <button
+                class="toggle-button"
+                style="--hiddenColour: 	142, 202, 230"
                 onclick="codToggle()"
-              >
+                >
                 Toggle data source
               </button>
               <svg
-                width="80"
-                height="50"
-                viewBox="0 0 250 80"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              width="80"
+              height="50"
+              viewBox="0 0 250 80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
               >
-                <circle
-                  cx="36"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle0"
-                  class="codCircles"
-                />
-                <circle
-                  cx="89"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle1"
-                  class="codCircles"
-                />
-              </svg>
-              <h5 class="card-subtitle mb-2 text-muted" id="cod-desc">
-                Ben and I sometimes play Call of Duty together, who's winning?
+              <circle
+              cx="36"
+              cy="35"
+              r="18.5"
+              stroke="black"
+              id="circle0"
+              class="codCircles"
+              />
+              <circle
+              cx="89"
+              cy="35"
+              r="18.5"
+              stroke="black"
+              id="circle1"
+              class="codCircles"
+              />
+            </svg>
+          </div>
+            <h5 class="card-subtitle mb-2 text-muted" id="cod-desc">
+              Ben and I sometimes play Call of Duty together, who's winning?
                 This graph shows the margin that either of us was winning by.
               </h5>
-
+              
               <br />
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Games won by Archie:
@@ -533,47 +543,50 @@
               <h4 class="card-title mb-2">
                 <i class="fas fa-keyboard"></i> Typing Speed
               </h4>
-              <button
-                class="button toggle-button"
-                style="--hiddenColour: #f4a4a4"
+              <div class="dotsAndButton">
+
+                <button
+                class="toggle-button"
+                style="--hiddenColour: 244, 164, 164"
                 onclick="typingToggle()"
-              >
+                >
                 Toggle data source
               </button>
               <svg
-                width="80"
-                height="50"
-                viewBox="0 0 250 80"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              width="80"
+              height="50"
+              viewBox="0 0 250 80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
               >
-                <circle
-                  cx="36"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle0"
-                  class="typingCircles"
-                />
-                <circle
-                  cx="89"
-                  cy="35"
-                  r="18.5"
-                  stroke="black"
-                  id="circle1"
-                  class="typingCircles"
-                />
+              <circle
+              cx="36"
+              cy="35"
+              r="18.5"
+              stroke="black"
+              id="circle0"
+              class="typingCircles"
+              />
+              <circle
+              cx="89"
+              cy="35"
+              r="18.5"
+              stroke="black"
+              id="circle1"
+              class="typingCircles"
+              />
               </svg>
+            </div>
               <h5 class="card-subtitle mb-2 text-muted" id="typingDesc">
                 How has my typing speed improved over time?
               </h5>
-
+              
               <br />
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Highest typing speed:
                 <span id="highestTypingSpeed" class="textItal"> no data</span
-                ><span class="textItal symbol"> wpm</span>
-              </h5>
+                  ><span class="textItal symbol"> wpm</span>
+                </h5>
               <h5 class="card-subtitle mb-2 text-muted valDesc">
                 Time spent doing tests:
                 <span id="totalTime" class="textItal"> no data</span>

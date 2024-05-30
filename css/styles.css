@@ -1,3 +1,9 @@
+:root {
+  --green-rgb: 9, 183, 117;
+  --black: #3d3d3d;
+  --color: var(--green-rgb);
+}
+
 @font-face {
   font-family: "Klasik";
   src: url("/fonts/Klasik Regular.otf");
@@ -90,10 +96,30 @@ body {
 
 .toggle-button {
   font-size: 1rem;
-  padding: 4px 8px;
-  margin: 0;
-  border-radius: 5px;
-  /* background-color: #67a286; */
+  background-color: rgba(var(--hiddenColour), 0.1);
+  color: var(--black);
+  font-family: "Roboto", "Helvetica", "Tahoma", "Arial", sans-serif;
+  border: 0;
+  border-bottom: solid 0.4rem rgba(var(--hiddenColour), 0.5);
+  border-radius: 0.2rem;
+  padding: 0.2rem .8rem;
+  text-align: center;
+  box-shadow: 0 0.3rem 0.2rem -0.1rem rgba(20, 20, 96, 0.1);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s, border-bottom-color 0.3s;
+}
+
+.toggle-button:hover {
+  background-color: rgba(var(--hiddenColour), 0.4);
+  border-bottom-color: rgba(var(--hiddenColour), 0.6);
+}
+
+.dotsAndButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 hr.dashed {
