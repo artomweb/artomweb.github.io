@@ -165,9 +165,14 @@ button i.fas {
   }
 }
 
+.imageCont {
+  display: flex;
+  justify-content: center;
+}
+
 #catImage {
   /* object-fit: cover; */
-  /* width: 100%; */
+  width: 90%;
   /* height: 25vw; */
   border-radius: 0.25rem;
 }

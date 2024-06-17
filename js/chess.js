@@ -37,37 +37,38 @@ function chessToggle() {
 
 function fetchChess() {
   const primaryUrl = "https://rppi.artomweb.com/cache/chess";
-  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqA27pG_xkV7W0Gu4KfYcV3fjkIj0WNz7-DlGDMNtXtNkR4ECA85-BWEgBbz7vYh7aqijPtLpFhw8h/pub?output=csv";
+  const fallbackUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqA27pG_xkV7W0Gu4KfYcV3fjkIj0WNz7-DlGDMNtXtNkR4ECA85-BWEgBbz7vYh7aqijPtLpFhw8h/pub?output=csv";
 
   function parseCSV(url) {
-      Papa.parse(url, {
-          download: true,
-          header: true,
-          complete: function (results) {
-            try {
-              processChess(results.data);
-          } catch (error) {
-              console.log("Error processing chess data:", error);
-              if (url !== fallbackUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  let chessCard = document.getElementById("chessCard");
-                  chessCard.style.display = "none";
-              }
+    Papa.parse(url, {
+      download: true,
+      header: true,
+      complete: function (results) {
+        try {
+          processChess(results.data);
+        } catch (error) {
+          console.log("Error processing chess data:", error);
+          if (url !== fallbackUrl) {
+            console.log("Trying the fallback URL...");
+            parseCSV(fallbackUrl);
+          } else {
+            let chessCard = document.getElementById("chessCard");
+            chessCard.style.display = "none";
           }
-          },
-          error: function (error) {
-              console.log("Failed to fetch chess data from:", url);
-              if (url === primaryUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  let chessCard = document.getElementById("chessCard");
-                  chessCard.style.display = "none";
-              }
-          }
-      });
+        }
+      },
+      error: function (error) {
+        console.log("Failed to fetch chess data from:", url);
+        if (url === primaryUrl) {
+          console.log("Trying the fallback URL...");
+          parseCSV(fallbackUrl);
+        } else {
+          let chessCard = document.getElementById("chessCard");
+          chessCard.style.display = "none";
+        }
+      },
+    });
   }
 
   // Try to fetch data from the primary URL first
@@ -173,23 +174,24 @@ function updateChessPerHour() {
 
 function updateChessData(data) {
   data.forEach((elt) => {
-    elt.timestamp = +elt.timestamp * 1000;
-    elt.Date = moment(+elt.timestamp).format("DD/MM/YYYY");
+    elt.startTime = +elt.startTime * 1000;
+    elt.Date = moment(+elt.startTime).format("DD/MM/YYYY");
+    elt.gameLength = +elt.gameLength;
   });
 
-  data = _.sortBy(data, "timestamp");
+  data = _.sortBy(data, "startTime");
 
   const dataByDay = _.chain(data)
     .groupBy((d) => d.Date)
     .map((entries, day) => {
       let highest = _.maxBy(entries, (entry) => +entry.myRating);
       return {
-        timestamp: highest.timestamp,
+        startTime: highest.startTime,
         day,
         highest: +highest.myRating,
       };
     })
-    .sortBy("timestamp")
+    .sortBy("startTime")
     .value();
 
   const hoursOfDay = Array.from({ length: 24 }, (_, i) =>
@@ -197,7 +199,7 @@ function updateChessData(data) {
   );
 
   const byHour = _.chain(data)
-    .groupBy((d) => moment(+d.timestamp).format("HH"))
+    .groupBy((d) => moment(+d.startTime).format("HH"))
     .map((entries, hour) => {
       return {
         hour: +hour,
@@ -210,7 +212,7 @@ function updateChessData(data) {
           ) / 10,
       };
     })
-    .sortBy("timestamp")
+    .sortBy("startTime")
     .value();
 
   const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
@@ -229,7 +231,7 @@ function updateChessData(data) {
     item.winPercent !== 0 ? 3 : 0
   );
 
-  const dateOfLastGame = data[data.length - 1].timestamp;
+  const dateOfLastGame = data[data.length - 1].startTime;
 
   const timeSinceLastTest = (new Date().getTime() - dateOfLastGame) / 1000;
 
@@ -246,8 +248,30 @@ function updateChessData(data) {
 
   const numGames = data.length;
 
+  let ratings = data.map((game) => +game.myRating);
+
+  const trend = findLineByLeastSquares(ratings);
+
+  const ratingChange = trend[1][1] - trend[0][1];
+
+  const delta = _.sumBy(data, "gameLength");
+
+  console.log(delta);
+  console.log(numGames);
+
+  const changeInScorePerHourSigned = (ratingChange * (3600 / delta)).toFixed(2);
+
+  const PorNchange = changeInScorePerHourSigned > 0 ? "+" : "-";
+
+  const changeInScorePerHour = Math.abs(changeInScorePerHourSigned);
+
+  const timeMessage = createTimeMessage(delta);
+
   document.getElementById("ChessHighestRating").innerHTML = highestRating;
+  document.getElementById("ChessTimePlaying").innerHTML = timeMessage;
   document.getElementById("ChessNumGames").innerHTML = numGames;
+  document.getElementById("ChessChangePerHour").innerHTML =
+    PorNchange + changeInScorePerHour;
 
   let labels = dataByDay.map((elt) => elt.day);
   let graphData = dataByDay.map((elt) => +elt.highest);
