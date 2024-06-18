@@ -38,37 +38,38 @@ function typingToggle() {
 
 function fetchTyping() {
   const primaryUrl = "https://rppi.artomweb.com/cache/typing";
-  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv";
+  const fallbackUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv";
 
   function parseCSV(url) {
-      Papa.parse(url, {
-          download: true,
-          header: true,
-          complete: function (results) {
-            try {
-              processTyping(results.data, url);
-            } catch (error) {
-                console.log("Error processing data:", error);
-                if (url !== fallbackUrl) {
-                    console.log("Trying the fallback URL...");
-                    parseCSV(fallbackUrl);
-                } else {
-                    let typingCard = document.getElementById("typingCard");
-                    typingCard.style.display = "none";
-                }
-            }
-          },
-          error: function (error) {
-              console.log("Failed to fetch typing data from:", url);
-              if (url === primaryUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  let typingCard = document.getElementById("typingCard");
-                  typingCard.style.display = "none";
-              }
+    Papa.parse(url, {
+      download: true,
+      header: true,
+      complete: function (results) {
+        try {
+          processTyping(results.data, url);
+        } catch (error) {
+          console.log("Error processing data:", error);
+          if (url !== fallbackUrl) {
+            console.log("Trying the fallback URL...");
+            parseCSV(fallbackUrl);
+          } else {
+            let typingCard = document.getElementById("typingCard");
+            typingCard.style.display = "none";
           }
-      });
+        }
+      },
+      error: function (error) {
+        console.log("Failed to fetch typing data from:", url);
+        if (url === primaryUrl) {
+          console.log("Trying the fallback URL...");
+          parseCSV(fallbackUrl);
+        } else {
+          let typingCard = document.getElementById("typingCard");
+          typingCard.style.display = "none";
+        }
+      },
+    });
   }
 
   // Try to fetch data from the primary URL first
@@ -277,7 +278,7 @@ function updateTypingData(dataIn) {
 
   const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
 
-  const totalTimeMessage = createTimeMessage(dataIn.length * 30, "HMS", 2);
+  const totalTimeMessage = createTimeMessage(dataIn.length * 30);
 
   typingData = {
     labels,

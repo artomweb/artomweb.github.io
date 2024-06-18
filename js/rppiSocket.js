@@ -78,7 +78,7 @@ socket.on("server init", function (msg) {
 
   let delta = Math.abs(currentTime - serverInit) / 1000;
 
-  let message = createTimeMessage(delta, true);
+  let message = createTimeMessage(delta);
 
   document.getElementById("serverUpTime").innerHTML = message;
 });
