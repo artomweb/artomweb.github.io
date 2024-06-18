@@ -11,7 +11,7 @@ function switchCodDots() {
   switch (codToggleState) {
     case 0:
       desc.innerHTML =
-        "Ben and I sometimes play Call of Duty together, who's winning? This graph shows the margin that either of us was winning by.";
+        "Ben and I sometimes play Call of Duty together, who's winning? This graph shows the margin that either of us was winning by overall.";
       break;
     case 1:
       desc.innerHTML = "This graph shows the number of games won per day";
@@ -40,37 +40,38 @@ function codToggle() {
 
 function fetchCod() {
   const primaryUrl = "https://rppi.artomweb.com/cache/cod";
-  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv";
+  const fallbackUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv";
 
   function parseCSV(url) {
-      Papa.parse(url, {
-          download: true,
-          header: true,
-          complete: function (results) {
-            try {
-              processCod(results.data);
-          } catch (error) {
-              console.log("Error processing cod data:", error);
-              if (url !== fallbackUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  let CODCard = document.getElementById("CODCard");
-                  CODCard.style.display = "none";
-              }
+    Papa.parse(url, {
+      download: true,
+      header: true,
+      complete: function (results) {
+        try {
+          processCod(results.data);
+        } catch (error) {
+          console.log("Error processing cod data:", error);
+          if (url !== fallbackUrl) {
+            console.log("Trying the fallback URL...");
+            parseCSV(fallbackUrl);
+          } else {
+            let CODCard = document.getElementById("CODCard");
+            CODCard.style.display = "none";
           }
-          },
-          error: function (error) {
-              console.log("Failed to fetch cod data from:", url);
-              if (url === primaryUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  let CODCard = document.getElementById("CODCard");
-                  CODCard.style.display = "none";
-              }
-          }
-      });
+        }
+      },
+      error: function (error) {
+        console.log("Failed to fetch cod data from:", url);
+        if (url === primaryUrl) {
+          console.log("Trying the fallback URL...");
+          parseCSV(fallbackUrl);
+        } else {
+          let CODCard = document.getElementById("CODCard");
+          CODCard.style.display = "none";
+        }
+      },
+    });
   }
 
   // Try to fetch data from the primary URL first
