@@ -278,7 +278,7 @@ function updateTypingData(dataIn) {
 
   const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
 
-  const totalTimeMessage = createTimeMessage(dataIn.length * 30);
+  const totalTimeMessage = Math.round((dataIn.length * 30) / (60 * 60)) + " hours"
 
   typingData = {
     labels,

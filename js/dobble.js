@@ -237,7 +237,7 @@ function updateDobbleData(dataIn) {
   const changeInScorePerMin = Math.abs(changeInScorePerMinSigned);
 
   const maxScore = _.maxBy(dataIn, "score").score;
-  const timeMessage = createTimeMessage(totalTime);
+  const timeMessage = Math.round(totalTime / (60 * 60)) +" hours" 
   // console.log(timeMessage);
 
   document.getElementById("dobbleScoreChangePerHour").innerHTML =
