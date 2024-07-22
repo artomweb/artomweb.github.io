@@ -36,7 +36,7 @@ function chessToggle() {
 }
 
 function fetchChess() {
-  const primaryUrl = "https://rppi.artomweb.com/cache/chess";
+  const primaryUrl = "https://api.artomweb.com/cache/chess";
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqA27pG_xkV7W0Gu4KfYcV3fjkIj0WNz7-DlGDMNtXtNkR4ECA85-BWEgBbz7vYh7aqijPtLpFhw8h/pub?output=csv";
 

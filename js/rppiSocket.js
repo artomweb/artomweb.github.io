@@ -1,4 +1,4 @@
-let socket = io("https://rppi.artomweb.com/reading", {
+let socket = io("https://api.artomweb.com/reading", {
   reconnectionDelay: 500,
 });
 

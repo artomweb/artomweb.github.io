@@ -37,7 +37,7 @@ function typingToggle() {
 }
 
 function fetchTyping() {
-  const primaryUrl = "https://rppi.artomweb.com/cache/typing";
+  const primaryUrl = "https://api.artomweb.com/cache/typing";
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv";
 

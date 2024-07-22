@@ -9,7 +9,7 @@ function switchdobbleDots() {
   switch (dobbleToggleState) {
     case 0:
       desc.innerHTML =
-        'I made <a href="https://artomweb.com/dobbleScore">this</a> game to see if I can get better at playing Dobble. Can you beat my score?';
+        'I made <a href="https://dobble.artomweb.com">this</a> game to see if I can get better at playing Dobble. Can you beat my score?';
       break;
     case 1:
       desc.innerHTML =
@@ -37,7 +37,7 @@ function dobbleToggle() {
   dobbleToggleState == 1 ? (dobbleToggleState = 0) : dobbleToggleState++;
 }
 function fetchDobble() {
-  const primaryUrl = "https://rppi.artomweb.com/cache/dobble";
+  const primaryUrl = "https://api.artomweb.com/cache/dobble";
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv";
 

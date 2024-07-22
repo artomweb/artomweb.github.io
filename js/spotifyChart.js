@@ -6,7 +6,7 @@ let ctx2;
 let backgroundColor = "#81b29a";
 
 function getPapaParseSpotify() {
-  const primaryUrl = "https://rppi.artomweb.com/cache/spotify";
+  const primaryUrl = "https://api.artomweb.com/cache/spotify";
   const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv";
 
   function parseCSV(url) {

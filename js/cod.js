@@ -39,7 +39,7 @@ function codToggle() {
 }
 
 function fetchCod() {
-  const primaryUrl = "https://rppi.artomweb.com/cache/cod";
+  const primaryUrl = "https://api.artomweb.com/cache/cod";
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv";
 
