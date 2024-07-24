@@ -237,8 +237,18 @@ function updateDobbleData(dataIn) {
   const changeInScorePerMin = Math.abs(changeInScorePerMinSigned);
 
   const maxScore = _.maxBy(dataIn, "score").score;
-  const timeMessage = Math.round(totalTime / (60 * 60)) +" hours" 
-  // console.log(timeMessage);
+  const timeMessage = Math.round(totalTime / (60 * 60)) + " hours";
+
+  const dateOfLastTest = moment(dataIn[dataIn.length - 1].timestamp).format(
+    "Do [of] MMMM"
+  );
+
+  const timeSinceLastTest =
+    (new Date().getTime() - dataIn[dataIn.length - 1].timestamp.getTime()) /
+    1000;
+
+  const dateOfLastTestMessage =
+    dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest) + " ago)";
 
   document.getElementById("dobbleScoreChangePerHour").innerHTML =
     PorNchange + changeInScorePerMin;
@@ -247,6 +257,9 @@ function updateDobbleData(dataIn) {
 
   document.getElementById("highestDobble").innerHTML = maxScore;
   document.getElementById("numberDobble").innerHTML = numTests;
+
+  document.getElementById("timeSinceLastDobble").innerHTML =
+    dateOfLastTestMessage;
 
   dobbleData = {
     labels,

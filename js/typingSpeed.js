@@ -12,7 +12,7 @@ function switchTypingDots() {
       break;
     case 1:
       desc.innerHTML =
-        "This graph shows my weighted average WPM at each hour of the day.";
+        "This graph shows my average WPM at each hour of the day.";
       break;
   }
   circles.forEach((c) =>
@@ -278,7 +278,8 @@ function updateTypingData(dataIn) {
 
   const testsPerDay = (dataRecent.length / dayDiff).toFixed(1);
 
-  const totalTimeMessage = Math.round((dataIn.length * 30) / (60 * 60)) + " hours"
+  const totalTimeMessage =
+    Math.round((dataIn.length * 30) / (60 * 60)) + " hours";
 
   typingData = {
     labels,
