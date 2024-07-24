@@ -320,17 +320,16 @@
                 <span id="numberDobble" class="textItal"> no data</span>
                 <br />
 
+                Time spent dobbling:
+                <span id="dobbleTime" class="textItal"> no data</span>
+                <br />
+
                 Score change per hour spent dobbling:
                 <span id="dobbleScoreChangePerHour" class="textItal">
                   no data</span
                 >
               </h5>
 
-              <small class="text-muted"
-                >Time spent dobbling:
-                <span id="dobbleTime" class="textItal"> no data</span></small
-              >
-              <br />
               <small class="text-muted"
                 ><span class="textItal"></span>For the 60 second mode</small
               >
@@ -627,6 +626,71 @@
               >
             </div>
           </div>
+
+          <div class="card mb-3" id="piCard">
+            <div class="card-body">
+              <canvas id="PIChart"></canvas>
+              <h4 class="card-title mb-2">
+                <i class="">&#960; </i>
+              </h4>
+
+              <button
+                class="button toggle-button"
+                style="--hiddenColour: #8ecae6"
+                onclick="PIToggle()"
+              >
+                Toggle data source
+              </button>
+              <svg
+                width="80"
+                height="50"
+                viewBox="0 0 250 80"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="36"
+                  cy="35"
+                  r="18.5"
+                  stroke="black"
+                  id="circle0"
+                  class="PICircles"
+                />
+                <circle
+                  cx="89"
+                  cy="35"
+                  r="18.5"
+                  stroke="black"
+                  id="circle1"
+                  class="PICircles"
+                />
+              </svg>
+
+              <h5 class="card-subtitle mb-2 text-muted" id="PIDesc">
+                How many digits of Pi have I learnt?
+              </h5>
+
+              <br />
+              <h5 class="card-subtitle mb-2 text-muted valDesc">
+                Most digits:
+                <span id="highestPI" class="textItal"> no data</span>
+                <br />
+
+                Number of attempts:
+                <span id="numberPI" class="textItal"> no data</span>
+                <br />
+
+                Time spent learning:
+                <span id="timePI" class="textItal"> no data</span>
+                <br />
+
+                Score change per hour spent learning:
+                <span id="PIScoreChangePerHour" class="textItal"> no data</span>
+              </h5>
+
+              <br />
+            </div>
+          </div>
         </div>
       </div>
       <hr class="dashed" />
@@ -655,6 +719,7 @@
     <script src="js/typingSpeed.js"></script>
     <script src="js/moreStats.js"></script>
     <script src="js/driving.js"></script>
+    <script src="js/pi.js"></script>
     <!-- <script src="js/climbing.js"></script> -->
     <script src="js/cats.js"></script>
   </body>
