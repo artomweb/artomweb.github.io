@@ -265,7 +265,7 @@ function updateChessData(data) {
 
   const changeInScorePerHour = Math.abs(changeInScorePerHourSigned);
 
-  const timeMessage = Math.round(delta / (60*60)) + " hours"
+  const timeMessage = toHours(delta);
 
   document.getElementById("ChessHighestRating").innerHTML = highestRating;
   document.getElementById("ChessTimePlaying").innerHTML = timeMessage;

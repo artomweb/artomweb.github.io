@@ -129,7 +129,7 @@ function updatedobblePerHour() {
 
   dobbleChart.options.scales.y = {
     title: {
-      text: "Weighted average",
+      text: "Average score",
       display: true,
     },
     beginAtZero: true,
@@ -162,11 +162,9 @@ function processDobble(dataIn) {
 }
 
 function updateDobbleData(dataIn) {
-  let totalTime = 0;
   dataIn.forEach((elt) => {
     elt.timestamp = new Date(+elt.unix * 1000);
     elt.score = +elt.score;
-    totalTime += +elt.testTime;
   });
 
   const numTests = dataIn.length;
@@ -237,7 +235,7 @@ function updateDobbleData(dataIn) {
   const changeInScorePerMin = Math.abs(changeInScorePerMinSigned);
 
   const maxScore = _.maxBy(dataIn, "score").score;
-  const timeMessage = Math.round(totalTime / (60 * 60)) +" hours" 
+  const timeMessage = toHours(numTests * 60);
   // console.log(timeMessage);
 
   document.getElementById("dobbleScoreChangePerHour").innerHTML =

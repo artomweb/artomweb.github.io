@@ -161,11 +161,15 @@ function processPI(dataIn) {
 }
 
 function updatePIData(dataIn) {
+  let totalTime = 0;
   dataIn.forEach((elt) => {
     elt.timestamp = new Date(+elt.timestamp * 1000);
     elt.score = +elt.score;
-    elt.timeSpent = +elt.timespent;
+    elt.timeSpent = +elt.timeSpent;
+    totalTime += elt.timeSpent;
   });
+
+  console.log(dataIn);
 
   const numTests = dataIn.length;
 
@@ -235,8 +239,8 @@ function updatePIData(dataIn) {
   const changeInScorePerMin = Math.abs(changeInScorePerMinSigned);
 
   const maxScore = _.maxBy(dataIn, "score").score;
-  const timeMessage = Math.round(totalTime / (60 * 60)) + " hours";
-  // console.log(timeMessage);
+  const timeMessage = toHours(totalTime);
+  console.log(totalTime);
 
   document.getElementById("PIScoreChangePerHour").innerHTML =
     PorNchange + changeInScorePerMin;

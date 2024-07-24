@@ -60,7 +60,7 @@ function processDriving(data) {
   let timeDriving = document.getElementById("timeDriving");
   let milesDriven = document.getElementById("milesDriven");
 
-  let timeMessage = Math.round(totalSeconds / (60 * 60)) + " hours"
+  let timeMessage = toHours(totalSeconds);
 
   timeDriving.innerHTML = timeMessage;
   milesDriven.innerHTML = totalMiles.toFixed(1);

@@ -3,6 +3,10 @@ function createTimeMessage(seconds) {
   return duration.humanize();
 }
 
+function toHours(seconds) {
+  return Math.round(seconds / (60 * 60)) + " hours";
+}
+
 // https://github.com/monkeytypegame/monkeytype
 function findLineByLeastSquares(values_y) {
   let sum_x = 0;
