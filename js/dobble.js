@@ -129,7 +129,7 @@ function updatedobblePerHour() {
 
   dobbleChart.options.scales.y = {
     title: {
-      text: "Weighted average",
+      text: "Average score",
       display: true,
     },
     beginAtZero: true,
