@@ -8,7 +8,8 @@ function switchPIDots() {
 
   switch (PIToggleState) {
     case 0:
-      desc.innerHTML = "How many digits of Pi have I learnt?";
+      desc.innerHTML =
+        ' I made <a href="https://pi.artomweb.com/">this</a> game to see if I can learn more digits of Pi. How many digits of Pi have I learnt?';
       break;
     case 1:
       desc.innerHTML =
@@ -169,7 +170,7 @@ function updatePIData(dataIn) {
     totalTime += elt.timeSpent;
   });
 
-  console.log(dataIn);
+  console.log(totalTime);
 
   const numTests = dataIn.length;
 
