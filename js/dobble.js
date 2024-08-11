@@ -37,8 +37,8 @@ function dobbleToggle() {
   dobbleToggleState == 1 ? (dobbleToggleState = 0) : dobbleToggleState++;
 }
 function fetchDobble() {
-  const primaryUrl = "https://api.artomweb.com/cache/dobble";
-  const fallbackUrl =
+  // const primaryUrl = "https://api.artomweb.com/cache/dobble";
+  const primaryUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv";
 
   function parseCSV(url) {

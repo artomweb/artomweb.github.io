@@ -37,8 +37,8 @@ function PIToggle() {
   PIToggleState == 1 ? (PIToggleState = 0) : PIToggleState++;
 }
 function fetchPI() {
-  const primaryUrl = "https://api.artomweb.com/cache/pi";
-  const fallbackUrl =
+  // const primaryUrl = "https://api.artomweb.com/cache/pi";
+  const primaryUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1ohhffWpYqRZdZ27NCDoAunJgCI-VNN--UFCBWbC05QkM9bWmu-bjoOABKIAHqzA8n3BGqvQkG7xk/pub?output=csv";
 
   function parseCSV(url) {
@@ -176,7 +176,7 @@ function updatePIData(dataIn) {
 
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
-      return moment(d.timestamp).format("MMM YY");
+      return moment(d.timestamp).format("DD MM YYYY");
     })
     .map((entries, mofy) => {
       return {
