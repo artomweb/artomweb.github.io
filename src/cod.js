@@ -1,4 +1,5 @@
 // https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv
+import { createTimeMessage } from "./usefullFunc";
 
 let codData = {};
 let codChart;

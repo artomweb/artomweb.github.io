@@ -1,3 +1,5 @@
+import { createTimeMessage } from "./usefullFunc";
+
 // let timeAlive = document.getElementById("timeAlive");
 let timeDriving = document.getElementById("timeAbleDrive");
 // let timeWithPhone = document.getElementById("timePhone");

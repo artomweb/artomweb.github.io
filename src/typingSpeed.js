@@ -1,3 +1,5 @@
+import { createTimeMessage, findLineByLeastSquares } from "./usefullFunc";
+
 let typingToggleState = 0;
 let typingData = {};
 let typingChart;

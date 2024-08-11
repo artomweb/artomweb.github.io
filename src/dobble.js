@@ -1,6 +1,9 @@
+import { createTimeMessage, findLineByLeastSquares } from "./usefullFunc";
+
 let dobbleToggleState = 0;
 let dobbleData = {};
 let dobbleChart;
+let config;
 
 function switchdobbleDots() {
   let circles = Array.from(document.getElementsByClassName("dobbleCircles"));

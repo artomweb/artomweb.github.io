@@ -1,3 +1,5 @@
+import { shuffle } from "./usefullFunc";
+
 const MAX_CATS = 78;
 
 // Create an array of integers
@@ -22,7 +24,8 @@ function loadCat() {
     imageNumbers = shuffle(imageNumbers);
   } else {
     // Cache the next image
-    imageCache.src = "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
+    imageCache.src =
+      "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
     currentImageIndex++;
   }
 }

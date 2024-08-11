@@ -1,3 +1,5 @@
+import { createTimeMessage, findLineByLeastSquares } from "./usefullFunc";
+
 let socket = io("https://api.artomweb.com/reading", {
   reconnectionDelay: 500,
 });

@@ -1,10 +1,10 @@
-function createTimeMessage(seconds) {
+export function createTimeMessage(seconds) {
   let duration = moment.duration(seconds, "seconds");
   return duration.humanize();
 }
 
 // https://github.com/monkeytypegame/monkeytype
-function findLineByLeastSquares(values_y) {
+export function findLineByLeastSquares(values_y) {
   let sum_x = 0;
   let sum_y = 0;
   let sum_xy = 0;
@@ -37,7 +37,7 @@ function findLineByLeastSquares(values_y) {
   return [returnpoint1, returnpoint2];
 }
 
-function shuffle(array) {
+export function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
 
@@ -56,15 +56,3 @@ function shuffle(array) {
 
   return array;
 }
-
-// fix button animation on mobile
-let touchButtons = document.querySelectorAll(".button");
-
-touchButtons.forEach((but) => {
-  but.addEventListener("touchstart", function (e) {
-    but.classList.add("active");
-    setTimeout(function () {
-      but.classList.remove("active");
-    }, 200);
-  });
-});
