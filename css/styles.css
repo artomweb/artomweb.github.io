@@ -74,6 +74,7 @@ body {
   color: #413c3c;
   margin: 10px 10px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 /* .button:last-child {
@@ -94,11 +95,6 @@ body {
   margin: 0;
   border-radius: 5px;
   /* background-color: #67a286; */
-}
-
-hr.dashed {
-  border-top: 2px dashed rgb(0, 0, 0);
-  background-color: transparent;
 }
 
 .textItal {
