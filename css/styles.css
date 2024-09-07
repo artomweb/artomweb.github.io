@@ -12,14 +12,14 @@
 }
 
 body {
-  /* background-color: #ffffff; */
+  font-family: "Montserrat", sans-serif !important;
   margin: 0;
   word-wrap: break-word;
 }
 
 .card {
   border: 0.1px solid rgba(0, 0, 0, 0.219);
-  /* background-color: #ffffff; */
+
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -31,18 +31,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-.liveDataSymbol {
-  display: none;
-}
-
-.symbol {
-  display: none;
-}
-
-.drivingSymbol {
-  display: none;
 }
 
 @media (pointer: fine) {
@@ -76,14 +64,6 @@ body {
   border-radius: 10px;
 }
 
-/* .button:last-child {
-    margin-top: 3px;
-} */
-
-/* .projects-button {
-    margin-bottom: 0;
-} */
-
 .hidden {
   display: none !important;
 }
@@ -96,7 +76,7 @@ body {
   /* background-color: #67a286; */
 }
 
-hr.dashed {
+.dashed {
   border-top: 2px dashed rgb(0, 0, 0);
   background-color: transparent;
 }
