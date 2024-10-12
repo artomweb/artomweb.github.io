@@ -31,6 +31,37 @@ function timeago(inputDate) {
   }
 }
 
+function uptime(uptimeStartDate) {
+  const now = new Date();
+  const diffMs = now - uptimeStartDate;
+
+  const msInMinute = 1000 * 60;
+  const msInHour = msInMinute * 60;
+  const msInDay = msInHour * 24;
+  const msInMonth = msInDay * 30.44; // Average days in a month
+  const msInYear = msInDay * 365.25; // Average days in a year
+
+  if (diffMs < msInMinute) {
+    const seconds = Math.floor(diffMs / 1000);
+    return `${seconds} second${seconds !== 1 ? "s" : ""}`;
+  } else if (diffMs < msInHour) {
+    const minutes = Math.floor(diffMs / msInMinute);
+    return `${minutes} minute${minutes !== 1 ? "s" : ""}`;
+  } else if (diffMs < msInDay) {
+    const hours = Math.floor(diffMs / msInHour);
+    return `${hours} hour${hours !== 1 ? "s" : ""}`;
+  } else if (diffMs < msInMonth) {
+    const days = Math.floor(diffMs / msInDay);
+    return `${days} day${days !== 1 ? "s" : ""}`;
+  } else if (diffMs < msInYear) {
+    const months = Math.floor(diffMs / msInMonth);
+    return `${months} month${months !== 1 ? "s" : ""}`;
+  } else {
+    const years = Math.floor(diffMs / msInYear);
+    return `${years} year${years !== 1 ? "s" : ""}`;
+  }
+}
+
 // https://github.com/monkeytypegame/monkeytype
 function findLineByLeastSquares(values_y) {
   let sum_x = 0;

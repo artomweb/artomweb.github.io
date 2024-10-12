@@ -75,11 +75,8 @@ socket.on("server init", function (msg) {
   }
   showDataSymbols();
   let serverInit = new Date(msg.serverInitTime);
-  let currentTime = new Date();
 
-  // console.log(msg.serverInitTime, serverInit, currentTime);
-
-  let message = timeago(serverInit).replace(" ago", "");
+  let message = uptime(serverInit);
 
   document.getElementById("serverUpTime").innerHTML = message;
 });
