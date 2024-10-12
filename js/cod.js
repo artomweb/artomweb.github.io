@@ -88,10 +88,12 @@ function processCod(dataIn) {
 }
 
 function updateCodData(data) {
-  // console.log(data);
   data.forEach((day) => {
     day.Archie = +day.Archie;
     day.Ben = +day.Ben;
+    const [d, month, year] = day.Date.split("/");
+    const date = new Date(year, month - 1, d);
+    day.jsDate = date;
   });
 
   const dataArchie = data.map((e) => e.Archie);
@@ -124,15 +126,11 @@ function updateCodData(data) {
   // console.log(dateOfLastTest.unix());
   // console.log(new Date().getTime());
 
-  const timeSinceLastTest = new Date().getTime() / 1000 - dateOfLastTest.unix();
-
-  // console.log(timeSinceLastTest);
-
   const dateOfLastTestMessage =
     dateOfLastTest.format("Do [of] MMMM") +
     " (" +
-    createTimeMessage(timeSinceLastTest) +
-    " ago)";
+    timeago(data[data.length - 1].jsDate) +
+    ")";
 
   document.getElementById("timeSinceLastCod").innerHTML = dateOfLastTestMessage;
 }

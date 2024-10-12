@@ -181,8 +181,6 @@ function updateTypingData(dataIn) {
     .sortBy((d) => d.hour)
     .value();
 
-  console.log(byTimeOfDay);
-
   const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
     const existingHourData = byTimeOfDay.find(
       (item) => item.hour === parseInt(hour)
@@ -260,13 +258,11 @@ function updateTypingData(dataIn) {
     dataRecent[dataRecent.length - 1].timestamp
   ).format("Do [of] MMMM");
 
-  const timeSinceLastTest =
-    (new Date().getTime() -
-      dataRecent[dataRecent.length - 1].timestamp.getTime()) /
-    1000;
-
   const dateOfLastTestMessage =
-    dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest) + " ago)";
+    dateOfLastTest +
+    " (" +
+    timeago(dataRecent[dataRecent.length - 1].timestamp) +
+    ")";
 
   // number of tests per day
 

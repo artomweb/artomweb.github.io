@@ -231,15 +231,13 @@ function updateChessData(data) {
     item.winPercent !== 0 ? 3 : 0
   );
 
-  const dateOfLastGame = data[data.length - 1].startTime;
-
-  const timeSinceLastTest = (new Date().getTime() - dateOfLastGame) / 1000;
+  const dateOfLastGame = new Date(data[data.length - 1].startTime);
 
   const dateOfLastTestMessage =
     moment(dateOfLastGame).format("Do [of] MMMM") +
     " (" +
-    createTimeMessage(timeSinceLastTest) +
-    " ago)";
+    timeago(dateOfLastGame) +
+    ")";
 
   document.getElementById("timeSinceLastChess").innerHTML =
     dateOfLastTestMessage;
@@ -256,16 +254,13 @@ function updateChessData(data) {
 
   const delta = _.sumBy(data, "gameLength");
 
-  console.log(delta);
-  console.log(numGames);
-
   const changeInScorePerHourSigned = (ratingChange * (3600 / delta)).toFixed(2);
 
   const PorNchange = changeInScorePerHourSigned > 0 ? "+" : "-";
 
   const changeInScorePerHour = Math.abs(changeInScorePerHourSigned);
 
-  const timeMessage = Math.round(delta / (60*60)) + " hours"
+  const timeMessage = Math.round(delta / (60 * 60)) + " hours";
 
   document.getElementById("ChessHighestRating").innerHTML = highestRating;
   document.getElementById("ChessTimePlaying").innerHTML = timeMessage;

@@ -1,10 +1,12 @@
 @font-face {
   font-family: "Klasik";
-  src: url("/fonts/Klasik Regular.otf");
+  src: url("/fonts/Klasik-Regular.otf") format("opentype"); /* Specify font format */
+  font-weight: normal; /* Add weight */
+  font-style: normal; /* Add style */
 }
 
 .title {
-  font-family: "Klasik";
+  font-family: "Klasik", sans-serif;
   margin-top: 0.6rem;
   margin-bottom: 0;
   font-size: calc(1.5em + 5.6vw);

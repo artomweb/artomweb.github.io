@@ -206,8 +206,6 @@ function updateDobbleData(dataIn) {
     .sortBy((d) => d.hour)
     .value();
 
-  console.log(byTimeOfDay);
-
   const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
     const existingHourData = byTimeOfDay.find(
       (item) => item.hour === parseInt(hour)
@@ -243,12 +241,11 @@ function updateDobbleData(dataIn) {
     "Do [of] MMMM"
   );
 
-  const timeSinceLastTest =
-    (new Date().getTime() - dataIn[dataIn.length - 1].timestamp.getTime()) /
-    1000;
-
   const dateOfLastTestMessage =
-    dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest) + " ago)";
+    dateOfLastTest +
+    " (" +
+    timeago(new Date(+dataIn[dataIn.length - 1].timestamp)) +
+    ")";
 
   document.getElementById("dobbleScoreChangePerHour").innerHTML =
     PorNchange + changeInScorePerMin;

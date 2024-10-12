@@ -7,37 +7,38 @@ let backgroundColor = "#81b29a";
 
 function getPapaParseSpotify() {
   const primaryUrl = "https://api.artomweb.com/cache/spotify";
-  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv";
+  const fallbackUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv";
 
   function parseCSV(url) {
-      Papa.parse(url, {
-          download: true,
-          header: true,
-          complete: function (results) {
-            try {
-              parseSpotify(results.data);
-          } catch (error) {
-              console.log("Error processing data from:", url);
-              if (url !== fallbackUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  let spotifyCard = document.getElementById("spotifyCard");
-                  spotifyCard.style.display = "none";
-              }
+    Papa.parse(url, {
+      download: true,
+      header: true,
+      complete: function (results) {
+        try {
+          parseSpotify(results.data);
+        } catch (error) {
+          console.log("Error processing data from:", url);
+          if (url !== fallbackUrl) {
+            console.log("Trying the fallback URL...");
+            parseCSV(fallbackUrl);
+          } else {
+            let spotifyCard = document.getElementById("spotifyCard");
+            spotifyCard.style.display = "none";
           }
-          },
-          error: function (error) {
-              console.log("Failed to fetch data from:", url);
-              if (url === primaryUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  let spotifyCard = document.getElementById("spotifyCard");
-                  spotifyCard.style.display = "none";
-              }
-          }
-      });
+        }
+      },
+      error: function (error) {
+        console.log("Failed to fetch data from:", url);
+        if (url === primaryUrl) {
+          console.log("Trying the fallback URL...");
+          parseCSV(fallbackUrl);
+        } else {
+          let spotifyCard = document.getElementById("spotifyCard");
+          spotifyCard.style.display = "none";
+        }
+      },
+    });
   }
 
   // Try to fetch data from the primary URL first
@@ -377,11 +378,8 @@ function updateSpotify(dataIn) {
 
   let dateOfLastTest = moment(parsed[0].Date).format("Do [of] MMMM");
 
-  let timeSinceLastTest =
-    (new Date().getTime() - parsed[0].Date.getTime()) / 1000;
-
   let dateOfLastTestMessage =
-    dateOfLastTest + " (" + createTimeMessage(timeSinceLastTest) + " ago)";
+    dateOfLastTest + " (" + timeago(parsed[0].Date) + ")";
 
   document.getElementById("timeSinceLastSong").innerHTML =
     dateOfLastTestMessage;

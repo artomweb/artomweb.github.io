@@ -1,27 +1,26 @@
-
-
 function fetchClimbing() {
   const primaryUrl = "https://api.artomweb.com/climbing";
-  const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv";
+  const fallbackUrl =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv";
 
   function parseCSV(url) {
-      Papa.parse(url, {
-          download: true,
-          header: true,
-          complete: function (results) {
-              processClimbing(results.data);
-          },
-          error: function (error) {
-              console.log("Failed to fetch climbing data from:", url);
-              if (url === primaryUrl) {
-                  console.log("Trying the fallback URL...");
-                  parseCSV(fallbackUrl);
-              } else {
-                  // let climbingCard = document.getElementById("climbingCard");
-                  // climbingCard.style.display = "none";
-              }
-          }
-      });
+    Papa.parse(url, {
+      download: true,
+      header: true,
+      complete: function (results) {
+        processClimbing(results.data);
+      },
+      error: function (error) {
+        console.log("Failed to fetch climbing data from:", url);
+        if (url === primaryUrl) {
+          console.log("Trying the fallback URL...");
+          parseCSV(fallbackUrl);
+        } else {
+          // let climbingCard = document.getElementById("climbingCard");
+          // climbingCard.style.display = "none";
+        }
+      },
+    });
   }
 
   // Try to fetch data from the primary URL first
@@ -56,7 +55,7 @@ function processClimbing(data) {
   let dateOfLastTestMessage =
     dateOfLastTest.format("Do [of] MMMM") +
     " (" +
-    createTimeMessage(timeSinceLastTest) +
+    timeago(timeSinceLastTest) +
     " ago)";
 
   // console.log(dateOfLastTestMessage);

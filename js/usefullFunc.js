@@ -1,6 +1,34 @@
-function createTimeMessage(seconds) {
-  let duration = moment.duration(seconds, "seconds");
-  return duration.humanize();
+function timeago(inputDate) {
+  const currentDate = new Date();
+
+  // Clear the time part of both dates for comparison
+  inputDate.setHours(0, 0, 0, 0);
+  currentDate.setHours(0, 0, 0, 0);
+
+  // Get the difference in milliseconds
+  const diffTime = currentDate - inputDate;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  // Calculate time differences for weeks, months, and years
+  const diffWeeks = Math.floor(diffDays / 7);
+  const diffMonths =
+    (currentDate.getFullYear() - inputDate.getFullYear()) * 12 +
+    (currentDate.getMonth() - inputDate.getMonth());
+  const diffYears = currentDate.getFullYear() - inputDate.getFullYear();
+
+  if (diffDays === 0) {
+    return "today";
+  } else if (diffDays === 1) {
+    return "yesterday";
+  } else if (diffDays > 1 && diffDays < 7) {
+    return `${diffDays} days ago`;
+  } else if (diffWeeks >= 1 && diffWeeks < 5) {
+    return `${diffWeeks} week${diffWeeks > 1 ? "s" : ""} ago`;
+  } else if (diffMonths >= 1 && diffMonths < 12) {
+    return `${diffMonths} month${diffMonths > 1 ? "s" : ""} ago`;
+  } else if (diffYears >= 1) {
+    return `${diffYears} year${diffYears > 1 ? "s" : ""} ago`;
+  }
 }
 
 // https://github.com/monkeytypegame/monkeytype
@@ -57,14 +85,18 @@ function shuffle(array) {
   return array;
 }
 
-// fix button animation on mobile
+// Fix button animation on mobile
 let touchButtons = document.querySelectorAll(".button");
 
 touchButtons.forEach((but) => {
-  but.addEventListener("touchstart", function (e) {
-    but.classList.add("active");
-    setTimeout(function () {
-      but.classList.remove("active");
-    }, 200);
-  });
+  but.addEventListener(
+    "touchstart",
+    function (e) {
+      but.classList.add("active");
+      setTimeout(function () {
+        but.classList.remove("active");
+      }, 200);
+    },
+    { passive: true }
+  ); // Marking the event listener as passive
 });

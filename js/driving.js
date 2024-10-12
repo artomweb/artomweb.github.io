@@ -57,12 +57,12 @@ function processDriving(data) {
     return +o.totalSeconds;
   });
 
-  let timeDriving = document.getElementById("timeDriving");
+  let timeSpentDriving = document.getElementById("timeDriving");
   let milesDriven = document.getElementById("milesDriven");
 
-  let timeMessage = Math.round(totalSeconds / (60 * 60)) + " hours"
+  let timeMessage = Math.round(totalSeconds / (60 * 60)) + " hours";
 
-  timeDriving.innerHTML = timeMessage;
+  timeSpentDriving.innerHTML = timeMessage;
   milesDriven.innerHTML = totalMiles.toFixed(1);
 
   let sortedData = data.sort(function (a, b) {
@@ -73,12 +73,19 @@ function processDriving(data) {
     .unix(sortedData[0].endTimestamp / 1000)
     .format("Do [of] MMMM");
 
-  let timeSinceLastDrive =
-    (new Date().getTime() - sortedData[0].endTimestamp) / 1000;
-
   let dateOfLastDriveMessage =
-    dateOfLastDrive + " (" + createTimeMessage(timeSinceLastDrive) + " ago)";
+    dateOfLastDrive +
+    " (" +
+    timeago(new Date(+sortedData[0].endTimestamp)) +
+    ")";
 
   document.getElementById("timeSinceLastDrive").innerHTML =
     dateOfLastDriveMessage;
+
+  let timeDriving = document.getElementById("timeAbleDrive");
+  let drivingPass = new Date(1626864660 * 1000);
+
+  let drivingMessage = timeago(drivingPass).replace(" ago", "");
+
+  timeDriving.innerHTML = drivingMessage;
 }
