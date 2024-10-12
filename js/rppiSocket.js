@@ -1,4 +1,5 @@
-let socket = io("https://api.artomweb.com/reading", {
+const socket = io("https://api.artomweb.com", {
+  path: "/readingSock",
   reconnectionDelay: 500,
 });
 
