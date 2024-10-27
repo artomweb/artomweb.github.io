@@ -6,7 +6,7 @@ function getAllData() {
       // console.log(data);
 
       parseChess(data.chess);
-      parseCod(data.cod);
+      parseCod(data.cod, data.codAllGames);
       parseDriving(data.driving);
       parseTyping(data.typing);
       parseDobble(data.dobble);
