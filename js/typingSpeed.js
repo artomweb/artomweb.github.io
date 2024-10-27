@@ -36,10 +36,19 @@ function typingToggle() {
   typingToggleState == 1 ? (typingToggleState = 0) : typingToggleState++;
 }
 
-function fetchTyping() {
-  const primaryUrl = "https://api.artomweb.com/cache/typing";
+function parseTyping(data) {
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv";
+
+  try {
+    processTyping(data); // Attempt to process the data
+  } catch (error) {
+    console.log(
+      "Error processing typing data, trying the fallback URL:",
+      error
+    );
+    parseCSV(fallbackUrl); // Fallback to CSV if processing fails
+  }
 
   function parseCSV(url) {
     Papa.parse(url, {
@@ -47,36 +56,21 @@ function fetchTyping() {
       header: true,
       complete: function (results) {
         try {
-          processTyping(results.data, url);
+          processTyping(results.data); // Process the CSV data
         } catch (error) {
-          console.log("Error processing data:", error);
-          if (url !== fallbackUrl) {
-            console.log("Trying the fallback URL...");
-            parseCSV(fallbackUrl);
-          } else {
-            let typingCard = document.getElementById("typingCard");
-            typingCard.style.display = "none";
-          }
-        }
-      },
-      error: function (error) {
-        console.log("Failed to fetch typing data from:", url);
-        if (url === primaryUrl) {
-          console.log("Trying the fallback URL...");
-          parseCSV(fallbackUrl);
-        } else {
+          console.log("Error processing fallback CSV data:", error);
           let typingCard = document.getElementById("typingCard");
           typingCard.style.display = "none";
         }
       },
+      error: function (error) {
+        console.log("Failed to fetch typing data from CSV URL:", error);
+        let typingCard = document.getElementById("typingCard");
+        typingCard.style.display = "none";
+      },
     });
   }
-
-  // Try to fetch data from the primary URL first
-  parseCSV(primaryUrl);
 }
-
-fetchTyping();
 
 function showSymbols() {
   let symbols = document.getElementsByClassName("symbol");

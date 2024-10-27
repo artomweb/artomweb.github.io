@@ -38,47 +38,40 @@ function codToggle() {
   codToggleState == 1 ? (codToggleState = 0) : codToggleState++;
 }
 
-function fetchCod() {
-  const primaryUrl = "https://api.artomweb.com/cache/cod";
+function parseCod(data) {
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkxuvS6JNMaDdFtWzxpH4GN2g7DDOVjM0fkjv9QviwwTFBYP_Y6F2g9Thdf2Zer3DNzTQnNraaJt5a/pub?output=csv";
 
+  // Attempt to process the provided JSON data
+  try {
+    processCod(data); // Pass the relevant part of the data
+  } catch (error) {
+    console.log("Error processing cod data, trying the fallback URL:", error);
+    parseCSV(fallbackUrl); // Fall back to CSV if processing fails
+  }
+
+  // Function to parse CSV data with PapaParse for the fallback URL
   function parseCSV(url) {
     Papa.parse(url, {
       download: true,
       header: true,
       complete: function (results) {
         try {
-          processCod(results.data);
+          processCod(results.data); // Process the CSV data
         } catch (error) {
-          console.log("Error processing cod data:", error);
-          if (url !== fallbackUrl) {
-            console.log("Trying the fallback URL...");
-            parseCSV(fallbackUrl);
-          } else {
-            let CODCard = document.getElementById("CODCard");
-            CODCard.style.display = "none";
-          }
+          console.log("Error processing fallback CSV data:", error);
+          let CODCard = document.getElementById("CODCard");
+          CODCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
-        console.log("Failed to fetch cod data from:", url);
-        if (url === primaryUrl) {
-          console.log("Trying the fallback URL...");
-          parseCSV(fallbackUrl);
-        } else {
-          let CODCard = document.getElementById("CODCard");
-          CODCard.style.display = "none";
-        }
+        console.log("Failed to fetch data from CSV URL:", error);
+        let CODCard = document.getElementById("CODCard");
+        CODCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
   }
-
-  // Try to fetch data from the primary URL first
-  parseCSV(primaryUrl);
 }
-
-fetchCod();
 
 function processCod(dataIn) {
   updateCodData(dataIn);

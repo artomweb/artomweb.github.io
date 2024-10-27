@@ -35,47 +35,40 @@ function chessToggle() {
   chessToggleState == 1 ? (chessToggleState = 0) : chessToggleState++;
 }
 
-function fetchChess() {
-  const primaryUrl = "https://api.artomweb.com/cache/chess";
+function parseChess(data) {
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqA27pG_xkV7W0Gu4KfYcV3fjkIj0WNz7-DlGDMNtXtNkR4ECA85-BWEgBbz7vYh7aqijPtLpFhw8h/pub?output=csv";
 
+  // Attempt to process the provided JSON data
+  try {
+    processChess(data); // Pass the relevant part of the data
+  } catch (error) {
+    console.log("Error processing chess data, trying the fallback URL:", error);
+    parseCSV(fallbackUrl); // Fall back to CSV if processing fails
+  }
+
+  // Function to parse CSV data with PapaParse for the fallback URL
   function parseCSV(url) {
     Papa.parse(url, {
       download: true,
       header: true,
       complete: function (results) {
         try {
-          processChess(results.data);
+          processChess(results.data); // Process the CSV data
         } catch (error) {
-          console.log("Error processing chess data:", error);
-          if (url !== fallbackUrl) {
-            console.log("Trying the fallback URL...");
-            parseCSV(fallbackUrl);
-          } else {
-            let chessCard = document.getElementById("chessCard");
-            chessCard.style.display = "none";
-          }
+          console.log("Error processing fallback CSV data:", error);
+          let chessCard = document.getElementById("chessCard");
+          chessCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
-        console.log("Failed to fetch chess data from:", url);
-        if (url === primaryUrl) {
-          console.log("Trying the fallback URL...");
-          parseCSV(fallbackUrl);
-        } else {
-          let chessCard = document.getElementById("chessCard");
-          chessCard.style.display = "none";
-        }
+        console.log("Failed to fetch data from CSV URL:", error);
+        let chessCard = document.getElementById("chessCard");
+        chessCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
   }
-
-  // Try to fetch data from the primary URL first
-  parseCSV(primaryUrl);
 }
-
-fetchChess();
 
 function processChess(data) {
   updateChessData(data);

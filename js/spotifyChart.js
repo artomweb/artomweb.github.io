@@ -5,47 +5,43 @@ let toggleState = 0;
 let ctx2;
 let backgroundColor = "#81b29a";
 
-function getPapaParseSpotify() {
-  const primaryUrl = "https://api.artomweb.com/cache/spotify";
+function parseSpotify(data) {
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3m_yyTByllweTNnIM13oR_P4RSXG2NpF3jfYKpmPtsS8a_s8qA7YIOdzaRgl6h5b2TSaY5ohuh6J/pub?output=csv";
 
+  // Attempt to process the provided JSON data
+  try {
+    useSpotifyData(data); // Pass the relevant part of the data
+  } catch (error) {
+    console.log(
+      "Error processing Spotify data, trying the fallback URL:",
+      error
+    );
+    parseCSV(fallbackUrl); // Fall back to CSV if processing fails
+  }
+
+  // Function to parse CSV data with PapaParse for the fallback URL
   function parseCSV(url) {
     Papa.parse(url, {
       download: true,
       header: true,
       complete: function (results) {
         try {
-          parseSpotify(results.data);
+          useSpotifyData(results.data); // Process the CSV data
         } catch (error) {
-          console.log("Error processing data from:", url);
-          if (url !== fallbackUrl) {
-            console.log("Trying the fallback URL...");
-            parseCSV(fallbackUrl);
-          } else {
-            let spotifyCard = document.getElementById("spotifyCard");
-            spotifyCard.style.display = "none";
-          }
+          console.log("Error processing fallback CSV data:", error);
+          let spotifyCard = document.getElementById("spotifyCard");
+          spotifyCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
-        console.log("Failed to fetch data from:", url);
-        if (url === primaryUrl) {
-          console.log("Trying the fallback URL...");
-          parseCSV(fallbackUrl);
-        } else {
-          let spotifyCard = document.getElementById("spotifyCard");
-          spotifyCard.style.display = "none";
-        }
+        console.log("Failed to fetch data from CSV URL:", error);
+        let spotifyCard = document.getElementById("spotifyCard");
+        spotifyCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
   }
-
-  // Try to fetch data from the primary URL first
-  parseCSV(primaryUrl);
 }
-
-getPapaParseSpotify();
 
 // changes the description to the relevant text and changes the fill of the circles
 function switchSpotifyDots() {
@@ -90,7 +86,7 @@ function spotifyToggle() {
   toggleState == 2 ? (toggleState = 0) : toggleState++;
 }
 
-function parseSpotify(dataIn) {
+function useSpotifyData(dataIn) {
   spotifyData = updateSpotify(dataIn);
 
   spotifyChart();

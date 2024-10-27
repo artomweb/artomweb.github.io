@@ -36,47 +36,44 @@ function dobbleToggle() {
   }
   dobbleToggleState == 1 ? (dobbleToggleState = 0) : dobbleToggleState++;
 }
-function fetchDobble() {
-  const primaryUrl = "https://api.artomweb.com/cache/dobble";
+
+function parseDobble(data) {
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv";
 
+  // Attempt to process the provided JSON data
+  try {
+    processDobble(data); // Pass the relevant part of the data
+  } catch (error) {
+    console.log(
+      "Error processing dobble data, trying the fallback URL:",
+      error
+    );
+    parseCSV(fallbackUrl); // Fall back to CSV if processing fails
+  }
+
+  // Function to parse CSV data with PapaParse for the fallback URL
   function parseCSV(url) {
     Papa.parse(url, {
       download: true,
       header: true,
       complete: function (results) {
         try {
-          processDobble(results.data);
+          processDobble(results.data); // Process the CSV data
         } catch (error) {
-          console.log("Error processing dobble data:", error);
-          if (url !== fallbackUrl) {
-            console.log("Trying the fallback URL...");
-            parseCSV(fallbackUrl);
-          } else {
-            let dobbleCard = document.getElementById("dobbleCard");
-            dobbleCard.style.display = "none";
-          }
+          console.log("Error processing fallback CSV data:", error);
+          let dobbleCard = document.getElementById("dobbleCard");
+          dobbleCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
-        console.log("Failed to fetch dobble data from:", url);
-        if (url === primaryUrl) {
-          console.log("Trying the fallback URL...");
-          parseCSV(fallbackUrl);
-        } else {
-          let dobbleCard = document.getElementById("dobbleCard");
-          dobbleCard.style.display = "none";
-        }
+        console.log("Failed to fetch data from CSV URL:", error);
+        let dobbleCard = document.getElementById("dobbleCard");
+        dobbleCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
   }
-
-  // Try to fetch data from the primary URL first
-  parseCSV(primaryUrl);
 }
-
-fetchDobble();
 
 function updatedobbleNormal() {
   const { labels, data } = dobbleData;

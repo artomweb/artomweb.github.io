@@ -1,44 +1,40 @@
-function fetchDriving() {
-  const primaryUrl = "https://api.artomweb.com/cache/driving";
+function parseDriving(data) {
   const fallbackUrl =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlFhe-8wZDuYkepfvfo3g0uP4OEFh-r1PFkqaf_M73SyphJD8sSVIWsJ17-B2z-Hfu8MscZ8TfB9K8/pub?output=csv";
 
+  // Attempt to process the provided JSON data
+  try {
+    processDriving(data); // Pass the relevant part of the data
+  } catch (error) {
+    console.log(
+      "Error processing driving data, trying the fallback URL:",
+      error
+    );
+    parseCSV(fallbackUrl); // Fall back to CSV if processing fails
+  }
+
+  // Function to parse CSV data with PapaParse for the fallback URL
   function parseCSV(url) {
     Papa.parse(url, {
       download: true,
       header: true,
       complete: function (results) {
         try {
-          processDriving(results.data);
+          processDriving(results.data); // Process the CSV data
         } catch (error) {
-          console.log("Error processing driving data:", error);
-          if (url !== fallbackUrl) {
-            console.log("Trying the fallback URL...");
-            parseCSV(fallbackUrl);
-          } else {
-            let drivingCard = document.getElementById("drivingCard");
-            drivingCard.style.display = "none";
-          }
+          console.log("Error processing fallback CSV data:", error);
+          let drivingCard = document.getElementById("drivingCard");
+          drivingCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
-        console.log("Failed to fetch driving data from:", url);
-        if (url === primaryUrl) {
-          console.log("Trying the fallback URL...");
-          parseCSV(fallbackUrl);
-        } else {
-          let drivingCard = document.getElementById("drivingCard");
-          drivingCard.style.display = "none";
-        }
+        console.log("Failed to fetch data from CSV URL:", error);
+        let drivingCard = document.getElementById("drivingCard");
+        drivingCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
   }
-
-  // Try to fetch data from the primary URL first
-  parseCSV(primaryUrl);
 }
-
-fetchDriving();
 
 function showdrivingSymbols() {
   let symbols = document.getElementsByClassName("drivingSymbol");

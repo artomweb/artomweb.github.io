@@ -1,3 +1,29 @@
+function getAllData() {
+  let url = "https://api.artomweb.com/cache/all";
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      // console.log(data);
+
+      parseChess(data.chess);
+      parseCod(data.cod);
+      parseDriving(data.driving);
+      parseTyping(data.typing);
+      parseDobble(data.dobble);
+      parseSpotify(data.spotify);
+    })
+    .catch((e) => {
+      parseChess();
+      parseCod();
+      parseDriving();
+      parseTyping();
+      parseDobble();
+      parseSpotify();
+    });
+}
+
+getAllData();
+
 function timeago(inputDate) {
   const currentDate = new Date();
 
