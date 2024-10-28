@@ -3,8 +3,7 @@ function getAllData() {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      // console.log(data);
-
+      // Call the parsing functions
       parseChess(data.chess);
       parseCod(data.cod, data.codAllGames);
       parseDriving(data.driving);
@@ -13,6 +12,7 @@ function getAllData() {
       parseSpotify(data.spotify);
     })
     .catch((e) => {
+      // Handle errors by calling the functions without data
       parseChess();
       parseCod();
       parseDriving();
@@ -22,7 +22,8 @@ function getAllData() {
     });
 }
 
-window.addEventListener("load", () => {
+// Use DOMContentLoaded to ensure HTML is loaded before calling the function
+document.addEventListener("DOMContentLoaded", () => {
   getAllData();
 });
 
