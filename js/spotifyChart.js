@@ -93,12 +93,6 @@ function useSpotifyData(dataIn) {
   spotifyToggle();
 }
 
-function createDatabase(dataIn) {
-  let dataOut = {};
-  dataOut.lastTwoWeeks = getLastTwoWeeks(dataIn);
-  return dataOut;
-}
-
 // update the chart to show the data, aggregated by day, BAR CHART
 function updateByDay() {
   const { data, labels } = spotifyData.byDay;
@@ -135,7 +129,7 @@ function updateByDay() {
 function updateTwoWeeks() {
   let { data, labels } = spotifyData.lastTwoWeeks;
 
-  labels = labels.map((l) => new Date(l));
+  console.log(labels);
 
   let newDataset = {
     tension: 0.3,
@@ -158,10 +152,6 @@ function updateTwoWeeks() {
     x: {
       ticks: {
         maxTicksLimit: 6.3,
-      },
-      type: "time",
-      time: {
-        tooltipFormat: "dd-MM-yyyy",
       },
     },
 
@@ -266,15 +256,6 @@ function spotifyChart() {
               }
               return label;
             },
-
-            title: function (context) {
-              let title = context[0].label;
-              if (toggleState == 1) {
-                title = moment(title, "dd").format("dddd");
-              }
-
-              return title;
-            },
           },
         },
       },
@@ -293,7 +274,8 @@ function spotifyChart() {
 
 function getLastTwoWeeks(dat) {
   let rawLabels = dat.map((e) => {
-    return e.Date;
+    const date = new Date(e.Date); // Create a Date object from e.Date
+    return date.toLocaleString("default", { month: "short", day: "numeric" }); // Format as "Oct 14"
   });
 
   let rawData = dat.map((e) => {
@@ -307,13 +289,21 @@ function getLastTwoWeeks(dat) {
 }
 
 function getAllWeeks(dat) {
-  let twoYearsAgo = moment().subtract(3, "years");
+  // Get the current date and subtract 3 years
+  let twoYearsAgo = new Date();
+  twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 3);
+
   dat = dat.filter((d) => {
-    return moment(d.Date).isSameOrAfter(twoYearsAgo);
+    const date = new Date(d.Date); // Convert d.Date to a Date object
+    return date >= twoYearsAgo; // Check if the date is on or after twoYearsAgo
   });
+
   let weekAvg = _.chain(dat)
     .groupBy((d) => {
-      return moment(d.Date).format("MMM-YYYY");
+      const date = new Date(d.Date);
+      return `${date.toLocaleString("default", {
+        month: "short",
+      })}-${date.getFullYear()}`; // Format to "MMM-YYYY"
     })
     .map((entries, week) => ({
       wofy: week,
@@ -321,9 +311,12 @@ function getAllWeeks(dat) {
     }))
     .value();
 
-  weekAvg.sort(
-    (a, b) => moment(a.wofy, "MMM-YYYY") - moment(b.wofy, "MMM-YYYY")
-  );
+  weekAvg.sort((a, b) => {
+    // Create a Date object from the formatted string
+    const dateA = new Date(`${a.wofy}-01`); // Add a day to create a valid date
+    const dateB = new Date(`${b.wofy}-01`); // Add a day to create a valid date
+    return dateA - dateB; // Sort by date
+  });
 
   let labels = weekAvg.map((w) => w.wofy);
   let data = weekAvg.map((w) => w.avg);
@@ -334,7 +327,9 @@ function getAllWeeks(dat) {
 function getByDay(dat) {
   let totalAvgs = _.chain(dat)
     .map((d) => {
-      let day = moment(d.Date).format("dd");
+      const date = new Date(d.Date); // Create a Date object
+      const options = { weekday: "short" }; // Define options for weekday formatting
+      const day = date.toLocaleDateString("en-US", options); // Get the short weekday name
       return { ...d, dofw: day };
     })
     .groupBy("dofw")
@@ -344,8 +339,15 @@ function getByDay(dat) {
     }))
     .value();
 
+  // Define a function to get ISO weekday (1-7 for Monday-Sunday)
+  const getIsoWeekday = (day) => {
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    return days.indexOf(day) + 1; // Convert to 1-7
+  };
+
+  // Sort totalAvgs based on ISO weekday
   totalAvgs = _.sortBy(totalAvgs, (o) => {
-    return moment(o.dofw, "dd").isoWeekday();
+    return getIsoWeekday(o.dofw);
   });
 
   let labels = totalAvgs.map((val) => val.dofw);
@@ -372,7 +374,7 @@ function parseSpotifyDates(results) {
 function updateSpotify(dataIn) {
   let parsed = parseSpotifyDates(dataIn);
 
-  let dateOfLastTest = moment(parsed[0].Date).format("Do [of] MMMM");
+  let dateOfLastTest = formatDate(parsed[0].Date);
 
   let dateOfLastTestMessage =
     dateOfLastTest + " (" + timeago(parsed[0].Date) + ")";

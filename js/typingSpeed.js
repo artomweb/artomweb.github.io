@@ -163,7 +163,8 @@ function updateTypingData(dataIn) {
 
   const byTimeOfDay = _.chain(dataIn)
     .groupBy((d) => {
-      return moment(d.timestamp).format("HH");
+      const date = new Date(d.timestamp);
+      return date.getHours(); // Get the hour (0-23)
     })
     .map((entries, hour) => {
       return {
@@ -191,10 +192,14 @@ function updateTypingData(dataIn) {
 
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
-      return moment(d.timestamp).format("MMM YY");
+      const date = new Date(d.timestamp);
+      return (
+        date.toLocaleString("default", { month: "short" }) +
+        " " +
+        date.getFullYear()
+      ); // Format as "MMM YY"
     })
     .map((entries, week) => {
-      // console.log(entries);
       return {
         wofy: week,
         avg: Math.round(_.meanBy(entries, (entry) => +entry.wpm) * 10) / 10,
@@ -202,9 +207,13 @@ function updateTypingData(dataIn) {
     })
     .value();
 
-  weekAvg.sort(
-    (a, b) => moment(a.wofy, "MMM YYYY") - moment(b.wofy, "MMM YYYY")
-  );
+  // Sort weekAvg by date
+  weekAvg.sort((a, b) => {
+    const aDate = new Date(a.wofy);
+    const bDate = new Date(b.wofy);
+    return aDate - bDate; // Compare dates
+  });
+
   // console.log(weekAvg);
 
   // console.log(weekAvg);
@@ -248,9 +257,9 @@ function updateTypingData(dataIn) {
 
   //time since last test
 
-  const dateOfLastTest = moment(
+  const dateOfLastTest = formatDate(
     dataRecent[dataRecent.length - 1].timestamp
-  ).format("Do [of] MMMM");
+  );
 
   const dateOfLastTestMessage =
     dateOfLastTest +

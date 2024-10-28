@@ -222,18 +222,17 @@ function updateCodData(data, allGames) {
   document.getElementById("numGamesBen").innerHTML = totalBen;
   // console.log(data);
 
-  const dateOfLastTest = moment(data[data.length - 1].Date, "DD/MM/YYYY").hour(
-    8
-  );
+  const lastDateString = data[data.length - 1].Date;
+  const [day, month, year] = lastDateString.split("/").map(Number);
+  const dateOfLastTest = new Date(year, month - 1, day);
+  dateOfLastTest.setHours(8, 0, 0, 0); // Sets the time to 08:00
 
-  // console.log(dateOfLastTest.unix());
-  // console.log(new Date().getTime());
+  const formattedDate = formatDate(dateOfLastTest);
 
-  const dateOfLastTestMessage =
-    dateOfLastTest.format("Do [of] MMMM") +
-    " (" +
-    timeago(data[data.length - 1].jsDate) +
-    ")";
+  // Construct the final message
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(
+    data[data.length - 1].jsDate
+  )})`;
 
   document.getElementById("timeSinceLastCod").innerHTML = dateOfLastTestMessage;
 }

@@ -170,7 +170,11 @@ function updateDobbleData(dataIn) {
 
   let weekAvg = _.chain(dataIn)
     .groupBy((d) => {
-      return moment(d.timestamp).format("MMM YY");
+      const date = new Date(d.timestamp);
+      return new Intl.DateTimeFormat("en-GB", {
+        month: "short",
+        year: "2-digit",
+      }).format(date);
     })
     .map((entries, mofy) => {
       return {
@@ -190,7 +194,8 @@ function updateDobbleData(dataIn) {
 
   const byTimeOfDay = _.chain(dataIn)
     .groupBy((d) => {
-      return moment(d.timestamp).format("HH");
+      const date = new Date(d.timestamp);
+      return date.getHours().toString().padStart(2, "0"); // Format hour as "HH"
     })
     .map((entries, hour) => {
       return {
@@ -234,9 +239,10 @@ function updateDobbleData(dataIn) {
   const maxScore = _.maxBy(dataIn, "score").score;
   const timeMessage = Math.round(totalTime / (60 * 60)) + " hours";
 
-  const dateOfLastTest = moment(dataIn[dataIn.length - 1].timestamp).format(
-    "Do [of] MMMM"
-  );
+  const lastTimestamp = dataIn[dataIn.length - 1].timestamp;
+  const date = new Date(lastTimestamp);
+
+  const dateOfLastTest = formatDate(lastTimestamp);
 
   const dateOfLastTestMessage =
     dateOfLastTest +

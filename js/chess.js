@@ -168,7 +168,12 @@ function updateChessPerHour() {
 function updateChessData(data) {
   data.forEach((elt) => {
     elt.startTime = +elt.startTime * 1000;
-    elt.Date = moment(+elt.startTime).format("DD/MM/YYYY");
+    const date = new Date(+elt.startTime);
+    elt.Date = date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    });
     elt.gameLength = +elt.gameLength;
   });
 
@@ -192,13 +197,16 @@ function updateChessData(data) {
   );
 
   const byHour = _.chain(data)
-    .groupBy((d) => moment(+d.startTime).format("HH"))
+    .groupBy((d) => {
+      const date = new Date(+d.startTime);
+      return date.getHours().toString().padStart(2, "0");
+    })
     .map((entries, hour) => {
       return {
         hour: +hour,
         winPercent:
           Math.round(
-            (entries.filter((e) => e.myResult == "win").length /
+            (entries.filter((e) => e.myResult === "win").length /
               entries.length) *
               100 *
               10
@@ -226,11 +234,9 @@ function updateChessData(data) {
 
   const dateOfLastGame = new Date(data[data.length - 1].startTime);
 
-  const dateOfLastTestMessage =
-    moment(dateOfLastGame).format("Do [of] MMMM") +
-    " (" +
-    timeago(dateOfLastGame) +
-    ")";
+  const formattedDate = formatDate(dateOfLastGame);
+
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(dateOfLastGame)})`;
 
   document.getElementById("timeSinceLastChess").innerHTML =
     dateOfLastTestMessage;

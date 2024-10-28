@@ -67,9 +67,10 @@ function processDriving(data) {
     return b.startTimestamp - a.startTimestamp;
   });
 
-  let dateOfLastDrive = moment
-    .unix(sortedData[0].endTimestamp / 1000)
-    .format("Do [of] MMMM");
+  const endTimestamp = sortedData[0].endTimestamp / 1000; // Convert to seconds
+  const date = new Date(endTimestamp * 1000); // Create a Date object
+
+  const dateOfLastDrive = formatDate(date);
 
   let dateOfLastDriveMessage =
     dateOfLastDrive +
