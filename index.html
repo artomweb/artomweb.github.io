@@ -13,7 +13,11 @@
     <meta name="author" content="Archie Webster" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="prefetch" href="https://api.artomweb.com/cache/all" as="fetch" />
+    <link
+      rel="preload"
+      href="https://api.artomweb.com/cache/all"
+      as="fetch"
+      crossorigin="anonymous" />
 
     <link
       crossorigin
@@ -24,8 +28,8 @@
     <link rel="stylesheet" href="css/styles.css" />
 
     <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"
-      integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA=="
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"
+      integrity="sha512-8BHxHDLsOHx+flIrQ0DrZcea7MkHqRU5GbTHmbdzMRnAaoCIkZ97PqZcXJkKZckMMhqfoeaJE+DNUVuyoQsO3Q=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"></script>
     <link
@@ -34,11 +38,7 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous" />
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"
-      integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
@@ -449,7 +449,15 @@
                   stroke="black"
                   id="circle2"
                   class="codCircles" />
+                <circle
+                  cx="195"
+                  cy="35"
+                  r="18.5"
+                  stroke="black"
+                  id="circle3"
+                  class="codCircles" />
               </svg>
+
               <h5 class="card-subtitle mb-2 text-muted" id="cod-desc">
                 Ben and I sometimes play Call of Duty together, who's winning?
                 This graph shows the margin that either of us was winning by

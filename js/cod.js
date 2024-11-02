@@ -18,6 +18,10 @@ function switchCodDots() {
         "This graph shows who won the most games at each hour of the day.";
       break;
     case 2:
+      desc.innerHTML =
+        "This graph shows how the win percentages change from the first to last games of the day.";
+      break;
+    case 3:
       desc.innerHTML = "This graph shows the number of games won per day.";
       break;
   }
@@ -40,10 +44,13 @@ function codToggle() {
       break;
 
     case 2:
+      updateCodSequence();
+      break;
+    case 3:
       updateCodNormal();
       break;
   }
-  codToggleState == 2 ? (codToggleState = 0) : codToggleState++;
+  codToggleState == 3 ? (codToggleState = 0) : codToggleState++;
 }
 
 function parseCod(codData, codAllGamesData) {
@@ -122,6 +129,63 @@ function processCod(cod, allGames) {
 }
 
 function updateCodData(data, allGames) {
+  const dailyGameData = {};
+  // First, sort games by date and then by time within each day
+  allGames.forEach((game) => {
+    const date = new Date(+game.UnixTimestamp * 1000);
+    const formattedDate = date.toLocaleDateString("en-GB");
+
+    // Initialize the date entry if it doesn't exist
+    if (!dailyGameData[formattedDate]) {
+      dailyGameData[formattedDate] = [];
+    }
+
+    // Push game data into the day's array
+    dailyGameData[formattedDate].push(game);
+  });
+
+  // Calculate win percentages for each game sequence position
+  const gameSequenceData = {};
+  Object.keys(dailyGameData).forEach((date) => {
+    const games = dailyGameData[date];
+
+    // Initialize win counts for sequence positions if they don't exist
+    games.forEach((game, index) => {
+      if (!gameSequenceData[index]) {
+        gameSequenceData[index] = { A: 0, B: 0, total: 0 };
+      }
+      // Increment counts based on the winner
+      if (game.Winner === "A") {
+        gameSequenceData[index].A++;
+      } else if (game.Winner === "B") {
+        gameSequenceData[index].B++;
+      }
+      gameSequenceData[index].total++;
+    });
+  });
+
+  // Prepare data for plotting
+  const sequenceIndices = [];
+  const winPercentagesABySequence = [];
+  const winPercentagesBBySequence = [];
+  Object.keys(gameSequenceData).forEach((sequence) => {
+    const { A, B, total } = gameSequenceData[sequence];
+    const percentageA = total > 0 ? (A / total) * 100 : 0; // Win percentage for A
+    const percentageB = total > 0 ? (B / total) * 100 : 0; // Win percentage for B
+    sequenceIndices.push(+sequence + 1); // Add game sequence position to array
+    winPercentagesABySequence.push(Math.round(percentageA));
+    winPercentagesBBySequence.push(Math.round(-percentageB)); // Negative for B as per graph style
+  });
+
+  // Add daily sequence data to codData
+  codData.sequenceView = {
+    winPercentagesABySequence,
+    winPercentagesBBySequence,
+    sequenceIndices,
+  };
+
+  console.log(codData.sequenceView);
+
   const hourlyData = {};
   // Iterate through the allGames array to populate hourlyData
   allGames.forEach((game) => {
@@ -237,9 +301,58 @@ function updateCodData(data, allGames) {
   document.getElementById("timeSinceLastCod").innerHTML = dateOfLastTestMessage;
 }
 
+function updateCodSequence() {
+  const {
+    winPercentagesABySequence,
+    winPercentagesBBySequence,
+    sequenceIndices,
+  } = codData.sequenceView;
+
+  codChart.data.labels = sequenceIndices;
+  codChart.data.datasets = [
+    {
+      label: "Archie",
+      data: winPercentagesABySequence,
+      backgroundColor: "#8ecae6",
+      tension: 0.1,
+      fill: true,
+    },
+    {
+      label: "Ben",
+      data: winPercentagesBBySequence,
+      backgroundColor: "#F4A4A4",
+      borderColor: "#F4A4A4",
+      tension: 0.1,
+      fill: true,
+    },
+  ];
+
+  codChart.options.scales.y = {
+    title: {
+      text: "Win %",
+      display: true,
+    },
+    ticks: {
+      beginAtZero: true,
+      callback: function (value, index, values) {
+        if (value % 1 == 0) {
+          return Math.abs(value);
+        }
+      },
+    },
+  };
+  codChart.options.scales.x = {
+    ticks: {
+      beginAtZero: true,
+    },
+  };
+
+  codChart.update();
+}
+
 function updateCodPerHour() {
-  console.log("per hour");
   const { winPercentagesA, winPercentagesB, hours } = codData.hourView;
+  console.log(codData.hourView);
 
   codChart.data.labels = hours;
   codChart.data.datasets = [
@@ -427,7 +540,7 @@ function drawCodChart() {
               if (context.parsed.y !== null) {
                 label += " " + Math.abs(context.parsed.y);
               }
-              if (codToggleState == 2) {
+              if (codToggleState == 2 || codToggleState == 3) {
                 label += "%";
               }
               return label;
@@ -436,6 +549,8 @@ function drawCodChart() {
               let title = context[0].label;
               if (codToggleState == 2) {
                 title += ":00";
+              } else if (codToggleState == 3) {
+                title += getOrdinalSuffix(+title) + " game";
               }
               return title;
             },
