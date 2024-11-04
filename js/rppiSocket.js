@@ -34,25 +34,18 @@ function updateReadingText(msg) {
   // console.log(msg);
 
   if (msg.averages) {
-    icons.map(([name, icon]) => {
+    icons.forEach(([name, iconContainer]) => {
+      let caretUpIcon = iconContainer.querySelector(".caret-up");
+      let caretDownIcon = iconContainer.querySelector(".caret-down");
+
       if (msg[name] >= msg.averages[name]) {
-        if (icon.classList !== undefined) {
-          if (icon.classList.contains("fa-caret-down"))
-            icon.classList.remove("fa-caret-down");
-          if (!icon.classList.contains("fa-caret-up"))
-            icon.classList.add("fa-caret-up");
-        } else {
-          icon.classList.add("fa-caret-up");
-        }
+        // Show caret-up, hide caret-down
+        caretUpIcon.style.display = "inline";
+        caretDownIcon.style.display = "none";
       } else {
-        if (icon.classList !== undefined) {
-          if (icon.classList.contains("fa-caret-up"))
-            icon.classList.remove("fa-caret-up");
-          if (!icon.classList.contains("fa-caret-down"))
-            icon.classList.add("fa-caret-down");
-        } else {
-          icon.classList.add("fa-caret-down");
-        }
+        // Show caret-down, hide caret-up
+        caretUpIcon.style.display = "none";
+        caretDownIcon.style.display = "inline";
       }
     });
   }
@@ -82,9 +75,13 @@ socket.on("server init", function (msg) {
 });
 
 socket.on("connect", function () {
-  document.getElementById("liveText").style.color = "red";
+  const liveText = document.getElementById("liveText");
+  liveText.style.color = "red"; // text color
+  liveText.querySelector("svg path").style.fill = "red"; // SVG color
 });
 
 socket.on("disconnect", function () {
-  document.getElementById("liveText").style.color = "black";
+  const liveText = document.getElementById("liveText");
+  liveText.style.color = "black"; // text color
+  liveText.querySelector("svg path").style.fill = "black"; // SVG color
 });
