@@ -13,12 +13,18 @@ function switchChessDots() {
     case 1:
       desc.innerHTML = "This graph shows my win % at each hour of the day.";
       break;
+    case 2:
+      desc.innerHTML =
+        "This graph shows my average accuracy at each hour of the day.";
+      break;
   }
   circles.forEach((c) =>
     c.id.slice(-1) == chessToggleState
       ? (c.style.fill = "black")
       : (c.style.fill = "none")
   );
+
+  console.log(circles);
 }
 
 function chessToggle() {
@@ -31,8 +37,12 @@ function chessToggle() {
     case 1:
       updateChessPerHour();
       break;
+
+    case 2:
+      updateChessAccuracyPerHour();
+      break;
   }
-  chessToggleState == 1 ? (chessToggleState = 0) : chessToggleState++;
+  chessToggleState = (chessToggleState + 1) % 3;
 }
 
 function parseChess(data) {
@@ -75,6 +85,62 @@ function processChess(data) {
 
   plotChess();
   chessToggle();
+}
+
+function updateChessAccuracyPerHour() {
+  const { labelsByHour, accuracyByHour, accpointRadiusArray } = chessData;
+
+  console.log(accuracyByHour, labelsByHour, accpointRadiusArray);
+
+  chessChart.options.scales.y = {
+    title: {
+      text: "Average Accuracy",
+      display: true,
+    },
+    beginAtZero: true,
+  };
+
+  chessChart.options.plugins.tooltip.callbacks = {
+    label: function (context) {
+      let label = context.dataset.label || "";
+
+      if (label) {
+        label += ": ";
+      }
+
+      if (context.parsed.y !== null) {
+        label += context.parsed.y + "%";
+      }
+      return label;
+    },
+    title: function (tooltipItem) {
+      return tooltipItem[0].label + ":00";
+    },
+  };
+
+  chessChart.options.scales.x = {
+    type: "linear",
+    position: "bottom",
+    ticks: {
+      stepSize: 1,
+      callback: function (value, index, values) {
+        return `${value}:00`;
+      },
+    },
+  };
+
+  chessChart.data.labels = labelsByHour;
+  chessChart.data.datasets = [
+    {
+      data: accuracyByHour,
+      backgroundColor: "#81b29a",
+      tension: 0.1,
+      fill: true,
+      pointRadius: accpointRadiusArray,
+    },
+  ];
+
+  chessChart.update();
 }
 
 function updateChessNormal() {
@@ -166,6 +232,7 @@ function updateChessPerHour() {
 }
 
 function updateChessData(data) {
+  // Parse and process chess data
   data.forEach((elt) => {
     elt.startTime = +elt.startTime * 1000;
     const date = new Date(+elt.startTime);
@@ -177,8 +244,10 @@ function updateChessData(data) {
     elt.gameLength = +elt.gameLength;
   });
 
+  // Sort data by start time
   data = _.sortBy(data, "startTime");
 
+  // Calculate highest rating per day
   const dataByDay = _.chain(data)
     .groupBy((d) => d.Date)
     .map((entries, day) => {
@@ -192,73 +261,75 @@ function updateChessData(data) {
     .sortBy("startTime")
     .value();
 
+  // Array of hours from 00 to 23 for each hour of the day
   const hoursOfDay = Array.from({ length: 24 }, (_, i) =>
     i.toString().padStart(2, "0")
   );
 
+  // Group data by hour for win % calculation
   const byHour = _.chain(data)
     .groupBy((d) => {
       const date = new Date(+d.startTime);
       return date.getHours().toString().padStart(2, "0");
     })
     .map((entries, hour) => {
+      const winPercent =
+        Math.round(
+          (entries.filter((e) => e.myResult === "win").length /
+            entries.length) *
+            1000
+        ) / 10;
+      const avgAccuracy =
+        entries.reduce((sum, entry) => sum + +entry.myAccuracy, 0) /
+        entries.length;
       return {
         hour: +hour,
-        winPercent:
-          Math.round(
-            (entries.filter((e) => e.myResult === "win").length /
-              entries.length) *
-              100 *
-              10
-          ) / 10,
+        winPercent,
+        avgAccuracy: Math.round(avgAccuracy * 10) / 10, // Rounded to 1 decimal place
       };
     })
-    .sortBy("startTime")
+    .sortBy("hour")
     .value();
 
+  // Ensure data exists for each hour of the day
   const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
     const existingHourData = byHour.find(
       (item) => item.hour === parseInt(hour)
     );
-    return existingHourData || { hour: +hour, winPercent: 0 };
+    return existingHourData || { hour: +hour, winPercent: 0, avgAccuracy: 0 };
   });
 
-  // console.log(completedByTimeOfDay);
-
+  // Extract labels, win % data, and accuracy data by hour
   const labelsByHour = completedByTimeOfDay.map((item) => item.hour);
   const dataByHour = completedByTimeOfDay.map((item) => item.winPercent);
+  const accuracyByHour = completedByTimeOfDay.map((item) => item.avgAccuracy);
 
   const pointRadiusArray = completedByTimeOfDay.map((item) =>
     item.winPercent !== 0 ? 3 : 0
   );
 
+  const accpointRadiusArray = completedByTimeOfDay.map((item) =>
+    item.avgAccuracy !== 0 ? 3 : 0
+  );
+
   const dateOfLastGame = new Date(data[data.length - 1].startTime);
-
   const formattedDate = formatDate(dateOfLastGame);
-
   const dateOfLastTestMessage = `${formattedDate} (${timeago(dateOfLastGame)})`;
 
   document.getElementById("timeSinceLastChess").innerHTML =
     dateOfLastTestMessage;
 
   const highestRating = _.maxBy(data, "myRating").myRating;
-
   const numGames = data.length;
 
   let ratings = data.map((game) => +game.myRating);
-
   const trend = findLineByLeastSquares(ratings);
-
   const ratingChange = trend[1][1] - trend[0][1];
 
   const delta = _.sumBy(data, "gameLength");
-
   const changeInScorePerHourSigned = (ratingChange * (3600 / delta)).toFixed(2);
-
   const PorNchange = changeInScorePerHourSigned > 0 ? "+" : "-";
-
   const changeInScorePerHour = Math.abs(changeInScorePerHourSigned);
-
   const timeMessage = Math.round(delta / (60 * 60)) + " hours";
 
   document.getElementById("ChessHighestRating").innerHTML = highestRating;
@@ -270,14 +341,15 @@ function updateChessData(data) {
   let labels = dataByDay.map((elt) => elt.day);
   let graphData = dataByDay.map((elt) => +elt.highest);
 
-  // plotChess(graphData, labels);
-
+  // Update chessData object with new data
   chessData = {
     labels,
     graphData,
     labelsByHour,
     dataByHour,
+    accuracyByHour,
     pointRadiusArray,
+    accpointRadiusArray,
   };
 }
 
