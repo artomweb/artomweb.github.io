@@ -23,8 +23,6 @@ function switchChessDots() {
       ? (c.style.fill = "black")
       : (c.style.fill = "none")
   );
-
-  console.log(circles);
 }
 
 function chessToggle() {
@@ -90,7 +88,7 @@ function processChess(data) {
 function updateChessAccuracyPerHour() {
   const { labelsByHour, accuracyByHour, accpointRadiusArray } = chessData;
 
-  console.log(accuracyByHour, labelsByHour, accpointRadiusArray);
+  // console.log(accuracyByHour, labelsByHour, accpointRadiusArray);
 
   chessChart.options.scales.y = {
     title: {

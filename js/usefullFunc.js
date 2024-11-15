@@ -3,22 +3,59 @@ function getAllData() {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      // Call the parsing functions
-      parseChess(data.chess);
-      parseCod(data.cod, data.codAllGames);
-      parseDriving(data.driving);
-      parseTyping(data.typing);
-      parseDobble(data.dobble);
-      parseSpotify(data.spotify);
+      // Call each parsing function with individual error handling
+      try {
+        parseChess(data.chess);
+      } catch (e) {
+        console.error("Error parsing chess data:", e);
+        parseChess();
+      }
+
+      try {
+        parseCod(data.cod, data.codAllGames);
+      } catch (e) {
+        console.error("Error parsing COD data:", e);
+        parseCod();
+      }
+
+      try {
+        parseDriving(data.driving);
+      } catch (e) {
+        console.error("Error parsing driving data:", e);
+        parseDriving();
+      }
+
+      try {
+        parseTyping(data.typing);
+      } catch (e) {
+        console.error("Error parsing typing data:", e);
+        parseTyping();
+      }
+
+      try {
+        parseDobble(data.dobble);
+      } catch (e) {
+        console.error("Error parsing Dobble data:", e);
+        parseDobble();
+      }
+
+      try {
+        parseSpotify(data.spotify);
+      } catch (e) {
+        console.error("Error parsing Spotify data:", e);
+        parseSpotify();
+      }
+
+      try {
+        parseClimbing(data.climbing);
+      } catch (e) {
+        console.error("Error parsing Climbing data:", e);
+        parseClimbing();
+      }
     })
     .catch((e) => {
-      // Handle errors by calling the functions without data
-      parseChess();
-      parseCod();
-      parseDriving();
-      parseTyping();
-      parseDobble();
-      parseSpotify();
+      // Handle errors in the fetch operation
+      console.error("Error fetching data:", e);
     });
 }
 

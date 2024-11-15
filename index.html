@@ -51,7 +51,11 @@
       integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"></script>
-
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"
+      integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
       integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
@@ -283,32 +287,6 @@
             </div>
           </div>
 
-          <!-- <div class="card mb-3" id="climbingCard">
-            <div class="card-body">
-              <canvas id="climbingChart"></canvas>
-              <h4 class="card-title mb-2">
-                <i class="fa-solid fa-dumbbell"></i>
-                Climbing
-              </h4>
-              <br />
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Highest grade climbed:
-                <span id="highestGrade" class="textItal"> no data</span>
-              </h5>
-              <h5 class="card-subtitle mb-2 text-muted valDesc">
-                Number of climbing sessions recorded:
-                <span id="climbingSessions" class="textItal"> no data</span>
-              </h5>
-
-              <small class="text-muted"
-                >Last climb:
-                <span id="timeSinceLastClimb" class="textItal">
-                  no data</span
-                ></small
-              >
-            </div>
-          </div> -->
-
           <div class="card mb-3" id="dobbleCard">
             <div class="card-body">
               <canvas id="dobbleChart"></canvas>
@@ -447,20 +425,40 @@
         </div>
 
         <div class="col-md-6">
-          <!-- <div class="card mb-3">
+          <div class="card mb-3" id="climbingCard">
             <div class="card-body">
-              <h4 class="card-title mt-2 mb-2">
-                <i class="fa-solid fa-circle-question"></i> What is this?
+              <canvas id="climbingChart"></canvas>
+              <h4 class="card-title mb-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 640 512"
+                  class="icon">
+                  <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M96 64c0-17.7 14.3-32 32-32l32 0c17.7 0 32 14.3 32 32l0 160 0 64 0 160c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-64-32 0c-17.7 0-32-14.3-32-32l0-64c-17.7 0-32-14.3-32-32s14.3-32 32-32l0-64c0-17.7 14.3-32 32-32l32 0 0-64zm448 0l0 64 32 0c17.7 0 32 14.3 32 32l0 64c17.7 0 32 14.3 32 32s-14.3 32-32 32l0 64c0 17.7-14.3 32-32 32l-32 0 0 64c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-160 0-64 0-160c0-17.7 14.3-32 32-32l32 0c17.7 0 32 14.3 32 32zM416 224l0 64-192 0 0-64 192 0z" />
+                </svg>
+                Climbing
               </h4>
               <h5 class="card-subtitle mb-2 text-muted">
-                I created this site to learn how to interact with and explore my
-                own data. What can you learn?
-                <br />
-                Most of this data was public before I posted it here. Do you
-                ever think about how much information companies know about you?
+                This graph shows my climbing progression over time. The value
+                above each bar is the maximum grade climbed.
               </h5>
+              <br />
+              <h5 class="card-subtitle mb-2 text-muted valDesc">
+                Highest grade climbed:
+                <span id="highestGrade" class="textItal">no data</span>
+              </h5>
+              <h5 class="card-subtitle mb-2 text-muted valDesc">
+                Number of climbing sessions recorded:
+                <span id="climbingSessions" class="textItal">no data</span>
+              </h5>
+
+              <small class="text-muted">
+                Last climb:
+                <span id="timeSinceLastClimb" class="textItal">no data</span>
+              </small>
             </div>
-          </div> -->
+          </div>
           <div class="card mb-3" id="chessCard">
             <div class="card-body">
               <canvas id="ChessChart"></canvas>
@@ -728,7 +726,7 @@
     <script src="js/spotifyChart.js"></script>
     <script src="js/typingSpeed.js"></script>
     <script src="js/driving.js"></script>
-    <!-- <script src="js/climbing.js"></script> -->
+    <script src="js/climbing.js"></script>
     <script src="js/cats.js"></script>
   </body>
 </html>
