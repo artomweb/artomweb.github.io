@@ -90,6 +90,9 @@ body {
 .textItal {
   /* font-style: italic; */
   font-weight: 600 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .valDesc {

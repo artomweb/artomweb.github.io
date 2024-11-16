@@ -59,9 +59,10 @@ function processDriving(data) {
   let timeMessage = Math.round(totalSeconds / (60 * 60)) + " hours";
 
   timeSpentDriving.innerHTML = timeMessage;
-  milesDriven.innerHTML = totalMiles.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-  });
+  milesDriven.innerHTML =
+    totalMiles.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+    }) + " miles";
 
   let sortedData = data.sort(function (a, b) {
     return b.startTimestamp - a.startTimestamp;

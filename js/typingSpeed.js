@@ -223,7 +223,7 @@ function updateTypingData(dataIn) {
 
   let sortedWPM = _.sortBy(dataIn, (point) => point.timestamp.getTime());
 
-  const maxWPM = +_.maxBy(dataIn, "wpm").wpm;
+  const maxWPM = +_.maxBy(dataIn, "wpm").wpm + " wpm";
 
   // Only last 500 tests
 
@@ -243,17 +243,18 @@ function updateTypingData(dataIn) {
 
   const PorNchange = changeInWPMPerMinSigned > 0 ? "+" : "-";
 
-  const changeInWPMPerMin = Math.abs(changeInWPMPerMinSigned);
+  const changeInWPMPerMin = Math.abs(changeInWPMPerMinSigned) + " wpm";
 
   // console.log(changeInWPMPerMin, PorNchange);
 
   // avg wpm and acc
 
-  const avgWPM = _.meanBy(dataRecent, (o) => +o.wpm).toFixed(2);
-  const avgACC = Math.round(
-    _.meanBy(dataRecent, (o) => +o.acc),
-    0
-  );
+  const avgWPM = _.meanBy(dataRecent, (o) => +o.wpm).toFixed(2) + " wpm";
+  const avgACC =
+    Math.round(
+      _.meanBy(dataRecent, (o) => +o.acc),
+      0
+    ) + " %";
 
   //time since last test
 

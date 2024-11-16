@@ -13,14 +13,15 @@ let humidityReading = document.getElementById("humidityReading");
 
 function updateReadingText(msg) {
   document.getElementById("liveDataCard").classList.remove("hidden");
-  temperatureReading.innerHTML = msg.temperature.toFixed(2);
-  pressureReading.innerHTML = msg.pressure.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-  });
+  temperatureReading.innerHTML = msg.temperature.toFixed(2) + " &#176;";
+  pressureReading.innerHTML =
+    msg.pressure.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+    }) + " mbar";
   if (!msg.humidity) {
     document.getElementById("humid").style.display = "none";
   } else {
-    humidityReading.innerHTML = msg.humidity.toFixed(2);
+    humidityReading.innerHTML = msg.humidity.toFixed(2) + " %";
   }
 
   // console.log("Temp classes", tempIcon.classList);
