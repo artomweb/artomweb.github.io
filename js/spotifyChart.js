@@ -129,8 +129,6 @@ function updateByDay() {
 function updateTwoWeeks() {
   let { data, labels } = spotifyData.lastTwoWeeks;
 
-  console.log(labels);
-
   let newDataset = {
     tension: 0.3,
     // borderColor: "black",
@@ -273,17 +271,25 @@ function spotifyChart() {
 }
 
 function getLastTwoWeeks(dat) {
-  let rawLabels = dat.map((e) => {
+  dat.sort((a, b) => b.Date - a.Date);
+
+  // Slice to get the most recent 14 items (last two weeks)
+  const recentData = dat.slice(0, 14);
+
+  // Reverse to make it ascending order (oldest first)
+  recentData.reverse();
+
+  let rawLabels = recentData.map((e) => {
     const date = new Date(e.Date); // Create a Date object from e.Date
     return date.toLocaleString("default", { month: "short", day: "numeric" }); // Format as "Oct 14"
   });
 
-  let rawData = dat.map((e) => {
+  let rawData = recentData.map((e) => {
     return e.Value;
   });
 
-  let data = rawData.slice(0, 14);
-  let labels = rawLabels.slice(0, 14);
+  let data = rawData;
+  let labels = rawLabels;
 
   return { data, labels };
 }
