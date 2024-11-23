@@ -133,7 +133,7 @@ function plotClimbing(labels, datasets) {
           ticks: {
             callback: function (value, index, ticks) {
               const tickDate = new Date(labels[index]);
-              return tickDate.toLocaleString("en-US", {
+              return tickDate.toLocaleString("en-GB", {
                 month: "short",
                 year: "numeric",
               });

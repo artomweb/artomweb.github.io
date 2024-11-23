@@ -52,6 +52,12 @@ function getAllData() {
         console.error("Error parsing Climbing data:", e);
         parseClimbing();
       }
+      try {
+        parseDuo(data.duolingo);
+      } catch (e) {
+        console.error("Error parsing Duolingo data:", e);
+        parseDuo();
+      }
     })
     .catch((e) => {
       // Handle errors in the fetch operation
