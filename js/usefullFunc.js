@@ -1,3 +1,7 @@
+function parseDate(dateStr) {
+  const [day, month, year] = dateStr.split("/").map(Number);
+  return new Date(year, month - 1, day); // Months are zero-based
+}
 function getAllData() {
   let url = "https://api.artomweb.com/cache/all";
   fetch(url)
@@ -47,7 +51,7 @@ function getAllData() {
       }
 
       try {
-        parseClimbing(data.climbing);
+        parseClimbing(data.climbingDetailed);
       } catch (e) {
         console.error("Error parsing Climbing data:", e);
         parseClimbing();
