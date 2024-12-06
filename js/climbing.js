@@ -198,10 +198,10 @@ function updateClimbingData(data) {
     )
   );
 
-  console.log(sortedGrades);
+  // console.log(sortedGrades);
 
   const byGradeLabels = _.keys(sortedGrades); // Dates as labels
-  console.log(byGradeLabels);
+  // console.log(byGradeLabels);
   const byGradeAttempts = Object.values(sortedGrades).map(
     (route) => route.attempts
   );
