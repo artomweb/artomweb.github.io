@@ -3,8 +3,7 @@ function parseDate(dateStr) {
   return new Date(year, month - 1, day); // Months are zero-based
 }
 function getAllData() {
-  // let url = "https://api.artomweb.com/cache/all";
-  const url = "http://localhost:2036/all";
+  let url = "https://api.artomweb.com/cache/all";
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
