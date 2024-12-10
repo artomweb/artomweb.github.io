@@ -14,7 +14,7 @@ function loadCat() {
   const catImg = document.getElementById("catImage");
   const imageCache = document.getElementById("imageCache");
 
-  catImg.src = "standingCats/" + imageNumbers[currentImageIndex] + ".jpg";
+  catImg.src = "standingCats/" + imageNumbers[currentImageIndex] + ".webp";
 
   // When on last cat, set index to 0 and reshuffle
   if (currentImageIndex >= MAX_CATS - 1) {
@@ -23,7 +23,7 @@ function loadCat() {
   } else {
     // Cache the next image
     imageCache.src =
-      "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
+      "standingCats/" + imageNumbers[currentImageIndex + 1] + ".webp";
     currentImageIndex++;
   }
 }
