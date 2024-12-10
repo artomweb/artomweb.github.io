@@ -12,7 +12,6 @@ const pressureReading = document.getElementById("pressureReading");
 const humidityReading = document.getElementById("humidityReading");
 
 function updateReadingText(msg) {
-  document.getElementById("liveDataCard").classList.remove("hidden");
   temperatureReading.innerHTML = msg.temperature.toFixed(2) + " &#176;";
   pressureReading.innerHTML =
     msg.pressure.toLocaleString(undefined, {

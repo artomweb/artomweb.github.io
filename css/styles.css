@@ -33,6 +33,10 @@ body {
   background: #9ee6fa;
 }
 
+canvas {
+  height: 211px;
+}
+
 #butns {
   display: flex;
   flex-wrap: wrap;
