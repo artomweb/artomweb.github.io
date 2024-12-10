@@ -37,38 +37,18 @@ function typingToggle() {
 }
 
 function parseTyping(data) {
-  const fallbackUrl =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv";
+  const typingCard = document.getElementById("typingCard");
 
-  try {
-    processTyping(data); // Attempt to process the data
-  } catch (error) {
-    console.log(
-      "Error processing typing data, trying the fallback URL:",
-      error
-    );
-    parseCSV(fallbackUrl); // Fallback to CSV if processing fails
-  }
-
-  function parseCSV(url) {
-    Papa.parse(url, {
-      download: true,
-      header: true,
-      complete: function (results) {
-        try {
-          processTyping(results.data); // Process the CSV data
-        } catch (error) {
-          console.log("Error processing fallback CSV data:", error);
-          const typingCard = document.getElementById("typingCard");
-          typingCard.style.display = "none";
-        }
-      },
-      error: function (error) {
-        console.log("Failed to fetch typing data from CSV URL:", error);
-        const typingCard = document.getElementById("typingCard");
-        typingCard.style.display = "none";
-      },
-    });
+  if (!data || data.error) {
+    console.log("Error processing Chess data:");
+    typingCard.style.display = "none"; // Hide the card if processing fails
+  } else {
+    try {
+      showTypingData(data.data); // Pass the relevant part of the data
+    } catch (error) {
+      console.log("Error processing Typing data", error);
+      typingCard.style.display = "none"; // Hide the card if processing fails
+    }
   }
 }
 
@@ -78,6 +58,25 @@ function showSymbols() {
   for (const s of symbols) {
     s.style.display = "inline";
   }
+}
+
+function showTypingData(data) {
+  showSymbols();
+
+  document.getElementById("timeSinceLastTest").innerHTML =
+    data.dateOfLastTestMessage;
+  document.getElementById("highestTypingSpeed").innerHTML = data.maxWPM;
+  document.getElementById("averageTypingSpeed").innerHTML = data.avgWPM;
+  document.getElementById("averageAccuracy").innerHTML = data.avgACC;
+  document.getElementById("totalTime").innerHTML = data.totalTimeMessage;
+  document.getElementById("testsPerDay").innerHTML = data.testsPerDay;
+  document.getElementById("wpmChangePerHour").innerHTML =
+    data.changeInWPMPerMin;
+
+  typingData = data;
+
+  drawtypingChart();
+  typingToggle();
 }
 
 function updateTypingPerHour() {
@@ -138,14 +137,6 @@ function updateTypingNormal() {
   ];
 
   typingChart.update();
-}
-
-function processTyping(dataIn) {
-  showSymbols();
-  updateTypingData(dataIn);
-
-  drawtypingChart();
-  typingToggle();
 }
 
 function updateTypingData(dataIn) {

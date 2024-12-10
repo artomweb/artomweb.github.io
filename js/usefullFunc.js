@@ -3,65 +3,20 @@ function parseDate(dateStr) {
   return new Date(year, month - 1, day); // Months are zero-based
 }
 function getAllData() {
-  const url = "https://api.artomweb.com/cache/all";
+  // let url = "https://api.artomweb.com/cache/all";
+  const url = "http://localhost:2036/all";
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
       // Call each parsing function with individual error handling
-      try {
-        parseChess(data.chess);
-      } catch (e) {
-        console.error("Error parsing chess data:", e);
-        parseChess();
-      }
-
-      try {
-        parseCod(data.cod, data.codAllGames);
-      } catch (e) {
-        console.error("Error parsing COD data:", e);
-        parseCod();
-      }
-
-      try {
-        parseDriving(data.driving);
-      } catch (e) {
-        console.error("Error parsing driving data:", e);
-        parseDriving();
-      }
-
-      try {
-        parseTyping(data.typing);
-      } catch (e) {
-        console.error("Error parsing typing data:", e);
-        parseTyping();
-      }
-
-      try {
-        parseDobble(data.dobble);
-      } catch (e) {
-        console.error("Error parsing Dobble data:", e);
-        parseDobble();
-      }
-
-      try {
-        parseSpotify(data.spotify);
-      } catch (e) {
-        console.error("Error parsing Spotify data:", e);
-        parseSpotify();
-      }
-
-      try {
-        parseClimbing(data.climbingDetailed);
-      } catch (e) {
-        console.error("Error parsing Climbing data:", e);
-        parseClimbing();
-      }
-      try {
-        parseDuo(data.duolingo);
-      } catch (e) {
-        console.error("Error parsing Duolingo data:", e);
-        parseDuo();
-      }
+      parseClimbing(data.climbing);
+      parseTyping(data.typing);
+      parseDriving(data.driving);
+      parseCod(data.COD);
+      parseChess(data.chess);
+      parseDuo(data.duolingo);
+      parseDobble(data.dobble);
+      parseSpotify(data.spotify);
     })
     .catch((e) => {
       // Handle errors in the fetch operation

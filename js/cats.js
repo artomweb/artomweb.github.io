@@ -22,7 +22,8 @@ function loadCat() {
     imageNumbers = shuffle(imageNumbers);
   } else {
     // Cache the next image
-    imageCache.src = "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
+    imageCache.src =
+      "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
     currentImageIndex++;
   }
 }
