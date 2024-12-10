@@ -23,7 +23,7 @@ function loadCat() {
   } else {
     // Cache the next image
     imageCache.src =
-      "standingCats/" + imageNumbers[currentImageIndex + 1] + ".webp";
+      "standingCats/" + imageNumbers[currentImageIndex + 1] + ".webp ";
     currentImageIndex++;
   }
 }
