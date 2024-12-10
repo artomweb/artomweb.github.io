@@ -11,8 +11,8 @@ let currentImageIndex = 0;
 
 // When the button is clicked, change the image source to the current index
 function loadCat() {
-  let catImg = document.getElementById("catImage");
-  let imageCache = document.getElementById("imageCache");
+  const catImg = document.getElementById("catImage");
+  const imageCache = document.getElementById("imageCache");
 
   catImg.src = "standingCats/" + imageNumbers[currentImageIndex] + ".jpg";
 
@@ -22,7 +22,8 @@ function loadCat() {
     imageNumbers = shuffle(imageNumbers);
   } else {
     // Cache the next image
-    imageCache.src = "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
+    imageCache.src =
+      "standingCats/" + imageNumbers[currentImageIndex + 1] + ".jpg";
     currentImageIndex++;
   }
 }

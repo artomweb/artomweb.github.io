@@ -3,8 +3,8 @@ let dobbleData = {};
 let dobbleChart;
 
 function switchdobbleDots() {
-  let circles = Array.from(document.getElementsByClassName("dobbleCircles"));
-  let desc = document.getElementById("dobbleDesc");
+  const circles = Array.from(document.getElementsByClassName("dobbleCircles"));
+  const desc = document.getElementById("dobbleDesc");
 
   switch (dobbleToggleState) {
     case 0:
@@ -62,13 +62,13 @@ function parseDobble(data) {
           processDobble(results.data); // Process the CSV data
         } catch (error) {
           console.log("Error processing fallback CSV data:", error);
-          let dobbleCard = document.getElementById("dobbleCard");
+          const dobbleCard = document.getElementById("dobbleCard");
           dobbleCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
         console.log("Failed to fetch data from CSV URL:", error);
-        let dobbleCard = document.getElementById("dobbleCard");
+        const dobbleCard = document.getElementById("dobbleCard");
         dobbleCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
@@ -168,7 +168,7 @@ function updateDobbleData(dataIn) {
 
   const numTests = dataIn.length;
 
-  let weekAvg = _.chain(dataIn)
+  const weekAvg = _.chain(dataIn)
     .groupBy((d) => {
       const date = new Date(d.timestamp);
       return new Intl.DateTimeFormat("en-GB", {
@@ -222,7 +222,7 @@ function updateDobbleData(dataIn) {
     item.avg !== 0 ? 3 : 0
   );
 
-  let scorePoints = dataIn.map((point) => +point.score);
+  const scorePoints = dataIn.map((point) => +point.score);
 
   const trend = findLineByLeastSquares(scorePoints);
 
@@ -273,7 +273,7 @@ function updateDobbleData(dataIn) {
 }
 
 function plotDobble() {
-  let ctx = document.getElementById("dobbleChart").getContext("2d");
+  const ctx = document.getElementById("dobbleChart").getContext("2d");
 
   config = {
     type: "line",
@@ -313,7 +313,7 @@ function plotDobble() {
             },
 
             title: function (context) {
-              let title = context[0].label;
+              const title = context[0].label;
               return title;
             },
           },

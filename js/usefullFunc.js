@@ -3,65 +3,51 @@ function parseDate(dateStr) {
   return new Date(year, month - 1, day); // Months are zero-based
 }
 function getAllData() {
-  let url = "https://api.artomweb.com/cache/all";
+  // let url = "https://api.artomweb.com/cache/all";
+  const url = "http://localhost:2036/all";
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
       // Call each parsing function with individual error handling
-      try {
-        parseChess(data.chess);
-      } catch (e) {
-        console.error("Error parsing chess data:", e);
-        parseChess();
-      }
+      parseDuo(data.duolingo);
+      parseClimbing(data.climbing);
+      parseChess(data.chess);
+      parseTyping(data.typing);
 
-      try {
-        parseCod(data.cod, data.codAllGames);
-      } catch (e) {
-        console.error("Error parsing COD data:", e);
-        parseCod();
-      }
+      // try {
+      //   parseCod(data.cod, data.codAllGames);
+      // } catch (e) {
+      //   console.error("Error parsing COD data:", e);
+      //   parseCod();
+      // }
 
-      try {
-        parseDriving(data.driving);
-      } catch (e) {
-        console.error("Error parsing driving data:", e);
-        parseDriving();
-      }
+      // try {
+      //   parseDriving(data.driving);
+      // } catch (e) {
+      //   console.error("Error parsing driving data:", e);
+      //   parseDriving();
+      // }
 
-      try {
-        parseTyping(data.typing);
-      } catch (e) {
-        console.error("Error parsing typing data:", e);
-        parseTyping();
-      }
+      // try {
+      //
+      // } catch (e) {
+      //   console.error("Error parsing typing data:", e);
+      //   parseTyping();
+      // }
 
-      try {
-        parseDobble(data.dobble);
-      } catch (e) {
-        console.error("Error parsing Dobble data:", e);
-        parseDobble();
-      }
+      // try {
+      //   parseDobble(data.dobble);
+      // } catch (e) {
+      //   console.error("Error parsing Dobble data:", e);
+      //   parseDobble();
+      // }
 
-      try {
-        parseSpotify(data.spotify);
-      } catch (e) {
-        console.error("Error parsing Spotify data:", e);
-        parseSpotify();
-      }
-
-      try {
-        parseClimbing(data.climbingDetailed);
-      } catch (e) {
-        console.error("Error parsing Climbing data:", e);
-        parseClimbing();
-      }
-      try {
-        parseDuo(data.duolingo);
-      } catch (e) {
-        console.error("Error parsing Duolingo data:", e);
-        parseDuo();
-      }
+      // try {
+      //   parseSpotify(data.spotify);
+      // } catch (e) {
+      //   console.error("Error parsing Spotify data:", e);
+      //   parseSpotify();
+      // }
     })
     .catch((e) => {
       // Handle errors in the fetch operation
@@ -175,7 +161,7 @@ function findLineByLeastSquares(values_y) {
 
   let x = 0;
   let y = 0;
-  let values_length = values_y.length;
+  const values_length = values_y.length;
 
   if (values_length === 0) {
     return [[], []];
@@ -191,11 +177,11 @@ function findLineByLeastSquares(values_y) {
     count++;
   }
 
-  let m = (count * sum_xy - sum_x * sum_y) / (count * sum_xx - sum_x * sum_x);
-  let b = sum_y / count - (m * sum_x) / count;
+  const m = (count * sum_xy - sum_x * sum_y) / (count * sum_xx - sum_x * sum_x);
+  const b = sum_y / count - (m * sum_x) / count;
 
-  let returnpoint1 = [1, 1 * m + b];
-  let returnpoint2 = [values_length, values_length * m + b];
+  const returnpoint1 = [1, 1 * m + b];
+  const returnpoint2 = [values_length, values_length * m + b];
   return [returnpoint1, returnpoint2];
 }
 
@@ -220,7 +206,7 @@ function shuffle(array) {
 }
 
 // Fix button animation on mobile
-let touchButtons = document.querySelectorAll(".button");
+const touchButtons = document.querySelectorAll(".button");
 
 touchButtons.forEach((but) => {
   but.addEventListener(

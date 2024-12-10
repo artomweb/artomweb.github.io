@@ -3,8 +3,8 @@ let typingData = {};
 let typingChart;
 
 function switchTypingDots() {
-  let circles = Array.from(document.getElementsByClassName("typingCircles"));
-  let desc = document.getElementById("typingDesc");
+  const circles = Array.from(document.getElementsByClassName("typingCircles"));
+  const desc = document.getElementById("typingDesc");
 
   switch (typingToggleState) {
     case 0:
@@ -37,47 +37,47 @@ function typingToggle() {
 }
 
 function parseTyping(data) {
-  const fallbackUrl =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiOrp7SrLbvsgrusWvwFcllmSUov-GlAME8wvi7p3BTVCurKFh_KLlCVQ0A7luijiLa6F9fOKqxKAP/pub?output=csv";
+  const typingCard = document.getElementById("typingCard");
 
-  try {
-    processTyping(data); // Attempt to process the data
-  } catch (error) {
-    console.log(
-      "Error processing typing data, trying the fallback URL:",
-      error
-    );
-    parseCSV(fallbackUrl); // Fallback to CSV if processing fails
-  }
-
-  function parseCSV(url) {
-    Papa.parse(url, {
-      download: true,
-      header: true,
-      complete: function (results) {
-        try {
-          processTyping(results.data); // Process the CSV data
-        } catch (error) {
-          console.log("Error processing fallback CSV data:", error);
-          let typingCard = document.getElementById("typingCard");
-          typingCard.style.display = "none";
-        }
-      },
-      error: function (error) {
-        console.log("Failed to fetch typing data from CSV URL:", error);
-        let typingCard = document.getElementById("typingCard");
-        typingCard.style.display = "none";
-      },
-    });
+  if (!data || data.error) {
+    console.log("Error processing Chess data:", data.error);
+    typingCard.style.display = "none"; // Hide the card if processing fails
+  } else {
+    try {
+      showTypingData(data.data); // Pass the relevant part of the data
+    } catch (error) {
+      console.log("Error processing Typing data", error);
+      typingCard.style.display = "none"; // Hide the card if processing fails
+    }
   }
 }
 
 function showSymbols() {
-  let symbols = document.getElementsByClassName("symbol");
+  const symbols = document.getElementsByClassName("symbol");
 
-  for (let s of symbols) {
+  for (const s of symbols) {
     s.style.display = "inline";
   }
+}
+
+function showTypingData(data) {
+  console.log(data);
+  showSymbols();
+
+  document.getElementById("timeSinceLastTest").innerHTML =
+    data.dateOfLastTestMessage;
+  document.getElementById("highestTypingSpeed").innerHTML = data.maxWPM;
+  document.getElementById("averageTypingSpeed").innerHTML = data.avgWPM;
+  document.getElementById("averageAccuracy").innerHTML = data.avgACC;
+  document.getElementById("totalTime").innerHTML = data.totalTimeMessage;
+  document.getElementById("testsPerDay").innerHTML = data.testsPerDay;
+  document.getElementById("wpmChangePerHour").innerHTML =
+    data.changeInWPMPerMin;
+
+  typingData = data;
+
+  drawtypingChart();
+  typingToggle();
 }
 
 function updateTypingPerHour() {
@@ -115,6 +115,8 @@ function updateTypingPerHour() {
 function updateTypingNormal() {
   const { labels, data } = typingData;
 
+  console.log(labels);
+
   typingChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
     return tooltipItem[0].label;
   };
@@ -138,14 +140,6 @@ function updateTypingNormal() {
   ];
 
   typingChart.update();
-}
-
-function processTyping(dataIn) {
-  showSymbols();
-  updateTypingData(dataIn);
-
-  drawtypingChart();
-  typingToggle();
 }
 
 function updateTypingData(dataIn) {
@@ -190,7 +184,7 @@ function updateTypingData(dataIn) {
     item.avg !== 0 ? 3 : 0
   );
 
-  let weekAvg = _.chain(dataIn)
+  const weekAvg = _.chain(dataIn)
     .groupBy((d) => {
       const date = new Date(d.timestamp);
       return (
@@ -221,17 +215,17 @@ function updateTypingData(dataIn) {
   const labels = weekAvg.map((el) => el.wofy);
   const data = weekAvg.map((el) => el.avg);
 
-  let sortedWPM = _.sortBy(dataIn, (point) => point.timestamp.getTime());
+  const sortedWPM = _.sortBy(dataIn, (point) => point.timestamp.getTime());
 
   const maxWPM = +_.maxBy(dataIn, "wpm").wpm + " wpm";
 
   // Only last 500 tests
 
-  let dataRecent = sortedWPM.slice(-500);
+  const dataRecent = sortedWPM.slice(-500);
 
   // speed change per hour
 
-  let wpmPoints = dataRecent.map((point) => +point.wpm);
+  const wpmPoints = dataRecent.map((point) => +point.wpm);
 
   const trend = findLineByLeastSquares(wpmPoints);
 
@@ -301,7 +295,7 @@ function updateTypingData(dataIn) {
 }
 
 function drawtypingChart() {
-  let ctx = document.getElementById("monkeyChart").getContext("2d");
+  const ctx = document.getElementById("monkeyChart").getContext("2d");
 
   typingChart = new Chart(ctx, {
     type: "line",

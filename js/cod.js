@@ -1,12 +1,12 @@
 // https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv
 
-let codData = {};
+const codData = {};
 let codChart;
 let codToggleState = 0;
 
 function switchCodDots() {
-  let circles = Array.from(document.getElementsByClassName("codCircles"));
-  let desc = document.getElementById("cod-desc");
+  const circles = Array.from(document.getElementsByClassName("codCircles"));
+  const desc = document.getElementById("cod-desc");
 
   switch (codToggleState) {
     case 0:
@@ -88,7 +88,7 @@ function parseCod(codData, codAllGamesData) {
               processCod(codResults, allGamesResults);
             } catch (error) {
               console.log("Error processing fallback CSV data:", error);
-              let CODCard = document.getElementById("CODCard");
+              const CODCard = document.getElementById("CODCard");
               CODCard.style.display = "none"; // Hide the card if processing fails
             }
           },
@@ -97,14 +97,14 @@ function parseCod(codData, codAllGamesData) {
               "Failed to fetch data from codAllGames fallback URL:",
               error
             );
-            let CODCard = document.getElementById("CODCard");
+            const CODCard = document.getElementById("CODCard");
             CODCard.style.display = "none"; // Hide the card if fetching fails
           },
         });
       },
       error: function (error) {
         console.log("Failed to fetch data from cod fallback URL:", error);
-        let CODCard = document.getElementById("CODCard");
+        const CODCard = document.getElementById("CODCard");
         CODCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
@@ -401,7 +401,7 @@ function updateCodRunning() {
 }
 
 function drawCodChart() {
-  let ctx = document.getElementById("CODChart").getContext("2d");
+  const ctx = document.getElementById("CODChart").getContext("2d");
 
   codChart = new Chart(ctx, {
     type: "line",

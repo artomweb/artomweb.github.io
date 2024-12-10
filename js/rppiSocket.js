@@ -3,13 +3,13 @@ const socket = io("https://api.artomweb.com", {
   reconnectionDelay: 500,
 });
 
-let tempIcon = document.getElementById("tempIcon");
-let pressIcon = document.getElementById("pressIcon");
-let humidIcon = document.getElementById("humidIcon");
+const tempIcon = document.getElementById("tempIcon");
+const pressIcon = document.getElementById("pressIcon");
+const humidIcon = document.getElementById("humidIcon");
 
-let temperatureReading = document.getElementById("temperatureReading");
-let pressureReading = document.getElementById("pressureReading");
-let humidityReading = document.getElementById("humidityReading");
+const temperatureReading = document.getElementById("temperatureReading");
+const pressureReading = document.getElementById("pressureReading");
+const humidityReading = document.getElementById("humidityReading");
 
 function updateReadingText(msg) {
   document.getElementById("liveDataCard").classList.remove("hidden");
@@ -26,7 +26,7 @@ function updateReadingText(msg) {
 
   // console.log("Temp classes", tempIcon.classList);
 
-  let icons = [
+  const icons = [
     ["temperature", tempIcon],
     ["pressure", pressIcon],
     ["humidity", humidIcon],
@@ -36,8 +36,8 @@ function updateReadingText(msg) {
 
   if (msg.averages) {
     icons.forEach(([name, iconContainer]) => {
-      let caretUpIcon = iconContainer.querySelector(".caret-up");
-      let caretDownIcon = iconContainer.querySelector(".caret-down");
+      const caretUpIcon = iconContainer.querySelector(".caret-up");
+      const caretDownIcon = iconContainer.querySelector(".caret-down");
 
       if (msg[name] >= msg.averages[name]) {
         // Show caret-up, hide caret-down
@@ -53,9 +53,9 @@ function updateReadingText(msg) {
 }
 
 function showDataSymbols() {
-  let symbols = document.getElementsByClassName("liveDataSymbol");
+  const symbols = document.getElementsByClassName("liveDataSymbol");
 
-  for (let s of symbols) {
+  for (const s of symbols) {
     s.style.display = "inline";
   }
 }
@@ -68,9 +68,9 @@ socket.on("server init", function (msg) {
     updateReadingText(msg.lastData);
   }
   showDataSymbols();
-  let serverInit = new Date(msg.serverInitTime);
+  const serverInit = new Date(msg.serverInitTime);
 
-  let message = uptime(serverInit);
+  const message = uptime(serverInit);
 
   document.getElementById("serverUpTime").innerHTML = message;
 });
