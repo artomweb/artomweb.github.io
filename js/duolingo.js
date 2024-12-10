@@ -23,13 +23,13 @@ function parseDuo(data) {
           processDuo(results.data); // Process the CSV data
         } catch (error) {
           console.log("Error processing fallback CSV data:", error);
-          let chessCard = document.getElementById("duoCard");
+          const chessCard = document.getElementById("duoCard");
           chessCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
         console.log("Failed to fetch data from CSV URL:", error);
-        let chessCard = document.getElementById("duoCard");
+        const chessCard = document.getElementById("duoCard");
         chessCard.style.display = "none"; // Hide the card if fetching fails
       },
     });

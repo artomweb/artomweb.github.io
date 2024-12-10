@@ -3,8 +3,8 @@ let climbingChart;
 let climbingToggleState = 0;
 
 function switchClimbingDots() {
-  let circles = Array.from(document.getElementsByClassName("climbingCircles"));
-  let desc = document.getElementById("climbingDesc");
+  const circles = Array.from(document.getElementsByClassName("climbingCircles"));
+  const desc = document.getElementById("climbingDesc");
 
   switch (climbingToggleState) {
     case 0:
@@ -62,13 +62,13 @@ function parseClimbing(data) {
           processClimbing(results.data); // Process the CSV data
         } catch (error) {
           console.log("Error processing fallback CSV data:", error);
-          let climbingCard = document.getElementById("climbingCard");
+          const climbingCard = document.getElementById("climbingCard");
           climbingCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
         console.log("Failed to fetch data from CSV URL:", error);
-        let climbingCard = document.getElementById("climbingCard");
+        const climbingCard = document.getElementById("climbingCard");
         climbingCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
@@ -105,7 +105,7 @@ function updateClimbingData(data) {
     return d;
   });
 
-  let highestGrade = _.maxBy(data, "numericGrade").Grade;
+  const highestGrade = _.maxBy(data, "numericGrade").Grade;
   document.getElementById("highestGrade").innerHTML = highestGrade;
   // Total number of climbing sessions
 
@@ -135,7 +135,7 @@ function updateClimbingData(data) {
     };
   });
 
-  let sortedRoutes = _.pick(
+  const sortedRoutes = _.pick(
     routes,
     Object.keys(routes).sort((a, b) => parseDate(a) - parseDate(b))
   );
@@ -192,7 +192,7 @@ function updateClimbingData(data) {
     });
   });
 
-  let sortedGrades = Object.fromEntries(
+  const sortedGrades = Object.fromEntries(
     Object.entries(gradeTotals).sort(
       ([, a], [, b]) => a.numericGrade - b.numericGrade
     )

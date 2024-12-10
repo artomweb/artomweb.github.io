@@ -3,7 +3,7 @@ function parseDate(dateStr) {
   return new Date(year, month - 1, day); // Months are zero-based
 }
 function getAllData() {
-  let url = "https://api.artomweb.com/cache/all";
+  const url = "https://api.artomweb.com/cache/all";
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
@@ -175,7 +175,7 @@ function findLineByLeastSquares(values_y) {
 
   let x = 0;
   let y = 0;
-  let values_length = values_y.length;
+  const values_length = values_y.length;
 
   if (values_length === 0) {
     return [[], []];
@@ -191,11 +191,11 @@ function findLineByLeastSquares(values_y) {
     count++;
   }
 
-  let m = (count * sum_xy - sum_x * sum_y) / (count * sum_xx - sum_x * sum_x);
-  let b = sum_y / count - (m * sum_x) / count;
+  const m = (count * sum_xy - sum_x * sum_y) / (count * sum_xx - sum_x * sum_x);
+  const b = sum_y / count - (m * sum_x) / count;
 
-  let returnpoint1 = [1, 1 * m + b];
-  let returnpoint2 = [values_length, values_length * m + b];
+  const returnpoint1 = [1, 1 * m + b];
+  const returnpoint2 = [values_length, values_length * m + b];
   return [returnpoint1, returnpoint2];
 }
 
@@ -220,7 +220,7 @@ function shuffle(array) {
 }
 
 // Fix button animation on mobile
-let touchButtons = document.querySelectorAll(".button");
+const touchButtons = document.querySelectorAll(".button");
 
 touchButtons.forEach((but) => {
   but.addEventListener(

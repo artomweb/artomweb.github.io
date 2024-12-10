@@ -3,7 +3,7 @@ let mySpotifyChart;
 let config;
 let toggleState = 0;
 let ctx2;
-let backgroundColor = "#81b29a";
+const backgroundColor = "#81b29a";
 
 function parseSpotify(data) {
   const fallbackUrl =
@@ -30,13 +30,13 @@ function parseSpotify(data) {
           useSpotifyData(results.data); // Process the CSV data
         } catch (error) {
           console.log("Error processing fallback CSV data:", error);
-          let spotifyCard = document.getElementById("spotifyCard");
+          const spotifyCard = document.getElementById("spotifyCard");
           spotifyCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
         console.log("Failed to fetch data from CSV URL:", error);
-        let spotifyCard = document.getElementById("spotifyCard");
+        const spotifyCard = document.getElementById("spotifyCard");
         spotifyCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
@@ -45,8 +45,8 @@ function parseSpotify(data) {
 
 // changes the description to the relevant text and changes the fill of the circles
 function switchSpotifyDots() {
-  let circles = Array.from(document.getElementsByClassName("spotifyCircles"));
-  let desc = document.getElementById("spotify-desc");
+  const circles = Array.from(document.getElementsByClassName("spotifyCircles"));
+  const desc = document.getElementById("spotify-desc");
 
   switch (toggleState) {
     case 0:
@@ -98,13 +98,13 @@ function updateByDay() {
   const { data, labels } = spotifyData.byDay;
 
   mySpotifyChart.destroy();
-  let temp = { ...config };
+  const temp = { ...config };
 
   temp.type = "bar";
 
   temp.data.labels = labels;
 
-  let newDataset = {
+  const newDataset = {
     // tension: 0.3,
     // borderColor: "black",
     data: data,
@@ -127,9 +127,9 @@ function updateByDay() {
 
 // update the chart to show the data, for the last two weeks, LIN CHART
 function updateTwoWeeks() {
-  let { data, labels } = spotifyData.lastTwoWeeks;
+  const { data, labels } = spotifyData.lastTwoWeeks;
 
-  let newDataset = {
+  const newDataset = {
     tension: 0.3,
     // borderColor: "black",
     data: data,
@@ -138,7 +138,7 @@ function updateTwoWeeks() {
   };
 
   mySpotifyChart.destroy();
-  let temp = { ...config };
+  const temp = { ...config };
 
   temp.type = "line";
 
@@ -169,8 +169,8 @@ function updateTwoWeeks() {
 
 // update the chart to show the data, aggregated by week, LINE CHART
 function updateAllData() {
-  let { data, labels } = spotifyData.byWeek;
-  let newDataset = {
+  const { data, labels } = spotifyData.byWeek;
+  const newDataset = {
     // tension: 0.3,
     // borderColor: "black",
     data: data,
@@ -279,24 +279,24 @@ function getLastTwoWeeks(dat) {
   // Reverse to make it ascending order (oldest first)
   recentData.reverse();
 
-  let rawLabels = recentData.map((e) => {
+  const rawLabels = recentData.map((e) => {
     const date = new Date(e.Date); // Create a Date object from e.Date
     return date.toLocaleString("default", { month: "short", day: "numeric" }); // Format as "Oct 14"
   });
 
-  let rawData = recentData.map((e) => {
+  const rawData = recentData.map((e) => {
     return e.Value;
   });
 
-  let data = rawData;
-  let labels = rawLabels;
+  const data = rawData;
+  const labels = rawLabels;
 
   return { data, labels };
 }
 
 function getAllWeeks(dat) {
   // Get the current date and subtract 3 years
-  let twoYearsAgo = new Date();
+  const twoYearsAgo = new Date();
   twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 3);
 
   dat = dat.filter((d) => {
@@ -304,7 +304,7 @@ function getAllWeeks(dat) {
     return date >= twoYearsAgo; // Check if the date is on or after twoYearsAgo
   });
 
-  let weekAvg = _.chain(dat)
+  const weekAvg = _.chain(dat)
     .groupBy((d) => {
       const date = new Date(d.Date);
       return `${date.toLocaleString("default", {
@@ -324,8 +324,8 @@ function getAllWeeks(dat) {
     return dateA - dateB; // Sort by date
   });
 
-  let labels = weekAvg.map((w) => w.wofy);
-  let data = weekAvg.map((w) => w.avg);
+  const labels = weekAvg.map((w) => w.wofy);
+  const data = weekAvg.map((w) => w.avg);
 
   return { data, labels };
 }
@@ -356,14 +356,14 @@ function getByDay(dat) {
     return getIsoWeekday(o.dofw);
   });
 
-  let labels = totalAvgs.map((val) => val.dofw);
-  let data = totalAvgs.map((val) => val.avg);
+  const labels = totalAvgs.map((val) => val.dofw);
+  const data = totalAvgs.map((val) => val.avg);
 
   return { data, labels };
 }
 
 function parseSpotifyDates(results) {
-  let dateParse = results.map((elem) => {
+  const dateParse = results.map((elem) => {
     return {
       Date: new Date(elem.Date),
       Value: +elem.Value,
@@ -378,19 +378,19 @@ function parseSpotifyDates(results) {
 }
 
 function updateSpotify(dataIn) {
-  let parsed = parseSpotifyDates(dataIn);
+  const parsed = parseSpotifyDates(dataIn);
 
-  let dateOfLastTest = formatDate(parsed[0].Date);
+  const dateOfLastTest = formatDate(parsed[0].Date);
 
-  let dateOfLastTestMessage =
+  const dateOfLastTestMessage =
     dateOfLastTest + " (" + timeago(parsed[0].Date) + ")";
 
   document.getElementById("timeSinceLastSong").innerHTML =
     dateOfLastTestMessage;
 
-  let byDay = getByDay(parsed);
-  let lastTwoWeeks = getLastTwoWeeks(parsed);
-  let byWeek = getAllWeeks(parsed);
+  const byDay = getByDay(parsed);
+  const lastTwoWeeks = getLastTwoWeeks(parsed);
+  const byWeek = getAllWeeks(parsed);
 
   const dataToSave = { byDay, byWeek, lastTwoWeeks };
 

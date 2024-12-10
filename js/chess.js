@@ -3,8 +3,8 @@ let chessData = {};
 let chessChart;
 
 function switchChessDots() {
-  let circles = Array.from(document.getElementsByClassName("chessCircles"));
-  let desc = document.getElementById("chessDesc");
+  const circles = Array.from(document.getElementsByClassName("chessCircles"));
+  const desc = document.getElementById("chessDesc");
 
   switch (chessToggleState) {
     case 0:
@@ -65,13 +65,13 @@ function parseChess(data) {
           processChess(results.data); // Process the CSV data
         } catch (error) {
           console.log("Error processing fallback CSV data:", error);
-          let chessCard = document.getElementById("chessCard");
+          const chessCard = document.getElementById("chessCard");
           chessCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
         console.log("Failed to fetch data from CSV URL:", error);
-        let chessCard = document.getElementById("chessCard");
+        const chessCard = document.getElementById("chessCard");
         chessCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
@@ -249,7 +249,7 @@ function updateChessData(data) {
   const dataByDay = _.chain(data)
     .groupBy((d) => d.Date)
     .map((entries, day) => {
-      let highest = _.maxBy(entries, (entry) => +entry.myRating);
+      const highest = _.maxBy(entries, (entry) => +entry.myRating);
       return {
         startTime: highest.startTime,
         day,
@@ -320,7 +320,7 @@ function updateChessData(data) {
   const highestRating = _.maxBy(data, "myRating").myRating;
   const numGames = data.length;
 
-  let ratings = data.map((game) => +game.myRating);
+  const ratings = data.map((game) => +game.myRating);
   const trend = findLineByLeastSquares(ratings);
   const ratingChange = trend[1][1] - trend[0][1];
 
@@ -336,8 +336,8 @@ function updateChessData(data) {
   document.getElementById("ChessChangePerHour").innerHTML =
     PorNchange + changeInScorePerHour;
 
-  let labels = dataByDay.map((elt) => elt.day);
-  let graphData = dataByDay.map((elt) => +elt.highest);
+  const labels = dataByDay.map((elt) => elt.day);
+  const graphData = dataByDay.map((elt) => +elt.highest);
 
   // Update chessData object with new data
   chessData = {
@@ -352,7 +352,7 @@ function updateChessData(data) {
 }
 
 function plotChess(data, labels) {
-  let ctx = document.getElementById("ChessChart").getContext("2d");
+  const ctx = document.getElementById("ChessChart").getContext("2d");
 
   // console.log(data, labels);
 

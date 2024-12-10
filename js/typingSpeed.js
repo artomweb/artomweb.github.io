@@ -3,8 +3,8 @@ let typingData = {};
 let typingChart;
 
 function switchTypingDots() {
-  let circles = Array.from(document.getElementsByClassName("typingCircles"));
-  let desc = document.getElementById("typingDesc");
+  const circles = Array.from(document.getElementsByClassName("typingCircles"));
+  const desc = document.getElementById("typingDesc");
 
   switch (typingToggleState) {
     case 0:
@@ -59,13 +59,13 @@ function parseTyping(data) {
           processTyping(results.data); // Process the CSV data
         } catch (error) {
           console.log("Error processing fallback CSV data:", error);
-          let typingCard = document.getElementById("typingCard");
+          const typingCard = document.getElementById("typingCard");
           typingCard.style.display = "none";
         }
       },
       error: function (error) {
         console.log("Failed to fetch typing data from CSV URL:", error);
-        let typingCard = document.getElementById("typingCard");
+        const typingCard = document.getElementById("typingCard");
         typingCard.style.display = "none";
       },
     });
@@ -73,9 +73,9 @@ function parseTyping(data) {
 }
 
 function showSymbols() {
-  let symbols = document.getElementsByClassName("symbol");
+  const symbols = document.getElementsByClassName("symbol");
 
-  for (let s of symbols) {
+  for (const s of symbols) {
     s.style.display = "inline";
   }
 }
@@ -190,7 +190,7 @@ function updateTypingData(dataIn) {
     item.avg !== 0 ? 3 : 0
   );
 
-  let weekAvg = _.chain(dataIn)
+  const weekAvg = _.chain(dataIn)
     .groupBy((d) => {
       const date = new Date(d.timestamp);
       return (
@@ -221,17 +221,17 @@ function updateTypingData(dataIn) {
   const labels = weekAvg.map((el) => el.wofy);
   const data = weekAvg.map((el) => el.avg);
 
-  let sortedWPM = _.sortBy(dataIn, (point) => point.timestamp.getTime());
+  const sortedWPM = _.sortBy(dataIn, (point) => point.timestamp.getTime());
 
   const maxWPM = +_.maxBy(dataIn, "wpm").wpm + " wpm";
 
   // Only last 500 tests
 
-  let dataRecent = sortedWPM.slice(-500);
+  const dataRecent = sortedWPM.slice(-500);
 
   // speed change per hour
 
-  let wpmPoints = dataRecent.map((point) => +point.wpm);
+  const wpmPoints = dataRecent.map((point) => +point.wpm);
 
   const trend = findLineByLeastSquares(wpmPoints);
 
@@ -301,7 +301,7 @@ function updateTypingData(dataIn) {
 }
 
 function drawtypingChart() {
-  let ctx = document.getElementById("monkeyChart").getContext("2d");
+  const ctx = document.getElementById("monkeyChart").getContext("2d");
 
   typingChart = new Chart(ctx, {
     type: "line",

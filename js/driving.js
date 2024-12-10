@@ -23,13 +23,13 @@ function parseDriving(data) {
           processDriving(results.data); // Process the CSV data
         } catch (error) {
           console.log("Error processing fallback CSV data:", error);
-          let drivingCard = document.getElementById("drivingCard");
+          const drivingCard = document.getElementById("drivingCard");
           drivingCard.style.display = "none"; // Hide the card if processing fails
         }
       },
       error: function (error) {
         console.log("Failed to fetch data from CSV URL:", error);
-        let drivingCard = document.getElementById("drivingCard");
+        const drivingCard = document.getElementById("drivingCard");
         drivingCard.style.display = "none"; // Hide the card if fetching fails
       },
     });
@@ -37,26 +37,26 @@ function parseDriving(data) {
 }
 
 function showdrivingSymbols() {
-  let symbols = document.getElementsByClassName("drivingSymbol");
+  const symbols = document.getElementsByClassName("drivingSymbol");
 
-  for (let s of symbols) {
+  for (const s of symbols) {
     s.style.display = "inline";
   }
 }
 
 function processDriving(data) {
   showdrivingSymbols();
-  let totalMiles = _.sumBy(data, function (o) {
+  const totalMiles = _.sumBy(data, function (o) {
     return +o.totalMiles;
   });
-  let totalSeconds = _.sumBy(data, function (o) {
+  const totalSeconds = _.sumBy(data, function (o) {
     return +o.totalSeconds;
   });
 
-  let timeSpentDriving = document.getElementById("timeDriving");
-  let milesDriven = document.getElementById("milesDriven");
+  const timeSpentDriving = document.getElementById("timeDriving");
+  const milesDriven = document.getElementById("milesDriven");
 
-  let timeMessage = Math.round(totalSeconds / (60 * 60)) + " hours";
+  const timeMessage = Math.round(totalSeconds / (60 * 60)) + " hours";
 
   timeSpentDriving.innerHTML = timeMessage;
   milesDriven.innerHTML =
@@ -64,7 +64,7 @@ function processDriving(data) {
       minimumFractionDigits: 2,
     }) + " miles";
 
-  let sortedData = data.sort(function (a, b) {
+  const sortedData = data.sort(function (a, b) {
     return b.startTimestamp - a.startTimestamp;
   });
 
@@ -73,7 +73,7 @@ function processDriving(data) {
 
   const dateOfLastDrive = formatDate(date);
 
-  let dateOfLastDriveMessage =
+  const dateOfLastDriveMessage =
     dateOfLastDrive +
     " (" +
     timeago(new Date(+sortedData[0].endTimestamp)) +
@@ -82,10 +82,10 @@ function processDriving(data) {
   document.getElementById("timeSinceLastDrive").innerHTML =
     dateOfLastDriveMessage;
 
-  let timeDriving = document.getElementById("timeAbleDrive");
-  let drivingPass = new Date(1626864660 * 1000);
+  const timeDriving = document.getElementById("timeAbleDrive");
+  const drivingPass = new Date(1626864660 * 1000);
 
-  let drivingMessage = timeago(drivingPass).replace(" ago", "");
+  const drivingMessage = timeago(drivingPass).replace(" ago", "");
 
   timeDriving.innerHTML = drivingMessage;
 }
