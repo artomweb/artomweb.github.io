@@ -56,7 +56,6 @@ function parseClimbing(data) {
 }
 
 function showClimbingData(data) {
-  console.log(data);
   document.getElementById("highestGrade").innerHTML = data.highestGrade;
   document.getElementById("climbingSessions").innerHTML = data.climbingSessions;
 

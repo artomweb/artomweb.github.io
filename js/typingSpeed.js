@@ -61,7 +61,6 @@ function showSymbols() {
 }
 
 function showTypingData(data) {
-  console.log(data);
   showSymbols();
 
   document.getElementById("timeSinceLastTest").innerHTML =
@@ -114,8 +113,6 @@ function updateTypingPerHour() {
 
 function updateTypingNormal() {
   const { labels, data } = typingData;
-
-  console.log(labels);
 
   typingChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
     return tooltipItem[0].label;

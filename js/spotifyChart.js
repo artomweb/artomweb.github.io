@@ -22,7 +22,6 @@ function parseSpotify(data) {
 }
 
 function showSpotifyData(data) {
-  console.log(data);
   document.getElementById("timeSinceLastSong").innerHTML =
     data.dateOfLastTestMessage;
   spotifyData = data;

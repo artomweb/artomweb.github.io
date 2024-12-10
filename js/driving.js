@@ -23,7 +23,6 @@ function showdrivingSymbols() {
 }
 
 function showDrivingData(data) {
-  console.log(data);
   showdrivingSymbols();
   document.getElementById("timeDriving").innerHTML = data.timeSpentDriving;
   document.getElementById("milesDriven").innerHTML = data.milesDriven;

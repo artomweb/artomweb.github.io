@@ -15,7 +15,6 @@ function parseDuo(data) {
 }
 
 function showDuoData(data) {
-  console.log(data);
   document.getElementById("timeSinceLastDuo").innerHTML = data.timeSinceLastDuo;
   document.getElementById("duoLessons").innerHTML = data.duoLessons;
   document.getElementById("duoStreak").innerHTML = data.duoStreak;

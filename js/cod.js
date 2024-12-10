@@ -63,7 +63,6 @@ function parseCod(data) {
 }
 
 function showCODData(data) {
-  console.log(data);
   document.getElementById("numGamesArchie").innerHTML = data.totalArchie;
   document.getElementById("numGamesBen").innerHTML = data.totalBen;
   document.getElementById("timeSinceLastCod").innerHTML =

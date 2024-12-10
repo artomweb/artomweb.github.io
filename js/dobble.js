@@ -54,7 +54,6 @@ function parseDobble(data) {
 }
 
 function showDobbleData(data) {
-  console.log(data);
   document.getElementById("dobbleScoreChangePerHour").innerHTML =
     data.scoreChangePerMin;
 

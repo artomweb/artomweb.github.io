@@ -60,7 +60,6 @@ function parseChess(data) {
 }
 
 function showChessData(data) {
-  console.log(data);
   document.getElementById("timeSinceLastChess").innerHTML =
     data.timeSinceLastGame;
   document.getElementById("ChessHighestRating").innerHTML = data.highestRating;
