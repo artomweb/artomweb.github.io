@@ -1,8 +1,8 @@
 function parseDuo(data) {
   const duoCard = document.getElementById("duoCard");
 
-  if (!data || data.error) {
-    console.log("Error processing data:", data.error);
+  if (!data || data?.error) {
+    console.log("Error processing data");
     duoCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {

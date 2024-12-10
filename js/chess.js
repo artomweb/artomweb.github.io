@@ -46,8 +46,8 @@ function chessToggle() {
 function parseChess(data) {
   const chessCard = document.getElementById("chessCard");
 
-  if (!data || data.error) {
-    console.log("Error processing Chess data:", data.error);
+  if (!data || data?.error) {
+    console.log("Error processing Chess data:");
     chessCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {

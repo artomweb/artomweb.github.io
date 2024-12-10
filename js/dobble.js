@@ -38,41 +38,38 @@ function dobbleToggle() {
 }
 
 function parseDobble(data) {
-  const fallbackUrl =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwLrwjE_FFzRj2Sq9S3-8MQDfpnGchacJGkM1s6Oidsswu82E4jBewlVWCNA4CwW9K3EauyYYlNfTL/pub?output=csv";
+  const dobbleCard = document.getElementById("dobbleCard");
 
-  // Attempt to process the provided JSON data
-  try {
-    processDobble(data); // Pass the relevant part of the data
-  } catch (error) {
-    console.log(
-      "Error processing dobble data, trying the fallback URL:",
-      error
-    );
-    parseCSV(fallbackUrl); // Fall back to CSV if processing fails
+  if (!data || data?.error) {
+    console.log("Error processing Dobble data");
+    dobbleCard.style.display = "none"; // Hide the card if processing fails
+  } else {
+    try {
+      showDobbleData(data.data); // Pass the relevant part of the data
+    } catch (error) {
+      console.log("Error processing Dobble data:", error);
+      dobbleCard.style.display = "none"; // Hide the card if processing fails
+    }
   }
+}
 
-  // Function to parse CSV data with PapaParse for the fallback URL
-  function parseCSV(url) {
-    Papa.parse(url, {
-      download: true,
-      header: true,
-      complete: function (results) {
-        try {
-          processDobble(results.data); // Process the CSV data
-        } catch (error) {
-          console.log("Error processing fallback CSV data:", error);
-          const dobbleCard = document.getElementById("dobbleCard");
-          dobbleCard.style.display = "none"; // Hide the card if processing fails
-        }
-      },
-      error: function (error) {
-        console.log("Failed to fetch data from CSV URL:", error);
-        const dobbleCard = document.getElementById("dobbleCard");
-        dobbleCard.style.display = "none"; // Hide the card if fetching fails
-      },
-    });
-  }
+function showDobbleData(data) {
+  console.log(data);
+  document.getElementById("dobbleScoreChangePerHour").innerHTML =
+    data.scoreChangePerMin;
+
+  document.getElementById("dobbleTime").innerHTML = data.timeMessage;
+
+  document.getElementById("highestDobble").innerHTML = data.maxScore;
+  document.getElementById("numberDobble").innerHTML = data.numTests;
+
+  document.getElementById("timeSinceLastDobble").innerHTML =
+    data.dateOfLastTestMessage;
+
+  dobbleData = data;
+  plotDobble();
+
+  dobbleToggle();
 }
 
 function updatedobbleNormal() {
@@ -148,128 +145,6 @@ function updatedobblePerHour() {
   ];
 
   dobbleChart.update();
-}
-
-function processDobble(dataIn) {
-  updateDobbleData(dataIn);
-
-  plotDobble();
-
-  dobbleToggle();
-}
-
-function updateDobbleData(dataIn) {
-  let totalTime = 0;
-  dataIn.forEach((elt) => {
-    elt.timestamp = new Date(+elt.unix * 1000);
-    elt.score = +elt.score;
-    totalTime += +elt.testTime;
-  });
-
-  const numTests = dataIn.length;
-
-  const weekAvg = _.chain(dataIn)
-    .groupBy((d) => {
-      const date = new Date(d.timestamp);
-      return new Intl.DateTimeFormat("en-GB", {
-        month: "short",
-        year: "2-digit",
-      }).format(date);
-    })
-    .map((entries, mofy) => {
-      return {
-        mofy,
-        avg: Math.round(_.meanBy(entries, (entry) => entry.score) * 10) / 10,
-        // avg: Math.round(_.maxBy(entries, "score").score * 10) / 10,
-      };
-    })
-    .value();
-
-  const labels = weekAvg.map((el) => el.mofy);
-  const data = weekAvg.map((el) => el.avg);
-
-  const hoursOfDay = Array.from({ length: 24 }, (_, i) =>
-    i.toString().padStart(2, "0")
-  );
-
-  const byTimeOfDay = _.chain(dataIn)
-    .groupBy((d) => {
-      const date = new Date(d.timestamp);
-      return date.getHours().toString().padStart(2, "0"); // Format hour as "HH"
-    })
-    .map((entries, hour) => {
-      return {
-        hour: +hour,
-        avg: Math.round(_.meanBy(entries, (entry) => +entry.score) * 10) / 10,
-        // avg: Math.round(_.maxBy(entries, "score").score * 10) / 10,
-        // avg: entries.length,
-      };
-    })
-    .sortBy((d) => d.hour)
-    .value();
-
-  const completedByTimeOfDay = _.map(hoursOfDay, (hour) => {
-    const existingHourData = byTimeOfDay.find(
-      (item) => item.hour === parseInt(hour)
-    );
-    return existingHourData || { hour: +hour, avg: 0 };
-  });
-
-  const timOfDayLabels = completedByTimeOfDay.map((item) => item.hour);
-  const timOfDayData = completedByTimeOfDay.map((item) => item.avg);
-
-  const pointRadiusArray = completedByTimeOfDay.map((item) =>
-    item.avg !== 0 ? 3 : 0
-  );
-
-  const scorePoints = dataIn.map((point) => +point.score);
-
-  const trend = findLineByLeastSquares(scorePoints);
-
-  const scoreChange = trend[1][1] - trend[0][1];
-
-  const delta = dataIn.length * 60;
-
-  const changeInScorePerMinSigned = (scoreChange * (3600 / delta)).toFixed(2);
-
-  const PorNchange = changeInScorePerMinSigned > 0 ? "+" : "-";
-
-  const changeInScorePerMin = Math.abs(changeInScorePerMinSigned);
-
-  const maxScore = _.maxBy(dataIn, "score").score;
-  const timeMessage = Math.round(totalTime / (60 * 60)) + " hours";
-
-  const lastTimestamp = dataIn[dataIn.length - 1].timestamp;
-  const date = new Date(lastTimestamp);
-
-  const dateOfLastTest = formatDate(lastTimestamp);
-
-  const dateOfLastTestMessage =
-    dateOfLastTest +
-    " (" +
-    timeago(new Date(+dataIn[dataIn.length - 1].timestamp)) +
-    ")";
-
-  document.getElementById("dobbleScoreChangePerHour").innerHTML =
-    PorNchange + changeInScorePerMin;
-
-  document.getElementById("dobbleTime").innerHTML = timeMessage;
-
-  document.getElementById("highestDobble").innerHTML = maxScore;
-  document.getElementById("numberDobble").innerHTML = numTests;
-
-  document.getElementById("timeSinceLastDobble").innerHTML =
-    dateOfLastTestMessage;
-
-  dobbleData = {
-    labels,
-    data,
-    timOfDayLabels,
-    timOfDayData,
-    pointRadiusArray,
-  };
-
-  // console.log(maxScore);
 }
 
 function plotDobble() {

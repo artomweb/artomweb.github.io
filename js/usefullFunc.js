@@ -9,45 +9,14 @@ function getAllData() {
     .then((response) => response.json())
     .then((data) => {
       // Call each parsing function with individual error handling
-      parseDuo(data.duolingo);
       parseClimbing(data.climbing);
-      parseChess(data.chess);
       parseTyping(data.typing);
-
-      // try {
-      //   parseCod(data.cod, data.codAllGames);
-      // } catch (e) {
-      //   console.error("Error parsing COD data:", e);
-      //   parseCod();
-      // }
-
-      // try {
-      //   parseDriving(data.driving);
-      // } catch (e) {
-      //   console.error("Error parsing driving data:", e);
-      //   parseDriving();
-      // }
-
-      // try {
-      //
-      // } catch (e) {
-      //   console.error("Error parsing typing data:", e);
-      //   parseTyping();
-      // }
-
-      // try {
-      //   parseDobble(data.dobble);
-      // } catch (e) {
-      //   console.error("Error parsing Dobble data:", e);
-      //   parseDobble();
-      // }
-
-      // try {
-      //   parseSpotify(data.spotify);
-      // } catch (e) {
-      //   console.error("Error parsing Spotify data:", e);
-      //   parseSpotify();
-      // }
+      parseDriving(data.driving);
+      parseCod(data.COD);
+      parseChess(data.chess);
+      parseDuo(data.duolingo);
+      parseDobble(data.dobble);
+      parseSpotify(data.spotify);
     })
     .catch((e) => {
       // Handle errors in the fetch operation

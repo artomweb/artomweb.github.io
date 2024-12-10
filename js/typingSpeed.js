@@ -40,7 +40,7 @@ function parseTyping(data) {
   const typingCard = document.getElementById("typingCard");
 
   if (!data || data.error) {
-    console.log("Error processing Chess data:", data.error);
+    console.log("Error processing Chess data:");
     typingCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {

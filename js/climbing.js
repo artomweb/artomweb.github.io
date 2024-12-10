@@ -3,7 +3,9 @@ let climbingChart;
 let climbingToggleState = 0;
 
 function switchClimbingDots() {
-  const circles = Array.from(document.getElementsByClassName("climbingCircles"));
+  const circles = Array.from(
+    document.getElementsByClassName("climbingCircles")
+  );
   const desc = document.getElementById("climbingDesc");
 
   switch (climbingToggleState) {
@@ -40,8 +42,8 @@ function climbingToggle() {
 function parseClimbing(data) {
   const climbingCard = document.getElementById("climbingCard");
 
-  if (!data || data.error) {
-    console.log("Error processing fallback CSV data:", data.error);
+  if (!data || data?.error) {
+    console.log("Error processing fallback CSV data:");
     climbingCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {
