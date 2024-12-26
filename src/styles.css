@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Klasik";
+  src: url("/fonts/Klasik-Regular.otf") format("opentype");
+}
+
+body {
+  background-color: #faf9f6;
+}
+
+.title {
+  font-family: "Klasik", sans-serif;
+}

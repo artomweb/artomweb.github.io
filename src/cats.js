@@ -1,3 +1,4 @@
+import { shuffle } from "./usefullFunctions";
 const MAX_CATS = 78;
 
 // Create an array of integers
@@ -28,4 +29,4 @@ function loadCat() {
   }
 }
 
-loadCat();
+export default loadCat;

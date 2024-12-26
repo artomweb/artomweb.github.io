@@ -2,31 +2,6 @@ function parseDate(dateStr) {
   const [day, month, year] = dateStr.split("/").map(Number);
   return new Date(year, month - 1, day); // Months are zero-based
 }
-function getAllData() {
-  let url = "https://api.artomweb.com/cache/all";
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      // Call each parsing function with individual error handling
-      parseClimbing(data.climbing);
-      parseTyping(data.typing);
-      parseDriving(data.driving);
-      parseCod(data.COD);
-      parseChess(data.chess);
-      parseDuo(data.duolingo);
-      parseDobble(data.dobble);
-      parseSpotify(data.spotify);
-    })
-    .catch((e) => {
-      // Handle errors in the fetch operation
-      console.error("Error fetching data:", e);
-    });
-}
-
-// Use DOMContentLoaded to ensure HTML is loaded before calling the function
-document.addEventListener("DOMContentLoaded", () => {
-  getAllData();
-});
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -153,7 +128,7 @@ function findLineByLeastSquares(values_y) {
   return [returnpoint1, returnpoint2];
 }
 
-function shuffle(array) {
+export function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
 
