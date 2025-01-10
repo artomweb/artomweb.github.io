@@ -1,3 +1,24 @@
+import {
+  Chart,
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+// Register the required components
+Chart.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend
+);
 let dobbleToggleState = 0;
 let dobbleData = {};
 let dobbleChart;
@@ -37,8 +58,11 @@ function dobbleToggle() {
   dobbleToggleState == 1 ? (dobbleToggleState = 0) : dobbleToggleState++;
 }
 
-function parseDobble(data) {
+export function parseDobble(data) {
   const dobbleCard = document.getElementById("dobbleCard");
+  document
+    .getElementById("dobbleToggle")
+    .addEventListener("click", dobbleToggle);
 
   if (!data || data?.error) {
     console.log("Error processing Dobble data");
@@ -169,6 +193,7 @@ function plotDobble() {
       responsive: true,
 
       plugins: {
+        datalabels: false,
         legend: {
           display: false,
         },

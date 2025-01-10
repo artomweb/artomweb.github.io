@@ -1,3 +1,4 @@
+import { shuffle } from "./usefullFunc";
 const MAX_CATS = 78;
 
 // Create an array of integers
@@ -10,7 +11,7 @@ imageNumbers = shuffle(imageNumbers);
 let currentImageIndex = 0;
 
 // When the button is clicked, change the image source to the current index
-function loadCat() {
+export function loadCat() {
   const catImg = document.getElementById("catImage");
   const imageCache = document.getElementById("imageCache");
 
@@ -27,5 +28,3 @@ function loadCat() {
     currentImageIndex++;
   }
 }
-
-loadCat();

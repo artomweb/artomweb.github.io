@@ -1,2 +1,5 @@
-.vscode/*
+.vscode
 eslint.config.js
+.parcel-cache
+node_modules
+public

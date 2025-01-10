@@ -1,4 +1,29 @@
-function parseDuo(data) {
+import {
+  Chart,
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import { formatDate } from "./usefullFunc";
+
+// Register the required components
+Chart.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
+
+export function parseDuo(data) {
   const duoCard = document.getElementById("duoCard");
 
   if (!data || data?.error) {
@@ -40,6 +65,7 @@ function plotDuo(labels, data) {
     },
     options: {
       plugins: {
+        datalabels: false,
         legend: {
           display: false,
         },

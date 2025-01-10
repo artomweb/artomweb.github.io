@@ -1,3 +1,27 @@
+import { formatDate } from "./usefullFunc";
+import {
+  Chart,
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+
+// Register the required components
+Chart.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
 let climbingData = {};
 let climbingChart;
 let climbingToggleState = 0;
@@ -39,8 +63,11 @@ function climbingToggle() {
   climbingToggleState == 1 ? (climbingToggleState = 0) : climbingToggleState++;
 }
 
-function parseClimbing(data) {
+export function parseClimbing(data) {
   const climbingCard = document.getElementById("climbingCard");
+  document
+    .getElementById("climbingToggle")
+    .addEventListener("click", climbingToggle);
 
   if (!data || data?.error) {
     console.log("Error processing fallback CSV data:");
@@ -192,6 +219,5 @@ function drawClimbingChart() {
 
   climbingChart = new Chart(ctx, {
     type: "bar",
-    plugins: [ChartDataLabels],
   });
 }
