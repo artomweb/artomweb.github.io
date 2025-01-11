@@ -1,3 +1,5 @@
+import Chart from "./sharedChartjs";
+
 let chessToggleState = 0;
 let chessData = {};
 let chessChart;
@@ -43,8 +45,9 @@ function chessToggle() {
   chessToggleState = (chessToggleState + 1) % 3;
 }
 
-function parseChess(data) {
+export function parseChess(data) {
   const chessCard = document.getElementById("chessCard");
+  document.getElementById("chessToggle").addEventListener("click", chessToggle);
 
   if (!data || data?.error) {
     console.log("Error processing Chess data:");
@@ -243,6 +246,7 @@ function plotChess() {
       responsive: true,
 
       plugins: {
+        datalabels: false,
         legend: {
           display: false,
         },

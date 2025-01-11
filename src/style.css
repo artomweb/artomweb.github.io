@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply flex items-center justify-center text-lg sm:text-xl px-3 py-3 rounded-xl transition duration-300 border-2;
+  }
+  .btn-secondary {
+    @apply flex items-center justify-center text-lg px-2 py-1 rounded-xl  transition duration-300 border-2;
+  }
+  .card {
+    @apply shadow-lg rounded-2xl p-4 bg-white flex flex-col gap-3 items-start mb-4 break-inside-avoid;
+  }
+  .card-title {
+    @apply flex gap-2 items-center text-2xl;
+  }
+  .card-subtitle {
+    @apply font-medium text-gray-800 text-opacity-75 text-xl;
+  }
+
+  .card-content {
+    @apply flex flex-col text-gray-800 text-opacity-75;
+  }
+  .card-footer {
+    @apply flex flex-col text-gray-800 text-opacity-75;
+  }
+  .value {
+    @apply font-bold;
+  }
+}
+
+h2 {
+  @apply text-xl;
+}
+
+small {
+  /* @apply mt-0; */
+}
+
+@font-face {
+  font-family: "Klasik";
+  src: url("./fonts/Klasik-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("./fonts/Montserrat_wght.woff2") format("woff2"),
+    url("./fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
+}
+.icon {
+  width: auto;
+  height: 1em !important;
+  vertical-align: -0.125em;
+  overflow: visible;
+}

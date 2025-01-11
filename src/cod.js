@@ -1,5 +1,4 @@
-// https://docs.google.com/spreadsheets/d/e/2PACX-1vR1niW_6GahrZO8AwptrW72A3EAbgLhROhApyzhwfq5_m_OTAfQq0MBD6OCsRfL0vHFYs2FKYluYCHd/pub?output=csv
-
+import Chart from "./sharedChartjs";
 let codData = {};
 let codChart;
 let codToggleState = 0;
@@ -46,8 +45,9 @@ function codToggle() {
   codToggleState == 2 ? (codToggleState = 0) : codToggleState++;
 }
 
-function parseCod(data) {
+export function parseCod(data) {
   const CODCard = document.getElementById("CODCard");
+  document.getElementById("codToggle").addEventListener("click", codToggle);
 
   if (!data || data?.error) {
     console.log("Error processing COD data");
@@ -247,6 +247,7 @@ function drawCodChart() {
       responsive: true,
 
       plugins: {
+        datalabels: false,
         legend: {
           display: true,
         },

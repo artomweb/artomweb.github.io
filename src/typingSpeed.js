@@ -1,3 +1,5 @@
+import Chart from "./sharedChartjs";
+
 let typingToggleState = 0;
 let typingData = {};
 let typingChart;
@@ -36,8 +38,11 @@ function typingToggle() {
   typingToggleState == 1 ? (typingToggleState = 0) : typingToggleState++;
 }
 
-function parseTyping(data) {
+export function parseTyping(data) {
   const typingCard = document.getElementById("typingCard");
+  document
+    .getElementById("typingToggle")
+    .addEventListener("click", typingToggle);
 
   if (!data || data.error) {
     console.log("Error processing Chess data:");
@@ -303,6 +308,7 @@ function drawtypingChart() {
       responsive: true,
 
       plugins: {
+        datalabels: false,
         legend: {
           display: false,
         },

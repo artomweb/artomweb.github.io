@@ -1,3 +1,6 @@
+import { formatDate } from "./usefullFunc";
+import Chart from "./sharedChartjs";
+
 let climbingData = {};
 let climbingChart;
 let climbingToggleState = 0;
@@ -39,8 +42,11 @@ function climbingToggle() {
   climbingToggleState == 1 ? (climbingToggleState = 0) : climbingToggleState++;
 }
 
-function parseClimbing(data) {
+export function parseClimbing(data) {
   const climbingCard = document.getElementById("climbingCard");
+  document
+    .getElementById("climbingToggle")
+    .addEventListener("click", climbingToggle);
 
   if (!data || data?.error) {
     console.log("Error processing fallback CSV data:");
@@ -192,6 +198,5 @@ function drawClimbingChart() {
 
   climbingChart = new Chart(ctx, {
     type: "bar",
-    plugins: [ChartDataLabels],
   });
 }

@@ -1,3 +1,4 @@
+import Chart from "./sharedChartjs";
 let spotifyData;
 let mySpotifyChart;
 let config;
@@ -5,8 +6,11 @@ let toggleState = 0;
 let ctx2;
 const backgroundColor = "#81b29a";
 
-function parseSpotify(data) {
+export function parseSpotify(data) {
   const spotifyCard = document.getElementById("spotifyCard");
+  document
+    .getElementById("spotifyToggle")
+    .addEventListener("click", spotifyToggle);
 
   if (!data || data?.error) {
     console.log("Error processing Spotify data");
@@ -208,6 +212,7 @@ function spotifyChart() {
       responsive: true,
 
       plugins: {
+        datalabels: false,
         legend: {
           display: false,
         },

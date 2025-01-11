@@ -1,34 +1,9 @@
-function parseDate(dateStr) {
+export function parseDate(dateStr) {
   const [day, month, year] = dateStr.split("/").map(Number);
   return new Date(year, month - 1, day); // Months are zero-based
 }
-function getAllData() {
-  let url = "https://api.artomweb.com/cache/all";
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      // Call each parsing function with individual error handling
-      parseClimbing(data.climbing);
-      parseTyping(data.typing);
-      parseDriving(data.driving);
-      parseCod(data.COD);
-      parseChess(data.chess);
-      parseDuo(data.duolingo);
-      parseDobble(data.dobble);
-      parseSpotify(data.spotify);
-    })
-    .catch((e) => {
-      // Handle errors in the fetch operation
-      console.error("Error fetching data:", e);
-    });
-}
 
-// Use DOMContentLoaded to ensure HTML is loaded before calling the function
-document.addEventListener("DOMContentLoaded", () => {
-  getAllData();
-});
-
-function formatDate(dateString) {
+export function formatDate(dateString) {
   const date = new Date(dateString);
 
   // Get the day and month
@@ -55,7 +30,7 @@ function getOrdinalSuffix(day) {
   }
 }
 
-function timeago(inputDate) {
+export function timeago(inputDate) {
   const currentDate = new Date();
 
   // Clear the time part of both dates for comparison
@@ -88,7 +63,7 @@ function timeago(inputDate) {
   }
 }
 
-function uptime(uptimeStartDate) {
+export function uptime(uptimeStartDate) {
   const now = new Date();
   const diffMs = now - uptimeStartDate;
 
@@ -120,7 +95,7 @@ function uptime(uptimeStartDate) {
 }
 
 // https://github.com/monkeytypegame/monkeytype
-function findLineByLeastSquares(values_y) {
+export function findLineByLeastSquares(values_y) {
   let sum_x = 0;
   let sum_y = 0;
   let sum_xy = 0;
@@ -153,7 +128,7 @@ function findLineByLeastSquares(values_y) {
   return [returnpoint1, returnpoint2];
 }
 
-function shuffle(array) {
+export function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
 
@@ -173,18 +148,20 @@ function shuffle(array) {
   return array;
 }
 
-// Fix button animation on mobile
-const touchButtons = document.querySelectorAll(".button");
+export function initTouchButtons() {
+  // Fix button animation on mobile
+  const touchButtons = document.querySelectorAll(".btn, .btn-secondary");
 
-touchButtons.forEach((but) => {
-  but.addEventListener(
-    "touchstart",
-    function (e) {
-      but.classList.add("active");
-      setTimeout(function () {
-        but.classList.remove("active");
-      }, 200);
-    },
-    { passive: true }
-  ); // Marking the event listener as passive
-});
+  touchButtons.forEach((but) => {
+    but.addEventListener(
+      "touchstart",
+      function (e) {
+        but.classList.add("hover");
+        setTimeout(function () {
+          but.classList.remove("hover");
+        }, 200); // Adjust the duration as needed
+      },
+      { passive: true } // Marking the event listener as passive
+    );
+  });
+}

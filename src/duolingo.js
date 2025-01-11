@@ -1,4 +1,7 @@
-function parseDuo(data) {
+import Chart from "./sharedChartjs";
+import { formatDate } from "./usefullFunc";
+
+export function parseDuo(data) {
   const duoCard = document.getElementById("duoCard");
 
   if (!data || data?.error) {
@@ -40,6 +43,7 @@ function plotDuo(labels, data) {
     },
     options: {
       plugins: {
+        datalabels: false,
         legend: {
           display: false,
         },

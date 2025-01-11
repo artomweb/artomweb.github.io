@@ -1,3 +1,4 @@
+import Chart from "./sharedChartjs";
 let dobbleToggleState = 0;
 let dobbleData = {};
 let dobbleChart;
@@ -37,8 +38,11 @@ function dobbleToggle() {
   dobbleToggleState == 1 ? (dobbleToggleState = 0) : dobbleToggleState++;
 }
 
-function parseDobble(data) {
+export function parseDobble(data) {
   const dobbleCard = document.getElementById("dobbleCard");
+  document
+    .getElementById("dobbleToggle")
+    .addEventListener("click", dobbleToggle);
 
   if (!data || data?.error) {
     console.log("Error processing Dobble data");
@@ -149,7 +153,7 @@ function updatedobblePerHour() {
 function plotDobble() {
   const ctx = document.getElementById("dobbleChart").getContext("2d");
 
-  config = {
+  let config = {
     type: "line",
     data: {
       // labels: labels,
@@ -169,6 +173,7 @@ function plotDobble() {
       responsive: true,
 
       plugins: {
+        datalabels: false,
         legend: {
           display: false,
         },
