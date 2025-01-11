@@ -15,7 +15,7 @@ export function loadCat() {
   const catImg = document.getElementById("catImage");
   const imageCache = document.getElementById("imageCache");
 
-  catImg.src = "standingCats/" + imageNumbers[currentImageIndex] + ".webp";
+  catImg.src = "./standingCats/" + imageNumbers[currentImageIndex] + ".webp";
 
   // When on last cat, set index to 0 and reshuffle
   if (currentImageIndex >= MAX_CATS - 1) {

@@ -1,14 +1,15 @@
-import { parseClimbing } from "./climbing";
+import "./style.css";
 import { loadCat } from "./cats";
-import { initializeSocket } from "./rppiSocket";
-import { initTouchButtons } from "./usefullFunc";
+import { parseClimbing } from "./climbing";
 import { parseTyping } from "./typingSpeed";
-import { parseDriving } from "./driving";
 import { parseCod } from "./cod";
 import { parseChess } from "./chess";
-import { parseDuo } from "./duolingo";
+import { initTouchButtons } from "./usefullFunc";
 import { parseDobble } from "./dobble";
 import { parseSpotify } from "./spotifyChart";
+import { parseDriving } from "./driving";
+import { initializeSocket } from "./rppiSocket";
+import { parseDuo } from "./duolingo";
 
 function getAllData() {
   let url = "https://api.artomweb.com/cache/all";
@@ -18,12 +19,12 @@ function getAllData() {
       // Call each parsing function with individual error handling
       parseClimbing(data.climbing);
       parseTyping(data.typing);
-      parseDriving(data.driving);
       parseCod(data.COD);
       parseChess(data.chess);
-      parseDuo(data.duolingo);
       parseDobble(data.dobble);
       parseSpotify(data.spotify);
+      parseDriving(data.driving);
+      parseDuo(data.duolingo);
     })
     .catch((e) => {
       // Handle errors in the fetch operation
@@ -31,9 +32,9 @@ function getAllData() {
     });
 }
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("loadCat").addEventListener("click", loadCat);
-  initTouchButtons();
-  getAllData();
   loadCat();
+  document.getElementById("loadCat").addEventListener("click", loadCat);
+  getAllData();
+  initTouchButtons();
   initializeSocket();
 });

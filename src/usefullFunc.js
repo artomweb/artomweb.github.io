@@ -150,18 +150,18 @@ export function shuffle(array) {
 
 export function initTouchButtons() {
   // Fix button animation on mobile
-  const touchButtons = document.querySelectorAll(".button");
+  const touchButtons = document.querySelectorAll(".btn, .btn-secondary");
 
   touchButtons.forEach((but) => {
     but.addEventListener(
       "touchstart",
       function (e) {
-        but.classList.add("active");
+        but.classList.add("hover");
         setTimeout(function () {
-          but.classList.remove("active");
-        }, 200);
+          but.classList.remove("hover");
+        }, 200); // Adjust the duration as needed
       },
-      { passive: true }
-    ); // Marking the event listener as passive
+      { passive: true } // Marking the event listener as passive
+    );
   });
 }

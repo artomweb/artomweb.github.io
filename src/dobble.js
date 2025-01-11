@@ -173,7 +173,7 @@ function updatedobblePerHour() {
 function plotDobble() {
   const ctx = document.getElementById("dobbleChart").getContext("2d");
 
-  config = {
+  let config = {
     type: "line",
     data: {
       // labels: labels,
