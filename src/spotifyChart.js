@@ -1,24 +1,4 @@
-import {
-  Chart,
-  BarController,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
-// Register the required components
-Chart.register(
-  BarController,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend
-);
+import Chart from "./sharedChartjs";
 let spotifyData;
 let mySpotifyChart;
 let config;

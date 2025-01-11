@@ -1,26 +1,4 @@
-import {
-  Chart,
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  CategoryScale,
-} from "chart.js";
-
-// Register the required components of Chart.js
-Chart.register(
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  CategoryScale
-);
+import Chart from "./sharedChartjs";
 let codData = {};
 let codChart;
 let codToggleState = 0;

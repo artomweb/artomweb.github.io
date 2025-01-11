@@ -1,27 +1,6 @@
 import { formatDate } from "./usefullFunc";
-import {
-  Chart,
-  BarController,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import ChartDataLabels from "chartjs-plugin-datalabels";
+import Chart from "./sharedChartjs";
 
-// Register the required components
-Chart.register(
-  BarController,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  ChartDataLabels
-);
 let climbingData = {};
 let climbingChart;
 let climbingToggleState = 0;

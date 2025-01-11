@@ -1,28 +1,4 @@
-import {
-  Chart,
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  Filler,
-} from "chart.js";
-
-// Register required Chart.js components
-Chart.register(
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  Filler
-);
+import Chart from "./sharedChartjs";
 
 let typingToggleState = 0;
 let typingData = {};
