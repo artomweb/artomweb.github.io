@@ -40,17 +40,17 @@ small {
 
 @font-face {
   font-family: "Klasik";
-  src: url("fonts/Klasik-Regular.otf") format("opentype");
+  src: url("./fonts/Klasik-Regular.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("fonts/Montserrat_wght.woff2") format("woff2"),
-    url("fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
+  src: url("./fonts/Montserrat_wght.woff2") format("woff2"),
+    url("./fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
 }
 .icon {
   width: auto;
-  height: 1em;
+  height: 1em !important;
   vertical-align: -0.125em;
   overflow: visible;
 }
