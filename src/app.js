@@ -32,8 +32,15 @@ function getAllData() {
     });
 }
 document.addEventListener("DOMContentLoaded", () => {
-  loadCat();
+  document.getElementById("container").style.display = "block";
+
   document.getElementById("loadCat").addEventListener("click", loadCat);
+  loadCat();
+  setTimeout(() => {
+    document.getElementById("catImage").classList.remove("opacity-0");
+    document.getElementById("catImage").classList.add("opacity-100");
+  }, 10);
+
   getAllData();
   initTouchButtons();
   initializeSocket();
