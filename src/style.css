@@ -44,12 +44,6 @@ small {
   src: url("./fonts/Klasik-Regular.otf") format("opentype");
 }
 
-@font-face {
-  font-family: "Montserrat";
-  font-display: swap;
-  src: url("./fonts/Montserrat_wght.woff2") format("woff2"),
-    url("./fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
-}
 .icon {
   width: auto;
   height: 1em !important;

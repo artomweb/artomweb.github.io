@@ -1,8 +1,6 @@
 const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
@@ -47,13 +45,6 @@ module.exports = (env, argv) => {
             },
           ],
         },
-        {
-          test: /\.(woff|woff2|ttf|eot|otf)$/i,
-          type: "asset/resource", // Handle font files as resources
-          generator: {
-            filename: "fonts/[name].[contenthash][ext]", // Output to dist/fonts/
-          },
-        },
       ],
     },
 
@@ -65,8 +56,16 @@ module.exports = (env, argv) => {
             to: "[name][ext]",
           },
           {
-            from: "src/static", // Path to the static folder in your src directory
-            to: "", // Copy it to the static folder in dist
+            from: "src/standingCats",
+            to: "standingCats/",
+          },
+          {
+            from: "src/images",
+            to: "images/",
+          },
+          {
+            from: "src/fonts",
+            to: "fonts/",
           },
         ],
       }),
