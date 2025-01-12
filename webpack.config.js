@@ -1,5 +1,8 @@
 const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
@@ -67,12 +70,16 @@ module.exports = (env, argv) => {
           },
         ],
       }),
+      // new BundleAnalyzerPlugin(),
     ],
 
     optimization: {
+      // splitChunks: { chunks: "all" },
       minimize: isProduction, // Minify in production mode
+      minimizer: [new TerserPlugin()],
+      usedExports: true,
     },
 
-    devtool: isProduction ? "source-map" : "eval-source-map", // Different source maps for dev and prod
+    devtool: isProduction ? false : "eval-source-map", // Different source maps for dev and prod
   };
 };

@@ -7,6 +7,9 @@
     "dev": "webpack serve --mode development",
     "build": "rm -rf dist/ && webpack --mode production"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
