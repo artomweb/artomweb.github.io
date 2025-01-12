@@ -30,9 +30,9 @@ function getOrdinalSuffix(day) {
   }
 }
 
-export function timeago(inputDate) {
+export function timeago(input) {
   const currentDate = new Date();
-
+  const inputDate = new Date(input);
   // Clear the time part of both dates for comparison
   inputDate.setHours(0, 0, 0, 0);
   currentDate.setHours(0, 0, 0, 0);

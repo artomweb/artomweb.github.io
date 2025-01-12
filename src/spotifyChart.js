@@ -1,4 +1,5 @@
 import Chart from "./sharedChartjs";
+const { formatDate, timeago } = require("./usefullFunc.js");
 let spotifyData;
 let mySpotifyChart;
 let config;
@@ -26,8 +27,12 @@ export function parseSpotify(data) {
 }
 
 function showSpotifyData(data) {
+  const formattedDate = formatDate(data.dateOfLastTest);
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(
+    data.dateOfLastTest
+  )})`;
   document.getElementById("timeSinceLastSong").innerHTML =
-    data.dateOfLastTestMessage;
+    dateOfLastTestMessage;
   spotifyData = data;
   spotifyChart();
   spotifyToggle();

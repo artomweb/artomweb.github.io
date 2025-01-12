@@ -1,6 +1,5 @@
 import Chart from "./sharedChartjs";
-import { formatDate } from "./usefullFunc";
-
+const { formatDate, timeago } = require("./usefullFunc.js");
 export function parseDuo(data) {
   const duoCard = document.getElementById("duoCard");
 
@@ -18,7 +17,11 @@ export function parseDuo(data) {
 }
 
 function showDuoData(data) {
-  document.getElementById("timeSinceLastDuo").innerHTML = data.timeSinceLastDuo;
+  const formattedDate = formatDate(data.lastLessonDate);
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(
+    data.lastLessonDate
+  )})`;
+  document.getElementById("timeSinceLastDuo").innerHTML = dateOfLastTestMessage;
   document.getElementById("duoLessons").innerHTML = data.duoLessons;
   document.getElementById("duoStreak").innerHTML = data.duoStreak;
   document.getElementById("duoTotal").innerHTML = data.duoTotal;

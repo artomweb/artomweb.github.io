@@ -1,4 +1,4 @@
-import { formatDate } from "./usefullFunc";
+const { formatDate, timeago } = require("./usefullFunc.js");
 import Chart from "./sharedChartjs";
 
 let climbingData = {};
@@ -62,11 +62,15 @@ export function parseClimbing(data) {
 }
 
 function showClimbingData(data) {
+  const formattedDate = formatDate(data.lastClimbDate);
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(
+    data.lastClimbDate
+  )})`;
   document.getElementById("highestGrade").innerHTML = data.highestGrade;
   document.getElementById("climbingSessions").innerHTML = data.climbingSessions;
 
   document.getElementById("timeSinceLastClimb").innerHTML =
-    data.timeSinceLastClimb;
+    dateOfLastTestMessage;
 
   climbingData = data;
 

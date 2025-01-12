@@ -1,3 +1,4 @@
+const { formatDate, timeago } = require("./usefullFunc.js");
 export function parseDriving(data) {
   const drivingCard = document.getElementById("drivingCard");
 
@@ -23,10 +24,14 @@ function showdrivingSymbols() {
 }
 
 function showDrivingData(data) {
+  const formattedDate = formatDate(data.dateOfLastDrive);
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(
+    data.dateOfLastDrive
+  )})`;
   showdrivingSymbols();
   document.getElementById("timeDriving").innerHTML = data.timeSpentDriving;
   document.getElementById("milesDriven").innerHTML = data.milesDriven;
   document.getElementById("timeSinceLastDrive").innerHTML =
-    data.timeSinceLastDrive;
+    dateOfLastTestMessage;
   document.getElementById("timeAbleDrive").innerHTML = data.timeDriving;
 }

@@ -1,4 +1,6 @@
 import Chart from "./sharedChartjs";
+const { formatDate, timeago } = require("./usefullFunc.js");
+
 let codData = {};
 let codChart;
 let codToggleState = 0;
@@ -63,10 +65,13 @@ export function parseCod(data) {
 }
 
 function showCODData(data) {
+  const formattedDate = formatDate(data.dateOfLastTest);
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(
+    data.dateOfLastTest
+  )})`;
   document.getElementById("numGamesArchie").innerHTML = data.totalArchie;
   document.getElementById("numGamesBen").innerHTML = data.totalBen;
-  document.getElementById("timeSinceLastCod").innerHTML =
-    data.dateOfLastTestMessage;
+  document.getElementById("timeSinceLastCod").innerHTML = dateOfLastTestMessage;
 
   codData = data;
   drawCodChart();

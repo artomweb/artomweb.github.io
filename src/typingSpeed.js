@@ -1,5 +1,5 @@
 import Chart from "./sharedChartjs";
-
+const { formatDate, timeago } = require("./usefullFunc.js");
 let typingToggleState = 0;
 let typingData = {};
 let typingChart;
@@ -67,9 +67,12 @@ function showSymbols() {
 
 function showTypingData(data) {
   showSymbols();
-
+  const formattedDate = formatDate(data.dateOfLastTest);
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(
+    data.dateOfLastTest
+  )})`;
   document.getElementById("timeSinceLastTest").innerHTML =
-    data.dateOfLastTestMessage;
+    dateOfLastTestMessage;
   document.getElementById("highestTypingSpeed").innerHTML = data.maxWPM;
   document.getElementById("averageTypingSpeed").innerHTML = data.avgWPM;
   document.getElementById("averageAccuracy").innerHTML = data.avgACC;

@@ -1,4 +1,5 @@
 import Chart from "./sharedChartjs";
+const { formatDate, timeago } = require("./usefullFunc.js");
 let dobbleToggleState = 0;
 let dobbleData = {};
 let dobbleChart;
@@ -58,6 +59,10 @@ export function parseDobble(data) {
 }
 
 function showDobbleData(data) {
+  const formattedDate = formatDate(data.lastTimestamp);
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(
+    data.lastTimestamp
+  )})`;
   document.getElementById("dobbleScoreChangePerHour").innerHTML =
     data.scoreChangePerMin;
 
@@ -67,7 +72,7 @@ function showDobbleData(data) {
   document.getElementById("numberDobble").innerHTML = data.numTests;
 
   document.getElementById("timeSinceLastDobble").innerHTML =
-    data.dateOfLastTestMessage;
+    dateOfLastTestMessage;
 
   dobbleData = data;
   plotDobble();

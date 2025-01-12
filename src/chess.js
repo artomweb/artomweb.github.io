@@ -1,4 +1,5 @@
 import Chart from "./sharedChartjs";
+const { formatDate, timeago } = require("./usefullFunc.js");
 
 let chessToggleState = 0;
 let chessData = {};
@@ -63,8 +64,12 @@ export function parseChess(data) {
 }
 
 function showChessData(data) {
+  const formattedDate = formatDate(data.dateOfLastGame);
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(
+    data.dateOfLastGame
+  )})`;
   document.getElementById("timeSinceLastChess").innerHTML =
-    data.timeSinceLastGame;
+    dateOfLastTestMessage;
   document.getElementById("ChessHighestRating").innerHTML = data.highestRating;
   document.getElementById("ChessTimePlaying").innerHTML = data.timeMessage;
   document.getElementById("ChessNumGames").innerHTML = data.numGames;
