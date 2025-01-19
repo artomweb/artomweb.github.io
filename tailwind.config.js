@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/*.html", "./src/*.js"],
+  content: ["./*.html", "./src/*.js"],
   theme: {
     extend: {
       fontFamily: {
@@ -12,5 +12,4 @@ module.exports = {
   future: {
     hoverOnlyWhenSupported: true,
   },
-  // plugins: [require("flowbite/plugin")],
 };

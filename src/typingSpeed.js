@@ -1,5 +1,5 @@
-import Chart from "./sharedChartjs";
-const { formatDate, timeago } = require("./usefullFunc.js");
+import Chart from "./sharedChartjs.js";
+import { formatDate, timeago } from "./usefullFunc.js";
 let typingToggleState = 0;
 let typingData = {};
 let typingChart;

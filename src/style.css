@@ -34,20 +34,16 @@ h2 {
   @apply text-xl;
 }
 
-small {
-  /* @apply mt-0; */
-}
-
 @font-face {
   font-family: "Klasik";
   font-display: swap;
-  src: url("./fonts/Klasik-Regular.otf") format("opentype");
+  src: url("/fonts/Klasik-Regular.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("./fonts/Montserrat-VariableFont_wght.woff2") format("woff2"),
-    url("./fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
+  src: url("/fonts/Montserrat-VariableFont_wght.woff2") format("woff2"),
+    url("/fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-display: swap;
 }

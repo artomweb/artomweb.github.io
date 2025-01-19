@@ -1,5 +1,5 @@
-const { formatDate, timeago } = require("./usefullFunc.js");
-import Chart from "./sharedChartjs";
+import { formatDate, timeago } from "./usefullFunc.js";
+import Chart from "./sharedChartjs.js";
 
 let climbingData = {};
 let climbingChart;

@@ -1,4 +1,4 @@
-const { formatDate, timeago } = require("./usefullFunc.js");
+import { formatDate, timeago } from "./usefullFunc.js";
 export function parseDriving(data) {
   const drivingCard = document.getElementById("drivingCard");
 
