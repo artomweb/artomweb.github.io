@@ -29,6 +29,14 @@ function getAllData() {
     .catch((e) => {
       // Handle errors in the fetch operation
       console.error("Error fetching data:", e);
+      document.getElementById("climbingCard").style.display = "none";
+      document.getElementById("typingCard").style.display = "none";
+      document.getElementById("CODCard").style.display = "none";
+      document.getElementById("chessCard").style.display = "none";
+      document.getElementById("dobbleCard").style.display = "none";
+      document.getElementById("spotifyCard").style.display = "none";
+      document.getElementById("drivingCard").style.display = "none";
+      document.getElementById("duoCard").style.display = "none";
     });
 }
 document.addEventListener("DOMContentLoaded", () => {
