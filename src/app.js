@@ -12,33 +12,66 @@ import { initializeSocket } from "./rppiSocket";
 import { parseDuo } from "./duolingo";
 
 function getAllData() {
-  let url = "https://api.artomweb.com/cache/all";
-  fetch(url)
-    .then((response) => response.json())
+  let primaryUrl = "https://api.artomweb.com/cache/all";
+  let fallbackUrl = "https://g-api.artomweb.com/cache/all";
+
+  fetch(primaryUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Primary URL failed");
+      }
+      return response.json();
+    })
     .then((data) => {
-      // Call each parsing function with individual error handling
-      parseClimbing(data.climbing);
-      parseTyping(data.typing);
-      parseCod(data.COD);
-      parseChess(data.chess);
-      parseDobble(data.dobble);
-      parseSpotify(data.spotify);
-      parseDriving(data.driving);
-      parseDuo(data.duolingo);
+      handleData(data);
     })
     .catch((e) => {
-      // Handle errors in the fetch operation
-      console.error("Error fetching data:", e);
-      document.getElementById("climbingCard").style.display = "none";
-      document.getElementById("typingCard").style.display = "none";
-      document.getElementById("CODCard").style.display = "none";
-      document.getElementById("chessCard").style.display = "none";
-      document.getElementById("dobbleCard").style.display = "none";
-      document.getElementById("spotifyCard").style.display = "none";
-      document.getElementById("drivingCard").style.display = "none";
-      document.getElementById("duoCard").style.display = "none";
+      console.error("Primary request failed:", e);
+      // Try the fallback URL if the primary fails
+      fetch(fallbackUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Fallback URL failed");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          handleData(data);
+        })
+        .catch((e) => {
+          console.error("Fallback request also failed:", e);
+          hideAllCards();
+        });
     });
 }
+
+function handleData(data) {
+  parseClimbing(data.climbing);
+  parseTyping(data.typing);
+  parseCod(data.COD);
+  parseChess(data.chess);
+  parseDobble(data.dobble);
+  parseSpotify(data.spotify);
+  parseDriving(data.driving);
+  parseDuo(data.duolingo);
+}
+
+function hideAllCards() {
+  let cardIds = [
+    "climbingCard",
+    "typingCard",
+    "CODCard",
+    "chessCard",
+    "dobbleCard",
+    "spotifyCard",
+    "drivingCard",
+    "duoCard",
+  ];
+  cardIds.forEach((id) => {
+    document.getElementById(id).style.display = "none";
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("container").style.display = "block";
 
