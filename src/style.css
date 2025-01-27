@@ -7,10 +7,10 @@
 
 @layer components {
   .btn {
-    @apply flex items-center justify-center text-lg sm:text-xl px-3 py-3 rounded-xl transition duration-300 border-2 bg-white;
+    @apply cursor-pointer flex items-center justify-center text-lg sm:text-xl px-3 py-3 rounded-xl transition duration-300 border-2 bg-white;
   }
   .btn-secondary {
-    @apply flex items-center justify-center text-lg px-2 py-1 rounded-xl  transition duration-300 border-2;
+    @apply cursor-pointer flex items-center justify-center text-lg px-2 py-1 rounded-xl  transition duration-300 border-2;
   }
   .card {
     @apply shadow-lg rounded-2xl p-4 bg-white flex flex-col gap-3 items-start mb-4 break-inside-avoid;
