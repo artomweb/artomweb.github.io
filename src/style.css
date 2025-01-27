@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer components {
   .btn {
@@ -16,14 +14,14 @@
     @apply flex gap-2 items-center text-2xl;
   }
   .card-subtitle {
-    @apply font-medium text-gray-800 text-opacity-75 text-xl;
+    @apply font-medium text-gray-800 text-black/75 text-xl;
   }
 
   .card-content {
-    @apply flex flex-col text-gray-800 text-opacity-75;
+    @apply flex flex-col text-gray-800 text-black/75;
   }
   .card-footer {
-    @apply flex flex-col text-gray-800 text-opacity-75;
+    @apply flex flex-col text-gray-800 text-black/75;
   }
   .value {
     @apply font-bold;
