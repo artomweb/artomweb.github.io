@@ -2,6 +2,7 @@ import { io } from "socket.io-client";
 import { uptime } from "./usefullFunc";
 
 export function initializeSocket() {
+  document.getElementById("liveDataCard").style.display = "none";
   const socket = io("https://api.artomweb.com", {
     path: "/readingSock",
     reconnectionDelay: 500,
@@ -74,6 +75,7 @@ export function initializeSocket() {
   });
 
   socket.on("connect", function () {
+    document.getElementById("liveDataCard").style.display = "block";
     const liveText = document.getElementById("liveText");
     liveText.style.color = "red";
     liveText.querySelector("svg path").style.fill = "red";
@@ -83,5 +85,9 @@ export function initializeSocket() {
     const liveText = document.getElementById("liveText");
     liveText.style.color = "black";
     liveText.querySelector("svg path").style.fill = "black";
+
+    document.getElementById("tempIcon").style = "none";
+    document.getElementById("pressIcon").style = "none";
+    document.getElementById("humidIcon").style = "none";
   });
 }
