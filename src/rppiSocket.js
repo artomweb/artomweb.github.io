@@ -75,7 +75,7 @@ export function initializeSocket() {
   });
 
   socket.on("connect", function () {
-    document.getElementById("liveDataCard").style.display = "block";
+    document.getElementById("liveDataCard").classList.remove("hidden");
     const liveText = document.getElementById("liveText");
     liveText.style.color = "red";
     liveText.querySelector("svg path").style.fill = "red";

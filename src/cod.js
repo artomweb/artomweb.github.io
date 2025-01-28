@@ -48,18 +48,16 @@ function codToggle() {
 }
 
 export function parseCod(data) {
-  const CODCard = document.getElementById("CODCard");
   document.getElementById("codToggle").addEventListener("click", codToggle);
 
   if (!data || data?.error) {
     console.log("Error processing COD data");
-    CODCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {
       showCODData(data.data); // Pass the relevant part of the data
+      document.getElementById("CODCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing COD data:", error);
-      CODCard.style.display = "none"; // Hide the card if processing fails
     }
   }
 }

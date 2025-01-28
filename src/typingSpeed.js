@@ -39,20 +39,18 @@ function typingToggle() {
 }
 
 export function parseTyping(data) {
-  const typingCard = document.getElementById("typingCard");
   document
     .getElementById("typingToggle")
     .addEventListener("click", typingToggle);
 
   if (!data || data.error) {
     console.log("Error processing Chess data:");
-    typingCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {
       showTypingData(data.data); // Pass the relevant part of the data
+      document.getElementById("typingCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Typing data", error);
-      typingCard.style.display = "none"; // Hide the card if processing fails
     }
   }
 }

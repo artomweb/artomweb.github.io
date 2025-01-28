@@ -43,20 +43,18 @@ function climbingToggle() {
 }
 
 export function parseClimbing(data) {
-  const climbingCard = document.getElementById("climbingCard");
   document
     .getElementById("climbingToggle")
     .addEventListener("click", climbingToggle);
 
   if (!data || data?.error) {
     console.log("Error processing fallback CSV data:");
-    climbingCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {
       showClimbingData(data.data); // Pass the relevant part of the data
+      document.getElementById("climbingCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Climbing data", error);
-      climbingCard.style.display = "none"; // Hide the card if processing fails
     }
   }
 }

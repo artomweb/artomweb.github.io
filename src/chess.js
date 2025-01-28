@@ -47,18 +47,16 @@ function chessToggle() {
 }
 
 export function parseChess(data) {
-  const chessCard = document.getElementById("chessCard");
   document.getElementById("chessToggle").addEventListener("click", chessToggle);
 
   if (!data || data?.error) {
     console.log("Error processing Chess data:");
-    chessCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {
       showChessData(data.data); // Pass the relevant part of the data
+      document.getElementById("chessCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Chess data", error);
-      chessCard.style.display = "none"; // Hide the card if processing fails
     }
   }
 }

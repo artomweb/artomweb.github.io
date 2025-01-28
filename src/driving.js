@@ -1,16 +1,13 @@
 import { formatDate, timeago } from "./usefullFunc.js";
 export function parseDriving(data) {
-  const drivingCard = document.getElementById("drivingCard");
-
   if (!data || data?.error) {
     console.log("Error processing Driving data");
-    drivingCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {
       showDrivingData(data.data); // Pass the relevant part of the data
+      document.getElementById("drivingCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Driving data:", error);
-      drivingCard.style.display = "none"; // Hide the card if processing fails
     }
   }
 }

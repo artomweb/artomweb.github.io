@@ -13,7 +13,6 @@ import { parseDuo } from "./duolingo";
 
 function getAllData() {
   let primaryUrl = "https://api.artomweb.com/cache/all";
-  let fallbackUrl = "https://g-api.artomweb.com/cache/all";
 
   fetch(primaryUrl)
     .then((response) => {
@@ -23,25 +22,15 @@ function getAllData() {
       return response.json();
     })
     .then((data) => {
-      handleData(data);
+      try {
+        handleData(data); // Handle data, but don't propagate errors here
+      } catch (e) {
+        console.error("Error handling data:", e); // Only log error if handling fails
+      }
     })
     .catch((e) => {
       console.error("Primary request failed:", e);
-      // Try the fallback URL if the primary fails
-      fetch(fallbackUrl)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Fallback URL failed");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          handleData(data);
-        })
-        .catch((e) => {
-          console.error("Fallback request also failed:", e);
-          hideAllCards();
-        });
+      hideAllCards();
     });
 }
 
@@ -54,22 +43,6 @@ function handleData(data) {
   parseSpotify(data.spotify);
   parseDriving(data.driving);
   parseDuo(data.duolingo);
-}
-
-function hideAllCards() {
-  let cardIds = [
-    "climbingCard",
-    "typingCard",
-    "CODCard",
-    "chessCard",
-    "dobbleCard",
-    "spotifyCard",
-    "drivingCard",
-    "duoCard",
-  ];
-  cardIds.forEach((id) => {
-    document.getElementById(id).style.display = "none";
-  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -86,3 +59,19 @@ document.addEventListener("DOMContentLoaded", () => {
   initTouchButtons();
   // initializeSocket();
 });
+
+function hideAllCards() {
+  let cardIds = [
+    "climbingCard",
+    "typingCard",
+    "CODCard",
+    "chessCard",
+    "dobbleCard",
+    "spotifyCard",
+    "drivingCard",
+    "duoCard",
+  ];
+  cardIds.forEach((id) => {
+    document.getElementById(id).style.display = "none";
+  });
+}

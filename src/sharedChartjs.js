@@ -28,4 +28,6 @@ Chart.register(
   Filler
 );
 
+Chart.defaults.animation.duration = 0;
+
 export default Chart;

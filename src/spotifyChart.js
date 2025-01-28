@@ -8,20 +8,18 @@ let ctx2;
 const backgroundColor = "#81b29a";
 
 export function parseSpotify(data) {
-  const spotifyCard = document.getElementById("spotifyCard");
   document
     .getElementById("spotifyToggle")
     .addEventListener("click", spotifyToggle);
 
   if (!data || data?.error) {
     console.log("Error processing Spotify data");
-    spotifyCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {
       showSpotifyData(data.data); // Pass the relevant part of the data
+      document.getElementById("spotifyCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Spotify data:", error);
-      spotifyCard.style.display = "none"; // Hide the card if processing fails
     }
   }
 }

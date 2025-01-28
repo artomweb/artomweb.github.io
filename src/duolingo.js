@@ -1,17 +1,14 @@
 import Chart from "./sharedChartjs.js";
 import { formatDate, timeago } from "./usefullFunc.js";
 export function parseDuo(data) {
-  const duoCard = document.getElementById("duoCard");
-
   if (!data || data?.error) {
     console.log("Error processing data");
-    duoCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {
       showDuoData(data.data); // Pass the relevant part of the data
+      document.getElementById("duoCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Duolingo data", error);
-      duoCard.style.display = "none"; // Hide the card if processing fails
     }
   }
 }

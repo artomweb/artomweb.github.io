@@ -40,20 +40,18 @@ function dobbleToggle() {
 }
 
 export function parseDobble(data) {
-  const dobbleCard = document.getElementById("dobbleCard");
   document
     .getElementById("dobbleToggle")
     .addEventListener("click", dobbleToggle);
 
   if (!data || data?.error) {
     console.log("Error processing Dobble data");
-    dobbleCard.style.display = "none"; // Hide the card if processing fails
   } else {
     try {
       showDobbleData(data.data); // Pass the relevant part of the data
+      document.getElementById("dobbleCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Dobble data:", error);
-      dobbleCard.style.display = "none"; // Hide the card if processing fails
     }
   }
 }
