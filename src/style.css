@@ -7,26 +7,26 @@
 
 @layer components {
   .btn {
-    @apply cursor-pointer flex items-center justify-center text-lg sm:text-xl px-3 py-3 rounded-xl transition duration-300 border-2 bg-white;
+    @apply cursor-pointer flex items-center justify-center text-lg sm:text-xl px-3 py-3 rounded-xl transition duration-300 border-2 bg-white border-gray-500 hover:border-gray-800;
   }
   .btn-secondary {
-    @apply cursor-pointer flex items-center justify-center text-lg px-2 py-1 rounded-xl  transition duration-300 border-2;
+    @apply cursor-pointer flex items-center justify-center text-lg px-2 py-1 rounded-xl  transition duration-300 border-2 border-gray-500;
   }
   .card {
-    @apply shadow-lg rounded-2xl p-4 bg-white flex flex-col gap-3 items-start mb-4 break-inside-avoid;
+    @apply shadow-lg rounded-2xl p-4 bg-white flex flex-col gap-3 items-start mb-4 break-inside-avoid border-1 border-gray-200;
   }
   .card-title {
     @apply flex gap-2 items-center text-2xl;
   }
   .card-subtitle {
-    @apply font-medium text-gray-800 text-black/75 text-xl;
+    @apply font-medium text-black/75 text-xl;
   }
 
   .card-content {
-    @apply flex flex-col text-gray-800 text-black/75;
+    @apply flex flex-col text-gray-800;
   }
   .card-footer {
-    @apply flex flex-col text-gray-800 text-black/75;
+    @apply flex flex-col text-gray-800;
   }
   .value {
     @apply font-bold;
