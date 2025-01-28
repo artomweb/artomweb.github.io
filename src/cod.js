@@ -52,12 +52,13 @@ export function parseCod(data) {
 
   if (!data || data?.error) {
     console.log("Error processing COD data");
+    document.getElementById("CODCard").classList.add("hidden");
   } else {
     try {
       showCODData(data.data); // Pass the relevant part of the data
-      document.getElementById("CODCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing COD data:", error);
+      document.getElementById("CODCard").classList.add("hidden");
     }
   }
 }

@@ -46,12 +46,13 @@ export function parseDobble(data) {
 
   if (!data || data?.error) {
     console.log("Error processing Dobble data");
+    document.getElementById("dobbleCard").classList.add("hidden");
   } else {
     try {
       showDobbleData(data.data); // Pass the relevant part of the data
-      document.getElementById("dobbleCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Dobble data:", error);
+      document.getElementById("dobbleCard").classList.add("hidden");
     }
   }
 }

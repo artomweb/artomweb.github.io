@@ -51,12 +51,13 @@ export function parseChess(data) {
 
   if (!data || data?.error) {
     console.log("Error processing Chess data:");
+    document.getElementById("chessCard").classList.add("hidden");
   } else {
     try {
       showChessData(data.data); // Pass the relevant part of the data
-      document.getElementById("chessCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Chess data", error);
+      document.getElementById("chessCard").classList.add("hidden");
     }
   }
 }

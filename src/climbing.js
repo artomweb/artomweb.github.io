@@ -49,12 +49,13 @@ export function parseClimbing(data) {
 
   if (!data || data?.error) {
     console.log("Error processing fallback CSV data:");
+    document.getElementById("climbingCard").classList.add("hidden");
   } else {
     try {
       showClimbingData(data.data); // Pass the relevant part of the data
-      document.getElementById("climbingCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Climbing data", error);
+      document.getElementById("climbingCard").classList.add("hidden");
     }
   }
 }

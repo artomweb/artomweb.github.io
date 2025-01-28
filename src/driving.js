@@ -2,12 +2,13 @@ import { formatDate, timeago } from "./usefullFunc.js";
 export function parseDriving(data) {
   if (!data || data?.error) {
     console.log("Error processing Driving data");
+    document.getElementById("drivingCard").classList.add("hidden");
   } else {
     try {
       showDrivingData(data.data); // Pass the relevant part of the data
-      document.getElementById("drivingCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Driving data:", error);
+      document.getElementById("drivingCard").classList.add("hidden");
     }
   }
 }

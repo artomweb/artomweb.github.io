@@ -3,12 +3,13 @@ import { formatDate, timeago } from "./usefullFunc.js";
 export function parseDuo(data) {
   if (!data || data?.error) {
     console.log("Error processing data");
+    document.getElementById("duoCard").classList.add("hidden");
   } else {
     try {
       showDuoData(data.data); // Pass the relevant part of the data
-      document.getElementById("duoCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Duolingo data", error);
+      document.getElementById("duoCard").classList.add("hidden");
     }
   }
 }

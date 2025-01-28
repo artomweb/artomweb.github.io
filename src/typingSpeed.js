@@ -45,12 +45,13 @@ export function parseTyping(data) {
 
   if (!data || data.error) {
     console.log("Error processing Chess data:");
+    document.getElementById("typingCard").classList.add("hidden");
   } else {
     try {
       showTypingData(data.data); // Pass the relevant part of the data
-      document.getElementById("typingCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Typing data", error);
+      document.getElementById("typingCard").classList.add("hidden");
     }
   }
 }
