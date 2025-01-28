@@ -84,5 +84,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   getAllData();
   initTouchButtons();
-  initializeSocket();
+  // initializeSocket();
 });
