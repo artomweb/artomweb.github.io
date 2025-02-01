@@ -8,8 +8,9 @@ import { initTouchButtons } from "./usefullFunc";
 import { parseDobble } from "./dobble";
 import { parseSpotify } from "./spotifyChart";
 import { parseDriving } from "./driving";
-import { initializeSocket } from "./rppiSocket";
 import { parseDuo } from "./duolingo";
+import parsePushups from "./pushup";
+import { initializeSocket } from "./rppiSocket";
 
 function getAllData() {
   let primaryUrl = "https://api.artomweb.com/cache/all";
@@ -43,6 +44,7 @@ function handleData(data) {
   parseSpotify(data.spotify);
   parseDriving(data.driving);
   parseDuo(data.duolingo);
+  parsePushups(data.pushups);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
