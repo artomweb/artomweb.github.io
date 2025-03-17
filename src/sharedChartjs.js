@@ -1,4 +1,5 @@
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import "chartjs-adapter-date-fns";
 import {
   Chart,
   BarController,
@@ -11,6 +12,7 @@ import {
   LineElement,
   PointElement,
   Filler,
+  TimeScale,
 } from "chart.js";
 
 // Register components only once
@@ -19,6 +21,7 @@ Chart.register(
   BarElement,
   CategoryScale,
   LinearScale,
+  TimeScale,
   Tooltip,
   Legend,
   ChartDataLabels,

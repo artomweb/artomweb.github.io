@@ -66,9 +66,6 @@ function drawPushupChart(dataIn) {
         },
         tooltip: {
           callbacks: {
-            title: function (context) {
-              return formatPUDate(context[0].label);
-            },
             label: function (context) {
               return context.parsed.y + " push-ups";
             },
@@ -81,11 +78,16 @@ function drawPushupChart(dataIn) {
           beginAtZero: true,
         },
         x: {
+          type: "time",
+          time: {
+            unit: "month",
+            displayFormats: {
+              month: "MMM yyyy", // Changed from "MMM YYYY" to "MMM yyyy"
+            },
+            tooltipFormat: "dd/MM/yyyy", // This is already correct for date-fns
+          },
           ticks: {
             maxTicksLimit: 5,
-            callback: function (value, index, values) {
-              return formatPUDate(this.getLabelForValue(value));
-            },
           },
         },
       },
