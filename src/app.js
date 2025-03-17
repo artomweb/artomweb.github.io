@@ -48,8 +48,6 @@ function handleData(data) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("container").style.display = "block";
-
   document.getElementById("loadCat").addEventListener("click", loadCat);
   loadCat();
   setTimeout(() => {
