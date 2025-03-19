@@ -10,6 +10,7 @@ import { parseSpotify } from "./spotifyChart";
 import { parseDriving } from "./driving";
 import { parseDuo } from "./duolingo";
 import parsePushups from "./pushup";
+import parse5k from "./5k";
 import { initializeSocket } from "./rppiSocket";
 
 function getAllData() {
@@ -45,6 +46,7 @@ function handleData(data) {
   parseDriving(data.driving);
   parseDuo(data.duolingo);
   parsePushups(data.pushups);
+  parse5k(data.k5);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -70,6 +72,8 @@ function hideAllCards() {
     "spotifyCard",
     "drivingCard",
     "duoCard",
+    "pushupCard",
+    "5kCard",
   ];
   cardIds.forEach((id) => {
     document.getElementById(id).style.display = "none";

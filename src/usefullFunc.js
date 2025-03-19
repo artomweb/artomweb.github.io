@@ -3,6 +3,13 @@ export function parseDate(dateStr) {
   return new Date(year, month - 1, day); // Months are zero-based
 }
 
+export function formatSeconds(seconds) {
+  if (!seconds || isNaN(seconds)) return "0:00";
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+}
+
 export function formatDate(dateString) {
   const date = new Date(dateString);
 

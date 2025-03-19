@@ -1,41 +1,42 @@
-import { formatDate, timeago } from "./usefullFunc.js";
+import { formatDate, timeago, formatSeconds } from "./usefullFunc.js";
 import Chart from "./sharedChartjs.js";
 
-export default function parsePushups(data) {
-  document
-    .getElementById("climbingToggle")
-    .addEventListener("click", climbingToggle);
-
+export default function parse5k(data) {
   if (!data || data?.error) {
     console.log("Error processing fallback CSV data:");
-    document.getElementById("pushupCard").classList.add("hidden");
+    document.getElementById("5kCard").classList.add("hidden");
   } else {
     try {
-      showClimbingData(data.data); // Pass the relevant part of the data
+      show5Kdata(data.data); // Pass the relevant part of the data
     } catch (error) {
       console.log("Error processing Climbing data", error);
-      document.getElementById("pushupCard").classList.add("hidden");
+      document.getElementById("5kCard").classList.add("hidden");
     }
   }
 }
 
-function showClimbingData(data) {
-  const formattedDate = formatDate(data.dateOfLastTraining);
-  const dateOfLastTestMessage = `${formattedDate} (${timeago(
-    data.dateOfLastTraining
-  )})`;
-  document.getElementById("pushupMax").innerHTML = data.maxPushups;
-  document.getElementById("pushupTrainings").innerHTML = data.numTraining;
-  document.getElementById("numMaxTests").innerHTML = data.numTests;
+function show5Kdata(data) {
+  const formattedDate = formatDate(data.lastRun);
+  const dateOfLastTestMessage = `${formattedDate} (${timeago(data.lastRun)})`;
+  document.getElementById("5kCount").innerHTML = data.numberOfRuns;
 
-  document.getElementById("timeSinceLastPushup").innerHTML =
-    dateOfLastTestMessage;
+  document.getElementById("5kFastest").innerHTML = formatSeconds(
+    data.fastestRun
+  );
+  document.getElementById("5kAvgSplit").innerHTML = formatSeconds(
+    data.averageSplit
+  );
+  document.getElementById("5kFastestSplit").innerHTML = formatSeconds(
+    data.fastestSplit
+  );
 
-  drawPushupChart(data);
+  document.getElementById("last5k").innerHTML = dateOfLastTestMessage;
+
+  draw5kChart(data);
 }
 
-function drawPushupChart(dataIn) {
-  const ctx = document.getElementById("pushupChart").getContext("2d");
+function draw5kChart(dataIn) {
+  const ctx = document.getElementById("5kChart").getContext("2d");
 
   function formatPUDate(value) {
     const date = new Date(value);
@@ -53,7 +54,7 @@ function drawPushupChart(dataIn) {
         {
           data: dataIn.graphData.data,
           //   borderColor: "#36A2EB",
-          backgroundColor: "#8ecae6",
+          backgroundColor: "#f4a4a4",
           fill: true,
         },
       ],
@@ -67,7 +68,8 @@ function drawPushupChart(dataIn) {
         tooltip: {
           callbacks: {
             label: function (context) {
-              return context.parsed.y + " push-ups";
+              //   return context.parsed.y;
+              return formatSeconds(context.parsed.y);
             },
           },
         },
@@ -76,6 +78,11 @@ function drawPushupChart(dataIn) {
       scales: {
         y: {
           beginAtZero: true,
+          ticks: {
+            callback: function (value) {
+              return formatSeconds(value);
+            },
+          },
         },
         x: {
           type: "time",

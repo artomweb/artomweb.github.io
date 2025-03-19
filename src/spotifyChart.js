@@ -14,12 +14,14 @@ export function parseSpotify(data) {
 
   if (!data || data?.error) {
     console.log("Error processing Spotify data");
+    document.getElementById("spotifyCard").classList.add("hidden");
   } else {
     try {
       showSpotifyData(data.data); // Pass the relevant part of the data
       document.getElementById("spotifyCard").classList.remove("hidden");
     } catch (error) {
       console.log("Error processing Spotify data:", error);
+      document.getElementById("spotifyCard").classList.add("hidden");
     }
   }
 }
