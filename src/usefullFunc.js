@@ -22,6 +22,28 @@ export function formatDate(dateString) {
 
   return `${day}${suffix} of ${month}`;
 }
+export function hexToRgba(hex, opacity = 1) {
+  // Remove the '#' if present
+  hex = hex.replace("#", "");
+
+  // Convert 3-digit hex to 6-digit hex
+  if (hex.length === 3) {
+    hex = hex
+      .split("")
+      .map(function (hexChar) {
+        return hexChar + hexChar;
+      })
+      .join("");
+  }
+
+  // Extract RGB components
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+
+  // Return rgba string
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
 
 function getOrdinalSuffix(day) {
   if (day > 3 && day < 21) return "th"; // Covers 11th-13th

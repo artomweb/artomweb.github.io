@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 @theme {
+  --font-itim: "Itim", "sans-serif";
   --font-klasik: "Klasik", "sans-serif";
   --font-montserrat: "Montserrat", "sans-serif";
+  --color-yellow: #f2f3e2;
+  --color-green: #89bfa3;
+  --color-dgreen: #5d8f75;
+  --color-bermuda: #78dcca;
 }
 
 @layer components {
@@ -10,7 +15,7 @@
     @apply font-medium duration-300 cursor-pointer px-6 py-[14px] flex flex-row items-center text-lg border-3 rounded hover:-translate-y-px hover:-translate-x-px z-20 relative;
   }
   .btn-secondary {
-    @apply cursor-pointer flex items-center justify-center  px-4 py-1 rounded-sm  transition duration-200 border-3 border-gray-900 hover:-translate-y-px hover:-translate-x-px;
+    @apply cursor-pointer flex items-center justify-center  px-4 py-1 rounded-2xl;
   }
   .card {
     @apply shadow-md rounded-2xl p-4 flex flex-col gap-3 items-start mb-4 break-inside-avoid  border-gray-900 shadow-gray-400/50;
@@ -19,14 +24,14 @@
     @apply flex gap-2 items-center text-2xl;
   }
   .card-subtitle {
-    @apply font-medium text-black/75 text-xl;
+    @apply font-medium text-xl;
   }
 
   .card-content {
-    @apply flex flex-col text-gray-800;
+    @apply flex flex-col;
   }
   .card-footer {
-    @apply flex flex-col text-gray-800;
+    @apply flex flex-col;
   }
   .value {
     @apply font-bold;

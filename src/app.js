@@ -60,11 +60,12 @@ document.addEventListener("DOMContentLoaded", () => {
   getAllData();
   initTouchButtons();
   // initializeSocket();
+  hideAllCards();
 });
 
 function hideAllCards() {
   let cardIds = [
-    "climbingCard",
+    // "climbingCard",
     "typingCard",
     "CODCard",
     "chessCard",

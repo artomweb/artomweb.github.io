@@ -1,9 +1,19 @@
-import { formatDate, timeago } from "./usefullFunc.js";
+import { formatDate, timeago, hexToRgba } from "./usefullFunc.js";
 import Chart from "./sharedChartjs.js";
 
 let climbingData = {};
 let climbingChart;
 let climbingToggleState = 0;
+const element = document.querySelector(":root");
+const green = getComputedStyle(element)
+  .getPropertyValue("--color-green")
+  .trim();
+const dgreen = getComputedStyle(element)
+  .getPropertyValue("--color-dgreen")
+  .trim();
+const green1 = hexToRgba(green, 1);
+const green2 = hexToRgba(green, 0.6);
+const green3 = hexToRgba(green, 0.4);
 
 function switchClimbingDots() {
   const circles = Array.from(
@@ -21,11 +31,13 @@ function switchClimbingDots() {
         "This graph shows how many climbs of each grade I have done.";
       break;
   }
-  circles.forEach((c) =>
-    c.id.slice(-1) == climbingToggleState
-      ? (c.style.fill = "black")
-      : (c.style.fill = "none")
-  );
+  circles.forEach((c) => {
+    if (c.id.slice(-1) == climbingToggleState) {
+      c.classList.add("fill-green");
+    } else {
+      c.classList.remove("fill-green");
+    }
+  });
 }
 
 function climbingToggle() {
@@ -87,19 +99,19 @@ function updateClimbingRunning() {
     {
       label: "Flashes",
       data: flashes,
-      backgroundColor: "rgba(75, 192, 192, 0.6)",
+      backgroundColor: green1,
       stack: "Stack 0",
     },
     {
       label: "Successes",
       data: successes,
-      backgroundColor: "rgba(153, 102, 255, 0.6)",
+      backgroundColor: green2,
       stack: "Stack 0",
     },
     {
       label: "Attempts",
       data: attempts,
-      backgroundColor: "rgba(255, 159, 64, 0.6)",
+      backgroundColor: green3,
       stack: "Stack 0",
     },
   ];
@@ -116,9 +128,20 @@ function updateClimbingRunning() {
           });
         },
         maxTicksLimit: 4,
+        color: green1, // X-axis number color
+      },
+
+      grid: {
+        color: green3, // Grid line color for X-axis
       },
     },
     y: {
+      ticks: {
+        color: green1, // X-axis number color
+      },
+      grid: {
+        color: green3, // Grid line color for X-axis
+      },
       stacked: false,
     },
   };
@@ -137,6 +160,7 @@ function updateClimbingRunning() {
       font: {
         weight: "bold",
       },
+      color: green1,
       offset: -4,
 
       formatter: function (value, context) {
@@ -152,7 +176,6 @@ function updateClimbingRunning() {
 }
 
 function updateClimbingByGrade() {
-  console.log(climbingData.byGrade);
   const { byGradeLabels, byGradeAttempts, byGradeSuccesses, byGradeFlashes } =
     climbingData.byGrade;
 
@@ -162,19 +185,19 @@ function updateClimbingByGrade() {
     {
       label: "Flashes",
       data: byGradeFlashes,
-      backgroundColor: "rgba(75, 192, 192, 0.6)",
+      backgroundColor: green1,
       stack: "Stack 0",
     },
     {
       label: "Successes",
       data: byGradeSuccesses,
-      backgroundColor: "rgba(153, 102, 255, 0.6)",
+      backgroundColor: green2,
       stack: "Stack 0",
     },
     {
       label: "Attempts",
       data: byGradeAttempts,
-      backgroundColor: "rgba(255, 159, 64, 0.6)",
+      backgroundColor: green3,
       stack: "Stack 0",
     },
   ];
@@ -182,10 +205,21 @@ function updateClimbingByGrade() {
   climbingChart.options.scales = {
     x: {
       stacked: true,
-
+      ticks: {
+        color: green1, // X-axis number color
+      },
+      grid: {
+        color: green3, // Grid line color for X-axis
+      },
       maxTicksLimit: 4,
     },
     y: {
+      ticks: {
+        color: green1, // X-axis number color
+      },
+      grid: {
+        color: green3, // Grid line color for X-axis
+      },
       stacked: false,
     },
   };
