@@ -1,15 +1,13 @@
 import { formatDate, timeago, hexToRgba } from "./usefullFunc.js";
 import Chart from "./sharedChartjs.js";
+import { color } from "chart.js/helpers";
 
 let climbingData = {};
 let climbingChart;
 let climbingToggleState = 0;
 const element = document.querySelector(":root");
 const green = getComputedStyle(element)
-  .getPropertyValue("--color-green")
-  .trim();
-const dgreen = getComputedStyle(element)
-  .getPropertyValue("--color-dgreen")
+  .getPropertyValue("--color-green1")
   .trim();
 const green1 = hexToRgba(green, 1);
 const green2 = hexToRgba(green, 0.6);
@@ -159,6 +157,7 @@ function updateClimbingRunning() {
       align: "top",
       font: {
         weight: "bold",
+        color: green1,
       },
       color: green1,
       offset: -4,

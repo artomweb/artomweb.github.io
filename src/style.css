@@ -4,27 +4,35 @@
   --font-itim: "Itim", "sans-serif";
   --font-klasik: "Klasik", "sans-serif";
   --font-montserrat: "Montserrat", "sans-serif";
-  --color-yellow: #f2f3e2;
-  --color-green: #89bfa3;
-  --color-dgreen: #5d8f75;
-  --color-bermuda: #78dcca;
+  --color-yellow: #eff0e9;
+  --color-green1: #89bfa3;
+  --color-green2: #5d8f75;
+  --color-blue1: #8fbacc;
+  --color-blue2: #4d8da8;
+  --color-red1: #fea49a;
+  --color-red2: #db6d60;
+  --color-pink: #f1b9b7;
 }
 
 @layer components {
   .btn {
-    @apply font-medium duration-300 cursor-pointer px-6 py-[14px] flex flex-row items-center text-lg border-3 rounded hover:-translate-y-px hover:-translate-x-px z-20 relative;
+    @apply font-medium  text-xl duration-300 transition-colors cursor-pointer px-6 py-2 rounded-2xl flex items-center shadow-md shadow-gray-400/50;
   }
   .btn-secondary {
-    @apply cursor-pointer flex items-center justify-center  px-4 py-1 rounded-2xl;
+    @apply cursor-pointer  px-4 py-1 rounded-2xl w-auto;
   }
   .card {
-    @apply shadow-md rounded-2xl p-4 flex flex-col gap-3 items-start mb-4 break-inside-avoid  border-gray-900 shadow-gray-400/50;
+    @apply rounded-2xl p-4 flex flex-col gap-3 items-start mb-4 break-inside-avoid   border-2;
   }
   .card-title {
-    @apply flex gap-2 items-center text-2xl;
+    @apply flex gap-2 items-center text-2xl font-bold;
   }
   .card-subtitle {
     @apply font-medium text-xl;
+  }
+
+  .card-header {
+    @apply flex justify-between w-full flex-row items-start gap-1;
   }
 
   .card-content {

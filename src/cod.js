@@ -1,5 +1,14 @@
 import Chart from "./sharedChartjs.js";
-import { formatDate, timeago } from "./usefullFunc.js";
+import { formatDate, timeago, hexToRgba } from "./usefullFunc.js";
+const element = document.querySelector(":root");
+const red = getComputedStyle(element).getPropertyValue("--color-red1").trim();
+const blue = getComputedStyle(element).getPropertyValue("--color-blue1").trim();
+const red1 = hexToRgba(red, 1);
+const blue1 = hexToRgba(blue, 1);
+const blue2 = hexToRgba(blue, 0.6);
+const blue3 = hexToRgba(blue, 0.4);
+const red2 = hexToRgba(red, 0.6);
+const red3 = hexToRgba(red, 0.4);
 
 let codData = {};
 let codChart;
@@ -86,15 +95,16 @@ function updateCodPerHour() {
     {
       label: "Archie",
       data: winPercentagesA,
-      backgroundColor: "#8ecae6",
+      backgroundColor: red2,
+      borderColor: red1,
       tension: 0.1,
       fill: true,
     },
     {
       label: "Ben",
       data: winPercentagesB,
-      backgroundColor: "#F4A4A4",
-      borderColor: "#F4A4A4",
+      backgroundColor: blue2,
+      borderColor: blue1,
       tension: 0.1,
       fill: true,
     },
@@ -104,6 +114,7 @@ function updateCodPerHour() {
     title: {
       text: "Win %",
       display: true,
+      color: blue1,
     },
     ticks: {
       beginAtZero: true,
@@ -112,6 +123,10 @@ function updateCodPerHour() {
           return Math.abs(value);
         }
       },
+      color: blue1,
+    },
+    grid: {
+      color: blue2, // Grid line color for X-axis
     },
   };
   codChart.options.scales.x = {
@@ -120,6 +135,10 @@ function updateCodPerHour() {
       callback: function (value, index, values) {
         return value + ":00";
       },
+      color: blue1,
+    },
+    grid: {
+      color: blue2, // Grid line color for X-axis
     },
   };
 
@@ -134,14 +153,16 @@ function updateCodNormal() {
     {
       label: "Archie",
       data: dataArchie,
-      backgroundColor: "#8ecae6",
+      backgroundColor: red2,
+      borderColor: red1,
       tension: 0.1,
       fill: true,
     },
     {
       label: "Ben",
       data: dataBen,
-      backgroundColor: "#F4A4A4",
+      backgroundColor: blue2,
+      borderColor: blue1,
       tension: 0.1,
       fill: true,
     },
@@ -151,6 +172,7 @@ function updateCodNormal() {
     title: {
       text: "Score",
       display: true,
+      color: blue1,
     },
     ticks: {
       beginAtZero: true,
@@ -159,12 +181,20 @@ function updateCodNormal() {
           return Math.abs(value);
         }
       },
+      color: blue1,
+    },
+    grid: {
+      color: blue2, // Grid line color for X-axis
     },
   };
 
   codChart.options.scales.x = {
     ticks: {
       maxTicksLimit: 4,
+      color: blue1,
+    },
+    grid: {
+      color: blue2, // Grid line color for X-axis
     },
   };
 
@@ -188,28 +218,29 @@ function updateCodRunning() {
 
       fill: {
         target: "origin",
-        above: "#8ecae6", // Area will be red above the origin
-        below: "#F4A4A4", // And blue below the origin
+        above: red2, // Area will be red above the origin
+        below: blue2, // And blue below the origin
       },
       pointBackgroundColor: function (context) {
         var index = context.dataIndex;
         var value = context.dataset.data[index];
-        return value > 0 ? "#8ecae6" : value < 0 ? "#F4A4A4" : "#000000";
+        return value > 0 ? red1 : value < 0 ? blue1 : "#000000";
       },
       pointBorderColor: function (context) {
         var index = context.dataIndex;
         var value = context.dataset.data[index];
-        return value > 0 ? "#8ecae6" : value < 0 ? "#F4A4A4" : "#000000";
+        return value > 0 ? red1 : value < 0 ? blue1 : "#000000";
       },
     },
-    { label: "Archie", data: [], backgroundColor: "#8ecae6" },
-    { label: "Ben", data: [], backgroundColor: "#F4A4A4" },
+    { label: "Archie", data: [], backgroundColor: red2 },
+    { label: "Ben", data: [], backgroundColor: blue1 },
   ];
 
   codChart.options.scales.y = {
     title: {
       text: "Winning margin",
       display: true,
+      color: blue1,
     },
     ticks: {
       beginAtZero: true,
@@ -218,12 +249,20 @@ function updateCodRunning() {
           return Math.abs(value);
         }
       },
+      color: blue1,
+    },
+    grid: {
+      color: blue2, // Grid line color for X-axis
     },
   };
 
   codChart.options.scales.x = {
     ticks: {
       maxTicksLimit: 4,
+      color: blue1,
+    },
+    grid: {
+      color: blue2, // Grid line color for X-axis
     },
   };
 

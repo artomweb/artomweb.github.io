@@ -1,8 +1,14 @@
 import Chart from "./sharedChartjs.js";
-import { formatDate, timeago } from "./usefullFunc.js";
+import { formatDate, timeago, hexToRgba } from "./usefullFunc.js";
 let typingToggleState = 0;
 let typingData = {};
 let typingChart;
+
+const element = document.querySelector(":root");
+const red = getComputedStyle(element).getPropertyValue("--color-red1").trim();
+const red1 = hexToRgba(red, 1);
+const red2 = hexToRgba(red, 0.6);
+const red3 = hexToRgba(red, 0.4);
 
 function switchTypingDots() {
   const circles = Array.from(document.getElementsByClassName("typingCircles"));
@@ -97,6 +103,10 @@ function updateTypingPerHour() {
       callback: function (value, index, values) {
         return `${value}:00`;
       },
+      color: red1, // X-axis number color
+    },
+    grid: {
+      color: red3, // Grid line color for X-axis
     },
   };
 
@@ -108,7 +118,7 @@ function updateTypingPerHour() {
   typingChart.data.datasets = [
     {
       data: timOfDayData,
-      backgroundColor: "#f4a4a4",
+      backgroundColor: red1,
       tension: 0.1,
       fill: true,
       pointRadius: pointRadiusArray,
@@ -131,13 +141,17 @@ function updateTypingNormal() {
       stepSize: 5,
       maxRotation: 0,
       minRotation: 0,
+      color: red1, // X-axis number color
+    },
+    grid: {
+      color: red3, // Grid line color for X-axis
     },
   };
   typingChart.data.labels = labels;
   typingChart.data.datasets = [
     {
       data: data,
-      backgroundColor: "#f4a4a4",
+      backgroundColor: red1,
       tension: 0.1,
       fill: true,
     },
@@ -183,8 +197,23 @@ function drawtypingChart() {
           title: {
             text: "Average WPM",
             display: true,
+            color: red1, // X-axis number color
           },
           beginAtZero: true,
+          ticks: {
+            color: red1, // X-axis number color
+          },
+          grid: {
+            color: red3, // Grid line color for X-axis
+          },
+        },
+        x: {
+          ticks: {
+            color: red1, // X-axis number color
+          },
+          grid: {
+            color: red3, // Grid line color for X-axis
+          },
         },
       },
     },

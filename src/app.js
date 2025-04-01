@@ -66,8 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function hideAllCards() {
   let cardIds = [
     // "climbingCard",
-    "typingCard",
-    "CODCard",
+    // "typingCard",
+    // "CODCard",
     "chessCard",
     "dobbleCard",
     "spotifyCard",
