@@ -5,13 +5,7 @@ import { color } from "chart.js/helpers";
 let climbingData = {};
 let climbingChart;
 let climbingToggleState = 0;
-const element = document.querySelector(":root");
-const green = getComputedStyle(element)
-  .getPropertyValue("--color-green1")
-  .trim();
-const green1 = hexToRgba(green, 1);
-const green2 = hexToRgba(green, 0.6);
-const green3 = hexToRgba(green, 0.4);
+import { green1, green2, green3 } from "./colours.js";
 
 function switchClimbingDots() {
   const circles = Array.from(

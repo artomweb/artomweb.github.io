@@ -60,14 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
   getAllData();
   initTouchButtons();
   // initializeSocket();
-  hideAllCards();
 });
 
 function hideAllCards() {
   let cardIds = [
-    // "climbingCard",
-    // "typingCard",
-    // "CODCard",
+    "climbingCard",
+    "typingCard",
+    "CODCard",
     "chessCard",
     "dobbleCard",
     "spotifyCard",

@@ -1,5 +1,6 @@
 import { formatDate, timeago } from "./usefullFunc.js";
 import Chart from "./sharedChartjs.js";
+import { blue1, blue2 } from "./colours";
 
 export default function parsePushups(data) {
   document
@@ -53,7 +54,8 @@ function drawPushupChart(dataIn) {
         {
           data: dataIn.graphData.data,
           //   borderColor: "#36A2EB",
-          backgroundColor: "#8ecae6",
+          backgroundColor: blue2,
+          borderColor: blue1,
           fill: true,
         },
       ],

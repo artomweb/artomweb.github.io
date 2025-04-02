@@ -5,7 +5,7 @@ let mySpotifyChart;
 let config;
 let toggleState = 0;
 let ctx2;
-const backgroundColor = "#81b29a";
+import { green1, green2, green3 } from "./colours.js";
 
 export function parseSpotify(data) {
   document
@@ -103,17 +103,29 @@ function updateByDay() {
     // tension: 0.3,
     // borderColor: "black",
     data: data,
-    backgroundColor,
+    backgroundColor: green2,
     // fill: false,
   };
   temp.data.datasets = [newDataset];
 
-  temp.options.scales.x = { offset: true };
+  temp.options.scales.x = {
+    offset: true,
+    ticks: {
+      color: green1, // X-axis number color
+    },
+  };
 
   mySpotifyChart.options.scales.y = {
     title: {
       text: "Average songs played",
       display: true,
+      color: green1,
+    },
+    grid: {
+      color: green3, // Grid line color for X-axis
+    },
+    ticks: {
+      color: green1, // X-axis number color
     },
   };
 
@@ -127,7 +139,7 @@ function updateTwoWeeks() {
     tension: 0.3,
     // borderColor: "black",
     data: data,
-    backgroundColor,
+    backgroundColor: green2,
     fill: true,
   };
 
@@ -144,6 +156,7 @@ function updateTwoWeeks() {
     x: {
       ticks: {
         maxTicksLimit: 6.3,
+        color: green1,
       },
     },
 
@@ -151,9 +164,11 @@ function updateTwoWeeks() {
       title: {
         text: "Total songs played",
         display: true,
+        color: green1,
       },
       ticks: {
         beginAtZero: true,
+        color: green1,
       },
     },
   };
@@ -168,7 +183,7 @@ function updateAllData() {
     // tension: 0.3,
     // borderColor: "black",
     data: data,
-    backgroundColor,
+    backgroundColor: green2,
     fill: true,
   };
 
@@ -183,6 +198,10 @@ function updateAllData() {
         maxTicksLimit: 4,
         maxRotation: 0,
         minRotation: 0,
+        color: green1,
+      },
+      grid: {
+        color: green3, // Grid line color for X-axis
       },
     },
   };
@@ -191,6 +210,13 @@ function updateAllData() {
     title: {
       text: "Total songs played",
       display: true,
+      color: green1,
+    },
+    ticks: {
+      color: green1, // X-axis number color
+    },
+    grid: {
+      color: green3, // Grid line color for X-axis
     },
   };
 
@@ -207,7 +233,7 @@ function spotifyChart() {
     data: {
       datasets: [
         {
-          backgroundColor,
+          backgroundColor: green2,
         },
       ],
     },
@@ -239,11 +265,6 @@ function spotifyChart() {
               return label;
             },
           },
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
         },
       },
     },

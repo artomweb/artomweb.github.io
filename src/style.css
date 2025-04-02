@@ -19,27 +19,27 @@
     @apply font-medium  text-xl duration-300 transition-colors cursor-pointer px-6 py-2 rounded-2xl flex items-center shadow-md shadow-gray-400/50;
   }
   .btn-secondary {
-    @apply cursor-pointer  px-4 py-1 rounded-2xl w-auto;
+    @apply cursor-pointer  px-4 py-1 rounded-2xl w-auto font-bold text-xs sm:text-base;
   }
   .card {
-    @apply rounded-2xl p-4 flex flex-col gap-3 items-start mb-4 break-inside-avoid   border-2;
+    @apply rounded-xl p-4 flex flex-col gap-3 items-start mb-4 break-inside-avoid   border-2;
   }
   .card-title {
-    @apply flex gap-2 items-center text-2xl font-bold;
+    @apply font-bold text-xl sm:text-2xl text-black flex;
   }
   .card-subtitle {
-    @apply font-medium text-xl;
+    @apply font-medium text-xl text-black;
   }
 
   .card-header {
-    @apply flex justify-between w-full flex-row items-start gap-1;
+    @apply flex justify-between w-full flex-row items-start;
   }
 
   .card-content {
-    @apply flex flex-col;
+    @apply flex flex-col text-black;
   }
   .card-footer {
-    @apply flex flex-col;
+    @apply flex flex-col text-black;
   }
   .value {
     @apply font-bold;

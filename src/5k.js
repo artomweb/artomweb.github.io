@@ -1,5 +1,11 @@
-import { formatDate, timeago, formatSeconds } from "./usefullFunc.js";
+import {
+  formatDate,
+  timeago,
+  formatSeconds,
+  hexToRgba,
+} from "./usefullFunc.js";
 import Chart from "./sharedChartjs.js";
+import { red1, red2, red3 } from "./colours.js";
 
 export default function parse5k(data) {
   if (!data || data?.error) {
@@ -53,8 +59,7 @@ function draw5kChart(dataIn) {
       datasets: [
         {
           data: dataIn.graphData.data,
-          //   borderColor: "#36A2EB",
-          backgroundColor: "#f4a4a4",
+          backgroundColor: red2,
           fill: true,
         },
       ],
@@ -82,6 +87,10 @@ function draw5kChart(dataIn) {
             callback: function (value) {
               return formatSeconds(value);
             },
+            color: red1,
+          },
+          grid: {
+            color: red3, // Grid line color for X-axis
           },
         },
         x: {
@@ -95,6 +104,10 @@ function draw5kChart(dataIn) {
           },
           ticks: {
             maxTicksLimit: 5,
+            color: red1,
+          },
+          grid: {
+            color: red3, // Grid line color for X-axis
           },
         },
       },

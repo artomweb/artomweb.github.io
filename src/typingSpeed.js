@@ -4,11 +4,7 @@ let typingToggleState = 0;
 let typingData = {};
 let typingChart;
 
-const element = document.querySelector(":root");
-const red = getComputedStyle(element).getPropertyValue("--color-red1").trim();
-const red1 = hexToRgba(red, 1);
-const red2 = hexToRgba(red, 0.6);
-const red3 = hexToRgba(red, 0.4);
+import { red1, red2, red3 } from "./colours.js";
 
 function switchTypingDots() {
   const circles = Array.from(document.getElementsByClassName("typingCircles"));
@@ -118,7 +114,7 @@ function updateTypingPerHour() {
   typingChart.data.datasets = [
     {
       data: timOfDayData,
-      backgroundColor: red1,
+      backgroundColor: red2,
       tension: 0.1,
       fill: true,
       pointRadius: pointRadiusArray,
@@ -151,7 +147,7 @@ function updateTypingNormal() {
   typingChart.data.datasets = [
     {
       data: data,
-      backgroundColor: red1,
+      backgroundColor: red2,
       tension: 0.1,
       fill: true,
     },

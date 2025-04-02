@@ -3,6 +3,7 @@ import { formatDate, timeago } from "./usefullFunc.js";
 let dobbleToggleState = 0;
 let dobbleData = {};
 let dobbleChart;
+import { blue1, blue2, blue3 } from "./colours";
 
 function switchdobbleDots() {
   const circles = Array.from(document.getElementsByClassName("dobbleCircles"));
@@ -86,6 +87,10 @@ function updatedobbleNormal() {
     ticks: {
       autoSkip: true,
       maxTicksLimit: 5.1,
+      color: blue1,
+    },
+    grid: {
+      color: blue3, // Grid line color for X-axis
     },
   };
 
@@ -93,6 +98,13 @@ function updatedobbleNormal() {
     title: {
       text: "Average Score",
       display: true,
+      color: blue1,
+    },
+    grid: {
+      color: blue3, // Grid line color for X-axis
+    },
+    ticks: {
+      color: blue1, // X-axis number color
     },
     beginAtZero: true,
   };
@@ -105,7 +117,8 @@ function updatedobbleNormal() {
   dobbleChart.data.datasets = [
     {
       data: data,
-      backgroundColor: "#8ecae6",
+      backgroundColor: blue2,
+      borderColor: blue1,
       tension: 0.1,
       fill: true,
     },
@@ -125,6 +138,10 @@ function updatedobblePerHour() {
       callback: function (value, index, values) {
         return `${value}:00`;
       },
+      color: blue1,
+    },
+    grid: {
+      color: blue3, // Grid line color for X-axis
     },
   };
 
@@ -132,6 +149,13 @@ function updatedobblePerHour() {
     title: {
       text: "Average score",
       display: true,
+      color: blue1,
+    },
+    grid: {
+      color: blue3, // Grid line color for X-axis
+    },
+    ticks: {
+      color: blue1, // X-axis number color
     },
     beginAtZero: true,
   };
@@ -144,7 +168,7 @@ function updatedobblePerHour() {
   dobbleChart.data.datasets = [
     {
       data: timOfDayData,
-      backgroundColor: "#8ecae6",
+      backgroundColor: blue1,
       tension: 0.1,
       fill: true,
       pointRadius: pointRadiusArray,

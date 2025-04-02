@@ -1,9 +1,10 @@
 import Chart from "./sharedChartjs.js";
-import { formatDate, timeago } from "./usefullFunc.js";
+import { formatDate, timeago, hexToRgba } from "./usefullFunc.js";
 
 let chessToggleState = 0;
 let chessData = {};
 let chessChart;
+import { green1, green2, green3 } from "./colours.js";
 
 function switchChessDots() {
   const circles = Array.from(document.getElementsByClassName("chessCircles"));
@@ -90,6 +91,13 @@ function updateChessAccuracyPerHour() {
     title: {
       text: "Average Accuracy",
       display: true,
+      color: green1,
+    },
+    grid: {
+      color: green3, // Grid line color for X-axis
+    },
+    ticks: {
+      color: green1, // X-axis number color
     },
     beginAtZero: true,
   };
@@ -120,6 +128,10 @@ function updateChessAccuracyPerHour() {
       callback: function (value, index, values) {
         return `${value}:00`;
       },
+      color: green1,
+    },
+    grid: {
+      color: green3, // Grid line color for X-axis
     },
   };
 
@@ -127,7 +139,7 @@ function updateChessAccuracyPerHour() {
   chessChart.data.datasets = [
     {
       data: accuracyByHour,
-      backgroundColor: "#81b29a",
+      backgroundColor: green2,
       tension: 0.1,
       fill: true,
       pointRadius: accpointRadiusArray,
@@ -144,6 +156,10 @@ function updateChessNormal() {
     x: {
       ticks: {
         maxTicksLimit: 4,
+        color: green1,
+      },
+      grid: {
+        color: green3, // Grid line color for X-axis
       },
     },
 
@@ -151,6 +167,13 @@ function updateChessNormal() {
       title: {
         text: "Chess rating",
         display: true,
+        color: green1,
+      },
+      grid: {
+        color: green3, // Grid line color for X-axis
+      },
+      ticks: {
+        color: green1, // X-axis number color
       },
       beginAtZero: true,
     },
@@ -162,7 +185,7 @@ function updateChessNormal() {
   chessChart.data.datasets = [
     {
       data: graphData,
-      backgroundColor: "#81b29a",
+      backgroundColor: green2,
       tension: 0.1,
       fill: true,
     },
@@ -177,7 +200,14 @@ function updateChessPerHour() {
   chessChart.options.scales.y = {
     title: {
       text: "Win %",
+      color: green1,
       display: true,
+    },
+    ticks: {
+      color: green1, // X-axis number color
+    },
+    grid: {
+      color: green3, // Grid line color for X-axis
     },
     beginAtZero: true,
   };
@@ -208,6 +238,10 @@ function updateChessPerHour() {
       callback: function (value, index, values) {
         return `${value}:00`;
       },
+      color: green1,
+    },
+    grid: {
+      color: green3, // Grid line color for X-axis
     },
   };
 
@@ -215,7 +249,7 @@ function updateChessPerHour() {
   chessChart.data.datasets = [
     {
       data: dataByHour,
-      backgroundColor: "#81b29a",
+      backgroundColor: green2,
       tension: 0.1,
       fill: true,
       pointRadius: pointRadiusArray,
@@ -253,21 +287,6 @@ function plotChess() {
         datalabels: false,
         legend: {
           display: false,
-        },
-      },
-      scales: {
-        x: {
-          ticks: {
-            maxTicksLimit: 4,
-          },
-        },
-
-        y: {
-          title: {
-            text: "Chess rating",
-            display: true,
-          },
-          beginAtZero: true,
         },
       },
     },

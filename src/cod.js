@@ -1,14 +1,6 @@
 import Chart from "./sharedChartjs.js";
-import { formatDate, timeago, hexToRgba } from "./usefullFunc.js";
-const element = document.querySelector(":root");
-const red = getComputedStyle(element).getPropertyValue("--color-red1").trim();
-const blue = getComputedStyle(element).getPropertyValue("--color-blue1").trim();
-const red1 = hexToRgba(red, 1);
-const blue1 = hexToRgba(blue, 1);
-const blue2 = hexToRgba(blue, 0.6);
-const blue3 = hexToRgba(blue, 0.4);
-const red2 = hexToRgba(red, 0.6);
-const red3 = hexToRgba(red, 0.4);
+import { formatDate, timeago } from "./usefullFunc.js";
+import { blue1, blue2, red1, red2 } from "./colours.js";
 
 let codData = {};
 let codChart;

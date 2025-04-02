@@ -1,5 +1,7 @@
 import Chart from "./sharedChartjs.js";
 import { formatDate, timeago } from "./usefullFunc.js";
+import { green1, green2, green3 } from "./colours.js";
+
 export function parseDuo(data) {
   if (!data || data?.error) {
     console.log("Error processing data");
@@ -37,7 +39,7 @@ function plotDuo(labels, data) {
       datasets: [
         {
           data: data,
-          backgroundColor: "#81b29a",
+          backgroundColor: green2,
           fill: true,
         },
       ],
@@ -86,13 +88,24 @@ function plotDuo(labels, data) {
               //     year: "numeric",
               //   });
             },
+            color: green1,
             maxTicksLimit: 3,
+          },
+          grid: {
+            color: green3, // Grid line color for X-axis
           },
         },
         y: {
           title: {
             text: "Time spent (mins)",
             display: true,
+            color: green1,
+          },
+          grid: {
+            color: green3, // Grid line color for X-axis
+          },
+          ticks: {
+            color: green1, // X-axis number color
           },
         },
       },
