@@ -103,6 +103,8 @@ function updateCodPerHour() {
   ];
 
   codChart.options.scales.y = {
+    max: 100,
+    min: -100,
     title: {
       text: "Win %",
       display: true,
