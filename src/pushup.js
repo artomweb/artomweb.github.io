@@ -1,6 +1,6 @@
 import { formatDate, timeago } from "./usefullFunc.js";
 import Chart from "./sharedChartjs.js";
-import { blue1, blue2 } from "./colours";
+import { blue1, blue2, blue3 } from "./colours";
 
 export default function parsePushups(data) {
   document
@@ -78,6 +78,12 @@ function drawPushupChart(dataIn) {
       scales: {
         y: {
           beginAtZero: true,
+          grid: {
+            color: blue3, // Grid line color for X-axis
+          },
+          ticks: {
+            color: blue1,
+          },
         },
         x: {
           type: "time",
@@ -90,6 +96,10 @@ function drawPushupChart(dataIn) {
           },
           ticks: {
             maxTicksLimit: 5,
+            color: blue1,
+          },
+          grid: {
+            color: blue3, // Grid line color for X-axis
           },
         },
       },
