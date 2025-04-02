@@ -5,7 +5,7 @@ import { color } from "chart.js/helpers";
 let climbingData = {};
 let climbingChart;
 let climbingToggleState = 0;
-import { green1, green2, green3 } from "./colours.js";
+import { green1, green2, green3, green4 } from "./colours.js";
 
 function switchClimbingDots() {
   const circles = Array.from(
@@ -97,7 +97,7 @@ function updateClimbingRunning() {
     {
       label: "Successes",
       data: successes,
-      backgroundColor: green2,
+      backgroundColor: green4,
       stack: "Stack 0",
     },
     {
