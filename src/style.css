@@ -32,7 +32,7 @@
   }
 
   .card-header {
-    @apply flex justify-between w-full flex-row items-start;
+    @apply flex justify-between w-full flex-row items-center;
   }
 
   .card-content {
