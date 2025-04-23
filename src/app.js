@@ -36,6 +36,7 @@ function getAllData() {
   fetchData(primaryUrl)
     .then((data) => {
       parseSolar(data.solar);
+      document.getElementById("solarCard").style.display = "block";
       handleData(data); // Handle data from the primary URL
     })
     .catch(() => {

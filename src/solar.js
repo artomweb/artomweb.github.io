@@ -22,7 +22,7 @@ function showSolarData(data) {
   //   const dateOfLastReading = `${formattedDate} (${timeago(data.lastReading)})`;
   document.getElementById("solarV").innerHTML =
     ((data.V / 1000 / batteryMaxV) * 100).toFixed(2) + " %";
-  document.getElementById("solarI").innerHTML = data.I + " ma";
+  document.getElementById("solarI").innerHTML = data.I + " mA";
   document.getElementById("solarCPU").innerHTML = data.cpu + " %";
 
   if (data.I > 0) {
