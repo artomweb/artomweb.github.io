@@ -15,13 +15,19 @@
     <meta name="author" content="Archie Webster" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://api.artomweb.com" />
-
+    <link rel="preconnect" href="https://rppi.artomweb.com" />
     <link
+      rel="preload"
+      href="https://rppi.artomweb.com/cache/all"
+      as="fetch"
+      crossorigin="anonymous"
+    />
+    <!-- <link
       rel="preload"
       href="https://api.artomweb.com/cache/all"
       as="fetch"
       crossorigin="anonymous"
-    />
+    /> -->
     <link
       rel="preload"
       href="/fonts/Klasik-Regular.otf"
@@ -143,6 +149,42 @@
             height="762"
           />
           <img id="imageCache" class="hidden" />
+        </div>
+
+        <div class="card border-green1/50" id="solarCard">
+          <div class="card-header">
+            <h2 class="card-title">This website is solar powered!</h2>
+          </div>
+          <!-- <span class="card-subtitle" id="solarDesc">
+            This graph shows the sunniest days.
+          </span>
+          <canvas id="solarChart" class="width-full"></canvas> -->
+          <div class="card-content">
+            <span class="metric">
+              Battery charge:
+              <span id="solarV" class="value">no data</span>
+            </span>
+            <span class="metric">
+              Battery current:
+              <span id="solarI" class="value">no data</span>
+            </span>
+            <span class="metric">
+              State:
+              <span id="solarState" class="value">no data</span>
+            </span>
+
+            <span class="metric">
+              CPU load:
+              <span id="solarCPU" class="value">no data</span>
+            </span>
+          </div>
+          <!-- <div class="card-footer">
+            <small>Lower is better :)</small>
+            <small>
+              Last run:
+              <span id="last5k" class="value">no data</span>
+            </small>
+          </div> -->
         </div>
 
         <div class="card text-green1 border-green1/50" id="climbingCard">

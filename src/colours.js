@@ -18,3 +18,13 @@ export const green1 = hexToRgba(green, 1);
 export const green2 = hexToRgba(green, 0.9);
 export const green3 = hexToRgba(green, 0.4);
 export const green4 = hexToRgba(green, 0.5);
+
+export const solarColors = [
+  "#FFF9C4", // very light yellow
+  "#FFF176", // light yellow
+  "#FFD54F", // yellow-orange
+  "#FFB74D", // orange
+  "#FF8A65", // deep orange
+  "#F44336", // bright red
+  "#D32F2F", // dark red
+];

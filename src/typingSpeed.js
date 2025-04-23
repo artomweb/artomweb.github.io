@@ -40,7 +40,7 @@ function typingToggle() {
   typingToggleState == 1 ? (typingToggleState = 0) : typingToggleState++;
 }
 
-export function parseTyping(data) {
+export default function parseTyping(data) {
   document
     .getElementById("typingToggle")
     .addEventListener("click", typingToggle);
