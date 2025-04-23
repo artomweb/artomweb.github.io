@@ -1,7 +1,7 @@
 import "./style.css";
-import { loadCat } from "./cats";
+import loadCat from "./cats";
 import { parseClimbing } from "./climbing";
-import { parseTyping } from "./typingSpeed";
+import parseTyping from "./typingSpeed";
 import { parseCod } from "./cod";
 import { parseChess } from "./chess";
 import { initTouchButtons } from "./usefullFunc";
@@ -11,28 +11,44 @@ import { parseDriving } from "./driving";
 import { parseDuo } from "./duolingo";
 import parsePushups from "./pushup";
 import parse5k from "./5k";
+import parseSolar from "./solar";
 import { initializeSocket } from "./rppiSocket";
 
 function getAllData() {
-  let primaryUrl = "https://api.artomweb.com/cache/all";
+  let primaryUrl = "https://rppi.artomweb.com/cache/all"; // Try this first
+  let fallbackUrl = "https://api.artomweb.com/cache/all"; // Fallback URL
 
-  fetch(primaryUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Primary URL failed");
-      }
-      return response.json();
-    })
+  // Function to fetch data from a given URL
+  function fetchData(url) {
+    return fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Request to ${url} failed`);
+        }
+        return response.json();
+      })
+      .catch((e) => {
+        console.error(`${url} failed:`, e);
+        throw e; // Rethrow the error so we can handle it
+      });
+  }
+
+  fetchData(primaryUrl)
     .then((data) => {
-      try {
-        handleData(data); // Handle data, but don't propagate errors here
-      } catch (e) {
-        console.error("Error handling data:", e); // Only log error if handling fails
-      }
+      parseSolar(data.solar);
+      handleData(data); // Handle data from the primary URL
     })
-    .catch((e) => {
-      console.error("Primary request failed:", e);
-      hideAllCards();
+    .catch(() => {
+      console.log("Primary URL failed, trying fallback URL...");
+      fetchData(fallbackUrl) // Try the fallback URL if primary URL fails
+        .then((data) => {
+          document.getElementById("solarCard").style.display = "none";
+          handleData(data); // Handle data from the fallback URL
+        })
+        .catch((e) => {
+          console.error("Both requests failed:", e);
+          hideAllCards(); // Hide all cards if both requests fail
+        });
     });
 }
 
@@ -74,6 +90,7 @@ function hideAllCards() {
     "duoCard",
     "pushupCard",
     "5kCard",
+    "solarCard",
   ];
   cardIds.forEach((id) => {
     document.getElementById(id).style.display = "none";

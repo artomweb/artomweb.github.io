@@ -1,5 +1,7 @@
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import "chartjs-adapter-date-fns";
+import { MatrixController, MatrixElement } from "chartjs-chart-matrix";
+
 import {
   Chart,
   BarController,
@@ -28,7 +30,9 @@ Chart.register(
   LineController,
   LineElement,
   PointElement,
-  Filler
+  Filler,
+  MatrixController,
+  MatrixElement
 );
 
 export default Chart;

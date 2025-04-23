@@ -11,7 +11,7 @@ imageNumbers = shuffle(imageNumbers);
 let currentImageIndex = 0;
 
 // When the button is clicked, change the image source to the current index
-export function loadCat() {
+export default function loadCat() {
   const catImg = document.getElementById("catImage");
   const imageCache = document.getElementById("imageCache");
 
