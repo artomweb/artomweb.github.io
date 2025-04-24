@@ -30,11 +30,12 @@ function showSolarData(data) {
     batteryPercentage.toFixed(2) + " %";
   document.getElementById("solarI").innerHTML = data.I + " mA";
   document.getElementById("solarCPU").innerHTML = data.cpu + " %";
+  document.getElementById("solarPower").innerHTML = data.PPV + " W";
 
   if (data.I > 0) {
     document.getElementById("solarState").innerHTML =
       "Charging at " +
-      Math.abs(((data.VPV / 1000) * (data.I / 1000)).toFixed(2)) +
+      Math.abs(((data.V / 1000) * (data.I / 1000)).toFixed(2)) +
       " W";
   } else {
     document.getElementById("solarState").innerHTML =
