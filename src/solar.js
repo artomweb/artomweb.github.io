@@ -29,7 +29,7 @@ function showSolarData(data) {
   document.getElementById("solarV").innerHTML =
     batteryPercentage.toFixed(2) + " %";
   document.getElementById("solarI").innerHTML =
-    (data.I > 0 ? "+" + data.I : data.I) + " mA";
+    (data.I > 0 ? "+" : "") + data.I + " mA";
   document.getElementById("solarCPU").innerHTML = data.cpu + " %";
   document.getElementById("solarPower").innerHTML = data.PPV + " W";
 
