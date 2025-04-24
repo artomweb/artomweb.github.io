@@ -17,11 +17,17 @@ export default function parseSolar(data) {
 }
 
 function showSolarData(data) {
-  const batteryMaxV = 28.35;
   //   const formattedDate = formatDate(data.lastReading);
   //   const dateOfLastReading = `${formattedDate} (${timeago(data.lastReading)})`;
+  const batteryMinV = 22.4; // 22.4V
+  const batteryMaxV = 28.35; // 28.35V
+  const batteryV = data.V / 1000;
+
+  const batteryPercentage =
+    ((batteryV - batteryMinV) / (batteryMaxV - batteryMinV)) * 100;
+
   document.getElementById("solarV").innerHTML =
-    ((data.V / 1000 / batteryMaxV) * 100).toFixed(2) + " %";
+    batteryPercentage.toFixed(2) + " %";
   document.getElementById("solarI").innerHTML = data.I + " mA";
   document.getElementById("solarCPU").innerHTML = data.cpu + " %";
 
