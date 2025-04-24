@@ -15,7 +15,7 @@ import parseSolar from "./solar";
 import { initializeSocket } from "./rppiSocket";
 
 function getAllData() {
-  let primaryUrl = "https://rppi.artomweb.com/cache/all"; // Try this first
+  let primaryUrl = "https://solar.artomweb.com/cache/all"; // Try this first
   let fallbackUrl = "https://api.artomweb.com/cache/all"; // Fallback URL
 
   // Function to fetch data from a given URL
