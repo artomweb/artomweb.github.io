@@ -184,7 +184,7 @@ function updateClimbingByGrade() {
     {
       label: "Successes",
       data: byGradeSuccesses,
-      backgroundColor: green2,
+      backgroundColor: green4,
       stack: "Stack 0",
     },
     {
