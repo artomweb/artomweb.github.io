@@ -59,9 +59,7 @@ function handleData(data) {
   parseCod(data.COD);
   parseChess(data.chess);
   parseDobble(data.dobble);
-  parseSpotify(data.spotify);
   parseDriving(data.driving);
-  parseDuo(data.duolingo);
   parsePushups(data.pushups);
   parse5k(data.k5);
 }
@@ -86,9 +84,7 @@ function hideAllCards() {
     "CODCard",
     "chessCard",
     "dobbleCard",
-    "spotifyCard",
     "drivingCard",
-    "duoCard",
     "pushupCard",
     "5kCard",
     "solarCard",
