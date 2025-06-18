@@ -35,15 +35,15 @@ function getAllData() {
 
   fetchData(primaryUrl)
     .then((data) => {
+      document.getElementById("solarCard").classList.remove("hidden");
       parseSolar(data.solar);
-      document.getElementById("solarCard").style.display = "block";
       handleData(data); // Handle data from the primary URL
     })
     .catch(() => {
       console.log("Primary URL failed, trying fallback URL...");
       fetchData(fallbackUrl) // Try the fallback URL if primary URL fails
         .then((data) => {
-          document.getElementById("solarCard").style.display = "none";
+          document.getElementById("solarCard").classList.add("hidden");
           handleData(data); // Handle data from the fallback URL
         })
         .catch((e) => {
