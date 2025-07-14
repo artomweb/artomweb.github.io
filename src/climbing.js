@@ -1,4 +1,4 @@
-import { formatDate, timeago, hexToRgba } from "./usefullFunc.js";
+import { formatDate, timeago, updateToggleIndicators } from "./usefullFunc.js";
 import Chart from "./sharedChartjs.js";
 import { color } from "chart.js/helpers";
 
@@ -8,9 +8,6 @@ let climbingToggleState = 0;
 import { green1, green2, green3, green4 } from "./colours.js";
 
 function switchClimbingDots() {
-  const circles = Array.from(
-    document.getElementsByClassName("climbingCircles")
-  );
   const desc = document.getElementById("climbingDesc");
 
   switch (climbingToggleState) {
@@ -23,13 +20,11 @@ function switchClimbingDots() {
         "This graph shows how many climbs of each grade I have done.";
       break;
   }
-  circles.forEach((c) => {
-    if (c.id.slice(-1) == climbingToggleState) {
-      c.classList.add("fill-green");
-    } else {
-      c.classList.remove("fill-green");
-    }
-  });
+  updateToggleIndicators(
+    "climbing-toggle-indicators",
+    climbingToggleState,
+    green1
+  );
 }
 
 function climbingToggle() {

@@ -19,7 +19,7 @@
     @apply font-medium  text-xl duration-300 transition-colors cursor-pointer px-6 py-2 rounded-2xl flex items-center shadow-md shadow-gray-400/50;
   }
   .btn-secondary {
-    @apply cursor-pointer  px-4 py-1 rounded-2xl w-auto font-bold text-xs sm:text-base;
+    @apply cursor-pointer  px-4 py-1 rounded-2xl w-auto font-bold text-xs sm:text-base whitespace-nowrap;
   }
   .card {
     @apply rounded-xl p-4 flex flex-col gap-3 items-start mb-4 break-inside-avoid   border-2;
@@ -65,4 +65,21 @@
   height: 1em !important;
   vertical-align: -0.125em;
   overflow: visible;
+}
+
+.toggle-indicator-container {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 8px;
+  margin-right: 4px;
+}
+.toggle-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  transition: background-color 0.3s;
+}
+.toggle-indicator.active {
+  background-color: #10b981;
 }

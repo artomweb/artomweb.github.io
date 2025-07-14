@@ -1,5 +1,5 @@
 import Chart from "./sharedChartjs.js";
-import { formatDate, timeago } from "./usefullFunc.js";
+import { formatDate, timeago, updateToggleIndicators } from "./usefullFunc.js";
 import { blue1, blue2, red1, red2 } from "./colours.js";
 
 let codData = {};
@@ -7,7 +7,6 @@ let codChart;
 let codToggleState = 0;
 
 function switchCodDots() {
-  const circles = Array.from(document.getElementsByClassName("codCircles"));
   const desc = document.getElementById("cod-desc");
 
   switch (codToggleState) {
@@ -18,16 +17,12 @@ function switchCodDots() {
     case 1:
       desc.innerHTML =
         "This graph shows who won the most games at each hour of the day.";
-      break;
     case 2:
       desc.innerHTML = "This graph shows the number of games won per day.";
       break;
+      break;
   }
-  circles.forEach((c) =>
-    c.id.slice(-1) == codToggleState
-      ? (c.style.fill = "black")
-      : (c.style.fill = "none")
-  );
+  updateToggleIndicators("cod-toggle-indicators", codToggleState, blue1);
 }
 
 function codToggle() {

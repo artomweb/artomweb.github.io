@@ -194,3 +194,16 @@ export function initTouchButtons() {
     );
   });
 }
+
+export function updateToggleIndicators(containerId, index, activeColor) {
+  const container = document.getElementById(containerId);
+  const indicators = container.querySelectorAll(".toggle-indicator");
+  indicators.forEach((indicator, i) => {
+    indicator.classList.toggle("active", i === index);
+    if (i === index) {
+      indicator.style.backgroundColor = activeColor;
+    } else {
+      indicator.style.backgroundColor = "#d1d5db"; // Default inactive color
+    }
+  });
+}

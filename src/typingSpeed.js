@@ -1,5 +1,5 @@
 import Chart from "./sharedChartjs.js";
-import { formatDate, timeago, hexToRgba } from "./usefullFunc.js";
+import { formatDate, timeago, updateToggleIndicators } from "./usefullFunc.js";
 let typingToggleState = 0;
 let typingData = {};
 let typingChart;
@@ -7,7 +7,6 @@ let typingChart;
 import { red1, red2, red3 } from "./colours.js";
 
 function switchTypingDots() {
-  const circles = Array.from(document.getElementsByClassName("typingCircles"));
   const desc = document.getElementById("typingDesc");
 
   switch (typingToggleState) {
@@ -19,11 +18,7 @@ function switchTypingDots() {
         "This graph shows my average WPM at each hour of the day.";
       break;
   }
-  circles.forEach((c) =>
-    c.id.slice(-1) == typingToggleState
-      ? (c.style.fill = "black")
-      : (c.style.fill = "none")
-  );
+  updateToggleIndicators("typing-toggle-indicators", typingToggleState, red1);
 }
 
 function typingToggle() {

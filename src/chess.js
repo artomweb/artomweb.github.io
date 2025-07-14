@@ -1,5 +1,5 @@
 import Chart from "./sharedChartjs.js";
-import { formatDate, timeago, hexToRgba } from "./usefullFunc.js";
+import { formatDate, timeago, updateToggleIndicators } from "./usefullFunc.js";
 
 let chessToggleState = 0;
 let chessData = {};
@@ -7,7 +7,6 @@ let chessChart;
 import { green1, green2, green3 } from "./colours.js";
 
 function switchChessDots() {
-  const circles = Array.from(document.getElementsByClassName("chessCircles"));
   const desc = document.getElementById("chessDesc");
 
   switch (chessToggleState) {
@@ -16,17 +15,13 @@ function switchChessDots() {
       break;
     case 1:
       desc.innerHTML = "This graph shows my win % at each hour of the day.";
-      break;
     case 2:
       desc.innerHTML =
         "This graph shows my average accuracy at each hour of the day.";
       break;
+      break;
   }
-  circles.forEach((c) =>
-    c.id.slice(-1) == chessToggleState
-      ? (c.style.fill = "black")
-      : (c.style.fill = "none")
-  );
+  updateToggleIndicators("chess-toggle-indicators", chessToggleState, green1);
 }
 
 function chessToggle() {

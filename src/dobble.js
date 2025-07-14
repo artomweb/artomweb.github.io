@@ -1,12 +1,11 @@
 import Chart from "./sharedChartjs.js";
-import { formatDate, timeago } from "./usefullFunc.js";
+import { formatDate, timeago, updateToggleIndicators } from "./usefullFunc.js";
 let dobbleToggleState = 0;
 let dobbleData = {};
 let dobbleChart;
 import { blue1, blue2, blue3 } from "./colours";
 
 function switchdobbleDots() {
-  const circles = Array.from(document.getElementsByClassName("dobbleCircles"));
   const desc = document.getElementById("dobbleDesc");
 
   switch (dobbleToggleState) {
@@ -19,11 +18,7 @@ function switchdobbleDots() {
         "This graph shows my average score at each hour of the day.";
       break;
   }
-  circles.forEach((c) =>
-    c.id.slice(-1) == dobbleToggleState
-      ? (c.style.fill = "black")
-      : (c.style.fill = "none")
-  );
+  updateToggleIndicators("dobble-toggle-indicators", dobbleToggleState, blue1);
 }
 
 function dobbleToggle() {
