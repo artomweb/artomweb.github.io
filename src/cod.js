@@ -17,9 +17,9 @@ function switchCodDots() {
     case 1:
       desc.innerHTML =
         "This graph shows who won the most games at each hour of the day.";
+      break;
     case 2:
       desc.innerHTML = "This graph shows the number of games won per day.";
-      break;
       break;
   }
   updateToggleIndicators("cod-toggle-indicators", codToggleState, blue1);
