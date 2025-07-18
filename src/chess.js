@@ -15,10 +15,10 @@ function switchChessDots() {
       break;
     case 1:
       desc.innerHTML = "This graph shows my win % at each hour of the day.";
+      break;
     case 2:
       desc.innerHTML =
         "This graph shows my average accuracy at each hour of the day.";
-      break;
       break;
   }
   updateToggleIndicators("chess-toggle-indicators", chessToggleState, green1);
