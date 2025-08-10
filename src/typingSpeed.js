@@ -14,6 +14,9 @@ function switchTypingDots() {
       desc.innerHTML = "How has my typing speed improved over time?";
       break;
     case 1:
+      desc.innerHTML = "This graph shows my highest WPM for each month.";
+      break;
+    case 2:
       desc.innerHTML =
         "This graph shows my average WPM at each hour of the day.";
       break;
@@ -27,12 +30,16 @@ function typingToggle() {
     case 0:
       updateTypingNormal();
       break;
-
     case 1:
+      updateTypingMaxPerMonth();
+      break;
+    case 2:
       updateTypingPerHour();
       break;
   }
-  typingToggleState == 1 ? (typingToggleState = 0) : typingToggleState++;
+
+  // Cycle through: 0 → 1 → 2 → 0
+  typingToggleState = (typingToggleState + 1) % 3;
 }
 
 export default function parseTyping(data) {
@@ -101,6 +108,21 @@ function updateTypingPerHour() {
     },
   };
 
+  typingChart.options.scales.y = {
+    title: {
+      text: "Average WPM",
+      display: true,
+      color: red1, // X-axis number color
+    },
+    beginAtZero: true,
+    ticks: {
+      color: red1, // X-axis number color
+    },
+    grid: {
+      color: red3, // Grid line color for X-axis
+    },
+  };
+
   typingChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
     return tooltipItem[0].label + ":00";
   };
@@ -138,10 +160,72 @@ function updateTypingNormal() {
       color: red3, // Grid line color for X-axis
     },
   };
+
+  typingChart.options.scales.y = {
+    title: {
+      text: "Average WPM",
+      display: true,
+      color: red1, // X-axis number color
+    },
+    beginAtZero: true,
+    ticks: {
+      color: red1, // X-axis number color
+    },
+    grid: {
+      color: red3, // Grid line color for X-axis
+    },
+  };
+
   typingChart.data.labels = labels;
   typingChart.data.datasets = [
     {
       data: data,
+      backgroundColor: red2,
+      tension: 0.1,
+      fill: true,
+    },
+  ];
+
+  typingChart.update();
+}
+
+function updateTypingMaxPerMonth() {
+  const { monthlyLabels, monthlyMaxSpeeds } = typingData;
+
+  typingChart.options.plugins.tooltip.callbacks.title = function (tooltipItem) {
+    return tooltipItem[0].label;
+  };
+
+  typingChart.options.scales.x = {
+    ticks: {
+      color: red1,
+      maxRotation: 0,
+      minRotation: 0,
+    },
+    grid: {
+      color: red3,
+    },
+  };
+
+  typingChart.options.scales.y = {
+    title: {
+      text: "Max WPM",
+      display: true,
+      color: red1, // X-axis number color
+    },
+    beginAtZero: true,
+    ticks: {
+      color: red1, // X-axis number color
+    },
+    grid: {
+      color: red3, // Grid line color for X-axis
+    },
+  };
+
+  typingChart.data.labels = monthlyLabels;
+  typingChart.data.datasets = [
+    {
+      data: monthlyMaxSpeeds,
       backgroundColor: red2,
       tension: 0.1,
       fill: true,
