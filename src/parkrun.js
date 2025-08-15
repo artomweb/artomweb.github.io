@@ -1,4 +1,5 @@
 import { formatDate, timeago } from "./usefullFunc.js";
+import PARKRUN_EVENTS from "./filtered_events.js";
 
 export default function parse5k(data) {
   if (!data || data?.error) {
@@ -30,10 +31,10 @@ function showParkrunData(data) {
   olms.apply(openfreemap, "./positron.json");
 
   const myEvents = data.events;
-  console.log(window.PARKRUN_EVENTS);
+  console.log(PARKRUN_EVENTS);
 
   const vectorSource = new ol.source.Vector({
-    features: new ol.format.GeoJSON().readFeatures(window.PARKRUN_EVENTS, {
+    features: new ol.format.GeoJSON().readFeatures(PARKRUN_EVENTS, {
       featureProjection: "EPSG:3857",
     }),
   });
@@ -75,7 +76,7 @@ function showParkrunData(data) {
   map.addLayer(greenLayer);
 
   document.getElementById("parkrunComplete").innerHTML =
-    data.events.length + "/" + window.PARKRUN_EVENTS.features.length;
+    data.events.length + "/" + PARKRUN_EVENTS.features.length;
   document.getElementById("parkrunCount").innerHTML = data.runCount;
   document.getElementById("parkrunFastest").innerHTML = data.fastestTime;
   document.getElementById("parkrunBestPos").innerHTML = data.bestPosition;

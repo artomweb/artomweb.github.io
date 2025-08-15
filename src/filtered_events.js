@@ -1,4 +1,4 @@
-window.PARKRUN_EVENTS = {
+export default {
   type: "FeatureCollection",
   features: [
     {
