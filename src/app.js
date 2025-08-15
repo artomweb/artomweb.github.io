@@ -12,6 +12,7 @@ import { parseDuo } from "./duolingo";
 import parsePushups from "./pushup";
 import parse5k from "./5k";
 import parseSolar from "./solar";
+import parseParkrun from "./parkrun";
 import { initializeSocket } from "./rppiSocket";
 
 function getAllData() {
@@ -54,6 +55,7 @@ function getAllData() {
 }
 
 function handleData(data) {
+  console.log(data);
   parseClimbing(data.climbing);
   parseTyping(data.typing);
   parseCod(data.COD);
@@ -62,6 +64,7 @@ function handleData(data) {
   parseDriving(data.driving);
   parsePushups(data.pushups);
   parse5k(data.k5);
+  parseParkrun(data.parkrun);
 }
 
 document.addEventListener("DOMContentLoaded", () => {

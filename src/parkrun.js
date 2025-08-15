@@ -1,0 +1,89 @@
+import { formatDate, timeago } from "./usefullFunc.js";
+
+export default function parse5k(data) {
+  if (!data || data?.error) {
+    console.log("Error processing fallback CSV data:");
+    document.getElementById("parkrunCard").classList.add("hidden");
+  } else {
+    try {
+      showParkrunData(data.data); // Pass the relevant part of the data
+    } catch (error) {
+      console.log("Error processing parkrun data", error);
+      document.getElementById("parkrunCard").classList.add("hidden");
+    }
+  }
+}
+function showParkrunData(data) {
+  console.log("Parkrun data:", data);
+
+  const openfreemap = new ol.layer.Group();
+  const map = new ol.Map({
+    layers: [openfreemap],
+    view: new ol.View({
+      center: ol.proj.fromLonLat([-2.8, 54.5]),
+      zoom: 5.4,
+    }),
+    target: "parkrunMap",
+    interactions: [],
+    controls: [],
+  });
+  olms.apply(openfreemap, "./positron.json");
+
+  const myEvents = data.events;
+  console.log(window.PARKRUN_EVENTS);
+
+  const vectorSource = new ol.source.Vector({
+    features: new ol.format.GeoJSON().readFeatures(window.PARKRUN_EVENTS, {
+      featureProjection: "EPSG:3857",
+    }),
+  });
+
+  const grayLayer = new ol.layer.Vector({
+    source: new ol.source.Vector({
+      features: vectorSource
+        .getFeatures()
+        .filter((f) => !myEvents.includes(f.get("eventname"))),
+    }),
+    style: new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 4,
+        fill: new ol.style.Fill({ color: "lightgrey" }),
+        stroke: new ol.style.Stroke({ color: "white", width: 0.5 }),
+      }),
+    }),
+  });
+
+  const greenLayer = new ol.layer.Vector({
+    source: new ol.source.Vector({
+      features: vectorSource
+        .getFeatures()
+        .filter((f) => myEvents.includes(f.get("eventname"))),
+    }),
+    style: new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 5,
+        fill: new ol.style.Fill({ color: "green" }),
+        stroke: new ol.style.Stroke({ color: "white", width: 0.5 }),
+      }),
+    }),
+  });
+
+  grayLayer.setZIndex(1);
+  greenLayer.setZIndex(2);
+
+  map.addLayer(grayLayer);
+  map.addLayer(greenLayer);
+
+  document.getElementById("parkrunComplete").innerHTML =
+    data.events.length + "/" + window.PARKRUN_EVENTS.features.length;
+  document.getElementById("parkrunCount").innerHTML = data.runCount;
+  document.getElementById("parkrunFastest").innerHTML = data.fastestTime;
+  document.getElementById("parkrunBestPos").innerHTML = data.bestPosition;
+
+  const formattedDate = formatDate(data.lastRunDate);
+  const dateOfLastRunMessage = `${formattedDate} (${timeago(
+    data.lastRunDate
+  )})`;
+
+  document.getElementById("lastParkrun").innerHTML = dateOfLastRunMessage;
+}

@@ -40,7 +40,11 @@
 
     <link rel="icon" href="/images/favicon.ico" />
 
+    <script src="/src/filtered_events.js"></script>
     <script type="module" src="/src/app.js"></script>
+    <script src="https://unpkg.com/ol/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/ol/ol.css" />
+    <script src="https://unpkg.com/ol-mapbox-style/dist/olms.js"></script>
   </head>
 
   <body class="font-montserrat bg-[#fcf1eb]">
@@ -425,6 +429,42 @@
             <small>
               Last run:
               <span id="last5k" class="value">no data</span>
+            </small>
+          </div>
+        </div>
+
+        <div class="card border-green1/50" id="parkrunCard">
+          <div class="card-header">
+            <h2 class="card-title">Parkrun</h2>
+          </div>
+          <span class="card-subtitle" id="parkrunDesc">
+            This map shows the parkruns that I have done.
+          </span>
+          <div
+            id="parkrunMap"
+            class="!rounded-xl overflow-hidden w-full h-[500px]"></div>
+          <div class="card-content">
+            <span class="metric">
+              Parkruns completed:
+              <span id="parkrunComplete" class="value">no data</span>
+            </span>
+            <span class="metric">
+              Number of runs:
+              <span id="parkrunCount" class="value">no data</span>
+            </span>
+            <span class="metric">
+              Fastest run:
+              <span id="parkrunFastest" class="value">no data</span>
+            </span>
+            <span class="metric">
+              Best position:
+              <span id="parkrunBestPos" class="value">no data</span>
+            </span>
+          </div>
+          <div class="card-footer">
+            <small>
+              Last parkrun:
+              <span id="lastParkrun" class="value">no data</span>
             </small>
           </div>
         </div>
