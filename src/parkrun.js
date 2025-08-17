@@ -75,6 +75,33 @@ function showParkrunData(data) {
   map.addLayer(grayLayer);
   map.addLayer(greenLayer);
 
+  // === Tooltip setup ===
+  const tooltipEl = document.createElement("div");
+  tooltipEl.className = "tooltip hidden";
+  document.body.appendChild(tooltipEl);
+
+  const tooltip = new ol.Overlay({
+    element: tooltipEl,
+    offset: [10, 0],
+    positioning: "center-left",
+  });
+  map.addOverlay(tooltip);
+
+  map.on("pointermove", function (evt) {
+    const feature = map.forEachFeatureAtPixel(evt.pixel, (feat, layer) => {
+      if (layer === greenLayer) return feat;
+    });
+
+    if (feature) {
+      const eventName = feature.get("EventShortName");
+      tooltipEl.innerHTML = eventName;
+      tooltip.setPosition(evt.coordinate);
+      tooltipEl.classList.remove("hidden");
+    } else {
+      tooltipEl.classList.add("hidden");
+    }
+  });
+
   document.getElementById("parkrunComplete").innerHTML =
     data.events.length + "/" + PARKRUN_EVENTS.features.length;
   document.getElementById("parkrunCount").innerHTML = data.runCount;

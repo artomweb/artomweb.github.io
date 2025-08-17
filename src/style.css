@@ -83,3 +83,18 @@
 .toggle-indicator.active {
   background-color: #10b981;
 }
+
+.tooltip {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.tooltip.hidden {
+  display: none;
+}
