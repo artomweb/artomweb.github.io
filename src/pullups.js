@@ -2,37 +2,38 @@ import { formatDate, timeago } from "./usefullFunc.js";
 import Chart from "./sharedChartjs.js";
 import { blue1, blue2, blue3 } from "./colours";
 
-export default function parsePushups(data) {
+export default function parsePullups(data) {
   if (!data || data?.error) {
     console.log("Error processing fallback CSV data:");
-    document.getElementById("pushupCard").classList.add("hidden");
+    document.getElementById("pullupCard").classList.add("hidden");
   } else {
     try {
-      showClimbingData(data.data); // Pass the relevant part of the data
+      showPullupData(data.data); // Pass the relevant part of the data
     } catch (error) {
-      console.log("Error processing Climbing data", error);
-      document.getElementById("pushupCard").classList.add("hidden");
+      console.log("Error processing Pullup data", error);
+      document.getElementById("pullupCard").classList.add("hidden");
     }
   }
 }
 
-function showClimbingData(data) {
+function showPullupData(data) {
   const formattedDate = formatDate(data.dateOfLastTraining);
   const dateOfLastTestMessage = `${formattedDate} (${timeago(
     data.dateOfLastTraining
   )})`;
-  document.getElementById("pushupMax").innerHTML = data.maxPushups;
-  document.getElementById("pushupTrainings").innerHTML = data.numTraining;
-  document.getElementById("numMaxTests").innerHTML = data.numTests;
 
-  document.getElementById("timeSinceLastPushup").innerHTML =
+  document.getElementById("pullupMax").innerHTML = data.maxPullups;
+  document.getElementById("pullupTrainings").innerHTML = data.numTraining;
+  document.getElementById("numPullupTests").innerHTML = data.numTests;
+
+  document.getElementById("timeSinceLastPullup").innerHTML =
     dateOfLastTestMessage;
 
-  drawPushupChart(data);
+  drawPullupChart(data);
 }
 
-function drawPushupChart(dataIn) {
-  const ctx = document.getElementById("pushupChart").getContext("2d");
+function drawPullupChart(dataIn) {
+  const ctx = document.getElementById("pullupChart").getContext("2d");
 
   function formatPUDate(value) {
     const date = new Date(value);
@@ -42,6 +43,7 @@ function drawPushupChart(dataIn) {
 
     return `${day}/${month}/${year}`;
   }
+
   new Chart(ctx, {
     type: "line",
     data: {
@@ -49,7 +51,6 @@ function drawPushupChart(dataIn) {
       datasets: [
         {
           data: dataIn.graphData.data,
-          //   borderColor: "#36A2EB",
           backgroundColor: blue2,
           borderColor: blue1,
           fill: true,
@@ -65,7 +66,7 @@ function drawPushupChart(dataIn) {
         tooltip: {
           callbacks: {
             label: function (context) {
-              return context.parsed.y + " push-ups";
+              return context.parsed.y + " pull-ups";
             },
           },
         },
@@ -75,7 +76,7 @@ function drawPushupChart(dataIn) {
         y: {
           beginAtZero: true,
           grid: {
-            color: blue3, // Grid line color for X-axis
+            color: blue3,
           },
           ticks: {
             color: blue1,
@@ -95,7 +96,7 @@ function drawPushupChart(dataIn) {
             color: blue1,
           },
           grid: {
-            color: blue3, // Grid line color for X-axis
+            color: blue3,
           },
         },
       },

@@ -13,6 +13,7 @@ import parsePushups from "./pushup";
 import parse5k from "./5k";
 import parseSolar from "./solar";
 import parseParkrun from "./parkrun";
+import parsePullups from "./pullups";
 import { initializeSocket } from "./rppiSocket";
 
 function getAllData() {
@@ -65,6 +66,7 @@ function handleData(data) {
   parsePushups(data.pushups);
   parse5k(data.k5);
   parseParkrun(data.parkrun);
+  parsePullups(data.pullups);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
