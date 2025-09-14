@@ -45,7 +45,7 @@ export function hexToRgba(hex, opacity = 1) {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
 
-function getOrdinalSuffix(day) {
+export function getOrdinalSuffix(day) {
   if (day > 3 && day < 21) return "th"; // Covers 11th-13th
   switch (day % 10) {
     case 1:

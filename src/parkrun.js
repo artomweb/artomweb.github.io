@@ -1,4 +1,4 @@
-import { formatDate, timeago } from "./usefullFunc.js";
+import { formatDate, timeago, getOrdinalSuffix } from "./usefullFunc.js";
 import PARKRUN_EVENTS from "./filtered_events.js";
 
 export default function parse5k(data) {
@@ -15,8 +15,6 @@ export default function parse5k(data) {
   }
 }
 function showParkrunData(data) {
-  console.log("Parkrun data:", data);
-
   const openfreemap = new ol.layer.Group();
   const map = new ol.Map({
     layers: [openfreemap],
@@ -31,7 +29,6 @@ function showParkrunData(data) {
   olms.apply(openfreemap, "./positron.json");
 
   const myEvents = data.events;
-  console.log(PARKRUN_EVENTS);
 
   const vectorSource = new ol.source.Vector({
     features: new ol.format.GeoJSON().readFeatures(PARKRUN_EVENTS, {
@@ -106,7 +103,8 @@ function showParkrunData(data) {
     data.events.length + "/" + PARKRUN_EVENTS.features.length;
   document.getElementById("parkrunCount").innerHTML = data.runCount;
   document.getElementById("parkrunFastest").innerHTML = data.fastestTime;
-  document.getElementById("parkrunBestPos").innerHTML = data.bestPosition;
+  document.getElementById("parkrunBestPos").innerHTML =
+    data.bestPosition + getOrdinalSuffix(data.bestPosition);
 
   const formattedDate = formatDate(data.lastRunDate);
   const dateOfLastRunMessage = `${formattedDate} (${timeago(
