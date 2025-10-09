@@ -7,7 +7,7 @@ import { parseChess } from "./chess";
 import { initTouchButtons } from "./usefullFunc";
 import { parseDobble } from "./dobble";
 import { parseSpotify } from "./spotifyChart";
-import { parseDriving } from "./driving";
+// import { parseDriving } from "./driving";
 import { parseDuo } from "./duolingo";
 import parsePushups from "./pushup";
 import parse5k from "./5k";
@@ -61,7 +61,7 @@ function handleData(data) {
   parseCod(data.COD);
   parseChess(data.chess);
   parseDobble(data.dobble);
-  parseDriving(data.driving);
+  // parseDriving(data.driving);
   parsePushups(data.pushups);
   parse5k(data.k5);
   parseParkrun(data.parkrun);
@@ -87,7 +87,7 @@ function hideAllCards() {
     "CODCard",
     "chessCard",
     "dobbleCard",
-    "drivingCard",
+    // "drivingCard",
     "pushupCard",
     "5kCard",
     "solarCard",
