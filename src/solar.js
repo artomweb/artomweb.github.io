@@ -13,18 +13,20 @@ export default function parseSolar(data) {
 }
 
 function showSolarData(data) {
-  const batteryMinV = 22.4; // 22.4V
-  const batteryMaxV = 28.35; // 28.35V
+  const batteryMinV = 14; // 22.4V
+  const batteryMaxV = 15.2; // 28.35V
   const batteryV = data.V / 1000;
 
-  const batteryPercentage =
-    ((batteryV - batteryMinV) / (batteryMaxV - batteryMinV)) * 100;
+  const batteryPercentage = Math.max(
+    ((batteryV - batteryMinV) / (batteryMaxV - batteryMinV)) * 100,
+    0
+  );
 
   document.getElementById("solarV").innerHTML =
     batteryPercentage.toFixed(2) + " %";
   document.getElementById("solarI").innerHTML =
     (data.I > 0 ? "+" : "") + data.I + " mA";
-  document.getElementById("solarCPU").innerHTML = data.cpu + " %";
+  document.getElementById("solarCPU").innerHTML = data.serverStats.cpu + " %";
   document.getElementById("solarPower").innerHTML = data.PPV + " W";
 
   if (data.I > 0) {

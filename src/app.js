@@ -37,6 +37,7 @@ function getAllData() {
   fetchData(primaryUrl)
     .then((data) => {
       document.getElementById("solarCard").classList.remove("hidden");
+      data.solar.serverStats = data.serverStats;
       parseSolar(data.solar);
       handleData(data); // Handle data from the primary URL
     })
