@@ -4,7 +4,7 @@
   --font-itim: "Itim", "sans-serif";
   --font-klasik: "Klasik", "sans-serif";
   --font-montserrat: "Montserrat", "sans-serif";
-  --color-yellow: #eff0e9;
+  --color-yellow: #ffbf00;
   --color-green1: #89bfa3;
   --color-green2: #5d8f75;
   --color-blue1: #8fbacc;
@@ -54,7 +54,8 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("/fonts/Montserrat-VariableFont_wght.woff2") format("woff2"),
+  src:
+    url("/fonts/Montserrat-VariableFont_wght.woff2") format("woff2"),
     url("/fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-display: swap;
