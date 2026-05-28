@@ -37,14 +37,9 @@ function showSolarData(data) {
   if (data.uptime) {
     const uptime = data.uptime;
 
-    // 7 Day Uptime
-    const unit7 = uptime.downtime_7d_hours == 1 ? "hour" : "hours";
-    const uptime7Str =
-      `${uptime.uptime_7d_pct.toFixed(1)} %` +
-      (uptime.downtime_7d_hours > 0
-        ? ` (${uptime.downtime_7d_hours} ${unit7} down)`
-        : "");
-    document.getElementById("solarUptime7").innerHTML = uptime7Str;
+    const uptimeDays = (data.serverStats.uptime / 86400).toFixed(0);
+    const dayLabel = uptimeDays === "1.0" ? "day" : "days";
+    document.getElementById("solarUptimeDays").innerHTML = `${uptimeDays} ${dayLabel}`;
 
     // 30 Day Uptime
     const unit30 = uptime.downtime_30d_hours.toFixed(0) == 1 ? "hour" : "hours";
